@@ -42,18 +42,17 @@
     <script src="{{ '/scripts/sidebar.js' | relative_url }}" defer></script>
   {%- endunless -%}
   
- {%- if page.extra_js -%}
-  {%- assign js_list = page.extra_js -%}
-  {%- unless js_list.first -%}  {# é string — transforma em lista #}
-    {%- assign js_list = js_list | split: ',' -%}
-  {%- endunless -%}
-  {%- for js in js_list -%}
-    <script src="{{ js | strip | relative_url }}" defer></script>
-  {%- endfor -%}
-{%- endif -%}
+  {%- if page.extra_js -%}
+    {%- assign js_list = page.extra_js -%}
+    {%- unless js_list.first -%}  {# é string — transforma em lista #}
+      {%- assign js_list = js_list | split: ',' -%}
+    {%- endunless -%}
+    {%- for js in js_list -%}
+      <script src="{{ js | strip | relative_url }}" defer></script>
+    {%- endfor -%}
+  {%- endif -%}
 
   <script src="{{ '/scripts/search.js'    | relative_url }}" defer></script>
   <script src="{{ '/scripts/bookshelf.js' | relative_url }}" defer></script>
-
 </body>
 </html>
