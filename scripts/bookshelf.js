@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const term   = params.get("remoteSearch");
   if (term) {
-    fetch ('https://literalis-backend-e05dd5a2404f.herokuapp.com/books/search?q=${encodeURIComponent(term)}')
+    fetch(`https://literalis-backend-e05dd5a2404f.herokuapp.com/books/search?q=${encodeURIComponent(term)}`)
       .then(r => r.json())
       .then(renderRemote);
 
