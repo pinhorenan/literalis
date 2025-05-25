@@ -1,0 +1,10 @@
+---
+layout: default
+permalink: /search/
+---
+<main>
+    <h1>Resultados da Busca por "{{ page.url | split: "=" | last | uri_decode }}"</h1>
+    <div id="searchResults" class="results-grid"></div>
+</main>
+
+<script src="{{ '/scripts/search-results.js' | relative_url }}" defer></script> 

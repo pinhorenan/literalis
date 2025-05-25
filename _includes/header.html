@@ -19,12 +19,11 @@
   </div>
 
   <!-- bloco de busca -->
-  <div class="search-box" role="search">
-    <input type="search" id="headerSearchInput" placeholder="Pesquisar..." aria-label="Pesquisar">
-    <button class="icon-button search-btn" id="headerSearchBtn" title="Pesquisar">
-      <img src="{{ './assets/images/icons/search.svg'         | relative_url }}" alt="" aria-hidden="true">
-    </button>
-  </div>
+<div class="search-box" role="search">
+  <input type="search" id="headerSearchInput" placeholder="Pesquisar…">
+  <button class="icon-button" id="headerSearchBtn" title="Pesquisar"></button>
+  <ul id="liveSuggestions" class="live-suggestions"></ul>
+</div>
 
   <!-- ícones de navegação rápida -->
   <ul class="nav-links" role="navigation" aria-label="Links rápidos">
