@@ -2,3 +2,7 @@ title: Literalis
 description: "Sua biblioteca virtual"
 url: "https://pinhorenan.github.io"
 baseurl: "/literalis"
+collections:
+  pages:
+    output: true
+    permalink: /:name/
