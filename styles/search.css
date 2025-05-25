@@ -1,0 +1,37 @@
+/* literalis/styles/search.css */
+main {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.search-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+#searchInput {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.book-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  text-align: center;
+}
+
+.book-card img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}

@@ -6,22 +6,12 @@ extra_css: styles/pages/index.css
 
 <style>
   body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  
-  /* Imagem de fundo com menos zoom (150% em vez de cover puro) */
-  background: url("{{ '/assets/images/bg-landing.jpg' | relative_url }}")
-              repeat center center fixed;
-  background-size: 100%;
-  
-  /* Transparência */
-  opacity: 0.6;
-  
-  /* Coloca atrás de tudo */
-  z-index: -1;
-}
+    content: "";
+    position: fixed; top: 0; left: 0; z-index: -1;
+    width: 100%; height: 100%;
+    background: url("{{ '/assets/images/bg-landing.jpg' | relative_url }}") repeat center center fixed; 
+    background-size: 100%; opacity: 0.6;
+  }
 </style>
 
 <section id="hero_section">
@@ -30,7 +20,9 @@ extra_css: styles/pages/index.css
     <div class="logo-container">
       <img src="{{ '/assets/images/main_logo.svg' | relative_url }}" alt="Literalis" class="logo">
     </div>
-    <button class="btn-primary"><a href="{{ 'feed' | relative_url }}">Criar Conta</a></button>
+    <a href="{{ 'feed' | relative_url }}">
+      <button class="btn-primary">Criar Conta</button>
+    </a>
   </div>
 
   <div class="hero-graphic">
