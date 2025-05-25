@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const go = () => {
     const q = input.value.trim();
     if (!q) return;
-    // redireciona para Estante com parâmetro
     const base = '/literalis/bookshelf/';
     window.location.href = `${base}?remoteSearch=${encodeURIComponent(q)}`;
   };
