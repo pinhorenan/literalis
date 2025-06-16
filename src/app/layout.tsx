@@ -3,9 +3,9 @@
 import { type Metadata    } from  'next';
 import { ReactNode        } from  'react';
 import { getServerSession } from  'next-auth';
+import { SessionProvider  } from  'next-auth/react';
+import { ThemeProvider    } from  'next-themes';
 import { authOptions      } from  '@server/auth';
-import ThemeProvider        from  '@app/theme-provider';
-import Providers            from  '@app/providers';
 
 import '@styles/globals.css';
 
@@ -22,15 +22,15 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" className="scroll-smooth">
       <body className="min-h-screen min-w-screen font-sans antialiased">
-        <Providers session={session}>
+        <SessionProvider session={session} refetchInterval={60} refetchOnWindowFocus>
           <ThemeProvider attribute="class" defaultTheme="sytem">
               <main className="flex-1">
                 {children}
               </main>
           </ThemeProvider>
-        </Providers>
+        </SessionProvider>
       </body>
     </html>
   );
