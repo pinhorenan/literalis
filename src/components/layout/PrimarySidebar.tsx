@@ -46,7 +46,7 @@ export default function PrimarySidebar() {
 
   // classes comuns
   const buttonClass =
-    'bg-transparent hover:bg-[var(--surface-card-hover)] gap-3 rounded-lg border-none text-[var(--text-secondary)] text-base';
+    'bg-transparent hover:bg-[var(--surface-card-hover)] gap-3 rounded-lg border-none text-[var(--text-primary)] text-base';
 
 
   // itens de baixo

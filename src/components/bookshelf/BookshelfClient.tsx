@@ -68,20 +68,20 @@ export default function BookshelfClient({
 
 
     return (
-        <section className="w-full h-full space-y-6">
+        <section className="w-full max-w-5xl mx-auto px-4 py-6 space-y-6">
             {/* Barra de Controler */}
-            <div className="flex flex-col justify-between sm:flex-row sm:items-center gap-4 mb-4">
+            <div className="flex flex-col gap-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-card)] shadow-sm p-4 sm:flex-row sm:items-center sm:justify-between">
                 <SearchBar
                     value={filterText}
                     onChange={setFilterText}
                     placeholder="Buscar na estante..."
                 />
 
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-wrap gap-4 items-center justify-between sm:justify-end w-full sm:w-auto">
                     <div className="flex items-center gap-2">
                         <label className="text-sm font-medium">Ordenar:</label>
                         <select
-                            className="border border-[var(--border-base)] rounded p-1 text-sm bg-[var(--surface-bg)] focus:outline-none"
+                            className="border border-[var(--border-base)] rounded-md p-1 text-sm bg-[var(--surface-bg)] focus:outline-none focus:ring-1 focus:ring-[var(--border-hover)]"
                             value={sortKey}
                             onChange={e => setSortKey(e.target.value as any)}
                         >
@@ -98,7 +98,7 @@ export default function BookshelfClient({
                             icon={sortOrder === 'asc' ? SortAsc : SortDesc}
                         />
                     </div>
-                    <div className="flex items-center gap-2 sm:ml-auto justify-end">
+                    <div className="flex items-center gap-2">
                         <Button
                             variant="icon"
                             size="sm"
@@ -138,7 +138,7 @@ export default function BookshelfClient({
             </div>
 
             {displayed.length === 0 && (
-                <p className="text-center text-[var(--text-secondary)]">
+                <p className="text-center text-[var(--text-tertiary)] italic py-6">
                     Nenhum livro encontrado.
                 </p>
             )}

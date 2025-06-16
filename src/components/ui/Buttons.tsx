@@ -11,14 +11,14 @@ import useFollow from '@hooks/useFollow';
 
 export type ButtonVariant =
   | 'default'
-  | 'secondary'
-  | 'ghost'
   | 'outline'
   | 'destructive'
+  | 'card'
+  | 'ghost'
   | 'icon'
   | 'logo';
 
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -34,6 +34,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const baseClasses = [
+  'text-[var(--text-primary)]',
   'select-none',
   'focus:outline-none',
   'transition-colors',
@@ -45,13 +46,13 @@ const baseClasses = [
 ];
 
 const variantStyles: Record<ButtonVariant, string> = {
-  default: 'rounded-md border border-[var(--border-color)] bg-[var(--surface-bg)] text-[var(--text-primary)] hover:bg-[var(--color-olive)] hover:text-[var(--color-offwhite)]',
-  secondary: 'rounded-md bg-[var(--surface-alt)] text-[var(--text-primary)] hover:bg-[var(--surface-card-hover)]',
-  ghost: 'bg-transparent text-[var(--text-primary)] hover:underline',
-  outline: 'rounded-md border border-[var(--border-color)] bg-transparent text-[var(--text-primary)] hover:bg-[var(--surface-bg)]',
-  destructive: 'rounded-md bg-red-600 text-white hover:bg-red-700',
-  icon: 'rounded-full bg-transparent text-[var(--text-primary)]',
-  logo: 'bg-transparent p-0',
+  default:      'rounded-md    bg-[var(--surface-bg)]     hover:bg-[var(--surface-alt)]         border border-[var(--border-base)]     ',
+  outline:      'rounded-md    bg-transparent             hover:bg-[var(--surface-bg)]          border border-[var(--border-base)]    ',
+  destructive:  'rounded-md    bg-[var(--color-warning)]  hover:bg-[var(--color-danger)]',
+  card:         'rounded-md    bg-[var(--surface-card)]   hover:bg-[var(--surface-card-hover)]  border border-[var(--border-base)]  ',
+  ghost:        'rounded-md    bg-transparent             hover:underline',
+  icon:         'rounded-full  bg-transparent ',
+  logo:         'bg-transparent p-0',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -59,6 +60,7 @@ const sizeStyles: Record<ButtonSize, string> = {
   sm: 'p-2 text-sm',
   md: 'p-3 text-base',
   lg: 'p-4 text-lg',
+  xl: 'p-5 text-xl',
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -90,7 +92,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       sizeStyles[size],
       disabled && 'opacity-50 cursor-not-allowed',
       !disabled && !href && 'cursor-pointer',
-      active && (isIcon ? 'fill-current' : 'ring-2 ring-[var(--color-primary)]'),
+      active && (isIcon ? 'fill-current' : 'bg-[var(--surface-bg)] text-[var(--text-primary)]'),
       className
     );
 
@@ -142,48 +144,7 @@ export function ThemeToggle() {
   );
 }
 
-interface FollowButtonProps {
-  targetUsername: string;
-  initialFollowing?: boolean;
-  onToggle?: (nowFollowing: boolean) => void;
-  size?: ButtonSize;
-  variant?: ButtonVariant;
-  className?: string;
-}
 
-export function FollowButton({
-  targetUsername,
-  initialFollowing = false,
-  onToggle,
-  size,
-  variant,
-  className,
-}: FollowButtonProps) {
-  const { following, toggleFollow, loading, loggedIn } = useFollow(targetUsername, initialFollowing);
-  const [hover, setHover] = useState(false);
-
-  const handleToggle = async () => {
-    const newFollowing = !following;
-    await toggleFollow();
-    onToggle?.(newFollowing);
-  };
-
-  const label = following ? (hover ? 'Deixar de seguir' : 'Seguindo') : 'Seguir';
-
-  return (
-    <Button
-      size={size}
-      onClick={handleToggle}
-      disabled={!loggedIn || loading}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      variant={variant}
-      className={className}
-    >
-      <Users size={16} /> {label}
-    </Button>
-  );
-}
 
 export function EditProfileButton(props: ButtonProps) {
   return (
@@ -191,31 +152,4 @@ export function EditProfileButton(props: ButtonProps) {
       Editar Perfil
     </Button>
   );
-}
-
-export function LogoButton() {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
-
-  const logoSrc = resolvedTheme === 'light'
-    ? '/assets/icons/light/main_logo.svg'
-    : '/assets/icons/dark/main_logo.svg';
-
-  return (
-    <Button
-      variant="logo"
-      logoSrc={logoSrc}
-      logoAlt="Logo do site"
-      logoSize={140}
-      className="mb-2 self-start"
-      href="/"
-      aria-label="Logo do site"
-    />
-  );
-}
-
-export function IconButton({ icon: Icon, ...props }: { icon: React.ElementType; size?: number } & Omit<ButtonProps, 'icon'>) {
-  return <Button variant="icon" icon={Icon} {...props} />;
 }

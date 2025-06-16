@@ -7,8 +7,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { BookOpen, MessageSquare } from 'lucide-react';
 
-import { Button, FollowButton, EditProfileButton } from '@components/ui/Buttons';
-import PostCard from '@components/post/Post';
+import { Button, EditProfileButton } from '@components/ui/Buttons';
+import FollowButton from '@components/ui/buttons/FollowButton';
+import PostCard from '@/src/components/post/PostCard';
 import EditProfileModal from '@components/profile/EditProfileModal';
 import type { ClientPost } from '@/src/types/posts';
 
@@ -81,8 +82,8 @@ export default function ProfileShell({ initialUser, initialPosts }: ProfileShell
             <div className="flex justify-between mt-3 gap-2 text-sm font-medium">
               {/* --- Botão "Estante" e "Mensagem"*/}
               <div className="mt-4 flex flex-wrap gap-2">
-                <Link href={`/profile/${user.username}/shelf`}>
-                  <Button variant="outline" size="sm" className="gap-1">
+                <Link href={`/profile/${user.username}/bookshelf`}>
+                  <Button  variant="outline" size="sm" className="gap-1">
                     <BookOpen size={16} /> Estante
                   </Button>
                 </Link>
@@ -100,8 +101,6 @@ export default function ProfileShell({ initialUser, initialPosts }: ProfileShell
                   targetUsername={user.username}
                   initialFollowing={initiallyFollowing}
                   onToggle={handleFollowToggle}
-                  size="sm"
-                  variant='outline'
                   className="flex-wrap mt-4"
                 />
               ) : (

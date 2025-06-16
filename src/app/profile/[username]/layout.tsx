@@ -3,8 +3,7 @@
 import { ReactNode }    from 'react';
 import MobileBottomNav  from '@components/layout/MobileBottomNav';
 import PrimarySidebar   from '@components/layout/PrimarySidebar';
-import FeedSidebar      from '@components/layout/FeedSidebar';
-import MobileHeader from '@/src/components/layout/MobileHeader';
+import MobileHeader from '@components/layout/MobileHeader';
 
 export default function ProfileLayout({ children }: { children: ReactNode }) {
   return (
@@ -17,10 +16,6 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       <main className="flex-1 py-8 lg:py-0 min-w-0">
         {children}
       </main>
-
-      <aside className="hidden lg:block w-[240px] shrink-0">
-        <FeedSidebar />
-      </aside>
 
       <MobileBottomNav />
     </div>

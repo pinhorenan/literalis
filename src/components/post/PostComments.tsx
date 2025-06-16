@@ -1,3 +1,4 @@
+// File: src/components/post/PostComments.tsx
 'use client';
 
 import Image from 'next/image';
@@ -26,26 +27,24 @@ export default function PostComments({ comments }: Props) {
       }
     };
 
-    resize(); // mede na entrada
+    resize();
 
     const observer = new ResizeObserver(resize);
     if (targetRef.current) observer.observe(targetRef.current);
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [showAll, comments.length]);
 
   if (comments.length === 0) {
     return (
       <p className="italic text-sm text-[var(--text-tertiary)] text-center my-6">
-        Nenhum comentário ainda. Seja o primeiro a comentar!
+        Nenhum comentário ainda.
       </p>
     );
   }
 
   return (
-    <div className="px-4 py-2 space-y-3">
+    <div className="px-4 py-2">
       <div
         style={{
           maxHeight: `${height}px`,
@@ -53,7 +52,7 @@ export default function PostComments({ comments }: Props) {
           transition: 'max-height 0.4s ease-in-out',
         }}
       >
-        <div ref={fullRef}>
+        <div ref={fullRef} className="space-y-4">
           {comments.map((comment) => (
             <CommentItem key={comment.id} comment={comment} />
           ))}
@@ -64,21 +63,21 @@ export default function PostComments({ comments }: Props) {
           className="invisible absolute top-0 left-0 pointer-events-none h-auto"
           aria-hidden
         >
-          {comments.slice(0, 3).map((comment) => (
+          {comments.slice(0, 2).map((comment) => (
             <CommentItem key={comment.id} comment={comment} />
           ))}
         </div>
       </div>
 
-      {comments.length > 3 && (
+      {comments.length > 2 && (
         <button
-          className="text-sm text-[var(--text-primary)] cursor-pointer hover:underline block mx-auto mt-2"
+          className="text-sm text-[var(--text-primary)] cursor-pointer hover:underline block mx-auto mt-3"
           onClick={() => setShowAll((s) => !s)}
         >
           <strong>
             {showAll
               ? 'Exibir menos'
-              : `Ver mais comentários (${comments.length - 3})`}
+              : `Ver mais (${comments.length -2})`}
           </strong>
         </button>
       )}
@@ -88,23 +87,33 @@ export default function PostComments({ comments }: Props) {
 
 function CommentItem({ comment }: { comment: ClientComment }) {
   return (
-    <div className="flex items-start gap-3 mb-4">
-      <Image
-        src={comment.author.avatarUrl || '/assets/avatars/default.jpg'}
-        alt={comment.author.name ?? 'Usuário'}
-        width={28}
-        height={28}
-        className="rounded-full mt-0.5"
-      />
-      <div className="flex-1 text-sm h-auto">
-        <Link href={`/profile/${comment.author.username}`}>
-          <strong>{comment.author.name}</strong>
-        </Link>
-        <p className="text-xs">{comment.content}</p>
+    <div className="flex items-start gap-3">
+      {/* Avatar */}
+      <Link href={`/profile/${comment.author.username}`}>
+        <Image
+          src={comment.author.avatarUrl || '/assets/avatars/default.jpg'}
+          alt={comment.author.name ?? 'Usuário'}
+          width={36}
+          height={36}
+          className="rounded-full border border-[var(--border-base)]"
+        />
+      </Link>
+
+      {/* Conteúdo */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between">
+          <Link 
+            href={`/profile/${comment.author.username}`}
+            className="font-medium text-sm text-[var(--text-primary)] hover:underline"
+          >
+            {comment.author.name}
+          </Link>
+          <time className="text-xs text-[var(--text-tertiary)] whitespace-nowrap">
+            há {useRelativeTime(comment.createdAt)}
+          </time>
+        </div>
+        <p className="text-sm text-[var(--text-secondary)]">{comment.content}</p>
       </div>
-      <time className="text-xs text-nowrap text-[var(--text-tertiary)] whitespace-nowrap">
-        {useRelativeTime(comment.createdAt)}
-      </time>
     </div>
   );
 }

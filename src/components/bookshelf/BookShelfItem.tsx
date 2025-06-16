@@ -41,11 +41,11 @@ export default function ShelfItem({
                     src={book.coverUrl} 
                     alt={book.title}
                     width={180} 
-                    className="w-full h-auto rounded border border-[var(--border-base)] transition-transform transform group-hover:scale-105" 
+                    className="w-full h-auto rounded-xl border border-[var(--border-subtle)] shadow-sm transition-transform duration-200 transform group-hover:scale-105" 
                 />
 
                 <div className="absolute bottom-2 left-2 right-2 text-center">
-                    <div className="w-full h-3 rounded bg-black/30 border border-white/20 overflow-hidden">
+                    <div className="w-full h-2 rounded bg-black/30 border border-white/20 overflow-hidden">
                         <div
                             className="h-full bg-[var(--color-primary)] transition-all duration-300"
                             style={{ width: `${progress}%` }}
@@ -56,7 +56,7 @@ export default function ShelfItem({
                 {isOwner && (
                     <div
                         ref={menuRef} 
-                        className="absolute top-1 right-1 z-10 opacity-50 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-1 right-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                         <OptionsMenu
                             onEdit={() => onEdit(book.isbn, progress)}
@@ -68,26 +68,39 @@ export default function ShelfItem({
         );
     }
 
+    // Modo lista   
     return (
-        <div className={`relative flex items-center px-2 py-1 rounded-md bg-[var(--surface-card)] hover:bg-[var(--surface-card-hover)] transition ${className}`}>
-            
-            <div className="flex items-center gap-3 flex-1 p-2">
-                <BookCover
-                    src={book.coverUrl}
-                    alt={book.title}
-                    width={180}
-                    className="h-auto rounded border border-[var(--border-base)]"
+        <div className={`relative flex items-center px-4 py-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-card)] shadow-sm transition hover:bg-[var(--surface-card-hover)] ${className}`}>
+            <BookCover
+                src={book.coverUrl}
+                alt={book.title}
+                width={180}
+                className="rounded-md border border-[var(--border-base)] shadow-sm"
+            />
+
+            <div className="ml-4 flex-1">
+                <BookInfo 
+                    book={book}  
+                    className="text-sm"
+                    showPublicationDate
+                    strongIsbnLabel={false}
                 />
-                <div className="mt-6 mb-auto ml-3 flex-1 space-y-4">
-                    <BookInfo book={book}  />
-                    <div className="ml-auto text-sm text-[var(--text-secondary)]">
-                        {progress}%
+                
+                <div className="mt-2">
+                    <div className="w-full h-2 bg-[var(--color-secondary)] border border-[var(--border-base)] rounded overflow-hidden">
+                        <div
+                            className="h-full bg-[var(--color-primary)] transition-all duration-300"
+                            style={{ width: `${progress}%` }}
+                        />
+                    </div>
+                    <div className="text-xs text-right text-[var(--text-secondary)] mt-1">
+                        {progress}% lido
                     </div>
                 </div>
             </div>
 
             {isOwner && (
-                <div ref={menuRef} className="absolute top-3 right-1 z-10">
+                <div ref={menuRef} className="absolute top-2 right-2 z-10">
                     <OptionsMenu
                         onEdit={() => onEdit(book.isbn, progress)}
                         onDelete={() => onDelete(book.isbn)}
@@ -95,5 +108,5 @@ export default function ShelfItem({
                 </div>
             )}
         </div>
-    )
+    );
 }
