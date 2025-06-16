@@ -4,7 +4,8 @@ import { type Metadata    } from  'next';
 import { ReactNode        } from  'react';
 import { getServerSession } from  'next-auth';
 import { authOptions      } from  '@server/auth';
-import Providers from '@app/providers';
+import Providers            from  '@app/providers';
+
 import '@styles/globals.css';
 
 export const metadata: Metadata = {
