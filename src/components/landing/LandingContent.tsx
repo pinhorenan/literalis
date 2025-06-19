@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Sparkles, UserRoundPlusIcon } from 'lucide-react';
-import { Button, ThemeToggle } from '@components/ui/Buttons';
+import { Button } from '@components/ui/Buttons';
+import { ThemeToggle } from '@components/ui/ThemeToggle';
 import { CircleVector } from '@components/svg/Circle';
 import { Logo } from '@components/svg/Logo';
 

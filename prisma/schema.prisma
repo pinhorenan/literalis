@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -19,27 +19,27 @@ enum AccountType {
 }
 
 model User {
-  username        String        @id
-  name            String
-  email           String?       @unique
-  password        String        @default("password")
-  avatarUrl       String        @default("/assets/images/users/default.jpg")
-  bio             String?
-  role            AccountType   @default(USER)
+  username  String      @id
+  name      String
+  email     String?     @unique
+  password  String      @default("password")
+  avatarUrl String      @default("/assets/images/users/default.jpg")
+  bio       String?
+  role      AccountType @default(USER)
 
-  accounts        Account[]
-  sessions        Session[]
+  accounts Account[]
+  sessions Session[]
 
-  posts           Post[]
-  likes           Like[]
-  comments        Comment[]
-  following       Follow[]    @relation("Followers")
-  followers       Follow[]    @relation("Following")
+  posts     Post[]
+  likes     Like[]
+  comments  Comment[]
+  following Follow[]  @relation("Followers")
+  followers Follow[]  @relation("Following")
 
-  bookshelf       UserBook[]
+  bookshelf UserBook[]
 
-  notificationsSent       Notification[] @relation("NotificationActor")
-  notificationsReceived   Notification[] @relation("NotificationRecipient")
+  notificationsSent     Notification[] @relation("NotificationActor")
+  notificationsReceived Notification[] @relation("NotificationRecipient")
 }
 
 model Book {
@@ -51,57 +51,57 @@ model Book {
   pages           Int
   language        String
   publicationDate DateTime
-  coverUrl        String        @default("/assets/images/books/default.jpg")
+  coverUrl        String   @default("/assets/images/books/default.jpg")
 
-  posts           Post[]    
-  inShelves       UserBook[]
+  posts     Post[]
+  inShelves UserBook[]
 }
 
 model Post {
-  id              String         @id @default(cuid())
-  excerpt         String         @default("")
-  progress        Int            @default(0)
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  id        String   @id @default(cuid())
+  excerpt   String   @default("")
+  progress  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  authorUsername  String
-  bookIsbn        String
+  authorUsername String
+  bookIsbn       String
 
-  author          User @relation(fields: [authorUsername],  references: [username])
-  book            Book @relation(fields: [bookIsbn],        references: [isbn])
+  author User @relation(fields: [authorUsername], references: [username])
+  book   Book @relation(fields: [bookIsbn], references: [isbn])
 
-  comments        Comment[]
-  likes           Like[]
-  notifications   Notification[]  @relation("PostNotifications")
+  comments      Comment[]
+  likes         Like[]
+  notifications Notification[] @relation("PostNotifications")
 }
 
 model Comment {
-  id              String   @id @default(cuid())
-  content         String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  postId          String
-  authorUsername  String
+  postId         String
+  authorUsername String
 
-  post            Post @relation(fields: [postId],          references: [id],        onDelete: Cascade)
-  author          User @relation(fields: [authorUsername],  references: [username],  onDelete: Cascade)
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorUsername], references: [username], onDelete: Cascade)
 }
 
 model Like {
-  userUsername    String
-  postId          String
-  createdAt       DateTime @default(now())
+  userUsername String
+  postId       String
+  createdAt    DateTime @default(now())
 
   user User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
-  post Post @relation(fields: [postId],       references: [id],       onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([userUsername, postId])
 }
 
 model Follow {
-  followerId      String
-  followedId      String
+  followerId String
+  followedId String
 
   follower User @relation("Following", fields: [followerId], references: [username], onDelete: Cascade)
   followed User @relation("Followers", fields: [followedId], references: [username], onDelete: Cascade)
@@ -110,36 +110,36 @@ model Follow {
 }
 
 model UserBook {
-  userUsername    String
-  bookIsbn        String
-  progress        Int         @default(0)
-  addedAt         DateTime    @default(now())
+  userUsername String
+  bookIsbn     String
+  progress     Int      @default(0)
+  addedAt      DateTime @default(now())
 
   user User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
-  book Book @relation(fields: [bookIsbn],     references: [isbn],     onDelete: Cascade)
+  book Book @relation(fields: [bookIsbn], references: [isbn], onDelete: Cascade)
 
   @@id([userUsername, bookIsbn])
 }
 
 model Notification {
-  id              String            @id @default(cuid())
-  notifType       NotificationType
-  createdAt       DateTime          @default(now())
-  readAt          DateTime?
+  id        String           @id @default(cuid())
+  notifType NotificationType
+  createdAt DateTime         @default(now())
+  readAt    DateTime?
 
-  recipientId     String
-  actorId         String
-  postId          String?
+  recipientId String
+  actorId     String
+  postId      String?
 
-  recipient   User  @relation("NotificationRecipient",  fields: [recipientId],  references: [username], onDelete: Cascade)
-  actor       User  @relation("NotificationActor",      fields: [actorId],      references: [username], onDelete: Cascade)
-  post        Post? @relation("PostNotifications",      fields: [postId],       references: [id],       onDelete: Cascade)
+  recipient User  @relation("NotificationRecipient", fields: [recipientId], references: [username], onDelete: Cascade)
+  actor     User  @relation("NotificationActor", fields: [actorId], references: [username], onDelete: Cascade)
+  post      Post? @relation("PostNotifications", fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([recipientId])
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String      @id @default(cuid())
   userUsername      String
   accountType       AccountType
   provider          String
@@ -158,10 +158,10 @@ model Account {
 }
 
 model Session {
-  id                String   @id @default(cuid())
-  sessionToken      String   @unique
-  userUsername      String
-  expires           DateTime
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userUsername String
+  expires      DateTime
 
   user User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
 }

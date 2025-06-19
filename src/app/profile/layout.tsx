@@ -13,7 +13,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
         <PrimarySidebar />
       </aside>
 
-      <main className="flex-1 py-8 lg:py-0 min-w-0">
+      <main className="flex-1 py-8 lg:py-0 min-w-0 my-6">
         {children}
       </main>
 

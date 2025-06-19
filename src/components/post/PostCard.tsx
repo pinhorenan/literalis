@@ -9,7 +9,7 @@ import { Heart, MessageCircle } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-import FollowButton         from '@components/ui/buttons/FollowButton';
+import FollowButton         from '@/src/components/ui/FollowButton';
 import OptionsMenu          from '@components/ui/OptionsMenu';
 import BookCover            from '@components/book/BookCover';
 import BookInfo             from '@components/book/BookInfo';

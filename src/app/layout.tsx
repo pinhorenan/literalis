@@ -4,7 +4,7 @@ import { type Metadata    } from  'next';
 import { ReactNode        } from  'react';
 import { getServerSession } from  'next-auth';
 import { authOptions      } from  '@server/auth';
-import Providers            from  '@app/providers';
+import { Providers        } from  '@context/providers';
 
 import '@styles/globals.css';
 
@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="pt-BR" className="scroll-smooth">
+    <html lang="pt-BR" className="scroll-smooth" suppressHydrationWarning>
       <body className="min-h-screen min-w-screen font-sans antialiased">
         <Providers session={session}>
           <main className="flex-1">

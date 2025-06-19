@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { BookOpen, MessageSquare } from 'lucide-react';
 
 import { Button, EditProfileButton } from '@components/ui/Buttons';
-import FollowButton from '@components/ui/buttons/FollowButton';
+import FollowButton from '@/src/components/ui/FollowButton';
 import PostCard from '@/src/components/post/PostCard';
 import EditProfileModal from '@components/profile/EditProfileModal';
 import type { ClientPost } from '@/src/types/posts';
