@@ -1,4 +1,4 @@
-// api/users/[username]/follow/route.ts
+// File: api/users/[username]/follow/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@server/auth';

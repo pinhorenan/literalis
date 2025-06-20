@@ -1,13 +1,10 @@
 // File: src/components/ui/Buttons.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Sun, Moon, Users } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import useFollow from '@hooks/useFollow';
 
 export type ButtonVariant =
   | 'default'
@@ -123,16 +120,3 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 Button.displayName = 'Button';
-
-/* ----------------------------- Subcomponents ----------------------------- */
-
-
-
-
-export function EditProfileButton(props: ButtonProps) {
-  return (
-    <Button variant="default" size="sm" {...props}>
-      Editar Perfil
-    </Button>
-  );
-}

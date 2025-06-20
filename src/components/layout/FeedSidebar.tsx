@@ -2,7 +2,7 @@
 'use client';
 
 import SidebarShell  from '@components/layout/SidebarShell';
-import UserSummary   from '@components/ui/UserSummary';
+import UserSummary   from '@/src/components/user/UserSummary';
 import { Button  }   from '@components/ui/Buttons';
 import { BookOpen }  from 'lucide-react';
 

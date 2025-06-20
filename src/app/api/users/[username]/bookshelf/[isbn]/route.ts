@@ -9,6 +9,28 @@ const UpdateSchema = z.object({
   progress: z.number().min(0).max(100),
 });
 
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ username: string; isbn: string }> }
+) {
+  const { username, isbn } = await params;
+  
+  try {
+    const bookInShelf = await prisma.userBook.findUnique({
+      where: {
+        userUsername_bookIsbn: {
+          userUsername: username,
+          bookIsbn: isbn,
+        },
+      },
+    });
+
+    return NextResponse.json({ added: !!bookInShelf });
+  } catch (err) {
+    return NextResponse.json({ error: 'Erro ao verificar livro' }, { status: 500 });
+  }
+}
+
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ username: string; isbn: string }> }

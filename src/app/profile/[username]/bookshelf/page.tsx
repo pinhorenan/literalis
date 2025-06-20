@@ -11,7 +11,7 @@ interface BookshelfPageProps {
 }
 
 export default async function BookshelfPage({ params }: BookshelfPageProps) {
-  const { username } =  params;
+  const { username } =  await params;
 
   const session = await getServerSession(authOptions);
   const me = session?.user?.username;

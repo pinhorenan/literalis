@@ -24,7 +24,7 @@ export async function GET(
   const data = shelf.map(item => ({
     book: {
       ...item.book,
-      coverUrl: item.book.coverUrl, // ✅ já está no schema novo
+      coverUrl: item.book.coverUrl,
     },
     progress: item.progress,
     addedAt: item.addedAt.toISOString(),
@@ -35,11 +35,12 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
   const session = await getServerSession(authOptions);
+  const { username } = await params;
 
-  if (!session?.user?.username || session.user.username !== params.username) {
+  if (!session?.user?.username || session.user.username !== username) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
   }
 
@@ -59,12 +60,12 @@ export async function POST(
     where: {
       userUsername_bookIsbn: {
         bookIsbn: isbn,
-        userUsername: params.username,
+        userUsername: username,
       },
     },
     create: {
       bookIsbn: isbn,
-      userUsername: params.username,
+      userUsername: username,
       progress,
     },
     update: { progress },
@@ -74,7 +75,7 @@ export async function POST(
   return NextResponse.json({
     book: {
       ...record.book,
-      coverUrl: record.book.coverUrl, // ✅ atualizado
+      coverUrl: record.book.coverUrl,
     },
     progress: record.progress,
     addedAt: record.addedAt.toISOString(),

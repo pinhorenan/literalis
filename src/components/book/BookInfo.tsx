@@ -26,24 +26,18 @@ export default function BookInfo({
     : null;
 
   return (
-    <div className={clsx('flex flex-col gap-1', className)}>
+    <div className={clsx('flex flex-col', className)}>
       <h3 className="text-lg font-semibold">{book.title}</h3>
       <p className="text-sm text-[var(--text-secondary)]">por {book.author}</p>
       <p className="text-xs text-[var(--text-tertiary)]">
         {book.publisher}, ed. {book.edition}
       </p>
 
-      {showPublicationDate && publicationDateFormatted && (
-        <p className="text-xs text-[var(--text-tertiary)]">
-          Publicado em {publicationDateFormatted}
-        </p>
-      )}
-
-      <p className="text-sm">
+      <p className="text-xs text-[var(--text-tertiary)]">
         {book.pages} páginas • {book.language}
       </p>
 
-      <p className="text-sm">
+      <p className="text-sm text-[var(--text-secondary)]">
         {strongIsbnLabel ? (
           <>
             <strong>ISBN:</strong> {book.isbn}

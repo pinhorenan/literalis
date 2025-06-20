@@ -1,140 +1,125 @@
 // File: src/components/profile/ProfileShell.tsx
 'use client'
 
-import { useSession } from 'next-auth/react';
-import { useState, useCallback } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { BookOpen, MessageSquare } from 'lucide-react';
+import React, { useState, useEffect, FormEvent, useCallback } from 'react'
+import { useSession }                         from 'next-auth/react'
 
-import { Button, EditProfileButton } from '@components/ui/Buttons';
-import FollowButton from '@/src/components/ui/FollowButton';
-import PostCard from '@/src/components/post/PostCard';
-import EditProfileModal from '@components/profile/EditProfileModal';
-import type { ClientPost } from '@/src/types/posts';
+import ProfileHeader                          from '@components/profile/ProfileHeader'
+import EditProfilePanel                       from '@components/profile/EditProfilePanel'
+import PostsList                              from '@components/profile/PostsList';
+import type { ClientPost }                    from '@/src/types/posts'
 
 interface ClientUser {
-  username: string;
-  name: string;
-  email?: string;
-  avatarUrl: string;
-  bio?: string;
-  followerUsernames: string[];
-  followingUsernames: string[];
+  username: string
+  name: string
+  email?: string
+  avatarUrl: string
+  bio?: string
+  followerCount: number
+  followingCount: number
 }
 
-interface ProfileShellProps {
-  initialUser: ClientUser;
-  initialPosts: ClientPost[];
+interface Props {
+  initialUser: ClientUser
+  initialPosts: ClientPost[]
 }
 
-export default function ProfileShell({ initialUser, initialPosts }: ProfileShellProps) {
-  const { data: session, status } = useSession();
-  const [user, setUser] = useState(initialUser);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [followerCount, setFollowerCount] = useState(user.followerUsernames.length);
-  
-  const meUsername = session?.user.username;
-  const loggedIn = status === 'authenticated';
-  const initiallyFollowing = meUsername ? user.followerUsernames.includes(meUsername) : false;
-  const isOwnProfile = loggedIn && meUsername === user.username;
+export default function ProfileShell({ initialUser, initialPosts }: Props) {
+  const { data: session, status } = useSession()
+  const loggedIn   = status === 'authenticated'
+  const meUsername = session?.user.username
 
-  const handleFollowToggle = useCallback((nowFollowing: boolean) => {
-    setFollowerCount((prev) => (nowFollowing ? prev + 1 : prev - 1));
-  }, []);
+  // estados principais
+  const [user, setUser]                   = useState(initialUser)
+  const [followerCount, setFollowerCount] = useState(initialUser.followerCount)
+  const [followingCount]                  = useState(initialUser.followingCount)
+  const [isFollowing, setIsFollowing]     = useState(false)
+
+  // carregar status de follow
+  useEffect(() => {
+    if (!loggedIn || meUsername === user.username) return
+    fetch(`/api/users/${user.username}/follow`)
+      .then(r => r.json())
+      .then(j => setIsFollowing(Boolean(j.following)))
+  }, [loggedIn, meUsername, user.username])
+
+  const handleFollowToggle = useCallback(async () => {
+    if (!loggedIn) return
+    const method = isFollowing ? 'DELETE' : 'POST'
+    const res = await fetch(`/api/users/${user.username}/follow`, { method })
+    if (res.ok) {
+      setIsFollowing(f => !f)
+      setFollowerCount(c => c + (isFollowing ? -1 : +1))
+    }
+  }, [isFollowing, loggedIn, user.username])
+
+  // estados de edição
+  const [isEditing, setIsEditing]   = useState(false)
+  const [editName, setEditName]     = useState(user.name)
+  const [editBio, setEditBio]       = useState(user.bio || '')
+  const [editAvatar, setEditAvatar] = useState(user.avatarUrl)
+
+  // salvamento
+  const handleSave = async (e: FormEvent) => {
+    e.preventDefault()
+    const body = { name: editName, bio: editBio, avatarUrl: editAvatar }
+    const res = await fetch(`/api/users/${user.username}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    if (!res.ok) {
+      alert('Erro ao atualizar perfil')
+      return
+    }
+    const updated: ClientUser = await res.json()
+    setUser(updated)
+    setFollowerCount(updated.followerCount)
+    setIsEditing(false)
+  }
+
+  // avatar upload
+  const handleAvatarChange = (file: File) => {
+    const form = new FormData()
+    form.append('avatar', file)
+    fetch('/api/upload/avatar', { method: 'POST', body: form })
+      .then(r => r.json())
+      .then(j => setEditAvatar(j.url))
+      .catch(() => console.error('Upload falhou'))
+  }
+
+  const handleCancel = () => {
+    setEditName(user.name)
+    setEditBio(user.bio || '')
+    setEditAvatar(user.avatarUrl)
+    setIsEditing(false)
+  }
 
   return (
-    <>
-      <section className="flex-1 py-6 space-y-6">
-        {/* --- Cabeçalho do perfil --- */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[var(--border-base)] pb-4">
-          {/* --- Avatar do usuário --- */}
-          <Link href={`/profile/${user.username}`}>
-            <Image
-              src={user.avatarUrl}
-              alt={user.name}
-              width={96}
-              height={96}
-              className="rounded-full border"
-            />
-          </Link>
-          {/* --- Informações do usuário --- */}
-          <div className="flex-1">
-            <div className="flex items-center justify-between mb-4 pr-4">
-              <h1 className="text-3xl font-bold">{user.name}</h1>
-              
-              <div className="flex items-center gap-4">
-                <span>
-                  <strong>{user.followingUsernames.length}</strong> Seguindo
-                </span>
-                <span>
-                  <strong>{followerCount}</strong> Seguidores
-                </span>
-              </div>
-            </div>
-
-            {/* Bio */}
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">
-              {user.bio || 'Sem bio ainda…'}
-            </p>
-            
-            {/* Botões */}
-            <div className="flex justify-between mt-3 gap-2 text-sm font-medium">
-              {/* --- Botão "Estante" e "Mensagem"*/}
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Link href={`/profile/${user.username}/bookshelf`}>
-                  <Button  variant="outline" size="sm" className="gap-1">
-                    <BookOpen size={16} /> Estante
-                  </Button>
-                </Link>
-                {loggedIn && !isOwnProfile && (
-                  <Link href={`/messages/${user.username}`}>
-                    <Button variant="outline" size="sm" className="gap-1">
-                      <MessageSquare size={16} /> Mensagem
-                    </Button>
-                  </Link>
-                )}
-              </div>
-              {/* --- Botão de seguir ou editar perfil --- */}
-              {loggedIn && !isOwnProfile ? (
-                <FollowButton
-                  targetUsername={user.username}
-                  initialFollowing={initiallyFollowing}
-                  onToggle={handleFollowToggle}
-                  className="flex-wrap mt-4"
-                />
-              ) : (
-                isOwnProfile && (
-                  <EditProfileButton
-                    onClick={() => setIsModalOpen(true)}
-                    size="sm"
-                  />
-                )
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* ----- Posts do usuário ----- */}
-        <div className="space-y-4">
-          {initialPosts.length > 0 ? (
-            initialPosts.map(post => (
-              <PostCard key={post.id} post={post} isProfile />
-            ))
-          ) : (
-            <p className="text-center text-[var(--text-tertiary)]">
-              Nenhum post ainda.
-            </p>
-          )}
-        </div>
-      </section>
-
-      <EditProfileModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+    <section className="relative flex-1 py-6 px-4 sm:px-6 lg:px-8 space-y-6">
+      <ProfileHeader
         user={user}
-        onSave={(updated) => setUser((prev) => ({ ...prev, ...updated }))}
+        isSelf={loggedIn && meUsername === user.username}
+        isFollowing={isFollowing}
+        followerCount={followerCount}
+        followingCount={followingCount}
+        onFollowToggle={handleFollowToggle}
+        onEditClick={() => setIsEditing(true)}
       />
-    </>
-  );
+
+      <PostsList posts={initialPosts} />
+
+      <EditProfilePanel
+        isOpen={isEditing}
+        editName={editName}
+        editBio={editBio}
+        editAvatar={editAvatar}
+        onNameChange={setEditName}
+        onBioChange={setEditBio}
+        onAvatarChange={handleAvatarChange}
+        onSave={handleSave}
+        onCancel={handleCancel}
+      />
+    </section>
+  )
 }

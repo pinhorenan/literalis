@@ -27,11 +27,12 @@ export default function OptionsMenu({ onEdit, onDelete, className }: OptionsMenu
         aria-label="Mais opções"
         aria-haspopup="menu"
         onClick={() => setOpen(v => !v)}
+        className="hover:scale-120 transition-transform duration-400"
       />
 
       {open && (
         <div
-          className="absolute right-0 mt-2 w-32 bg-[var(--surface-bg)] border border-[var(--border-base)] rounded shadow-lg z-10"
+          className="absolute right-0 mt-2 w-32 bg-[var(--surface-bg)] border border-[var(--border-base)] rounded shadow-lg z-10 "
           role="menu"
         >
           <button

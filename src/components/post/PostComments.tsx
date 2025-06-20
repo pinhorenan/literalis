@@ -1,10 +1,12 @@
 // File: src/components/post/PostComments.tsx
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState, useEffect } from 'react';
+import UserAvatar from '@components/user/UserAvatar';
+
 import type { ClientComment } from '@/src/types/posts';
+
 import useRelativeTime  from '@hooks/useRelativeTime';
 
 export interface Props {
@@ -89,15 +91,7 @@ function CommentItem({ comment }: { comment: ClientComment }) {
   return (
     <div className="flex items-start gap-3">
       {/* Avatar */}
-      <Link href={`/profile/${comment.author.username}`}>
-        <Image
-          src={comment.author.avatarUrl || '/assets/avatars/default.jpg'}
-          alt={comment.author.name ?? 'Usuário'}
-          width={36}
-          height={36}
-          className="rounded-full border border-[var(--border-base)]"
-        />
-      </Link>
+      <UserAvatar user={comment.author} size="sm" />
 
       {/* Conteúdo */}
       <div className="flex-1 min-w-0">

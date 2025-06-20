@@ -18,8 +18,8 @@ export type ClientComment = {
   createdAt: string;
   author: {
     username: string;
-    name?: string;
-    avatarUrl?: string;
+    name: string;
+    avatarUrl: string;
   };
 };
 

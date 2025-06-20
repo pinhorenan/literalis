@@ -4,8 +4,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Plus } from 'lucide-react';
+import { Plus, Check } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
 interface BookCoverProps {
   src: string;
@@ -31,6 +32,29 @@ export default function BookCover({
   const { data: session } = useSession();
   const username = session?.user?.username;
 
+  const [isAdded, setIsAdded] = useState(false);
+
+  useEffect(() => {
+    async function checkIfAdded() {
+      if (!username || !href) return;
+
+      const isbn = href.split('/').pop();
+      if (!isbn) return;
+
+      try {
+        const res = await fetch(`/api/users/${username}/bookshelf/${isbn}`);
+        if (res.ok) {
+          const data = await res.json();
+          setIsAdded(data.added);
+        }
+      } catch (err) {
+        console.error('Erro ao verificar livro na estante:', err);
+      }
+    }
+
+    checkIfAdded();
+  }, [username, href]);
+
   async function addToShelf(e: React.MouseEvent) {
     e.preventDefault();
     if (!username || !href) return;
@@ -38,15 +62,17 @@ export default function BookCover({
     const isbn = href.split('/').pop();
     if (!isbn) return;
 
-    try {
-      const res = await fetch(`/api/users/${username}/shelf`, {
+    if (!isAdded) {
+      const res = await fetch(`/api/users/${username}/bookshelf`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isbn }),
       });
-      if (res.ok) onAdded?.();
-    } catch (err) {
-      console.error('Erro ao adicionar livro à estante:', err);
+
+      if (res.ok) {
+        setIsAdded(true);
+        onAdded?.();
+      }
     }
   }
 
@@ -62,14 +88,22 @@ export default function BookCover({
       {addable && href && (
         <button
           onClick={addToShelf}
-          className="
-            absolute inset-0 flex items-center justify-center
-            bg-black/0 hover:bg-black/40 transition
-            opacity-0 group-hover:opacity-100
-          "
-          aria-label="Adicionar à estante"
+          disabled={isAdded}
+          className={clsx(
+            'absolute inset-0 flex items-center justify-center',
+            'bg-black/0 hover:bg-black/40 transition',
+            'opacity-0 group-hover:opacity-100',
+          )}
+          aria-label={isAdded ? 'Livro adicionado' : 'Adicionar livro'}
         >
-          <Plus className="w-6 h-6 text-white" />
+          <span
+            className={clsx(
+              'transition-transform duration-300',
+              isAdded ? 'scale-100 text-[var(--color-success)]' : 'scale-100 text-[var(--text-primary)] cursor-pointer',
+            )}
+          >
+            {isAdded ? <Check className="w-6 h-6" /> : <Plus className="w-6 h-6" />}
+          </span>
         </button>
       )}
     </div>
