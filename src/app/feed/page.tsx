@@ -1,57 +1,28 @@
 // File: src/app/feed/page.tsx
-import { getServerSession }         from 'next-auth';
-import { mapRawToClientPost }       from '@lib/mapPost';
-import { prisma }                   from '@server/prisma';
-import { authOptions }              from '@server/auth';
-import FeedClient                   from '@/src/components/client/feed/FeedClient';
-
-import type { RawPost, ClientPost } from '@/src/types/posts';
+import FeedClient from '@components/client/feed/FeedClient';
+import { prisma } from '@lib/prisma';
+import { getViewer, feedPostInclude } from '@lib/api';
+import type { PostDTO } from '@dto/post.dto';
 
 export default async function PageFeed() {
-  const session = await getServerSession(authOptions);
-  const meUsername = session?.user.username;
+  // Obtém usuário autenticado, se houver
+  const viewer = await getViewer(false);
+  const viewerUsername = viewer?.username ?? null;
 
-  const rawPosts = await prisma.post.findMany({
+  // Busca posts já com todas as propriedades necessárias para PostDTO
+  const posts = await prisma.post.findMany({
     take: 20,
     orderBy: { createdAt: 'desc' },
-    include: {
-      author:   { select:   { username: true, name: true, avatarUrl: true } },
-      book:     { select:   { isbn: true, title: true, author: true, coverUrl: true } },
-      comments: { include:  { author: { select: { username: true, name: true, avatarUrl: true } } } },
-      likes:    { select:   { userUsername: true } },
-    },
-  }) as RawPost[]
-
-  const uniqueAuthors = [...new Set(rawPosts.map(post => post.author.username))];
-
-  const followings = await prisma.follow.findMany({
-    where: {
-      followerId: meUsername,
-      followedId: { in: uniqueAuthors, }
-    },
-    select: { followedId: true },
+    include: feedPostInclude(viewerUsername),
   });
 
-  const followingUsernames = new Set(followings.map(f => f.followedId));
-
-  const initialPosts: ClientPost[] = rawPosts.map(post => {
-    const likedByMe = post.likes.some(like => like.userUsername === meUsername)
-    const isFollowingAuthor = followingUsernames.has(post.author.username);
-
-      return {
-        ...mapRawToClientPost(post),
-        likedByMe,
-        isFollowingAuthor,
-      }
-  });
-
-
+  // Converte diretamente para PostDTO[] (já contém tudo que FeedClient precisa)
+  const initialPosts = posts as unknown as PostDTO[];
 
   return (
-    <>
-      <FeedClient 
-        initialPosts={initialPosts} 
-        initialTab="discover" />
-    </>
+    <FeedClient
+      initialPosts={initialPosts}
+      initialTab="discover"
+    />
   );
 }

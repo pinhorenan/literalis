@@ -13,11 +13,6 @@ enum NotificationType {
   COMMENT
 }
 
-enum AccountType {
-  USER
-  ADMIN
-}
-
 enum ShelfStatus {
   TO_READ
   READING
@@ -26,176 +21,181 @@ enum ShelfStatus {
 }
 
 model User {
-  username              String          @id
-  name                  String
-  email                 String          @unique
-  avatarUrl             String          @default("/images/avatars/default.jpg")
-  bio                   String          @defualt("Esse usuário ainda não escreveu uma bio")
-  role                  AccountType     @default(USER)
+  username  String  @id
+  name      String
+  email     String  @unique
+  password  String? // hash (credenciais próprias)
+  avatarUrl String  @default("/images/avatars/default.jpg")
+  bio       String  @default("Esse usuário ainda não escreveu uma bio")
 
-  accounts              Account[]
-  sessions              Session[]
+  accounts Account[]
+  sessions Session[]
 
-  posts                 Post[]
-  likes                 Like[]
-  followers             Follow[]        @relation("Following")
-  following             Follow[]        @relation("Followers")
-  comments              Comment[]
-  bookshelf             UserBook[]
+  posts    Post[]
+  comments Comment[]
 
-  notificationsSent     Notification[]  @relation("NotificationActor")
-  notificationsReceived Notification[]  @relation("NotificationRecipient")
+  postLikes    PostLike[]    @relation("UserPostLikes")
+  commentLikes CommentLike[] @relation("UserCommentLikes")
+
+  followers Follow[] @relation("Following")
+  following Follow[] @relation("Followers")
+
+  bookshelf UserBook[]
+
+  notificationsSent     Notification[] @relation("NotificationActor")
+  notificationsReceived Notification[] @relation("NotificationRecipient")
 }
 
 model Book {
-  isbn                  String   @id
-  title                 String
-  author                String
-  publisher             String?
-  edition               Int?
-  pages                 Int?
-  language              String?
-  publicationDate       DateTime?
-  coverUrl              String   @default("/images/covers/default.jpg")
+  isbn            String    @id
+  title           String
+  author          String
+  publisher       String?
+  edition         Int?
+  pages           Int?
+  language        String?
+  publicationDate DateTime?
+  coverUrl        String    @default("/images/covers/default.jpg")
+  externalSource  String?   @default("INTERNAL")
 
-  externalSource        String? @default("INTERNAL")
-
-  posts                 Post[]
-  inShelves             UserBook[]
+  posts     Post[]
+  inShelves UserBook[]
 }
 
 model Post {
-  id                    String   @id @default(cuid())
-  content               String   @default("")
-  progress              Int      @default(0)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  id        String   @id @default(cuid())
+  content   String   @default("")
+  progress  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  authorUsername        String
-  bookIsbn              String
+  authorUsername String
+  bookIsbn       String
 
-  author                User @relation(fields: [authorUsername], references: [username])
-  book                  Book @relation(fields: [bookIsbn], references: [isbn])
+  author User @relation(fields: [authorUsername], references: [username])
+  book   Book @relation(fields: [bookIsbn], references: [isbn])
 
-  likes                 Like[]
-  comments              Comment[]
-  notifications         Notification[] @relation("PostNotifications")
+  likes         PostLike[]     @relation("PostLikes")
+  comments      Comment[]
+  notifications Notification[] @relation("PostNotifications")
 }
 
 model Comment {
-  id                    String   @id @default(cuid())
-  content               String
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  postId                String
-  authorUsername        String
+  postId         String
+  authorUsername String
 
-  post                  Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author                User @relation(fields: [authorUsername], references: [username], onDelete: Cascade)
-  likes                 CommentLike[]
-}
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorUsername], references: [username], onDelete: Cascade)
 
-model CommentLike {
-  userUsername          String
-  commentId             String
-  createdAt             DateTime @default(now())
-
-  user                  User    @relation(fields: [userUsername], references: [username], onDelete: Cascade)
-  comment               Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-
-  @@id([userUsername, commentId])
+  likes         CommentLike[]
+  notifications Notification[] @relation("CommentNotifications")
 }
 
 model PostLike {
-  userUsername          String
-  postId                String
-  createdAt             DateTime @default(now())
+  userUsername String
+  postId       String
+  createdAt    DateTime @default(now())
 
-  user                  User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
-  post                  Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation("UserPostLikes", fields: [userUsername], references: [username], onDelete: Cascade)
+  post Post @relation("PostLikes", fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([userUsername, postId])
 }
 
-model Follow {
-  followerUsername      String
-  followedUsername      String
-  createdAt             DateTime @default(now())
+model CommentLike {
+  userUsername String
+  commentId    String
+  createdAt    DateTime @default(now())
 
-  follower              User @relation("Following", fields: [followerUsername], references: [username], onDelete: Cascade)
-  followed              User @relation("Followers", fields: [followedUsername], references: [username], onDelete: Cascade)
+  user    User    @relation("UserCommentLikes", fields: [userUsername], references: [username], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@id([userUsername, commentId])
+}
+
+model Follow {
+  followerUsername String
+  followedUsername String
+  createdAt        DateTime @default(now())
+
+  follower User @relation("Following", fields: [followerUsername], references: [username], onDelete: Cascade)
+  followed User @relation("Followers", fields: [followedUsername], references: [username], onDelete: Cascade)
 
   @@id([followerUsername, followedUsername])
 }
 
 model UserBook {
-  userUsername          String
-  bookIsbn              String
-  progress              Int         @default(0)
-  addedAt               DateTime    @default(now())
-  updatedAt             DateTime    @updatedAt
+  userUsername String
+  bookIsbn     String
+  progress     Int      @default(0)
+  addedAt      DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  status                ShelfStatus @default(WANT_TO_READ)
-  isPrivate             Boolean     @default(false)
+  rating    Int?
+  status    ShelfStatus @default(TO_READ)
+  isPrivate Boolean     @default(false)
 
-  user                  User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
-  book                  Book @relation(fields: [bookIsbn], references: [isbn], onDelete: Cascade)
+  user User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
+  book Book @relation(fields: [bookIsbn], references: [isbn], onDelete: Cascade)
 
   @@id([userUsername, bookIsbn])
 }
 
 model Notification {
-  id                    String           @id @default(cuid())
-  notifType             NotificationType
-  createdAt             DateTime         @default(now())
-  readAt                DateTime?
+  id        String           @id @default(cuid())
+  notifType NotificationType
+  createdAt DateTime         @default(now())
+  readAt    DateTime?
 
-  recipientId           String
-  actorId               String
-  postId                String?
-  commentId             String?
+  recipientUsername String
+  actorUsername     String
+  postId            String?
+  commentId         String?
 
-  recipient             User     @relation("NotificationRecipient", fields: [recipientId], references: [username], onDelete: Cascade)
-  actor                 User     @relation("NotificationActor", fields: [actorId], references: [username], onDelete: Cascade)
-  post                  Post?    @relation("PostNotifications", fields: [postId], references: [id], onDelete: Cascade)
-  comment               Comment? @relation("CommentNotifications", fields: [commentId], references: [id], onDelete: Cascade)
+  recipient User     @relation("NotificationRecipient", fields: [recipientUsername], references: [username], onDelete: Cascade)
+  actor     User     @relation("NotificationActor", fields: [actorUsername], references: [username], onDelete: Cascade)
+  post      Post?    @relation("PostNotifications", fields: [postId], references: [id], onDelete: Cascade)
+  comment   Comment? @relation("CommentNotifications", fields: [commentId], references: [id], onDelete: Cascade)
 
-  @@index([recipientId])
+  @@index([recipientUsername])
 }
 
 model Account {
-  id                    String      @id @default(cuid())
-  userUsername          String
-  accountType           AccountType
-  provider              String
-  providerAccountId     String
-  refresh_token         String?
-  access_token          String?
-  expires_at            Int?
-  token_type            String?
-  scope                 String?
-  id_token              String?
-  session_state         String?
+  id                String  @id @default(cuid())
+  userUsername      String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  expires_at        Int?
 
-  user                  User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
+  user User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id                    String   @id @default(cuid())
-  sessionToken          String   @unique
-  userUsername          String
-  expires               DateTime
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userUsername String
+  expires      DateTime
 
-  user                  User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
+  user User @relation(fields: [userUsername], references: [username], onDelete: Cascade)
 }
 
 model VerificationToken {
-  identifier            String
-  token                 String   @unique
-  expires               DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
   @@unique([identifier, token])
 }

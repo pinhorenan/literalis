@@ -12,7 +12,7 @@ export default function useFeed(mode: 'discover' | 'friends', limit = 20) {
 
   const { data, error, isLoading, size, setSize } = useSWRInfinite(
     getKey,
-    (_: any, mode: any, limit: any, cursor: any) => FeedService.fetchFeed(mode, limit, cursor)
+    (_: any, mode: any,) => FeedService.getFeed(mode)
   );
 
   const posts = data ? data.flatMap(f => f.posts) : [];

@@ -3,7 +3,7 @@
 import { type Metadata    } from  'next';
 import { ReactNode        } from  'react';
 import { getServerSession } from  'next-auth';
-import { authOptions      } from  '@server/auth';
+import { authOptions      } from  '@lib/auth';
 import { Providers        } from  '@context/providers';
 
 import '@styles/globals.css';

@@ -1,28 +1,25 @@
 // File: src/components/server/ui/FeedSidebar.tsx
-import { getServerSession } from 'next-auth';
-import { authOptions }      from '@server/auth';
-import { prisma }           from '@server/prisma';
-import SidebarShell         from '@components/server/ui/SidebarShell';
-import UserSummary          from '@components/server/user/UserSummary';
-import UserSuggestions      from '@components/server/user/UserSuggestions';
-import type { UserDTO }     from '@dto/user.dto';
+import SidebarShell from '@components/server/ui/SidebarShell';
+import UserSummary from '@components/server/user/UserSummary';
+import UserSuggestions from '@components/server/user/UserSuggestions';
+import { getViewer } from '@lib/api';
+import type { UserDTO } from '@dto/user.dto';
 
-interface FeedSidebarProps { onNewBook?: () => void }
+interface FeedSidebarProps {
+  onNewBook?: () => void;
+}
 
 export default async function FeedSidebar({ onNewBook }: FeedSidebarProps) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user) return null;
+  // Usa nosso helper que retorna null se não autenticado
+  const viewer = await getViewer(false);
+  if (!viewer) return null;
 
-  const user = await prisma.user.findUnique({
-    where:  { username: session.user.username },
-    select: { username: true, name: true, avatarUrl: true },
-  });
-
-  if (!user) return null;
+  // viewer já tem username, name, avatarUrl e bio
+  const user: UserDTO = viewer;
 
   return (
     <SidebarShell position="right">
-      <UserSummary user={user as UserDTO} size="lg" redirect />
+      <UserSummary user={user} size="lg" redirect />
       <hr className="border-[var(--border-subtle)] mt-4 mb-2" />
       <UserSuggestions />
     </SidebarShell>

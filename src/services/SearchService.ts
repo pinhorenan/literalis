@@ -1,6 +1,6 @@
 // File: src/services/SearchService.ts
 
-import { httpClient } from '@services//HTTPClient';
+import { httpClient } from '@services/HTTPClient';
 import type { UserDTO } from '@dto/user.dto';
 import type { BookDTO } from '@dto/book.dto';
 
@@ -10,7 +10,7 @@ export const SearchService = {
 
   searchBooks: (query: string, limit = 20) =>
     query
-      ? httpClient.get<BookDTO[]>('/api/openLibrary', { params: { q: query, limit } })
+      ? httpClient.get<BookDTO[]>('/api/openlibrary', { params: { q: query, limit } })
       : Promise.resolve([]),
 
   /** Helper that delegates to the correct tab according to caller. */

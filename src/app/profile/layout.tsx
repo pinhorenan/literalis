@@ -1,9 +1,9 @@
 // File: src/app/profile/layout.tsx
 
 import { ReactNode }    from 'react';
-import MobileBottomNav  from '@/src/components/client/ui/MobileBottomNav';
-import PrimarySidebar   from '@/src/components/client/ui/PrimarySidebar';
-import MobileHeader     from '@/src/components/client/ui/MobileHeader';
+import MobileBottomNav  from '@components/client/ui/MobileBottomNav';
+import PrimarySidebar   from '@components/client/ui/PrimarySidebar';
+import MobileHeader     from '@components/client/ui/MobileHeader';
 
 export default function ProfileLayout({ children }: { children: ReactNode }) {
   return (

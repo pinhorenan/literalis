@@ -1,6 +1,5 @@
 // File: src/types/next-auth.d.ts
 import { DefaultSession, DefaultUser } from 'next-auth'
-import { AccountType } from '@prisma/client'
 
 declare module 'next-auth' {
   interface Session {
@@ -12,7 +11,6 @@ declare module 'next-auth' {
       avatarUrl: string;
       bio?: string;
       image?: string;
-      role: AccountType;
     };
   }
 
@@ -24,6 +22,5 @@ declare module 'next-auth' {
     avatarUrl: string;
     bio?: string;
     image?: string;
-    role: AccountType;
   }
 }

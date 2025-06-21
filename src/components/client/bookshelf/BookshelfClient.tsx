@@ -3,12 +3,12 @@
 
 import React, { useState, useMemo, useCallback } from 'react';
 import clsx from 'clsx';
-import { Grid, List, SortAsc, SortDesc }  from 'lucide-react';
-import { Button }                         from '@components/client/ui/Buttons';
-import SearchBar                          from '@components/client/ui/SearchBar';
-import ShelfItem                          from '@components/client/bookshelf/BookShelfItem';
-import type { UserBookDTO }               from '@dto/userBook.dto';
-import { BookshelfService }               from '@services/BookshelfService';
+import { Grid, List, SortAsc, SortDesc } from 'lucide-react';
+import { Button } from '@components/client/ui/Buttons';
+import SearchBar from '@components/client/ui/SearchBar';
+import ShelfItem from '@components/client/bookshelf/BookShelfItem';
+import type { UserBookDTO } from '@dto/userBook.dto';
+import { BookshelfService } from '@services/BookshelfService';
 
 interface BookshelfClientProps {
   initialItems: UserBookDTO[];
@@ -37,35 +37,40 @@ export default function BookshelfClient({
       const pct = Math.max(0, Math.min(100, parseInt(input, 10)));
       if (isNaN(pct)) return;
 
-      await BookshelfService.updateProgress(username, isbn, pct);
-      setUserBooks(list =>
-        list.map(u =>
+      // Usa o método `update` do serviço, passando só o campo que mudou
+      await BookshelfService.update(isbn, { progressPct: pct });
+      setUserBooks((list) =>
+        list.map((u) =>
           u.book.isbn === isbn
-            ? ({
+            ? {
                 ...u,
                 progressPct: pct,
-                progressPages: Math.round(((u.book.pages ?? 0) * pct) / 100),
-              })
+                // Recalcula pages caso disponível
+                progressPages: u.book.pages != null
+                  ? Math.round((u.book.pages * pct) / 100)
+                  : u.progressPages,
+              }
             : u
         )
       );
     },
-    [username]
+    []
   );
 
   const removeBook = useCallback(
     async (isbn: string) => {
       // TODO: substituir confirm por modal customizado
       if (!confirm('Remover este livro da sua estante?')) return;
-      await BookshelfService.removeBook(username, isbn);
-      setUserBooks(list => list.filter(u => u.book.isbn !== isbn));
+      // Usa o método `remove` do serviço
+      await BookshelfService.remove(isbn);
+      setUserBooks((list) => list.filter((u) => u.book.isbn !== isbn));
     },
-    [username]
+    []
   );
 
   const displayed = useMemo(() => {
     return userBooks
-      .filter(u => {
+      .filter((u) => {
         const { title, author } = u.book;
         return (
           title.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -114,7 +119,7 @@ export default function BookshelfClient({
             <select
               className="border border-[var(--border-base)] rounded-md p-1 text-sm bg-[var(--surface-bg)] focus:outline-none focus:ring-1 focus:ring-[var(--border-hover)]"
               value={sortKey}
-              onChange={e => setSortKey(e.target.value as SortKey)}
+              onChange={(e) => setSortKey(e.target.value as SortKey)}
             >
               <option value="title">Título</option>
               <option value="author">Autor</option>
@@ -125,7 +130,7 @@ export default function BookshelfClient({
               variant="icon"
               size="sm"
               aria-label="Inverter ordem"
-              onClick={() => setSortOrder(o => (o === 'asc' ? 'desc' : 'asc'))}
+              onClick={() => setSortOrder((o) => (o === 'asc' ? 'desc' : 'asc'))}
               icon={sortOrder === 'asc' ? SortAsc : SortDesc}
             />
           </div>
@@ -158,14 +163,14 @@ export default function BookshelfClient({
             : 'flex flex-col gap-4'
         )}
       >
-        {displayed.map(u => (
+        {displayed.map((u) => (
           <ShelfItem
             key={u.book.isbn}
             item={u}
             viewMode={viewMode}
             isOwner={isOwner}
-            onEdit={(isbn) => updateProgress(isbn, u.progressPct ?? 0)}
-            onDelete={removeBook}
+            onEdit={() => updateProgress(u.book.isbn, u.progressPct ?? 0)}
+            onDelete={() => removeBook(u.book.isbn)}
           />
         ))}
       </div>

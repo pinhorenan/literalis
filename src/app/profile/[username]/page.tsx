@@ -1,110 +1,143 @@
 // File: src/app/profile/[username]/page.tsx
-import ProfileShell         from '@/src/components/client/profile/ProfileShell';
-import { notFound }         from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { prisma }           from '@server/prisma';
-import { authOptions }      from '@server/auth';
+import { notFound } from 'next/navigation';
+import ProfileShell                    from '@components/client/profile/ProfileShell';
+import { getViewer }                   from '@lib/api';
+import { prisma }                      from '@lib/prisma';
+import type { PostDTO }                from '@dto/post.dto';
+import type { UserDTO }                from '@dto/user.dto';
 
-import type { ClientPost }  from '@/src/types/posts';
-import type { ClientUser }  from '@/src/types/users';
-
-interface ProfilePageProps {
+export default async function ProfilePage({
+  params,
+}: {
   params: { username: string };
-}
+}) {
+  // 1) Busca o viewer (pode ser null)
+  const viewer = await getViewer(false);
+  const me = viewer?.username;
 
-export default async function ProfilePage({ params }: ProfilePageProps) {
-  const { username } = await params;
-  const session = await getServerSession(authOptions);
-  const meUsername = session?.user.username;
-
-  const user = await prisma.user.findUnique({
-    where:    { username },
-    include:  {
-      followers: { select: { follower: { select: { username: true } } } },
-      following: { select: { followed: { select: { username: true } } } },
+  // 2) Carrega o usuário com contagens de seguidores e seguindo
+  const userRaw = await prisma.user.findUnique({
+    where: { username: params.username },
+    select: {
+      username:  true,
+      name:      true,
+      avatarUrl: true,
+      bio:       true,
+      _count: {
+        select: { followers: true, following: true },
+      },
     },
   });
-  if (!user) return notFound();
+  if (!userRaw) notFound();
 
-  // monta initialUser
-  const initialUser: ClientUser = {
-    username:           user.username,
-    name:               user.name,
-    avatarUrl:          user.avatarUrl,
-    bio:                user.bio ?? '',
-    email:              user.email ?? '',
-    followerCount:      user.followers.length,
-    followingCount:     user.following.length,
-    followerUsernames:  user.followers.map((f) => f.follower.username),
-    followingUsernames: user.following.map((f) => f.followed.username),
-  }
+  // 3) Constrói o UserDTO já com followerCount e followingCount
+  const initialUser: UserDTO = {
+    username:       userRaw.username,
+    name:           userRaw.name,
+    avatarUrl:      userRaw.avatarUrl,
+    bio:            userRaw.bio ?? undefined,
+    followerCount:  userRaw._count.followers,
+    followingCount: userRaw._count.following,
+  };
 
-  // busca posts do user
+  // 4) Puxa os posts, incluindo preview de comentários, likes e contagens
   const rawPosts = await prisma.post.findMany({
-    where:    { authorUsername: username },
-    include:  {
-      
-      author:   { select: { username: true, name: true, avatarUrl: true } },
-      book:     { select: { isbn: true, title: true, author: true, coverUrl: true, pages: true, language: true, publisher: true, edition: true } },
-      likes:    { select: { userUsername: true } },
-      comments: { 
-        include: { author: { select: { username: true, name: true, avatarUrl: true } } }
+    where: { authorUsername: params.username },
+    orderBy: { createdAt: 'desc' },
+    take: 20,
+    include: {
+      author: {
+        select: { username: true, name: true, avatarUrl: true, bio: true },
+      },
+      book: {
+        select: {
+          isbn:            true,
+          title:           true,
+          author:          true,
+          coverUrl:        true,
+          publisher:       true,
+          edition:         true,
+          pages:           true,
+          language:        true,
+          publicationDate: true,
+        },
+      },
+      _count: {
+        select: { likes: true, comments: true },
+      },
+      likes: {
+        where:  { userUsername: me },
+        select: { userUsername: true },
+      },
+      comments: {
+        orderBy: { createdAt: 'desc' },
+        take: 3,
+        include: {
+          author: {
+            select: {
+              username:  true,
+              name:      true,
+              avatarUrl: true,
+              bio:       true,
+            },
+          },
+        },
       },
     },
-    orderBy:    { createdAt: 'desc' },
   });
 
-  const initialPosts: ClientPost[] = rawPosts.map(post => {
-    const likedByMe = meUsername
-      ? post.likes.some(like => like.userUsername === meUsername)
-      : false;
+  // 5) Mapeia tudo para o PostDTO
+  const initialPosts: PostDTO[] = rawPosts.map((post) => ({
+    id:                 post.id,
+    content:            post.content,
+    progress:           post.progress,
+    createdAt:          post.createdAt.toISOString(),
+    updatedAt:          post.updatedAt.toISOString(),
+    likeCount:          post._count.likes,
+    commentCount:       post._count.comments,
+    likedByMe:          post.likes.length > 0,
+    isFollowingAuthor:  false, // se quiser, calcule usando seu serviço de follow
+    isInMyBookshelf:    false, // idem
 
-    const isFollowingAuthor = !!(
-      meUsername &&
-      initialUser.followerUsernames.includes(meUsername)
-    );
+    author: {
+      username:  post.author.username,
+      name:      post.author.name,
+      avatarUrl: post.author.avatarUrl,
+      bio:       post.author.bio ?? undefined,
+    },
 
-    return {
-      id:                 post.id,
-      excerpt:            post.excerpt,
-      progress:           post.progress,
-      createdAt:          post.createdAt.toISOString(),
-      updatedAt:          post.updatedAt.toISOString(),
-      likeCount:          post.likes.length,
-      commentCount:       post.comments.length,
-      likedByMe,
-      isFollowingAuthor,
+    book: {
+      isbn:            post.book.isbn,
+      title:           post.book.title,
+      author:          post.book.author,
+      coverUrl:        post.book.coverUrl,
+      publisher:       post.book.publisher ?? undefined,
+      edition:         post.book.edition   ?? undefined,
+      pages:           post.book.pages     ?? undefined,
+      language:        post.book.language  ?? undefined,
+      publicationDate: post.book.publicationDate
+        ? post.book.publicationDate.toISOString()
+        : undefined,
+      external:        false,
+    },
 
-      author: {
-        username:         post.author.username,
-        name:             post.author.name,
-        avatarUrl:        post.author.avatarUrl,
+    commentsPreview: post.comments.map((c) => ({
+      id:         c.id,
+      content:    c.content,
+      createdAt:  c.createdAt.toISOString(),
+      updatedAt:  c.updatedAt.toISOString(),
+      likeCount:  0,    // sem include de likes em comentário
+      likedByMe:  false, // idem
+      author:     {
+        username:  c.author.username,
+        name:      c.author.name,
+        avatarUrl: c.author.avatarUrl,
+        bio:       c.author.bio ?? undefined,
       },
+    })),
+  }));
 
-      book: {
-        isbn:             post.book.isbn,
-        title:            post.book.title,
-        author:           post.book.author,
-        coverUrl:         post.book.coverUrl,
-        publisher:        post.book.publisher,
-        edition:          post.book.edition,
-        pages:            post.book.pages,
-        language:         post.book.language,
-      },
-
-      comments: post.comments.map(comment => ({
-        id:          comment.id,
-        content:     comment.content,
-        createdAt:   comment.createdAt.toISOString(),
-        author: {
-          username:   comment.author.username,
-          name:       comment.author.name,
-          avatarUrl:  comment.author.avatarUrl,
-        }
-      })),
-    }
-  });
-
+  // 6) Renderiza o client shell
   return (
     <ProfileShell
       initialUser={initialUser}

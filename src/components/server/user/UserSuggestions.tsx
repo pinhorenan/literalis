@@ -1,7 +1,7 @@
 // File: src/components/server/user/UserSuggestions.tsx
 import { getServerSession }   from 'next-auth/next';
-import { authOptions }        from '@server/auth';
-import { prisma }             from '@server/prisma';
+import { authOptions }        from '@/src/lib/auth';
+import { prisma }             from '@/src/lib/prisma';
 import UserSummary            from '@components/server/user/UserSummary';
 import FollowButton           from '@components/client/ui/FollowButton';
 import type { UserDTO }       from '@dto/user.dto';
@@ -14,7 +14,7 @@ export default async function UserSuggestions() {
   const suggestedUsers = (await prisma.user.findMany({
     where: {
       username: { not: me },
-      following: { none: { followerId: me } },
+      following: { none: { followerUsername: me } },
     },
     select: { username: true, name: true, avatarUrl: true },
     take: 10,

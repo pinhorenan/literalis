@@ -3,9 +3,9 @@
 
 import { useState }     from 'react';
 import useDebounce      from '@hooks/useDebounce';
-import SearchBar        from '@/src/components/client/ui/SearchBar';
-import SearchTabs       from '@/src/components/client/search/SearchTabs';
-import SearchResults    from '@/src/components/client/search/SearchResults';
+import SearchBar        from '@components/client/ui/SearchBar';
+import SearchTabs       from '@components/client/search/SearchTabs';
+import SearchResults    from '@components/client/search/SearchResults';
 
 export default function SearchPage() {
     const [query, setQuery] = useState('');

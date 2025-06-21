@@ -7,34 +7,34 @@ export const PostService = {
   /* ------------------------------------------------------------------------ */
   /* Posts                                                                    */
   /* ------------------------------------------------------------------------ */
-  create: (bookIsbn: string, excerpt: string, progress: number) =>
-    httpClient.post<PostDTO>('/api/posts', { bookIsbn, excerpt, progress }),
+  create: (bookIsbn: string, content: string, progress: number) =>
+    httpClient.post<PostDTO>('/api/posts', { bookIsbn, content, progress }),
 
-  get: (postId: string) => httpClient.get<PostDTO>(`/api/posts/${postId}`),
+  get: (id: string) => httpClient.get<PostDTO>(`/api/posts/${id}`),
 
-  update: (postId: string, data: Partial<Pick<PostDTO, 'content' | 'progress'>>) =>
-    httpClient.patch<PostDTO>(`/api/posts/${postId}`, data),
+  update: (id: string, data: Partial<Pick<PostDTO, 'content' | 'progress'>>) =>
+    httpClient.patch<PostDTO>(`/api/posts/${id}`, data),
 
-  delete: (postId: string) => httpClient.del<{ deleted: boolean }>(`/api/posts/${postId}`),
+  delete: (id: string) => httpClient.del<{ deleted: boolean }>(`/api/posts/${id}`),
 
   /* ------------------------------------------------------------------------ */
   /* Likes                                                                    */
   /* ------------------------------------------------------------------------ */
-  toggleLike: (postId: string) =>
-    httpClient.post<{ likeCount: number; likedByMe: boolean }>(`/api/posts/${postId}/like`),
+  toggleLike: (id: string) =>
+    httpClient.post<{ likeCount: number; likedByMe: boolean }>(`/api/posts/${id}/like`),
 
   /* ------------------------------------------------------------------------ */
   /* Comments                                                                 */
   /* ------------------------------------------------------------------------ */
-  addComment: (postId: string, content: string) =>
-    httpClient.post<CommentDTO>(`/api/posts/${postId}/comments`, { content }),
+  addComment: (id: string, content: string) =>
+    httpClient.post<CommentDTO>(`/api/posts/${id}/comments`, { content }),
 
-  comments: (postId: string, limit = 20, cursor?: string) =>
-    httpClient.get<CommentDTO[]>(`/api/posts/${postId}/comments`, { params: { limit, cursor } }),
+  comments: (id: string, limit = 20, cursor?: string) =>
+    httpClient.get<CommentDTO[]>(`/api/posts/${id}/comments`, { params: { limit, cursor } }),
 
-  updateComment: (postId: string, commentId: string, content: string) =>
-    httpClient.patch<CommentDTO>(`/api/posts/${postId}/comments/${commentId}`, { content }),
+  updateComment: (id: string, commentId: string, content: string) =>
+    httpClient.patch<CommentDTO>(`/api/posts/${id}/comments/${commentId}`, { content }),
 
-  deleteComment: (postId: string, commentId: string) =>
-    httpClient.del<{ deleted: boolean }>(`/api/posts/${postId}/comments/${commentId}`),
+  deleteComment: (id: string, commentId: string) =>
+    httpClient.del<{ deleted: boolean }>(`/api/posts/${id}/comments/${commentId}`),
 };

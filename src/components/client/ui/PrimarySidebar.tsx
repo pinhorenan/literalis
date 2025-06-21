@@ -20,7 +20,6 @@ import { useTheme } from 'next-themes';
 import { Button }   from '@components/client/ui/Buttons';
 import { Logo }     from '@components/server/svg/Logo';
 import SidebarShell from '@components/server/ui/SidebarShell';
-import NewPostModal from '@components/client/post/NewPostModal';
 
 export default function PrimarySidebar() {
   const { data: session } = useSession();
@@ -101,7 +100,6 @@ export default function PrimarySidebar() {
           })}
         </div>
 
-        {modalOpen && <NewPostModal open={modalOpen} onClose={() => setModalOpen(false)} />}
       </div>
     </SidebarShell>
   );

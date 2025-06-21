@@ -9,9 +9,9 @@ import { useRouter } from 'next/navigation';
 
 import FollowButton   from '@components/client/ui/FollowButton';
 import OptionsMenu    from '@components/client/ui/OptionsMenu';
-import BookCover      from '@components/server/book/BookCover';           // << client version
-import BookInfo       from '@components/server/book/BookInfo';           // << server version
 import PostComments   from '@components/client/post/PostComments';
+import BookCover      from '@components/server/book/BookCover';           
+import BookInfo       from '@components/server/book/BookInfo';           
 import UserSummary    from '@components/server/user/UserSummary';
 
 import useRelativeTime from '@hooks/useRelativeTime';
@@ -26,11 +26,7 @@ interface Props {
   onFollowChange?: (nowFollowing: boolean) => void;
 }
 
-export default function PostCard({
-  post,
-  isProfile = false,
-  onFollowChange,
-}: Props) {
+export default function PostCard({ post, isProfile = false, onFollowChange }: Props) {
   const { data: session, status } = useSession();
   const isOwner = session?.user.username === post.author.username;
   const router = useRouter();
@@ -48,7 +44,7 @@ export default function PostCard({
 
   const { comments, loading: commentLoading, addComment } = useComments(
     post.id,
-    post.commentsPreview
+    post.comments
   );
 
   const handleToggleLike = useCallback(() => {

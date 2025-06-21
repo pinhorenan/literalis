@@ -1,46 +1,78 @@
 // File: src/app/profile/[username]/bookshelf/page.tsx
-import { getServerSession } from 'next-auth';
-import { authOptions }      from '@server/auth';
-import { prisma }           from '@server/prisma';
-
-import BookshelfClient from '@/src/components/client/bookshelf/BookshelfClient';
+import { getServerSession } from 'next-auth'
+import { authOptions }      from '@/src/lib/auth'
+import { prisma }           from '@/src/lib/prisma'
+import BookshelfClient      from '@/src/components/client/bookshelf/BookshelfClient'
+import type { UserDTO }     from '@dto/user.dto'
+import type { UserBookDTO } from '@dto/userBook.dto'
 
 interface BookshelfPageProps {
-  params: { username: string };
+  params: { username: string }
 }
 
 export default async function BookshelfPage({ params }: BookshelfPageProps) {
-  const { username } =  await params;
+  const { username } = await params
 
-  const session = await getServerSession(authOptions);
-  const me = session?.user?.username;
-  const isOwner = !!me && me === username;
+  // 1) Puxa dados básicos do user
+  const profileUser = await prisma.user.findUnique({
+    where: { username },
+    select: { username: true, name: true, avatarUrl: true, bio: true }
+  })
+  if (!profileUser) return null
+  const userDTO = profileUser as UserDTO
 
-  const bookshelfItems = await prisma.userBook.findMany({
+  // 2) Sessão e ownership
+  const session = await getServerSession(authOptions)
+  const me = session?.user?.username
+  const isOwner = me === username
+
+  // 3) Puxa estante
+  const shelfEntries = await prisma.userBook.findMany({
     where: { userUsername: username },
     include: {
       book: {
         select: {
-          isbn: true,
-          title: true,
-          author: true,
-          pages: true,
-          publisher: true,
-          edition: true,
-          language: true,
+          isbn:            true,
+          title:           true,
+          author:          true,
+          pages:           true,
+          publisher:       true,
+          edition:         true,
+          language:        true,
           publicationDate: true,
-          coverUrl: true,
-        },
-      },
+          coverUrl:        true,
+        }
+      }
     },
-    orderBy: { addedAt: 'desc' },
-  });
+    orderBy: { addedAt: 'desc' }
+  })
 
-  const initialItems = bookshelfItems.map((item) => ({
-    book:     item.book,
-    progress: item.progress,
-    addedAt:  item.addedAt.toISOString(),
-  }));
+  // 4) Mapeia para UserBookDTO…
+  const initialItems: UserBookDTO[] = shelfEntries.map((e) => ({
+    user: userDTO,
+    book: {
+      isbn:             e.book.isbn,
+      title:            e.book.title,
+      author:           e.book.author,
+      coverUrl:         e.book.coverUrl,
+      publisher:        e.book.publisher ?? undefined,
+      edition:          e.book.edition   ?? undefined,
+      pages:            e.book.pages     ?? undefined,
+      language:         e.book.language  ?? undefined,
+      publicationDate:  e.book.publicationDate
+                          ? e.book.publicationDate.toISOString()
+                          : undefined,
+      external:         undefined, // ou `false` se quiser
+    },
+    progressPages: e.progress,
+    progressPct:   e.book.pages
+                      ? Math.min(100, Math.round((e.progress / e.book.pages) * 100))
+                      : null,
+    addedAt:  e.addedAt.toISOString(),
+    updatedAt: e.updatedAt.toISOString(),
+    status:    e.status,
+    isPrivate: e.isPrivate,
+  }))
 
   return (
     <section className="py-6 space-y-6">
@@ -50,5 +82,5 @@ export default async function BookshelfPage({ params }: BookshelfPageProps) {
         isOwner={isOwner}
       />
     </section>
-  );
+  )
 }

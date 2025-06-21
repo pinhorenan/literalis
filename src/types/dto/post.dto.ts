@@ -19,5 +19,5 @@ export type PostDTO = {
 
     author:              UserDTO;
     book:                BookDTO;
-    commentsPreview:     CommentDTO[];
+    comments:            CommentDTO[];
 };

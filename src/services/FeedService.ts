@@ -9,7 +9,13 @@ export const FeedService = {
    * • username: feed of a specific user
    * • limit + cursor for pagination
    */
-  fetch: ({
+  fetch: ({mode,username,limit = 20,cursor,}: { mode?: 'discover' | 'friends'; username?: string; limit?: number; cursor?: string; }): Promise<FeedResponse> =>
+    httpClient.get<FeedResponse>('/api/feed', {
+      params: { mode, user: username, limit, cursor },
+    }),
+
+  /** Alias para fetch, usado pelo client component */
+  getFeed: ({
     mode,
     username,
     limit = 20,
@@ -20,7 +26,5 @@ export const FeedService = {
     limit?: number;
     cursor?: string;
   }): Promise<FeedResponse> =>
-    httpClient.get('/api/feed', {
-      params: { mode, user: username, limit, cursor },
-    }),
+    FeedService.fetch({ mode, username, limit, cursor }),
 };

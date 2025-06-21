@@ -1,46 +1,56 @@
 // File: src/components/auth/SignInForm.tsx
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { Button } from '@components/client/ui/Buttons';
-import useSignIn from '@hooks/useSignIn';
 import Link from 'next/link';
 
 interface LoginFormProps {
   redirectTo?: string;
-  onSuccess?: (url?: string) => void;
   compact?: boolean;
 }
 
 export default function SignInForm({
   redirectTo = '/feed',
-  onSuccess,
   compact = false,
 }: LoginFormProps) {
   const router = useRouter();
-  const {
-    credentials,
-    setField,
-    error,
-    loading,
-    submit,
-  } = useSignIn(url => {
-    onSuccess?.(url);
-    router.push(url || redirectTo);
-  });
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const errorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (error) errorRef.current?.focus();
   }, [error]);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const res = await signIn('credentials', {
+      redirect: false,
+      username: credentials.username,
+      password: credentials.password,
+    });
+
+    setLoading(false);
+    if (res?.error) {
+      setError(res.error);
+    } else {
+      router.push(res?.url ?? redirectTo);
+    }
+  };
+
+  const setField = (key: 'username' | 'password', value: string) => {
+    setCredentials(prev => ({ ...prev, [key]: value }));
+  };
+
   return (
-    <form
-      onSubmit={e => { e.preventDefault(); submit(); }}
-      className="space-y-4"
-      noValidate
-    >
+    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       {error && (
         <div
           ref={errorRef}

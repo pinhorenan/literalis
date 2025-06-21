@@ -2,13 +2,13 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import useSWR from 'swr';
-import { Button } from '@components/client/ui/Buttons';
-import PostCard from '@components/client/post/PostCard';
-import PostSkeleton from '@components/server/post/PostSkeleton';
-import { FeedService } from '@services/FeedService';
-import type { PostDTO } from '@dto/post.dto';
-import type { FeedResponse } from '@dto/feed.dto';
+import useSWR                 from 'swr';
+import { Button }             from '@components/client/ui/Buttons';
+import PostCard               from '@components/client/post/PostCard';
+import PostSkeleton           from '@components/server/post/PostSkeleton';
+import { FeedService }        from '@services/FeedService';
+import type { PostDTO }       from '@dto/post.dto';
+import type { FeedResponse }  from '@dto/feed.dto';
 
 type Tab = 'discover' | 'friends';
 
@@ -57,13 +57,21 @@ export default function FeedClient({ initialPosts, initialTab }: FeedClientProps
           Não há posts para exibir.
         </div>
       ) : (
-        posts.map(post => (
-          <PostCard
-            key={post.id}
-            post={{ ...post, isFollowingAuthor: followMap[post.author.username] }}
-            onFollowChange={now => updateFollow(post.author.username, now)}
-          />
-        ))
+        posts.map(post => {
+          // Garante que commentsPreview sempre é um array
+          const safePost: PostDTO = {
+            ...post,
+            comments: post.comments ?? [],
+            isFollowingAuthor: followMap[post.author.username],
+          };
+          return (
+            <PostCard
+              key={safePost.id}
+              post={safePost}
+              onFollowChange={now => updateFollow(safePost.author.username, now)}
+            />
+          );
+        })
       )}
     </section>
   );

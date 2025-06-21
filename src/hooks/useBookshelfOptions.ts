@@ -6,7 +6,7 @@ import type { UserBookDTO } from '@dto/userBook.dto';
 export default function useBookshelfOptions() {
   const { data, error, isLoading } = useSWR<UserBookDTO[]>(
     'bookshelf-options',                        // chave arbitrária SWR
-    () => BookshelfService.getShelfOptions()    // não passamos a key ao service
+    () => BookshelfService.getOptions()    // não passamos a key ao service
   );
 
   return {

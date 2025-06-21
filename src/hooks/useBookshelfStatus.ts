@@ -16,8 +16,8 @@ export default function useBookshelfStatus(isbn: string) {
     mutate(!current, false);
     try {
       current
-        ? await BookshelfService.removeBook('me', isbn)
-        : await BookshelfService.addBook(isbn);
+        ? await BookshelfService.remove(isbn)
+        : await BookshelfService.add(isbn);
       mutate(); // revalidate
     } catch {
       mutate(); // rollback

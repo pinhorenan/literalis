@@ -1,7 +1,3 @@
-// -----------------------------------------------------------------------------
-// src/services/httpClient.ts
-// -----------------------------------------------------------------------------
-
 /**
  * Small wrapper around `fetch` that adds:
  *  • JSON serialization / deserialization

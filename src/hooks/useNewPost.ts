@@ -28,7 +28,7 @@ export default function useNewPost(onSuccess?: () => void) {
     if (!selectedBook) return;
     setLoading(true); setError(null);
     try {
-      await PostService.createPost(selectedBook, excerpt.trim(), progress);
+      await PostService.create(selectedBook, excerpt.trim(), progress);
       onSuccess?.();
     } catch (err: any) {
       setError(err.message);

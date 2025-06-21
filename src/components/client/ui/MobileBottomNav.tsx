@@ -1,11 +1,10 @@
-1// File: src/components/client/ui/MobileBottomNav.tsx
+// File: src/components/client/ui/MobileBottomNav.tsx
 'use client';
 
 import { useState } from 'react';
 import { Home, Search, User, BookOpen, BookPlus } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import NewPostModal from '@components/client/post/NewPostModal';
 
 interface NavItem {
   icon: React.ElementType;
@@ -50,7 +49,6 @@ export default function MobileBottomNav() {
           )
         )}
       </nav>
-      {modalOpen && <NewPostModal open={modalOpen} onClose={() => setModalOpen(false)} />}
     </>
   );
 }

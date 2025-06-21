@@ -1,10 +1,11 @@
 // File: src/components/auth/SignUpForm.tsx
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@components/client/ui/Buttons';
-import useSignUp from '@hooks/useSignUp';
+import { AuthService } from '@services/AuthService';
+import Link from 'next/link';
 
 interface SignUpFormProps {
   redirectTo?: string;
@@ -18,30 +19,39 @@ export default function SignUpForm({
   onSuccess,
 }: SignUpFormProps) {
   const router = useRouter();
-  const {
-    formData,
-    setField,
-    error,
-    loading,
-    submit,
-  } = useSignUp(() => {
-    onSuccess?.();
-    router.push(redirectTo);
+  const [formData, setFormData] = useState({
+    username: '', name: '', email: '', password: '', avatarUrl: '', bio: '',
   });
+  const [error, setError]     = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const errorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (error) {
-      errorRef.current?.focus();
-    }
+    if (error) errorRef.current?.focus();
   }, [error]);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    try {
+      await AuthService.signUp(formData);
+      onSuccess?.();
+      router.push(redirectTo);
+    } catch (err: any) {
+      setError(err.response?.data?.error || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const setField = <K extends keyof typeof formData>(key: K, value: string) => {
+    setFormData(prev => ({ ...prev, [key]: value }));
+  };
+
   return (
-    <form
-      onSubmit={e => { e.preventDefault(); submit(); }}
-      className="space-y-4"
-      noValidate
-    >
+    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       {error && (
         <div
           ref={errorRef}
@@ -57,7 +67,7 @@ export default function SignUpForm({
         key === 'bio' ? (
           <div key={key}>
             <label htmlFor={key} className="block mb-1 font-medium">
-              {key === 'bio' ? 'Biografia (opcional)' : key}
+              Biografia (opcional)
             </label>
             <textarea
               id={key}
@@ -71,7 +81,8 @@ export default function SignUpForm({
         ) : (
           <div key={key}>
             <label htmlFor={key} className="block mb-1 font-medium">
-              {key.charAt(0).toUpperCase()+key.slice(1)}{['username','name','password'].includes(key) && ' *'}
+              {key.charAt(0).toUpperCase()+key.slice(1)}
+              {['username','name','password'].includes(key) && ' *'}
             </label>
             <input
               id={key}
@@ -93,11 +104,11 @@ export default function SignUpForm({
       {!compact && (
         <p className="text-center text-sm mt-4">
           Já tem conta?{' '}
-          <a href="/auth/login" className="underline text-[var(--text-link)]">
+          <Link href="/signin" className="underline text-[var(--text-link)]">
             Entrar
-          </a>
+          </Link>
         </p>
       )}
     </form>
-  );
+);
 }

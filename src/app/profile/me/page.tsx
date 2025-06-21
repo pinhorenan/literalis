@@ -1,6 +1,6 @@
 // File: src/app/profile/me/page.tsx
 import { getServerSession }   from 'next-auth';
-import { authOptions }        from '@server/auth';
+import { authOptions }        from '@lib/auth';
 import { redirect }           from 'next/navigation';
 
 export default async function MePage() {

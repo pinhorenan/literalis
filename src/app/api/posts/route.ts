@@ -1,54 +1,39 @@
 // File: src/app/api/posts/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@server/auth';
-import { prisma } from '@server/prisma';
-
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const limit = parseInt(searchParams.get('limit') || '20', 10);
-
-  const posts = await prisma.post.findMany({
-    take: limit,
-    orderBy: { createdAt: 'desc' },
-    include: {
-      author: {
-        select: {
-          username: true,
-          name: true,
-          avatarUrl: true,
-        },
-      },
-      book: {
-        select: {
-          isbn: true,
-          title: true,
-          coverUrl: true,
-        },
-      },
-    },
-  });
-
-  return NextResponse.json(posts);
-}
+import { getViewer, fullPostInclude } from '@lib/api';
+import { Prisma } from '@prisma/client';
+import { prisma } from '@lib/prisma';
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.username) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const viewer = await getViewer();
+  if (!viewer) {
+    return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
   }
 
-  const { bookIsbn, excerpt, progress } = await req.json();
+  const { bookIsbn, content = '', progress = 0 } = await req.json();
 
   const post = await prisma.post.create({
     data: {
-      authorUsername: session.user.username,
+      authorUsername: viewer.username,
       bookIsbn,
-      excerpt,
+      content,
       progress,
     },
+    include: fullPostInclude(viewer.username) as Prisma.PostInclude,
   });
 
   return NextResponse.json(post, { status: 201 });
+}
+
+export async function GET(req: NextRequest) {
+  const viewer = await getViewer(false);
+  const viewerUsername = viewer?.username ?? null;
+
+  const posts = await prisma.post.findMany({
+    take: 20,
+    orderBy: { createdAt: 'desc' as Prisma.SortOrder },
+    include: fullPostInclude(viewerUsername) as Prisma.PostInclude,
+  });
+
+  return NextResponse.json({ posts });
 }

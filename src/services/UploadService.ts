@@ -10,6 +10,6 @@ async function upload(path: string, file: File): Promise<{ url: string }> {
 
 export const UploadService = {
   uploadAvatar: (file: File) => upload('/api/upload/avatar', file),
-  uploadBookCover: (file: File) => upload('/api/upload/book-cover', file),
+  uploadBookCover: (file: File) => upload('/api/upload/cover', file),
   deleteAvatar: () => httpClient.del<{ ok: boolean }>('/api/upload/avatar'),
 };
