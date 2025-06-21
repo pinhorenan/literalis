@@ -2,9 +2,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Users } from 'lucide-react';
+import useFollow  from '@hooks/useFollow';
+import { Users }  from 'lucide-react';
 import { Button } from '@components/client/ui/Buttons';
-import useFollow from '@hooks/useFollow';
 
 interface FollowButtonProps {
   targetUsername: string;

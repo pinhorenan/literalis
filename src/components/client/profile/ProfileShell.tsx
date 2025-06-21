@@ -7,8 +7,8 @@ import PostsList          from '@components/server/profile/PostsList';
 import EditProfilePanel   from '@components/client/profile/EditProfilePanel';
 import useProfileEditor   from '@hooks/useProfileEditor';
 import useFollowStatus    from '@hooks/useFollowStatus';
-import type { UserDTO }   from '@dto/user.dto';
-import type { PostDTO }   from '@dto/post.dto';
+import type { UserDTO }   from '@models/user.dto';
+import type { PostDTO }   from '@models/post.dto';
 
 interface Props {
   initialUser: UserDTO;

@@ -1,5 +1,5 @@
 // File: tests/FollowService.test.ts
-import { FollowService } from '@/src/services/FollowService';
+import { FollowService } from '@/src/lib/services/FollowService';
 
 describe('FollowService', () => {
   it('toggle segue/deixade seguir', async () => {

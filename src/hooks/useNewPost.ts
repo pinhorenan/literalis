@@ -1,6 +1,6 @@
 // src/hooks/useNewPost.ts
 import { useState, useCallback, useMemo } from 'react';
-import { PostService } from '@services/PostService';
+import { PostService } from '@/src/lib/services/postService';
 
 export default function useNewPost(onSuccess?: () => void) {
   const [selectedBook, setSelectedBook] = useState('');

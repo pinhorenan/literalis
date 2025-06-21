@@ -3,10 +3,10 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
-import UserAvatar from '@components/server/user/UserAvatar';
 
+import UserAvatar from '@components/server/user/UserAvatar';
 import useRelativeTime from '@hooks/useRelativeTime';
-import type { CommentDTO } from '@dto/comment.dto';
+import type { CommentDTO } from '@models/comment.dto';
 
 interface Props {
   comments: CommentDTO[];

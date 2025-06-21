@@ -1,17 +1,18 @@
 // File: src/components/landing/LandingContent.tsx
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import Link from 'next/link';
-import clsx from 'clsx';
 import { Sparkles, UserPlus as UserRoundPlusIcon } from 'lucide-react';
-
-import { Button } from '@components/client/ui/Buttons';
-import { ThemeToggle } from '@components/client/ui/ThemeToggle';
 import { CircleVector } from '@components/server/svg/Circle';
-import { Logo } from '@components/server/svg/Logo';
+import { Logo }         from '@components/server/svg/Logo';
+
+import { motion }       from 'framer-motion';
+import Image            from 'next/image';
+import Link             from 'next/link';
+import React            from 'react';
+import clsx             from 'clsx';
+
+import { ThemeToggle }  from '@components/client/ui/ThemeToggle';
+import { Button }       from '@components/client/ui/Buttons';
 
 function LandingHeader() {
   return (

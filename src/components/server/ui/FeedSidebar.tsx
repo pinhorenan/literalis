@@ -1,9 +1,9 @@
 // File: src/components/server/ui/FeedSidebar.tsx
-import SidebarShell from '@components/server/ui/SidebarShell';
-import UserSummary from '@components/server/user/UserSummary';
-import UserSuggestions from '@components/server/user/UserSuggestions';
-import { getViewer } from '@lib/api';
-import type { UserDTO } from '@dto/user.dto';
+import SidebarShell     from '@components/server/ui/SidebarShell';
+import UserSummary      from '@components/server/user/UserSummary';
+import UserSuggestions  from '@components/server/user/UserSuggestions';
+import { getViewer }    from '@lib/auth/viewer';
+import type { UserDTO } from '@models/user.dto';
 
 interface FeedSidebarProps {
   onNewBook?: () => void;

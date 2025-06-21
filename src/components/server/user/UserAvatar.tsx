@@ -1,7 +1,7 @@
 // File: src/components/server/user/UserAvatar.tsx
 import Image from 'next/image';
 import Link  from 'next/link';
-import type { UserDTO } from '@dto/user.dto';
+import type { UserDTO } from '@models/user.dto';
 
 export interface UserAvatarProps {
   user: UserDTO;

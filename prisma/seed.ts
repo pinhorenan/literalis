@@ -3,7 +3,6 @@ import { PrismaClient, NotificationType, ShelfStatus } from '@prisma/client';
 import { faker } from '@faker-js/faker/locale/pt_BR';
 import fs from 'fs/promises';
 import path from 'path';
-import fetch from 'node-fetch';
 
 const prisma = new PrismaClient();
 

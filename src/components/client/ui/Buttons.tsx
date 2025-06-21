@@ -1,10 +1,10 @@
 // File: src/components/client/ui/Buttons.tsx
 'use client';
 
-import React from 'react';
-import clsx from 'clsx';
-import Link from 'next/link';
-import Image from 'next/image';
+import React  from 'react';
+import clsx   from 'clsx';
+import Link   from 'next/link';
+import Image  from 'next/image';
 
 export type ButtonVariant =
   | 'default'

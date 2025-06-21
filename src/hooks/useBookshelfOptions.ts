@@ -1,7 +1,7 @@
 // File: src/hooks/useBookshelfOptions.ts
 import useSWR from 'swr';
 import { BookshelfService } from '@services/BookshelfService';
-import type { UserBookDTO } from '@dto/userBook.dto';
+import type { UserBookDTO } from '@models/userBook.dto';
 
 export default function useBookshelfOptions() {
   const { data, error, isLoading } = useSWR<UserBookDTO[]>(

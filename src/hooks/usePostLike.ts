@@ -1,7 +1,7 @@
 // src/hooks/usePostLike.ts
 import { useCallback } from 'react';
 import useSWR from 'swr';
-import { PostService } from '@services/PostService';
+import { PostService } from '@/src/lib/services/postService';
 
 export default function usePostLike(
   postId: string,

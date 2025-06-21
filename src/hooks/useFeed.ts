@@ -1,7 +1,7 @@
 // src/hooks/useFeed.ts
 import useSWRInfinite from 'swr/infinite';
 import { FeedService } from '@services/FeedService';
-import type { PostDTO } from '@dto/post.dto';
+import type { PostDTO } from '@models/post.dto';
 
 export default function useFeed(mode: 'discover' | 'friends', limit = 20) {
   const getKey = (pageIndex: number, prev: PostDTO[] | null) => {

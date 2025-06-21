@@ -1,17 +1,17 @@
 // File: src/components/server/user/UserSuggestions.tsx
 import { getServerSession }   from 'next-auth/next';
-import { authOptions }        from '@/src/lib/auth';
-import { prisma }             from '@/src/lib/prisma';
+import { authOptions }        from '@/src/lib/auth/auth';
+import { db }             from '@lib/db';
 import UserSummary            from '@components/server/user/UserSummary';
 import FollowButton           from '@components/client/ui/FollowButton';
-import type { UserDTO }       from '@dto/user.dto';
+import type { UserDTO }       from '@models/user.dto';
 
 export default async function UserSuggestions() {
   const session = await getServerSession(authOptions);
   if (!session?.user) return null;
 
   const me = session.user.username;
-  const suggestedUsers = (await prisma.user.findMany({
+  const suggestedUsers = (await db.user.findMany({
     where: {
       username: { not: me },
       following: { none: { followerUsername: me } },

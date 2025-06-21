@@ -7,7 +7,7 @@ import SearchBar        from '@components/client/ui/SearchBar';
 import SearchTabs       from '@components/client/search/SearchTabs';
 import SearchResults    from '@components/client/search/SearchResults';
 
-export default function SearchPage() {
+export default function Search() {
     const [query, setQuery] = useState('');
     const [tab, setTab] = useState<'books' | 'users'>('books');
     const debouncedQuery = useDebounce(query, 300);

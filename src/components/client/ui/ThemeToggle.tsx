@@ -1,9 +1,9 @@
 // File: src/components/client/ui/ThemeToggle.tsx
 'use client';
 
+import { Sun, Moon } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-import { Sun, Moon } from 'lucide-react';
 import { Button } from '@components/client/ui/Buttons';
 
 export function ThemeToggle() {

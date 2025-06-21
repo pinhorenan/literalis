@@ -1,15 +1,14 @@
 // File: src/components/client/ui/MobileHeader.tsx
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
 import { Bell, MessageSquare, LogOut, Sun, Moon } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
-import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import clsx from 'clsx';
 
 export default function MobileHeader() {
-  const { data: session } = useSession();
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [atTop, setAtTop] = useState(true);

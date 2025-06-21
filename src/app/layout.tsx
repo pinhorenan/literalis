@@ -1,20 +1,15 @@
 // File: src/app/layout.tsx
-
 import { type Metadata    } from  'next';
 import { ReactNode        } from  'react';
 import { getServerSession } from  'next-auth';
-import { authOptions      } from  '@lib/auth';
+import { authOptions      } from  '@/src/lib/auth/auth';
 import { Providers        } from  '@context/providers';
-
 import '@styles/globals.css';
 
 export const metadata: Metadata = {
   title: 'Literalis',
   description: 'Rede social literária',
-  icons: {
-    icon: '/assets/icons/favicon.svg',
-    shortcut: '/assets/favicon.svg',
-  },
+  icons: { icon: '/assets/icons/favicon.svg', shortcut: '/assets/icons/favicon.svg' },
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {

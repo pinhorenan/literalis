@@ -7,8 +7,8 @@ import { Button }             from '@components/client/ui/Buttons';
 import PostCard               from '@components/client/post/PostCard';
 import PostSkeleton           from '@components/server/post/PostSkeleton';
 import { FeedService }        from '@services/FeedService';
-import type { PostDTO }       from '@dto/post.dto';
-import type { FeedResponse }  from '@dto/feed.dto';
+import type { PostDTO }       from '@models/post.dto';
+import type { FeedResponse }  from '@models/feed.dto';
 
 type Tab = 'discover' | 'friends';
 

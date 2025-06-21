@@ -1,11 +1,11 @@
 // File: src/components/client/profile/EditProfilePanel.tsx
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import { Upload } from 'lucide-react';
-import { Button } from '@components/client/ui/Buttons';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from '@components/client/ui/Buttons';
+import { Upload } from 'lucide-react';
+import Image from 'next/image';
+import React from 'react';
 
 export interface EditProfilePanelProps {
   isOpen: boolean;

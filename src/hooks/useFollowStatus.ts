@@ -1,6 +1,6 @@
 // src/hooks/useFollowStatus.ts
 import { useState, useCallback } from 'react';
-import { FollowService } from '@services/FollowService';
+import { FollowService } from '@/src/lib/services/FollowService';
 
 export default function useFollowStatus(
   username: string,

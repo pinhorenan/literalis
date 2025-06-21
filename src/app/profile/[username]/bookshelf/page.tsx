@@ -1,20 +1,21 @@
 // File: src/app/profile/[username]/bookshelf/page.tsx
 import { getServerSession } from 'next-auth'
-import { authOptions }      from '@/src/lib/auth'
-import { prisma }           from '@/src/lib/prisma'
-import BookshelfClient      from '@/src/components/client/bookshelf/BookshelfClient'
-import type { UserDTO }     from '@dto/user.dto'
-import type { UserBookDTO } from '@dto/userBook.dto'
+import { authOptions }      from '@/src/lib/auth/auth'
+import { db }               from '@lib/db'
+import BookshelfClient      from '@components/client/bookshelf/BookshelfClient'
+
+import type { UserDTO }     from '@models/user.dto'
+import type { UserBookDTO } from '@models/userBook.dto'
 
 interface BookshelfPageProps {
   params: { username: string }
 }
 
-export default async function BookshelfPage({ params }: BookshelfPageProps) {
+export default async function Bookshelf({ params }: BookshelfPageProps) {
   const { username } = await params
 
   // 1) Puxa dados básicos do user
-  const profileUser = await prisma.user.findUnique({
+  const profileUser = await db.user.findUnique({
     where: { username },
     select: { username: true, name: true, avatarUrl: true, bio: true }
   })
@@ -27,7 +28,7 @@ export default async function BookshelfPage({ params }: BookshelfPageProps) {
   const isOwner = me === username
 
   // 3) Puxa estante
-  const shelfEntries = await prisma.userBook.findMany({
+  const shelfEntries = await db.userBook.findMany({
     where: { userUsername: username },
     include: {
       book: {

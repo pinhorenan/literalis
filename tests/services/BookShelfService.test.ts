@@ -1,8 +1,8 @@
 // File: tests/services/BookshelfService.test.ts
-import { BookshelfService } from '@services/BookshelfService';
-import type { UserBookDTO } from '@dto/userBook.dto';
-import type { UserDTO } from '@dto/user.dto';
-import type { BookDTO } from '@dto/book.dto';
+import { BookshelfService } from '@/src/lib/services/BookshelfService';
+import type { UserBookDTO } from '@models/userBook.dto';
+import type { UserDTO } from '@models/user.dto';
+import type { BookDTO } from '@models/book.dto';
 
 describe('BookshelfService', () => {
   // Exemplo de DTOs baseados nos seus modelos

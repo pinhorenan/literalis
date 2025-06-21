@@ -4,7 +4,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Button } from '@components/client/ui/Buttons';
-import type { UserBookDTO } from '@dto/userBook.dto';
+import type { UserBookDTO } from '@models/userBook.dto';
 
 export interface NewPostFormProps {
   books: UserBookDTO[];

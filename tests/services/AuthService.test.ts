@@ -1,5 +1,5 @@
 // File: tests/AuthService.test.ts
-import { AuthService } from '@/src/services/AuthService';
+import { AuthService } from '@/src/lib/services/AuthService';
 
 describe('AuthService', () => {
   const user = { username: 'alice', name: 'Alice' };

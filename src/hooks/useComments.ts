@@ -1,7 +1,7 @@
 // File: src/hooks/useComments.ts
 import { useState, useCallback } from 'react';
-import { PostService } from '@services/PostService';
-import type { CommentDTO } from '@dto/comment.dto';
+import { PostService } from '@/src/lib/services/postService';
+import type { CommentDTO } from '@models/comment.dto';
 
 export default function useComments(
   postId: string,

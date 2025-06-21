@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@lib/auth';
+import { authOptions } from '@/src/lib/auth/auth';
 import LandingContent from '@components/client/landing/LandingClient';
 
 export default async function Home() {

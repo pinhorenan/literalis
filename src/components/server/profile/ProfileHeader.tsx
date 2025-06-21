@@ -1,10 +1,10 @@
 // File: src/components/server/profile/ProfileHeader.tsx
 import Link from 'next/link';
 import { BookOpen, MessageSquare, Edit2 } from 'lucide-react';
-import { Button } from '@components/client/ui/Buttons';
-import FollowButton from '@components/client/ui/FollowButton';
-import UserAvatar from '@components/server/user/UserAvatar';
-import type { UserDTO } from '@dto/user.dto';
+import { Button }       from '@components/client/ui/Buttons';
+import FollowButton     from '@components/client/ui/FollowButton';
+import UserAvatar       from '@components/server/user/UserAvatar';
+import type { UserDTO } from '@models/user.dto';
 
 interface Props {
   user: UserDTO;

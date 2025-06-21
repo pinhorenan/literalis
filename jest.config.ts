@@ -14,7 +14,7 @@ const config: Config = {
     '^@/(.*)$': '<rootDir>/$1',
     '^@src/(.*)$': '<rootDir>/src/$1',
     '^@services/(.*)$': '<rootDir>/src/services/$1',
-    '^@dto/(.*)$': '<rootDir>/src/types/dto/$1',
+    '^@models/(.*)$': '<rootDir>/src/types/dto/$1',
     '^@components/(.*)$': '<rootDir>/src/components/$1',
     '^@lib/(.*)$': '<rootDir>/src/lib/$1',
     '^@hooks/(.*)$': '<rootDir>/src/hooks/$1',

@@ -1,10 +1,10 @@
 // File: src/app/feed/layout.tsx
 
 import { ReactNode }    from 'react';
-import PrimarySidebar   from '@/src/components/client/ui/PrimarySidebar';
-import FeedSidebar      from '@/src/components/server/ui/FeedSidebar';
-import MobileBottomNav  from '@/src/components/client/ui/MobileBottomNav';
-import MobileHeader     from '@/src/components/client/ui/MobileHeader';
+import PrimarySidebar   from '@components/client/ui/PrimarySidebar';
+import FeedSidebar      from '@components/server/ui/FeedSidebar';
+import MobileBottomNav  from '@components/client/ui/MobileBottomNav';
+import MobileHeader     from '@components/client/ui/MobileHeader';
 
 export default function FeedLayout({ children }: { children: ReactNode }) {
   return (

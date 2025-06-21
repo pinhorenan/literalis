@@ -2,23 +2,23 @@
 'use client';
 
 import React, { useRef, useState, useCallback } from 'react';
-import clsx from 'clsx';
 import { Heart, MessageCircle } from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useSession }   from 'next-auth/react';
+import { useRouter }    from 'next/navigation';
+import clsx from 'clsx';
 
-import FollowButton   from '@components/client/ui/FollowButton';
-import OptionsMenu    from '@components/client/ui/OptionsMenu';
-import PostComments   from '@components/client/post/PostComments';
-import BookCover      from '@components/server/book/BookCover';           
-import BookInfo       from '@components/server/book/BookInfo';           
-import UserSummary    from '@components/server/user/UserSummary';
+import FollowButton     from '@components/client/ui/FollowButton';
+import OptionsMenu      from '@components/client/ui/OptionsMenu';
+import PostComments     from '@components/client/post/PostComments';
+import BookCover        from '@components/server/book/BookCover';           
+import BookInfo         from '@components/server/book/BookInfo';           
+import UserSummary      from '@components/server/user/UserSummary';
 
-import useRelativeTime from '@hooks/useRelativeTime';
-import usePostLike     from '@hooks/usePostLike';
-import useComments     from '@hooks/useComments';
+import useRelativeTime  from '@hooks/useRelativeTime';
+import usePostLike      from '@hooks/usePostLike';
+import useComments      from '@hooks/useComments';
 
-import type { PostDTO } from '@dto/post.dto';
+import type { PostDTO } from '@models/post.dto';
 
 interface Props {
   post: PostDTO;

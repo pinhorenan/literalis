@@ -2,9 +2,9 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical }     from 'lucide-react';
+import useClickOutside      from '@hooks/useClickOutside';
 import { Button } from '@components/client/ui/Buttons';
-import useClickOutside from '@hooks/useClickOutside';
 
 interface OptionsMenuProps {
   onEdit: () => void;

@@ -1,7 +1,7 @@
 // File: tests/services/SearchService.test.ts
-import { SearchService } from '@services/SearchService';
-import type { UserDTO } from '@dto/user.dto';
-import type { BookDTO } from '@dto/book.dto';
+import { SearchService } from '@/src/lib/services/SearchService';
+import type { UserDTO } from '@models/user.dto';
+import type { BookDTO } from '@models/book.dto';
 
 describe('SearchService', () => {
   const sampleUser: UserDTO = {

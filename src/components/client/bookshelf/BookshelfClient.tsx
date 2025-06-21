@@ -2,13 +2,15 @@
 'use client';
 
 import React, { useState, useMemo, useCallback } from 'react';
-import clsx from 'clsx';
 import { Grid, List, SortAsc, SortDesc } from 'lucide-react';
-import { Button } from '@components/client/ui/Buttons';
-import SearchBar from '@components/client/ui/SearchBar';
-import ShelfItem from '@components/client/bookshelf/BookShelfItem';
-import type { UserBookDTO } from '@dto/userBook.dto';
+import clsx from 'clsx';
+
+import { Button } from   '@components/client/ui/Buttons';
+import SearchBar  from   '@components/client/ui/SearchBar';
+import ShelfItem  from   '@components/client/bookshelf/BookShelfItem';
+
 import { BookshelfService } from '@services/BookshelfService';
+import type { UserBookDTO } from '@models/userBook.dto';
 
 interface BookshelfClientProps {
   initialItems: UserBookDTO[];

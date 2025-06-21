@@ -1,5 +1,5 @@
 // File: src/components/server/book/BookInfo.tsx
-import type { BookDTO } from '@dto/book.dto';
+import type { BookDTO } from '@models/book.dto';
 import clsx from 'clsx';
 
 export default function BookInfo({ book, className }: { book: BookDTO; className?: string }) {

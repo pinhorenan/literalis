@@ -2,10 +2,10 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@components/client/ui/Buttons';
-import { AuthService } from '@services/AuthService';
-import Link from 'next/link';
+import { useRouter }    from 'next/navigation';
+import { AuthService }  from '@services/AuthService';
+import { Button }       from '@components/client/ui/Buttons';
+import Link             from 'next/link';
 
 interface SignUpFormProps {
   redirectTo?: string;

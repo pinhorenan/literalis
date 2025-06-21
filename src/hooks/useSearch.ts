@@ -1,8 +1,8 @@
 // File: src/hooks/useSearch.ts
 import useSWR from 'swr';
-import { SearchService } from '@services/SearchService';
-import type { BookDTO } from '@dto/book.dto';
-import type { UserDTO } from '@dto/user.dto';
+import { SearchService } from '@/src/lib/services/SearchService';
+import type { BookDTO } from '@models/book.dto';
+import type { UserDTO } from '@models/user.dto';
 
 export default function useSearch(query: string, tab: 'books' | 'users') {
   // O hook pode retornar lista de livros ou de usuários

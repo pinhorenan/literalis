@@ -1,5 +1,5 @@
 // File: tests/UploadService.test.ts
-import { UploadService } from '@/src/services/UploadService';
+import { UploadService } from '@/src/lib/services/UploadService';
 
 describe('UploadService', () => {
   const fakeFile = new File(['data'], 'pic.png', { type: 'image/png' });

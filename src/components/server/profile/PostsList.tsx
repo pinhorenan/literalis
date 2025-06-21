@@ -1,6 +1,6 @@
 // File: src/components/server/profile/PostsList.tsx
 import PostCard from '@components/client/post/PostCard';
-import type { PostDTO } from '@dto/post.dto';
+import type { PostDTO } from '@models/post.dto';
 
 interface Props {
   posts: PostDTO[];

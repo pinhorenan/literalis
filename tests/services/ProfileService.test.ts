@@ -1,5 +1,5 @@
 // File: tests/ProfileService.test.ts
-import { ProfileService } from '@/src/services/ProfileService';
+import { ProfileService } from '@/src/lib/services/ProfileService';
 
 describe('ProfileService', () => {
   it('get perfil', async () => {

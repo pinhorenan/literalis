@@ -1,9 +1,9 @@
 // File: src/app/search/layout.tsx
 
 import { ReactNode }    from 'react';
-import PrimarySidebar   from '@/src/components/client/ui/PrimarySidebar';
-import MobileBottomNav  from '@/src/components/client/ui/MobileBottomNav';
-import MobileHeader     from '@/src/components/client/ui/MobileHeader';
+import PrimarySidebar   from '@components/client/ui/PrimarySidebar';
+import MobileBottomNav  from '@components/client/ui/MobileBottomNav';
+import MobileHeader     from '@components/client/ui/MobileHeader';
 
 export default function SearchLayout({ children }: { children: ReactNode }) {
   return (

@@ -1,10 +1,10 @@
 // File: src/components/client/ui/MobileBottomNav.tsx
 'use client';
 
-import { useState } from 'react';
-import { Home, Search, User, BookOpen, BookPlus } from 'lucide-react';
+import Link           from 'next/link';
+import { useState }   from 'react';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { Home, Search, User, BookOpen, BookPlus } from 'lucide-react';
 
 interface NavItem {
   icon: React.ElementType;

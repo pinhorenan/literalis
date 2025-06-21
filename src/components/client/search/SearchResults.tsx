@@ -6,8 +6,8 @@ import Link     from 'next/link';
 import Image    from 'next/image';
 import useSearch from '@hooks/useSearch';
 
-import type { BookDTO } from '@dto/book.dto';
-import type { UserDTO } from '@dto/user.dto';
+import type { BookDTO } from '@models/book.dto';
+import type { UserDTO } from '@models/user.dto';
 
 interface Props {
   query: string;

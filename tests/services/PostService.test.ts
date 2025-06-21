@@ -1,9 +1,9 @@
 // File: tests/services/PostService.test.ts
-import { PostService }  from '@services/PostService';
-import type { PostDTO } from '@dto/post.dto';
-import type { UserDTO } from '@dto/user.dto';
-import type { BookDTO } from '@dto/book.dto';
-import type { CommentDTO } from '@dto/comment.dto';
+import { PostService }  from '@/src/lib/services/postService';
+import type { PostDTO } from '@models/post.dto';
+import type { UserDTO } from '@models/user.dto';
+import type { BookDTO } from '@models/book.dto';
+import type { CommentDTO } from '@models/comment.dto';
 
 describe('PostService', () => {
   const sampleUser: UserDTO = {

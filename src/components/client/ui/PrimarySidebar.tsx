@@ -1,19 +1,8 @@
 // File: src/components/client/ui/PrimarySidebar.tsx
 'use client';
 
+import { Home, User, BookOpen, BookPlus, Search, MessageSquare, Bell, LogOut, Moon, Sun } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
-import {
-  Home,
-  User,
-  BookOpen,
-  BookPlus,
-  Search,
-  MessageSquare,
-  Bell,
-  LogOut,
-  Moon,
-  Sun,
-} from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 

@@ -1,7 +1,7 @@
 // src/hooks/useBookshelfStatus.ts
 import { useCallback } from 'react';
 import useSWR from 'swr';
-import { BookshelfService } from '@services/BookshelfService';
+import { BookshelfService } from '@/src/lib/services/BookshelfService';
 
 export default function useBookshelfStatus(isbn: string) {
   const { data, error, mutate, isValidating } = useSWR(

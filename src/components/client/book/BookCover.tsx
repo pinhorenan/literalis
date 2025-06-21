@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import { Check } from 'lucide-react';
-import type { BookDTO } from '@dto/book.dto';
+import type { BookDTO } from '@models/book.dto';
 
 interface Props {
     book: BookDTO;

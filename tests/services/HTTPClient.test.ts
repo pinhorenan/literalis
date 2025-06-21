@@ -1,5 +1,5 @@
 // File: tests/HTTPClient.test.ts
-import { httpClient } from '@/src/services/HTTPClient';
+import { httpClient } from '@/src/lib/services/HTTPClient';
 
 describe('httpClient', () => {
   it('faz GET e monta query-string corretamente', async () => {

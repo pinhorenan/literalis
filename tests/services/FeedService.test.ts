@@ -1,5 +1,5 @@
 // tests/FeedService.test.ts
-import { FeedService } from '@/src/services/FeedService';
+import { FeedService } from '@/src/lib/services/FeedService';
 
 describe('FeedService', () => {
   it('fetch padrão', async () => {

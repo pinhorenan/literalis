@@ -1,23 +1,20 @@
 // File: src/app/profile/[username]/page.tsx
-import { notFound } from 'next/navigation';
+import { notFound }                    from 'next/navigation';
+import { getViewer }                   from '@lib/auth/viewer';
+import { db }                          from '@lib/db';
 import ProfileShell                    from '@components/client/profile/ProfileShell';
-import { getViewer }                   from '@lib/api';
-import { prisma }                      from '@lib/prisma';
-import type { PostDTO }                from '@dto/post.dto';
-import type { UserDTO }                from '@dto/user.dto';
 
-export default async function ProfilePage({
-  params,
-}: {
-  params: { username: string };
-}) {
-  // 1) Busca o viewer (pode ser null)
+import type { PostDTO }                from '@models/post.dto';
+import type { UserDTO }                from '@models/user.dto';
+
+export default async function Profile({ params }: { params: { username: string } }) {
   const viewer = await getViewer(false);
   const me = viewer?.username;
+  const username = await params.username;
 
   // 2) Carrega o usuário com contagens de seguidores e seguindo
-  const userRaw = await prisma.user.findUnique({
-    where: { username: params.username },
+  const userRaw = await db.user.findUnique({
+    where: { username },
     select: {
       username:  true,
       name:      true,
@@ -41,8 +38,8 @@ export default async function ProfilePage({
   };
 
   // 4) Puxa os posts, incluindo preview de comentários, likes e contagens
-  const rawPosts = await prisma.post.findMany({
-    where: { authorUsername: params.username },
+  const rawPosts = await db.post.findMany({
+    where: { authorUsername: username },
     orderBy: { createdAt: 'desc' },
     take: 20,
     include: {
@@ -121,7 +118,7 @@ export default async function ProfilePage({
       external:        false,
     },
 
-    commentsPreview: post.comments.map((c) => ({
+    comments: post.comments.map((c) => ({
       id:         c.id,
       content:    c.content,
       createdAt:  c.createdAt.toISOString(),
@@ -137,7 +134,6 @@ export default async function ProfilePage({
     })),
   }));
 
-  // 6) Renderiza o client shell
   return (
     <ProfileShell
       initialUser={initialUser}

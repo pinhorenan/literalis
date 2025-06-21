@@ -1,7 +1,7 @@
 // File: src/hooks/useSignUp.ts
 import { useState } from 'react';
-import { AuthService } from '@services/AuthService';
-import type { SignUpDTO } from '@dto/auth.dto';
+import { AuthService } from '@/src/lib/services/AuthService';
+import type { SignUpDTO } from '@models/auth.dto';
 
 export default function useSignUp(onSuccess: () => void) {
   const [formData, setFormData] = useState<SignUpDTO>({
