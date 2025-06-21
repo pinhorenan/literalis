@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Arquivo inválido' }, { status: 400 });
     }
 
-    const uploadDir = path.join(process.cwd(), 'public/uploads');
+    const uploadDir = path.join(process.cwd(), 'public/assets/avatars');
     await fs.mkdir(uploadDir, { recursive: true });
 
     const ext = path.extname(blob.name) || '';
@@ -30,6 +30,6 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await blob.arrayBuffer();
     await fs.writeFile(filePath, Buffer.from(arrayBuffer));
     
-    const url = `/uploads/${fileName}`;
+    const url = `public/assets/avatars/${fileName}`;
     return NextResponse.json({ url }, { status: 200 });
 }

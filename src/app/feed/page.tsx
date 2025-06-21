@@ -1,9 +1,10 @@
 // File: src/app/feed/page.tsx
-import FeedClient                   from '@components/feed/FeedClient';
-import { prisma }                   from '@server/prisma';
 import { getServerSession }         from 'next-auth';
-import { authOptions }              from '@server/auth';
 import { mapRawToClientPost }       from '@lib/mapPost';
+import { prisma }                   from '@server/prisma';
+import { authOptions }              from '@server/auth';
+import FeedClient                   from '@/src/components/client/feed/FeedClient';
+
 import type { RawPost, ClientPost } from '@/src/types/posts';
 
 export default async function PageFeed() {
@@ -14,10 +15,10 @@ export default async function PageFeed() {
     take: 20,
     orderBy: { createdAt: 'desc' },
     include: {
-      author:   { select: { username: true, name: true, avatarUrl: true } },
-      book:     { select: { isbn: true, title: true, author: true, coverUrl: true } },
-      comments: { include: { author: { select: { username: true, name: true, avatarUrl: true } } } },
-      likes:    { select: { userUsername: true } },
+      author:   { select:   { username: true, name: true, avatarUrl: true } },
+      book:     { select:   { isbn: true, title: true, author: true, coverUrl: true } },
+      comments: { include:  { author: { select: { username: true, name: true, avatarUrl: true } } } },
+      likes:    { select:   { userUsername: true } },
     },
   }) as RawPost[]
 

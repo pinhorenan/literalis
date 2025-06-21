@@ -8,8 +8,8 @@ declare module 'next-auth' {
       id: string;
       username: string;
       name: string;
-      email: string | null;
-      avatarPath: string;
+      email: string;
+      avatarUrl: string;
       bio?: string;
       image?: string;
       role: AccountType;
@@ -20,8 +20,8 @@ declare module 'next-auth' {
     id: string;
     username: string;
     name: string;
-    email: string | null;
-    avatarPath: string;
+    email: string;
+    avatarUrl: string;
     bio?: string;
     image?: string;
     role: AccountType;

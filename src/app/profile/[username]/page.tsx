@@ -1,11 +1,12 @@
 // File: src/app/profile/[username]/page.tsx
-import ProfileShell from '@components/profile/ProfileShell';
-import { notFound } from 'next/navigation';
-import { prisma }   from '@server/prisma';
+import ProfileShell         from '@/src/components/client/profile/ProfileShell';
+import { notFound }         from 'next/navigation';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@server/auth';
-import type { ClientPost } from '@/src/types/posts';
-import type { ClientUser } from '@/src/types/users';
+import { prisma }           from '@server/prisma';
+import { authOptions }      from '@server/auth';
+
+import type { ClientPost }  from '@/src/types/posts';
+import type { ClientUser }  from '@/src/types/users';
 
 interface ProfilePageProps {
   params: { username: string };

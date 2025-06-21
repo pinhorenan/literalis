@@ -1,16 +1,16 @@
 // File: src/app/feed/layout.tsx
 
 import { ReactNode }    from 'react';
-import PrimarySidebar   from '@components/layout/PrimarySidebar';
-import FeedSidebar      from '@components/layout/FeedSidebar';
-import MobileBottomNav  from '@components/layout/MobileBottomNav';
-import MobileHeader     from '@components/layout/MobileHeader';
+import PrimarySidebar   from '@/src/components/client/ui/PrimarySidebar';
+import FeedSidebar      from '@/src/components/server/ui/FeedSidebar';
+import MobileBottomNav  from '@/src/components/client/ui/MobileBottomNav';
+import MobileHeader     from '@/src/components/client/ui/MobileHeader';
 
 export default function FeedLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex flex-col md:flex-row gap-4 md:gap-6 w-full max-w-screen-xl mx-auto px-4 md:px-8">
       <MobileHeader /> 
-      <aside className="hidden lg:block w-[240px] shrink-0">
+      <aside className="hidden lg:block w-[240px]">
         <PrimarySidebar />
       </aside>
 
@@ -18,7 +18,7 @@ export default function FeedLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
       
-      <aside className="hidden lg:block w-[240px] shrink-0">
+      <aside className="hidden lg:block w-[240px]">
         <FeedSidebar />
       </aside>
 

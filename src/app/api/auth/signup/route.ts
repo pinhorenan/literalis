@@ -1,75 +1,61 @@
-// File: src/app/api/auth/signup/route.ts
-import { NextResponse } from 'next/server';
-import { z } from 'zod';
-import bcrypt from 'bcryptjs';
-import { prisma } from '@server/prisma';
+// File: pages/api/auth/signup.ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+import bcrypt from 'bcrypt';
+import { prisma } from '@server/prisma'; // ajuste o import conforme seu path
+import type { SignUpDTO } from '@dto/auth.dto';
+import type { UserDTO }   from '@dto/user.dto';
 
-const SignUpSchema = z.object({
-  username: z.string().min(3, 'Username deve ter pelo menos 3 caracteres').trim(),
-  name: z.string().min(1, 'Nome é obrigatório').trim(),
-  email: z.string().email('Email inválido').trim(),
-  password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
-});
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<UserDTO | { error: string; errors?: any }>
+) {
+  if (req.method !== 'POST') {
+    return res.setHeader('Allow', ['POST']).status(405).end();
+  }
 
-export async function POST(req: Request) {
+  const { username, name, email, password, avatarUrl, bio } = req.body as SignUpDTO;
+
+  // validações básicas
+  if (!username || !name || !password) {
+    return res.status(400).json({ error: 'username, name e password são obrigatórios' });
+  }
+
   try {
-    const body = await req.json();
-    const data = SignUpSchema.parse(body);
-
-    // Verifica duplicação de username ou email
-    const exists = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { username: data.username },
-          { email: data.email }
-        ],
-      },
-    });
-
-    if (exists) {
-      return NextResponse.json(
-        { error: 'Username ou e-mail já cadastrado.' },
-        { status: 409 }
-      );
+    const existing = await prisma.user.findUnique({ where: { username } });
+    if (existing) {
+      return res.status(409).json({ error: 'Usuário já existe' });
     }
 
-    // Criptografa senha
-    const hashed = await bcrypt.hash(data.password, 12);
-
-    // Cria usuário e vincula conta de login (credentials)
-    await prisma.user.create({
+    const hashed = await bcrypt.hash(password, 10);
+    const user = await prisma.user.create({
       data: {
-        username: data.username,
-        name: data.name,
-        email: data.email,
+        username,
+        name,
+        email,
         password: hashed,
-        avatarUrl: `/assets/avatars/default.png`, // opcional
-        bio: '', // opcional
-        role: 'USER',
-
-        accounts: {
-          create: {
-            accountType: 'USER',
-            provider: 'credentials',
-            providerAccountId: data.username,
-          },
-        },
+        avatarUrl: avatarUrl || '/assets/avatars/default.jpg',
+        bio,
       },
+      select: {
+        username: true,
+        name: true,
+        email: true,
+        avatarUrl: true,
+        bio: true,
+      }
     });
 
-    return NextResponse.json({ ok: true }, { status: 201 });
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: err.errors[0].message, errors: err.errors },
-        { status: 400 }
-      );
-    }
+    // mapeia para UserDTO
+    const dto: UserDTO = {
+      username: user.username,
+      name:     user.name,
+      avatarUrl:user.avatarUrl!,
+      bio:      user.bio || 'Esse usuário ainda não tem uma bio.',
+    };
 
+    return res.status(201).json(dto);
+  } catch (err: any) {
     console.error(err);
-    return NextResponse.json(
-      { error: 'Erro interno ao cadastrar usuário.' },
-      { status: 500 }
-    );
+    return res.status(500).json({ error: 'Erro interno ao criar usuário' });
   }
 }

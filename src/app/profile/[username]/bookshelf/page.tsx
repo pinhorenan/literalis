@@ -1,10 +1,9 @@
 // File: src/app/profile/[username]/bookshelf/page.tsx
-
 import { getServerSession } from 'next-auth';
 import { authOptions }      from '@server/auth';
 import { prisma }           from '@server/prisma';
 
-import BookshelfClient from '@components/bookshelf/BookshelfClient';
+import BookshelfClient from '@/src/components/client/bookshelf/BookshelfClient';
 
 interface BookshelfPageProps {
   params: { username: string };

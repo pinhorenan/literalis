@@ -1,56 +1,30 @@
-// File: src/hooks/usePostLike.ts
-'use client';
+// src/hooks/usePostLike.ts
+import { useCallback } from 'react';
+import useSWR from 'swr';
+import { PostService } from '@services/PostService';
 
-import { useCallback, useState } from 'react';
-
-interface UsePostLikeReturn {
-  liked: boolean;
-  likeCount: number;
-  loading: boolean;
-  toggleLike: () => Promise<void>;
-}
-
-/**
- * Hook que encapsula lógica de curtir/descurtir um post.
- * @param id ID do post
- * @param initiallyLiked estado inicial (feed)
- * @param initialCount contagem inicial de likes
- */
 export default function usePostLike(
-  id: string,
-  initiallyLiked: boolean,
+  postId: string,
+  initialLiked: boolean,
   initialCount: number
-): UsePostLikeReturn {
-  const [liked, setLiked] = useState(initiallyLiked);
-  const [likeCount, setLikeCount] = useState(initialCount);
-  const [loading, setLoading] = useState(false);
+) {
+  const { data, mutate, isValidating } = useSWR(
+    ['postLike', postId],
+    () => Promise.resolve({ liked: initialLiked, count: initialCount }),
+    { fallbackData: { liked: initialLiked, count: initialCount } }
+  );
 
   const toggleLike = useCallback(async () => {
-    if (loading) return;
-
-    setLoading(true);
-
+    if (!postId) return;
+    const optimistic = { liked: !data!.liked, count: data!.liked ? data!.count - 1 : data!.count + 1 };
+    mutate(optimistic, false);
     try {
-      const method = liked ? 'DELETE' : 'POST';
-      const res = await fetch(`/api/posts/${id}/likes`, {
-        method,
-        credentials: 'include',
-      });
-
-      if (!res.ok) {
-        const msg = await res.text();
-        console.error('Erro ao alterar like:', msg);
-        return;
-      }
-
-      setLiked(!liked);
-      setLikeCount(liked ? likeCount - 1 : likeCount + 1);
-    } catch (err) {
-      console.error('Erro inesperado ao dar like:', err);
-    } finally {
-      setLoading(false);
+      const res = await PostService.toggleLike(postId);
+      mutate({ liked: res.likedByMe, count: res.likeCount }, false);
+    } catch {
+      mutate(); // rollback
     }
-  }, [liked, likeCount, loading, id]);
+  }, [postId, data, mutate]);
 
-  return { liked, likeCount, loading, toggleLike };
+  return { liked: data!.liked, likeCount: data!.count, loading: isValidating, toggleLike };
 }
