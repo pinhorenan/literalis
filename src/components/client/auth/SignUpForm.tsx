@@ -1,11 +1,10 @@
-// File: src/components/auth/SignUpForm.tsx
+// src/components/auth/SignUpForm.tsx
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter }    from 'next/navigation';
-import { AuthService }  from '@services/AuthService';
-import { Button }       from '@components/client/ui/Buttons';
-import Link             from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Button } from '@components/client/ui/Buttons';
+import Link from 'next/link';
 
 interface SignUpFormProps {
   redirectTo?: string;
@@ -22,7 +21,7 @@ export default function SignUpForm({
   const [formData, setFormData] = useState({
     username: '', name: '', email: '', password: '', avatarUrl: '', bio: '',
   });
-  const [error, setError]     = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const errorRef = useRef<HTMLDivElement>(null);
 
@@ -36,11 +35,26 @@ export default function SignUpForm({
     setError(null);
 
     try {
-      await AuthService.signUp(formData);
+      const payload: Partial<typeof formData> = {
+        ...formData,
+        avatarUrl: formData.avatarUrl?.trim() || undefined,
+      };
+
+
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) throw new Error(result.error || 'Erro ao cadastrar');
+
       onSuccess?.();
       router.push(redirectTo);
     } catch (err: any) {
-      setError(err.response?.data?.error || err.message);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -63,7 +77,7 @@ export default function SignUpForm({
         </div>
       )}
 
-      {(['username','name','email','password','avatarUrl','bio'] as const).map(key => (
+      {(['username', 'name', 'email', 'password', 'avatarUrl', 'bio'] as const).map(key => (
         key === 'bio' ? (
           <div key={key}>
             <label htmlFor={key} className="block mb-1 font-medium">
@@ -81,8 +95,8 @@ export default function SignUpForm({
         ) : (
           <div key={key}>
             <label htmlFor={key} className="block mb-1 font-medium">
-              {key.charAt(0).toUpperCase()+key.slice(1)}
-              {['username','name','password'].includes(key) && ' *'}
+              {key.charAt(0).toUpperCase() + key.slice(1)}
+              {['username', 'name', 'password'].includes(key) && ' *'}
             </label>
             <input
               id={key}
@@ -90,7 +104,7 @@ export default function SignUpForm({
               type={key === 'password' ? 'password' : 'text'}
               value={formData[key]}
               onChange={e => setField(key, e.target.value)}
-              required={['username','name','password'].includes(key)}
+              required={['username', 'name', 'password'].includes(key)}
               className="w-full border p-2 rounded"
             />
           </div>
@@ -110,5 +124,5 @@ export default function SignUpForm({
         </p>
       )}
     </form>
-);
+  );
 }

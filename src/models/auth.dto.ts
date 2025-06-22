@@ -1,4 +1,4 @@
-// File: src/dto/auth.dto.ts
+// File: src/models/auth.dto.ts
 export interface SignUpDTO {
     username: string;
     name: string;

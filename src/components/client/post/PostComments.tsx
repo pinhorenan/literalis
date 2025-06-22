@@ -5,7 +5,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 
 import UserAvatar from '@components/server/user/UserAvatar';
-import useRelativeTime from '@hooks/useRelativeTime';
+import useRelativeTime from '@hooks/global/useRelativeTime';
 import type { CommentDTO } from '@models/comment.dto';
 
 interface Props {

@@ -1,26 +1,38 @@
-// src/hooks/useFollowStatus.ts
-import { useState, useCallback } from 'react';
-import { FollowService } from '@/src/lib/services/FollowService';
+'use client';
+
+import { useState } from 'react';
+import { FollowService } from '@services/server/follow.service';
+import { useFollowContext } from '@context/followContext';
+import { toast } from 'react-hot-toast';
 
 export default function useFollowStatus(
-  username: string,
+  targetUsername: string,
   initialFollowerCount: number,
-  initialFollowing: boolean
+  initialFollowingCount: number,
+  initialIsFollowing?: boolean // agora opcional
 ) {
-  const [isFollowing, setIsFollowing]   = useState(initialFollowing);
-  const [followerCount, setFollowerCnt] = useState(initialFollowerCount);
-  const [loading, setLoading]           = useState(false);
+  const { getFollow, setFollow } = useFollowContext();
 
-  const toggleFollow = useCallback(async () => {
-    setLoading(true);
+  const [followerCount, setFollowerCount] = useState(initialFollowerCount);
+  const [followingCount] = useState(initialFollowingCount);
+
+  // Resolve via contexto ou fallback inicial
+  const isFollowing = getFollow(targetUsername);
+  const resolvedIsFollowing = isFollowing !== undefined ? isFollowing : (initialIsFollowing ?? false);
+
+  const toggleFollow = async () => {
+    const optimistic = !resolvedIsFollowing;
+    setFollow(targetUsername, optimistic);
+    setFollowerCount(c => optimistic ? c + 1 : c - 1);
+
     try {
-      const res = await FollowService.toggle(username);
-      setIsFollowing(res.isFollowing);
-      setFollowerCnt(res.followerCount);
-    } finally {
-      setLoading(false);
+      await FollowService.toggleFollow(targetUsername);
+    } catch {
+      toast.error('Erro ao atualizar status de seguir');
+      setFollow(targetUsername, !optimistic);
+      setFollowerCount(c => !optimistic ? c + 1 : c - 1);
     }
-  }, [username]);
+  };
 
-  return { isFollowing, followerCount, loading, toggleFollow };
+  return { isFollowing: resolvedIsFollowing, followerCount, followingCount, toggleFollow };
 }

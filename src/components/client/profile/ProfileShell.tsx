@@ -1,12 +1,13 @@
 // File: src/components/client/profile/ProfileShell.tsx
 'use client';
 import { useSession } from 'next-auth/react';
-
 import ProfileHeader      from '@components/server/profile/ProfileHeader';
-import PostsList          from '@components/server/profile/PostsList';
+import PostsList          from '@components/client/profile/PostsList';
 import EditProfilePanel   from '@components/client/profile/EditProfilePanel';
+
 import useProfileEditor   from '@hooks/useProfileEditor';
 import useFollowStatus    from '@hooks/useFollowStatus';
+
 import type { UserDTO }   from '@models/user.dto';
 import type { PostDTO }   from '@models/post.dto';
 
@@ -17,9 +18,8 @@ interface Props {
 
 export default function ProfileShell({ initialUser, initialPosts }: Props) {
   const { data: session } = useSession();
-  const meUsername = session?.user.username ?? '';
+  const meUsername = session?.user.username;
 
-  // Hooks de edição de perfil e follow status
   const {
     user,
     isSelf,
@@ -37,21 +37,17 @@ export default function ProfileShell({ initialUser, initialPosts }: Props) {
   } = useProfileEditor(initialUser, meUsername);
 
   const {
-    isFollowing,
     followerCount,
     followingCount,
-    toggleFollow,
-  } = useFollowStatus(user.username, initialUser.followerCount, initialUser.followingCount, meUsername);
+  } = useFollowStatus(user.username, initialUser.followerCount, initialUser.followingCount);
 
   return (
     <section className="relative flex-1 py-6 px-4 sm:px-6 lg:px-8 space-y-6">
       <ProfileHeader
         user={user}
         isSelf={isSelf}
-        isFollowing={isFollowing}
         followerCount={followerCount}
         followingCount={followingCount}
-        onFollowToggle={toggleFollow}
         onEditClick={startEditing}
       />
 

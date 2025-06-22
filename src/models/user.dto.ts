@@ -1,4 +1,4 @@
-// File: src/models/user.dto.ts
+// src/models/user.dto.ts
 export type UserDTO = {
     username:               string;
     name:                   string;
@@ -16,3 +16,16 @@ export type UserDTO = {
     followingUsernames:     string[];
     followerUsernames:      string[];
 };
+
+export type PublicUserDTO = {
+    username: string;
+    name: string;
+    avatarUrl: string;
+    bio?: string;
+}
+
+export interface UpdateUserDTO {
+    name: string;
+    bio?: string;
+    avatarUrl?: string;
+}

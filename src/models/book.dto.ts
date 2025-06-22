@@ -1,4 +1,4 @@
-// File: src/types/dto/book.dto.ts
+// File: src/models/book.dto.ts
 export type BookDTO = {
     isbn:               string;
     title:              string;

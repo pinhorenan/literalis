@@ -135,7 +135,7 @@ model Follow {
 model UserBook {
   userUsername String
   bookIsbn     String
-  progress     Int      @default(0)
+  currentPage  Int      @default(0)
   addedAt      DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

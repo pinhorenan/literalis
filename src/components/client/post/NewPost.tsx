@@ -1,45 +1,49 @@
-// File: src/components/client/post/NewPost.tsx
 'use client';
 
-import React, { useState }  from 'react';
-import { useSession }       from 'next-auth/react';
-import { Dialog }           from '@headlessui/react';
-import { BookPlus }         from 'lucide-react';
-import { Button }           from '@components/client/ui/Buttons';
-import NewPostForm          from '@components/client/post/NewPostForm';
-import useBookshelfOptions  from '@hooks/useBookshelfOptions';
-import useNewPost           from '@hooks/useNewPost';
-import { BookshelfService } from '@services/BookshelfService';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { Dialog } from '@headlessui/react';
+import { BookPlus } from 'lucide-react';
+
+import { Button } from '@components/client/ui/Buttons';
+import NewPostForm from '@components/client/post/NewPostForm';
+
+import useBookshelfOptions from '@hooks/useBookshelfOptions';
+import useNewPost from '@hooks/post/useNewPost';
+import { BookshelfService } from '@services/client/bookshelf.service';
 
 export default function NewPost() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  // Hook que busca os livros da estante (UserBookDTO[])
-  const { books, loading: loadingBooks, error: booksError } = useBookshelfOptions();
+  const {
+    books,
+    loading: loadingBooks,
+    error: booksError,
+  } = useBookshelfOptions();
 
-  // Hook que gerencia o estado do novo post
   const {
     selectedBook,
     handleBookSelect,
-    excerpt,
-    setExcerpt,
+    content,
+    setContent,
     currentPage,
     handlePageChange,
     progress,
     loading: submitting,
     error: submitError,
     submit,
-  } = useNewPost(async () => {
-    // Ao salvar o post, atualiza também o progresso na estante
+  } = useNewPost(books, async () => {
     if (selectedBook) {
-      await BookshelfService.updateProgress(
-        selectedBook,
-        progress
-      );
+      await BookshelfService.updateProgress(selectedBook, currentPage);
     }
     setOpen(false);
+    router.refresh();
   });
+
+  if (!session) return null;
 
   return (
     <>
@@ -66,8 +70,8 @@ export default function NewPost() {
               booksError={booksError}
               selectedBook={selectedBook}
               onBookSelect={handleBookSelect}
-              excerpt={excerpt}
-              onExcerptChange={setExcerpt}
+              content={content}
+              onContentChange={setContent}
               currentPage={currentPage}
               onPageChange={handlePageChange}
               progress={progress}

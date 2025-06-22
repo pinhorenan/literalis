@@ -1,14 +1,12 @@
-// File: src/components/client/feed/FeedClient.tsx
+// src/components/client/feed/FeedClient.tsx
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import useSWR                 from 'swr';
-import { Button }             from '@components/client/ui/Buttons';
-import PostCard               from '@components/client/post/PostCard';
-import PostSkeleton           from '@components/server/post/PostSkeleton';
-import { FeedService }        from '@services/FeedService';
-import type { PostDTO }       from '@models/post.dto';
-import type { FeedResponse }  from '@models/feed.dto';
+import React, { useState } from 'react';
+import useFeedPosts from '@hooks/post/useFeedPosts';
+import { Button } from '@components/client/ui/Buttons';
+import PostCard from '@/src/components/client/post/Post';
+import PostSkeleton from '@components/server/post/PostSkeleton';
+import type { PostDTO } from '@models/post.dto';
 
 type Tab = 'discover' | 'friends';
 
@@ -19,27 +17,16 @@ interface FeedClientProps {
 
 export default function FeedClient({ initialPosts, initialTab }: FeedClientProps) {
   const [tab, setTab] = useState<Tab>(initialTab);
-  const mode = tab === 'friends' ? 'friends' : 'discover';
+  const onlyFollowing = tab === 'friends';
 
-  const [followMap, setFollowMap] = useState<Record<string, boolean>>(
-    () => Object.fromEntries(initialPosts.map(p => [p.author.username, p.isFollowingAuthor]))
-  );
-
-  const updateFollow = useCallback((username: string, following: boolean) => {
-    setFollowMap(prev => ({ ...prev, [username]: following }));
-  }, []);
-
-  const { data, error, isLoading } = useSWR<FeedResponse>(
-    ['feed', mode, 20],
-    () => FeedService.getFeed({ mode, limit: 20 }),
-    { fallbackData: { posts: initialPosts } }
-  );
-
-  const posts = data?.posts ?? [];
+  const { posts, error, isLoading } = useFeedPosts({
+    onlyFollowing,
+    limit: 20,
+    fallbackData: initialPosts,
+  });
 
   return (
     <section className="w-full max-w-3xl mx-auto px-4 py-8 flex flex-col gap-6">
-      {/* Leituras recomendadas (WIP) */}
       <div className="rounded-xl bg-[var(--surface-card)] border border-[var(--border-subtle)] px-6 py-4 shadow-sm text-sm text-[var(--text-tertiary)]">
         Descubra livros recomendados para você – em breve!
       </div>
@@ -57,21 +44,16 @@ export default function FeedClient({ initialPosts, initialTab }: FeedClientProps
           Não há posts para exibir.
         </div>
       ) : (
-        posts.map(post => {
-          // Garante que commentsPreview sempre é um array
-          const safePost: PostDTO = {
-            ...post,
-            comments: post.comments ?? [],
-            isFollowingAuthor: followMap[post.author.username],
-          };
-          return (
-            <PostCard
-              key={safePost.id}
-              post={safePost}
-              onFollowChange={now => updateFollow(safePost.author.username, now)}
-            />
-          );
-        })
+        posts.map(post => (
+          <PostCard
+            key={post.id}
+            post={{
+              ...post,
+              comments: post.comments ?? [],
+              // `isFollowingAuthor` agora será preenchido no componente PostCard via contexto, se necessário
+            }}
+          />
+        ))
       )}
     </section>
   );
@@ -88,9 +70,8 @@ export function FeedSwitch({ current, onChange }: FeedSwitchProps) {
   return (
     <div className="flex items-center gap-2 my-2">
       <div className="flex-1 h-[2px] bg-[var(--surface-card)]" />
-
       <div className="flex gap-2 px-1 py-1 shadow-sm rounded-xl bg-[var(--surface-card)] border border-[var(--border-base)]">
-        {(['discover', 'friends'] as Tab[]).map(t => (
+        {(['discover', 'friends'] as const).map(t => (
           <Button
             key={t}
             variant="default"
@@ -102,8 +83,7 @@ export function FeedSwitch({ current, onChange }: FeedSwitchProps) {
           </Button>
         ))}
       </div>
-
       <div className="flex-1 h-[2px] bg-[var(--surface-card)]" />
     </div>
-);
+  );
 }

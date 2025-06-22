@@ -2,22 +2,20 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter }  from 'next/navigation';
-import { signIn }     from 'next-auth/react';
-import Link           from 'next/link';
-import { Button }     from '@components/client/ui/Buttons';
+import { useRouter }      from 'next/navigation';
+import { signIn }         from 'next-auth/react';
+import Link               from 'next/link';
+import { Button }         from '@components/client/ui/Buttons';
+import type { SignInDTO } from '@models/auth.dto';
 
-interface LoginFormProps {
+interface Props {
   redirectTo?: string;
   compact?: boolean;
 }
 
-export default function SignInForm({
-  redirectTo = '/feed',
-  compact = false,
-}: LoginFormProps) {
+export default function SignInForm({ redirectTo = '/feed', compact = false }: Props) {
   const router = useRouter();
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState<SignInDTO>({ username: '', password: '' });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const errorRef = useRef<HTMLDivElement>(null);

@@ -1,10 +1,10 @@
 // File: src/components/server/user/UserAvatar.tsx
 import Image from 'next/image';
 import Link  from 'next/link';
-import type { UserDTO } from '@models/user.dto';
+import type { PublicUserDTO } from '@models/user.dto';
 
 export interface UserAvatarProps {
-  user: UserDTO;
+  user: PublicUserDTO;
   redirect?: boolean;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;

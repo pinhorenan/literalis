@@ -1,4 +1,4 @@
-// File: src/components/server/profile/ProfileHeader.tsx
+// Fsrc/components/server/profile/ProfileHeader.tsx
 import Link from 'next/link';
 import { BookOpen, MessageSquare, Edit2 } from 'lucide-react';
 import { Button }       from '@components/client/ui/Buttons';
@@ -9,20 +9,16 @@ import type { UserDTO } from '@models/user.dto';
 interface Props {
   user: UserDTO;
   isSelf: boolean;
-  isFollowing: boolean;
   followerCount: number;
   followingCount: number;
-  onFollowToggle: () => void;
   onEditClick: () => void;
 }
 
 export default function ProfileHeader({
   user,
   isSelf,
-  isFollowing,
   followerCount,
   followingCount,
-  onFollowToggle,
   onEditClick,
 }: Props) {
   return (
@@ -59,12 +55,7 @@ export default function ProfileHeader({
               <Button variant="default" size="sm" className="gap-1">
                 <MessageSquare size={16} /> Mensagem
               </Button>
-              <FollowButton
-                targetUsername={user.username}
-                initialFollowing={isFollowing}
-                onToggle={onFollowToggle}
-                className="flex items-center gap-1"
-              />
+              <FollowButton targetUsername={user.username} />
             </>
           )}
 

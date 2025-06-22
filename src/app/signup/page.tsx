@@ -1,4 +1,4 @@
-// File: src/app/signup/page.tsx
+// src/app/signup/page.tsx
 
 import SignUpForm from '@components/client/auth/SignUpForm';
 

@@ -1,12 +1,10 @@
-// File: src/app/page.tsx
-
+// src/app/page.tsx
 import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/src/lib/auth/auth';
+import { getViewerSession } from '@/src/services/viewer.service';
 import LandingContent from '@components/client/landing/LandingClient';
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  const session = await getViewerSession();
   if (session) redirect('/feed');
 
   return <LandingContent />;

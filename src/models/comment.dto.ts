@@ -1,5 +1,5 @@
-// File: src/dto/comment.dto.ts
-import type { UserDTO } from '@models/user.dto';
+// File: src/models/comment.dto.ts
+import type { PublicUserDTO } from '@models/user.dto';
 
 export type CommentDTO = {
     id:         string;
@@ -9,6 +9,7 @@ export type CommentDTO = {
     likeCount:  number;
     likedByMe:  boolean;
     
-    author:     UserDTO;
-    likedBy?:   UserDTO[];
+    author:     PublicUserDTO;
+    likedBy?:   PublicUserDTO[];
 };
+

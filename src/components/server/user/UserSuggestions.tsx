@@ -1,6 +1,6 @@
 // File: src/components/server/user/UserSuggestions.tsx
 import { getServerSession }   from 'next-auth/next';
-import { authOptions }        from '@/src/lib/auth/auth';
+import { authOptions }        from '@/src/lib/auth/authOptions';
 import { db }             from '@lib/db';
 import UserSummary            from '@components/server/user/UserSummary';
 import FollowButton           from '@components/client/ui/FollowButton';

@@ -1,9 +1,8 @@
-// File: src/app/profile/layout.tsx
-
-import { ReactNode }    from 'react';
-import MobileBottomNav  from '@components/client/ui/MobileBottomNav';
-import PrimarySidebar   from '@components/client/ui/PrimarySidebar';
-import MobileHeader     from '@components/client/ui/MobileHeader';
+// src/app/profile/layout.tsx
+import type { ReactNode } from 'react';
+import MobileBottomNav    from '@components/client/ui/MobileBottomNav';
+import PrimarySidebar     from '@components/client/ui/PrimarySidebar';
+import MobileHeader       from '@components/client/ui/MobileHeader';
 
 export default function ProfileLayout({ children }: { children: ReactNode }) {
   return (
@@ -12,11 +11,9 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       <aside className="hidden lg:block w-[240px] shrink-0">
         <PrimarySidebar />
       </aside>
-
       <main className="flex-1 py-8 lg:py-0 min-w-0 my-6">
         {children}
       </main>
-
       <MobileBottomNav />
     </div>
   );

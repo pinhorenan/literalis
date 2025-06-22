@@ -1,54 +1,84 @@
 // src/hooks/useProfileEditor.ts
-import { useState, useCallback } from 'react';
-import { UploadService }  from '@services/UploadService';
-import { ProfileService } from '@services/ProfileService';
+'use client';
+
+import { useState } from 'react';
 import type { UserDTO } from '@models/user.dto';
+import { ProfileService } from '@services/server/profile.service';
+import { toast } from 'react-hot-toast';
 
-export default function useProfileEditor(initialUser: UserDTO, me: string) {
-  const [user, setUser] = useState(initialUser);
+export default function useProfileEditor(initialUser: UserDTO, meUsername?: string) {
+  const isSelf = initialUser.username === meUsername;
+
+  const [user, setUser] = useState<UserDTO>(initialUser);
   const [isEditing, setIsEditing] = useState(false);
-  const isSelf = user.username === me;
 
-  const [editName,   setEditName]   = useState(user.name);
-  const [editBio,    setEditBio]    = useState(user.bio ?? '');
-  const [editAvatar, setEditAvatar] = useState(user.avatarUrl);
-
+  const [editName, setEditName] = useState(initialUser.name);
+  const [editBio, setEditBio] = useState(initialUser.bio);
+  const [editAvatar, setEditAvatar] = useState(initialUser.avatarUrl);
   const [saving, setSaving] = useState(false);
-  const [error,  setError]  = useState<string | null>(null);
 
-  const startEditing = () => setIsEditing(true);
-  const cancelEditing = () => { setIsEditing(false); resetEdits(); };
-  const resetEdits = () => { setEditName(user.name); setEditBio(user.bio ?? ''); setEditAvatar(user.avatarUrl); };
+  function startEditing() {
+    setEditName(user.name);
+    setEditBio(user.bio ?? '');
+    setEditAvatar(user.avatarUrl);
+    setIsEditing(true);
+  }
 
-  const handleAvatarUpload = async (file: File) => {
-    try {
-      const { url } = await UploadService.uploadAvatar(file);
-      setEditAvatar(url);
-    } catch (err:any) {
-      setError(err.message);
+  function cancelEditing() {
+    setIsEditing(false);
+  }
+
+  async function handleAvatarUpload(file: File) {
+    const form = new FormData();
+    form.append('file', file);
+
+    const res = await fetch('/api/upload/avatar', {
+      method: 'POST',
+      body: form,
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      toast.error(data.error || 'Erro ao enviar imagem.');
+      return;
     }
-  };
 
-  const saveProfile = useCallback(async () => {
-    setSaving(true); setError(null);
+    setEditAvatar(data.url);
+    toast.success('Imagem enviada com sucesso');
+  }
+
+  async function saveProfile() {
+    setSaving(true);
+
     try {
-      const updated = await ProfileService.update(user.username, {
+      const updated = await ProfileService.updateProfile(user.username, {
         name: editName,
-        bio:  editBio,
+        bio: editBio,
         avatarUrl: editAvatar,
       });
-      setUser(updated);
+      setUser({ ...user, ...updated, updatedAt: new Date().toISOString() });
+      toast.success('Perfil atualizado');
       setIsEditing(false);
-    } catch (err:any) { setError(err.message); }
-    finally { setSaving(false); }
-  }, [user.username, editName, editBio, editAvatar]);
+    } catch (err) {
+      toast.error('Erro ao salvar perfil');
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return {
-    user, isSelf,
-    isEditing, editName, editBio, editAvatar,
-    startEditing, cancelEditing,
-    setEditName, setEditBio,
+    user,
+    isSelf,
+    isEditing,
+    editName,
+    editBio,
+    editAvatar,
+    startEditing,
+    cancelEditing,
+    handleNameChange: setEditName,
+    handleBioChange: setEditBio,
     handleAvatarUpload,
-    saveProfile, saving, error,
+    saveProfile,
+    saving,
   };
 }

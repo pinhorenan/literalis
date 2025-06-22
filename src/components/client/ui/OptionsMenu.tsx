@@ -1,10 +1,9 @@
-// File: src/components/client/ui/OptionsMenu.tsx
+// src/components/client/ui/OptionsMenu.tsx
 'use client';
 
-import { useState, useRef } from 'react';
-import { MoreVertical }     from 'lucide-react';
-import useClickOutside      from '@hooks/useClickOutside';
+import { MoreVertical } from 'lucide-react';
 import { Button } from '@components/client/ui/Buttons';
+import useOptionsMenu from '@hooks/global/useOptionsMenu';
 
 interface OptionsMenuProps {
   onEdit: () => void;
@@ -13,10 +12,7 @@ interface OptionsMenuProps {
 }
 
 export default function OptionsMenu({ onEdit, onDelete, className = '' }: OptionsMenuProps) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useClickOutside(ref, () => setOpen(false));
+  const { open, toggle, ref, close } = useOptionsMenu();
 
   return (
     <div ref={ref} className={`relative ${className}`}>
@@ -26,7 +22,7 @@ export default function OptionsMenu({ onEdit, onDelete, className = '' }: Option
         icon={MoreVertical}
         aria-label="Mais opções"
         aria-haspopup="menu"
-        onClick={() => setOpen(v => !v)}
+        onClick={toggle}
         className="hover:scale-105 transition-transform duration-200"
       />
       {open && (
@@ -35,14 +31,14 @@ export default function OptionsMenu({ onEdit, onDelete, className = '' }: Option
           role="menu"
         >
           <button
-            onClick={() => { setOpen(false); onEdit(); }}
+            onClick={() => { close(); onEdit(); }}
             className="w-full text-left px-4 py-2 text-sm hover:bg-[var(--surface-card-hover)]"
             role="menuitem"
           >
             Editar
           </button>
           <button
-            onClick={() => { setOpen(false); onDelete(); }}
+            onClick={() => { close(); onDelete(); }}
             className="w-full text-left px-4 py-2 text-sm text-[var(--color-danger)] hover:bg-[var(--surface-card-hover)]"
             role="menuitem"
           >

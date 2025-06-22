@@ -3,12 +3,15 @@
 
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider   } from 'next-themes';
+import { FollowProvider } from '@context/followContext';
 
-export function Providers({ children, session }: any ) {
+export function Providers({ children, session }: { children: React.ReactNode; session: any } ) {
     return (
         <SessionProvider session={session}>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                {children}
+                <FollowProvider>
+                    {children}
+                </FollowProvider>
             </ThemeProvider>
         </SessionProvider>
     );

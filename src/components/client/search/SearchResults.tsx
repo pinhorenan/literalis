@@ -1,13 +1,12 @@
-// File: src/components/client/search/SearchResults.tsx
+// src/components/client/search/SearchResults.tsx
 'use client';
 
 import BookCard from '@components/server/book/BookCard';
-import Link     from 'next/link';
-import Image    from 'next/image';
-import useSearch from '@hooks/useSearch';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import type { BookDTO } from '@models/book.dto';
-import type { UserDTO } from '@models/user.dto';
+import useBookSearch from '@hooks/search/useBookSearch';
+import useUserSearch from '@hooks/search/useUserSearch';
 
 interface Props {
   query: string;
@@ -15,23 +14,40 @@ interface Props {
 }
 
 export default function SearchResults({ query, tab }: Props) {
-  const { data, loading, error } = useSearch(query, tab);
+  const {
+    books,
+    isLoading: loadingBooks,
+    error: errorBooks,
+  } = useBookSearch(query);
 
-  if (!query) return null;
+  const {
+    users,
+    isLoading: loadingUsers,
+    error: errorUsers,
+  } = useUserSearch(query);
+
+  const loading = tab === 'books' ? loadingBooks : loadingUsers;
+  const error = tab === 'books' ? errorBooks : errorUsers;
+
+  if (!query.trim()) return null;
   if (loading) return <p>Carregando...</p>;
-  if (error)   return <p>Erro ao buscar.</p>;
-  if (!data?.length) return <p>Nenhum resultado encontrado.</p>;
+  if (error) return <p>Erro ao buscar.</p>;
+
+  const hasNoResults =
+    (tab === 'books' && books.length === 0) ||
+    (tab === 'users' && users.length === 0);
+
+  if (hasNoResults) return <p>Nenhum resultado encontrado.</p>;
 
   return (
     <div className="space-y-4 mt-4">
       {tab === 'books' &&
-        (data as BookDTO[]).map(book => (
+        books.map(book => (
           <BookCard key={book.isbn} book={book} />
-        ))
-      }
+        ))}
 
       {tab === 'users' &&
-        (data as UserDTO[]).map(user => (
+        users.map(user => (
           <Link
             key={user.username}
             href={`/profile/${user.username}`}
@@ -46,8 +62,7 @@ export default function SearchResults({ query, tab }: Props) {
             />
             <span>{user.name}</span>
           </Link>
-        ))
-      }
+        ))}
     </div>
   );
 }

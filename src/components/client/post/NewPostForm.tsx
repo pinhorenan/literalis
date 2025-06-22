@@ -1,4 +1,3 @@
-// File: src/components/client/post/NewPostForm.tsx
 'use client';
 
 import React from 'react';
@@ -12,8 +11,8 @@ export interface NewPostFormProps {
   booksError: string | null;
   selectedBook: string;
   onBookSelect: (isbn: string) => void;
-  excerpt: string;
-  onExcerptChange: (value: string) => void;
+  content: string;
+  onContentChange: (value: string) => void;
   currentPage: number;
   onPageChange: (value: number) => void;
   progress: number;
@@ -29,8 +28,8 @@ export default function NewPostForm({
   booksError,
   selectedBook,
   onBookSelect,
-  excerpt,
-  onExcerptChange,
+  content,
+  onContentChange,
   currentPage,
   onPageChange,
   progress,
@@ -39,12 +38,17 @@ export default function NewPostForm({
   loading,
   error,
 }: NewPostFormProps) {
-  // agora busca o objeto inteiro
   const selected = books.find(u => u.book.isbn === selectedBook);
 
   return (
     <div className="max-w-3xl mt-4">
-      <form onSubmit={e => { e.preventDefault(); onSubmit(); }} className="grid md:grid-cols-2 gap-6 p-4 border rounded bg-[var(--surface-bg)]">
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          onSubmit();
+        }}
+        className="grid md:grid-cols-2 gap-6 p-4 border rounded bg-[var(--surface-bg)]"
+      >
         {/* Seleção de livro */}
         <div>
           <label className="block mb-1 font-medium">Livro</label>
@@ -62,7 +66,7 @@ export default function NewPostForm({
               <option value="" disabled>Selecione um livro…</option>
               {books.map(u => (
                 <option key={u.book.isbn} value={u.book.isbn}>
-                  {u.book.title} ({u.progressPct ?? 0}% lido)
+                  {u.book.title} (atual: pág. {u.currentPage})
                 </option>
               ))}
             </select>
@@ -83,7 +87,7 @@ export default function NewPostForm({
                   {selected.book.pages ?? 0} páginas
                 </p>
                 <p className="text-sm text-[var(--text-secondary)] mt-1">
-                  Seu progresso: {selected.progressPct ?? 0}% ({selected.progressPages} páginas)
+                  Você está na página: {selected.currentPage}
                 </p>
               </div>
             </div>
@@ -91,7 +95,7 @@ export default function NewPostForm({
 
           {selected && (
             <div className="mt-4">
-              <label className="block mb-1">Página atual</label>
+              <label className="block mb-1">Nova página atual</label>
               <input
                 type="number"
                 min={1}
@@ -99,7 +103,10 @@ export default function NewPostForm({
                 value={currentPage}
                 onChange={e => {
                   const v = parseInt(e.target.value, 10);
-                  if (!isNaN(v)) onPageChange(Math.max(1, Math.min(v, selected.book.pages ?? 0)));
+                  if (!isNaN(v)) {
+                    const max = selected.book.pages ?? 0;
+                    onPageChange(Math.max(1, Math.min(v, max)));
+                  }
                 }}
                 className="w-full border rounded p-2"
                 required
@@ -118,8 +125,8 @@ export default function NewPostForm({
           <label className="block mb-1">Trecho ou comentário</label>
           <textarea
             className="w-full border rounded p-2 flex-1"
-            value={excerpt}
-            onChange={e => onExcerptChange(e.target.value)}
+            value={content}
+            onChange={e => onContentChange(e.target.value)}
             placeholder="Escreva algo sobre o livro…"
             rows={5}
             required

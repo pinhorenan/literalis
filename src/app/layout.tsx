@@ -1,9 +1,9 @@
-// File: src/app/layout.tsx
+// src/app/layout.tsx
 import { type Metadata    } from  'next';
 import { ReactNode        } from  'react';
-import { getServerSession } from  'next-auth';
-import { authOptions      } from  '@/src/lib/auth/auth';
+import { getViewerSession } from  '@services/viewer.service';
 import { Providers        } from  '@context/providers';
+import { Toaster } from 'react-hot-toast';
 import '@styles/globals.css';
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const session = await getServerSession(authOptions);
+  const session = await getViewerSession();
 
   return (
     <html lang="pt-BR" className="scroll-smooth" suppressHydrationWarning>
@@ -21,6 +21,20 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <Providers session={session}>
           <main className="flex-1">
             {children}
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                className: 'bg-white text-gray-800 dark:bg-gray-800 dark:text-white',
+                style: {
+                  borderRadius: '8px',
+                  padding: '16px',
+                },
+              }}
+              containerStyle={{
+                top: '80px',
+                right: '20px',
+              }}
+            />
           </main>
         </Providers>
       </body>

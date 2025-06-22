@@ -34,7 +34,7 @@
       
       "@src/":          ["./src/*"],
       "@app/*":         ["./src/app/*"],
-      "@api/*":         ["api_backup/*"],
+      "@api/*":         ["./src/app/api/*"],
       "@styles/*":      ["./src/styles/*"],
       "@models/*":      ["./src/models/*"],
       "@context/*":     ["./src/context/*"],
@@ -44,9 +44,9 @@
       
       "@lib/*":         ["./src/lib/*"],
       "@mappers/*":     ["./src/lib/mappers/*"],
-      "@services/*":    ["./src/lib/services/*"],
-      "@includes/*":    ["./src/lib/includes/*"],
-      "@repository/*":  ["./src/lib/repository/*"],
+      "@services/*":    ["./src/services/*"],
+      "@includes/*":    ["./src/includes/*"],
+      "@repository/*":  ["./src/repository/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "prisma/seed.ts"],

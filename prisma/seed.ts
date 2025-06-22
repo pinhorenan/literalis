@@ -2,11 +2,13 @@
 import { PrismaClient, NotificationType, ShelfStatus } from '@prisma/client';
 import { faker } from '@faker-js/faker/locale/pt_BR';
 import fs from 'fs/promises';
+import { createWriteStream } from 'fs';
 import path from 'path';
+import { pipeline } from 'stream/promises';
+import { execSync } from 'child_process';
 
 const prisma = new PrismaClient();
 
-// ─── Parâmetros de geração ─────────────────────────────────────────────────
 const NUM_USERS = 45;
 const NUM_BOOKS = 80;
 const MAX_BOOKS_PER_SHELF = 55;
@@ -16,22 +18,33 @@ const MAX_COMMENTS_PER_POST = 12;
 const MAX_LIKES_PER_POST = 35;
 const MAX_LIKES_PER_COMMENT = 25;
 
-// ─── Diretórios de assets ───────────────────────────────────────────────────
 const AVATAR_DIR = path.join(process.cwd(), 'public', 'uploads', 'avatars');
-const COVER_DIR  = path.join(process.cwd(), 'public', 'uploads', 'covers');
+const COVER_DIR = path.join(process.cwd(), 'public', 'uploads', 'covers');
+
+async function downloadImageToUploads(url: string, destPath: string) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Erro ao baixar imagem: ${url}`);
+  await pipeline(res.body as any, createWriteStream(destPath));
+}
 
 async function main() {
-  // ─── Cria pastas de upload ─────────────────────────────────────────────────
   await fs.mkdir(AVATAR_DIR, { recursive: true });
-  await fs.mkdir(COVER_DIR,  { recursive: true });
+  await fs.mkdir(COVER_DIR, { recursive: true });
 
-  // ─── 1. Usuários ──────────────────────────────────────────────────────────
   const users = [];
   for (let i = 0; i < NUM_USERS; i++) {
-    const name     = faker.person.fullName();
+    const name = faker.person.fullName();
     const username = faker.internet.username().toLowerCase();
-    const email    = `${username}@literalis.com`;
-    const bio      = faker.lorem.paragraph();
+    const email = `${username}@literalis.com`;
+    const bio = faker.lorem.paragraph();
+    const avatarUrl = faker.image.avatar();
+    const avatarPath = path.join(AVATAR_DIR, `${username}.jpg`);
+
+    try {
+      await downloadImageToUploads(avatarUrl, avatarPath);
+    } catch {
+      console.warn(`Falha ao baixar avatar de ${username}`);
+    }
 
     const user = await prisma.user.create({
       data: {
@@ -40,23 +53,30 @@ async function main() {
         email,
         password: faker.internet.password(),
         bio,
-        avatarUrl: `/uploads/avatars/default.jpg`,
+        avatarUrl: `/uploads/avatars/${username}.jpg`,
       },
     });
     users.push(user);
   }
 
-  // ─── 2. Livros ────────────────────────────────────────────────────────────
   const books = [];
   for (let i = 0; i < NUM_BOOKS; i++) {
-    const isbn            = faker.string.numeric(13);
-    const title           = faker.lorem.words({ min: 2, max: 5 });
-    const author          = faker.person.fullName();
-    const publisher       = faker.company.name();
-    const edition         = faker.number.int({ min: 1, max: 6 });
-    const pages           = faker.number.int({ min: 80, max: 1500 });
+    const isbn = faker.string.numeric(13);
+    const title = faker.lorem.words({ min: 2, max: 5 });
+    const author = faker.person.fullName();
+    const publisher = faker.company.name();
+    const edition = faker.number.int({ min: 1, max: 6 });
+    const pages = faker.number.int({ min: 80, max: 1500 });
     const publicationDate = faker.date.past({ years: 20 });
- 
+    const coverUrl = faker.image.urlPicsumPhotos({ width: 400, height: 600 });
+    const coverPath = path.join(COVER_DIR, `${isbn}.jpg`);
+
+    try {
+      await downloadImageToUploads(coverUrl, coverPath);
+    } catch {
+      console.warn(`Falha ao baixar capa de ${isbn}`);
+    }
+
     const book = await prisma.book.create({
       data: {
         isbn,
@@ -67,14 +87,12 @@ async function main() {
         pages,
         language: 'Português',
         publicationDate,
-        coverUrl: `/uploads/covers/default.jpg`,
+        coverUrl: `/uploads/covers/${isbn}.jpg`,
       },
     });
     books.push(book);
   }
 
-
-  // 3. Criação de estantes
   for (const user of users) {
     const numBooks = faker.number.int({ min: 4, max: MAX_BOOKS_PER_SHELF });
     const shelfBooks = faker.helpers.shuffle(books).slice(0, numBooks);
@@ -83,7 +101,7 @@ async function main() {
         data: {
           userUsername: user.username,
           bookIsbn: book.isbn,
-          progress: faker.number.int({ min: 0, max: book.pages ?? 1000 }),
+          currentPage: faker.number.int({ min: 0, max: book.pages ?? 1000 }),
           rating: faker.number.int({ min: 0, max: 10 }),
           status: faker.helpers.arrayElement(Object.values(ShelfStatus)),
         },
@@ -91,11 +109,9 @@ async function main() {
     }
   }
 
-  // 4. Criação de seguidores
   for (const follower of users) {
     const possible = users.filter(u => u.username !== follower.username);
     const toFollow = faker.helpers.shuffle(possible).slice(0, MAX_FOLLOWS_PER_USER);
-
     for (const followed of toFollow) {
       await prisma.follow.create({
         data: {
@@ -113,7 +129,6 @@ async function main() {
     }
   }
 
-  // 5. Criação de posts
   for (const author of users) {
     const numPosts = faker.number.int({ min: 1, max: MAX_POSTS_PER_USER });
     for (let p = 0; p < numPosts; p++) {
@@ -127,7 +142,6 @@ async function main() {
         },
       });
 
-      // 6. Criação de comentários
       const numComments = faker.number.int({ min: 0, max: MAX_COMMENTS_PER_POST });
       const commentUsers = faker.helpers.shuffle(users).slice(0, numComments);
       for (const commenter of commentUsers) {
@@ -147,7 +161,7 @@ async function main() {
             commentId: comment.id,
           },
         });
-        // 7. Likes nos comentários
+
         const numCLikes = faker.number.int({ min: 0, max: MAX_LIKES_PER_COMMENT });
         faker.helpers.shuffle(users).slice(0, numCLikes).forEach(async liker => {
           await prisma.commentLike.create({
@@ -159,7 +173,6 @@ async function main() {
         });
       }
 
-      // 8. Likes nos posts
       const numLikes = faker.number.int({ min: 0, max: MAX_LIKES_PER_POST });
       faker.helpers.shuffle(users).slice(0, numLikes).forEach(async liker => {
         try {
@@ -177,19 +190,17 @@ async function main() {
               postId: post.id,
             },
           });
-        } catch {
-          // ignora duplicatas
-        }
+        } catch {}
       });
     }
   }
-  
-  console.log('Seed completed successfully!');
+
+  console.log('Seed concluído com sucesso!');
 }
 
 main()
   .catch(e => {
-    console.error(e);
+    console.error('Erro ao executar o seed:', e);
     process.exit(1);
   })
   .finally(async () => {
