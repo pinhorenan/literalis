@@ -13,3 +13,6 @@ export type CommentDTO = {
     likedBy?:   PublicUserDTO[];
 };
 
+export type CreateCommentDTO = { content: string };
+
+export type UpdateCommentDTO = Partial<Pick<CommentDTO, 'content'>>;

@@ -1,45 +1,48 @@
-// src/services/follow.service.ts
+// src/services/server/follow.service.ts
+import { db } from '@lib/db';
+
 export const FollowService = {
-    async toggleFollow(username: string): Promise<{ followed: boolean }> {
-        const res = await fetch(`/api/users/${username}/follow`, {
-            method: 'PATCH',
-    });
-
-    if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.error || 'Erro ao seguir usuário.');
-    }
-
-    return res.json();
-    },
-
-    async follow(username: string): Promise<void> {
-        const res = await fetch(`/api/users/${username}/follow`, {
-            method: 'PUT',
+    async isFollowing(followerUsername: string, followedUsername: string): Promise<boolean> {
+        const existing = await db.follow.findUnique({
+            where: { followerUsername_followedUsername: { followerUsername, followedUsername } }
         });
-    
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.error || 'Erro ao seguir usuário.');
-        }
+        return !!existing;
     },
 
-    async unfollow(username: string): Promise<void> {
-        const res = await fetch(`/api/users/${username}/follow`, {
-            method: 'DELETE',
+    async follow(followerUsername: string, followedUsername: string): Promise<void> {
+        if (followerUsername === followedUsername) return;
+
+        await db.follow.upsert({
+            where: { followerUsername_followedUsername: { followerUsername, followedUsername } },
+            update: {},
+            create: { followerUsername, followedUsername },
         });
-    
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.error || 'Erro ao deixar de seguir usuário.');
+    },
+
+    async unfollow(followerUsername: string, followedUsername: string): Promise<void> {
+        if (followerUsername === followedUsername) return;
+
+        await db.follow.deleteMany({
+          where: { followerUsername, followedUsername },  
+        });
+    },
+
+    async toggle(followerUsername: string, followedUsername: string): Promise<{ followed: boolean }> {
+        const already = await FollowService.isFollowing(followerUsername, followedUsername);
+        if (already) {
+            await FollowService.unfollow(followerUsername, followedUsername);
+            return { followed: false };
+        } else {
+            await FollowService.follow(followerUsername, followedUsername);
+            return { followed: true };
         }
     },
 
-    async getFollowStatus(username: string): Promise<{ isFollowing: boolean; followerCount: number; followingCount: number }> {
-        const res = await fetch(`/api/users/${username}/follow/status`);
-        if (!res.ok) {
-            throw new Error('Erro ao verificar status de follow.');
-        }
-        return res.json();
+    async getCounts(username: string): Promise<{ followerCount: number; followingCount: number }> {
+        const [followerCount, followingCount] = await Promise.all([
+            db.follow.count({ where: { followedUsername: username } }),
+            db.follow.count({ where: { followerUsername: username } }),
+        ]);
+        return { followerCount, followingCount };
     },
 };

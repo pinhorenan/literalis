@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { FollowService } from '@services/server/follow.service';
-import { useFollowContext } from '@context/followContext';
+import { FollowService } from '@/src/services/client/follow.service';
+import { useFollowContext } from '@/src/contexts/followContext';
 import { toast } from 'react-hot-toast';
 
 export default function useFollowStatus(

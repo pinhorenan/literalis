@@ -1,7 +1,7 @@
 // File: src/models/post.dto.ts
-import type { UserDTO }     from '@models/user.dto';
-import type { BookDTO }     from '@models/book.dto';
-import type { CommentDTO }  from '@models/comment.dto';
+import type { CommentDTO }      from '@models/comment.dto';
+import type { UserBookDTO }     from '@models/userBook.dto';
+import type { PublicUserDTO }   from '@models/user.dto';
 
 export type PostDTO = {
     id:                 string;
@@ -13,18 +13,22 @@ export type PostDTO = {
     commentCount:       number;
     likedByMe:          boolean;
     isFollowingAuthor:  boolean;
-    isInMyBookshelf:    boolean;
 
-    author:             UserDTO;
-    book:               BookDTO;
-    likedBy:            UserDTO[];
+    userBook: {
+        user: PublicUserDTO;
+        book: UserBookDTO['book'];
+        currentPage: number;
+        isPrivate: boolean;
+    };
+
+    likedBy:            PublicUserDTO[];
     comments:           CommentDTO[];
 };
 
 export type CreatePostDTO = {
+    book: UserBookDTO['book'];
     content: string;
     progress: number;
-    bookIsbn: string;
 }
 
 export type UpdatePostDTO = {

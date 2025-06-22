@@ -2,7 +2,7 @@
 import { type Metadata    } from  'next';
 import { ReactNode        } from  'react';
 import { getViewerSession } from  '@services/viewer.service';
-import { Providers        } from  '@context/providers';
+import { Providers        } from  '@/src/contexts/providers';
 import { Toaster } from 'react-hot-toast';
 import '@styles/globals.css';
 

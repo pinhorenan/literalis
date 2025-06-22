@@ -1,6 +1,6 @@
 // src/app/api/users/[username]/route.ts
-import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@lib/db';
+import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const updateSchema = z.object({

@@ -12,7 +12,7 @@ import EditPostModal from './EditPostModal';
 import DeletePostModal from './DeletePostModal';
 
 import usePostController from '@hooks/post/usePostController';
-import { useFollowContext } from '@context/followContext';
+import { useFollowContext } from '@/src/contexts/followContext';
 
 import type { PostDTO } from '@models/post.dto';
 

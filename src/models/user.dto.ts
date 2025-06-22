@@ -1,20 +1,24 @@
 // src/models/user.dto.ts
-export type UserDTO = {
-    username:               string;
-    name:                   string;
-    avatarUrl:              string;
-    bio:                    string;
-    createdAt:              string;
-    updatedAt:              string;
-    postCount:              number;
-    bookCount:              number;
-    isMe:                   boolean;
-    isFollower:             boolean;
-    isFollowing:            boolean;
-    followerCount:          number;
-    followingCount:         number;
-    followingUsernames:     string[];
-    followerUsernames:      string[];
+
+export type UserBaseDTO = {
+  username: string;
+  name: string;
+  avatarUrl: string;
+  bio: string;
+  createdAt: string;
+  updatedAt: string;
+  followerCount: number;
+  followingCount: number;
+  followingUsernames: string[];
+  followerUsernames: string[];
+  postCount: number;
+  bookCount: number;
+};
+
+export type UserDTO = UserBaseDTO & {
+  isMe: boolean;
+  isFollower: boolean;
+  isFollowing: boolean;
 };
 
 export type PublicUserDTO = {
@@ -22,10 +26,19 @@ export type PublicUserDTO = {
     name: string;
     avatarUrl: string;
     bio?: string;
-}
+};
+
+export type CreateUserDTO = {
+    username: string;
+    name: string;
+    email: string;
+    avatarUrl?: string;
+    bio?: string;
+};
 
 export interface UpdateUserDTO {
-    name: string;
-    bio?: string;
+    name?: string;
+    email?: string;
     avatarUrl?: string;
-}
+    bio?: string;
+};
