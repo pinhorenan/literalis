@@ -1,11 +1,10 @@
-// File: src/components/auth/SignInForm.tsx
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useRouter }      from 'next/navigation';
-import { signIn }         from 'next-auth/react';
-import Link               from 'next/link';
-import { Button }         from '@components/client/ui/Buttons';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { Button } from '@components/client/ui/Buttons';
 import type { SignInDTO } from '@models/auth.dto';
 
 interface Props {
@@ -15,10 +14,14 @@ interface Props {
 
 export default function SignInForm({ redirectTo = '/feed', compact = false }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [credentials, setCredentials] = useState<SignInDTO>({ username: '', password: '' });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const errorRef = useRef<HTMLDivElement>(null);
+
+  const callbackUrl = searchParams.get('callbackUrl') || redirectTo;
 
   useEffect(() => {
     if (error) errorRef.current?.focus();
@@ -33,13 +36,15 @@ export default function SignInForm({ redirectTo = '/feed', compact = false }: Pr
       redirect: false,
       username: credentials.username,
       password: credentials.password,
+      callbackUrl,
     });
 
     setLoading(false);
+
     if (res?.error) {
-      setError(res.error);
-    } else {
-      router.push(res?.url ?? redirectTo);
+      setError('Usuário ou senha inválidos');
+    } else if (res?.url) {
+      router.push(res.url);
     }
   };
 
@@ -60,10 +65,10 @@ export default function SignInForm({ redirectTo = '/feed', compact = false }: Pr
         </div>
       )}
 
-      {(['username','password'] as const).map(key => (
+      {(['username', 'password'] as const).map(key => (
         <div key={key}>
           <label htmlFor={key} className="block mb-1 font-medium">
-            {key.charAt(0).toUpperCase()+key.slice(1)} *
+            {key === 'username' ? 'Usuário' : 'Senha'} *
           </label>
           <input
             id={key}
