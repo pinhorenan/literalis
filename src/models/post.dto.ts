@@ -1,6 +1,6 @@
 // src/models/post.dto.ts
 import type { CommentDTO } from '@models/comment.dto';
-import type { BookshelfDTO } from '@models/bookshelf.dto';
+import type { BookshelfEntryDTO } from '@models/bookshelf.dto';
 
 export type PostDTO = {
   id: string;
@@ -12,13 +12,13 @@ export type PostDTO = {
   commentCount: number;
   likedByMe: boolean;
   isFollowingAuthor: boolean;
-  userBook: BookshelfDTO;
+  userBook: BookshelfEntryDTO;
   likedBy: string[];
   comments: CommentDTO[];
 };
 
 export type CreatePostDTO = {
-  bookshelf: BookshelfDTO;
+  bookshelf: BookshelfEntryDTO;
   content: string;
   progress: number;
 };

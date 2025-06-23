@@ -1,7 +1,7 @@
 // src/repository/userBook.repository.ts
 import { db } from '@lib/db';
 import { bookshelfInclude, bookshelfOptionSelect } from '@/src/includes/bookshelf.include';
-import type { BookshelfCreateDTO, BookshelfUpdateDTO } from '@/src/models/bookshelf.dto';
+import type { CreateBookshelfEntryDTO, BookshelfUpdateDTO } from '@/src/models/bookshelf.dto';
 
 export const BookshelfRepository = {
   // Busca todos os livros ativos de um usuário (sem removedAt)
@@ -54,7 +54,7 @@ export const BookshelfRepository = {
 
 
   // Cria nova entrada na estante do usuário com include
-  create: (userUsername: string, bookIsbn: string, data?: Partial<BookshelfCreateDTO>) => {
+  create: (userUsername: string, bookIsbn: string, data?: Partial<CreateBookshelfEntryDTO>) => {
     return db.userBook.create({
       data: {
         userUsername,

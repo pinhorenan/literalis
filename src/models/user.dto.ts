@@ -1,44 +1,61 @@
 // src/models/user.dto.ts
 
-export type UserBaseDTO = {
+export interface UserDTO {
+  username: string;
+  name: string;
+  email: string;
+  avatarUrl: string;
+  bio: string;
+  createdAt: Date;
+  updatedAt: Date;
+  postCount: number;
+  bookCount: number;
+  followerCount: number;
+  followingCount: number;
+  followerUsernames: string[];
+  followingUsernames: string[];
+};
+
+export interface PublicUserDTO {
+  username: string;
+  name: string;
+  bio: string;
+  avatarUrl: string;
+  postCount: number;
+  bookCount: number;
+  followerCount: number;
+  followingCount: number;
+  followerUsernames: string[];
+  followingUsernames: string[];
+};
+
+export interface PrivateUserDTO extends PublicUserDTO {
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export interface UserWithContextDTO extends PublicUserDTO {
+  isMe: boolean;
+  isFollowing: boolean;
+  isFollower: boolean;
+};
+
+export interface MinimalUserDTO {
   username: string;
   name: string;
   avatarUrl: string;
-  bio: string;
-  createdAt: string;
-  updatedAt: string;
-  followerCount: number;
-  followingCount: number;
-  followingUsernames: string[];
-  followerUsernames: string[];
-  postCount: number;
-  bookCount: number;
 };
 
-export type UserDTO = UserBaseDTO & {
-  isMe: boolean;
-  isFollower: boolean;
-  isFollowing: boolean;
-};
-
-export type PublicUserDTO = {
-    username: string;
-    name: string;
-    avatarUrl: string;
-    bio?: string;
-};
-
-export type CreateUserDTO = {
-    username: string;
-    name: string;
-    email: string;
-    avatarUrl?: string;
-    bio?: string;
+export interface CreateUserDTO {
+  username: string;
+  email: string;
+  name: string;
 };
 
 export interface UpdateUserDTO {
-    name?: string;
-    email?: string;
-    avatarUrl?: string;
-    bio?: string;
+  name: string;
+  bio: string;
+  email: string;
+  avatarUrl: string;
 };

@@ -3,13 +3,13 @@
 
 import { useState } from 'react';
 import { BookshelfClient } from '@services/client/bookshelf.client';
-import type { BookshelfDTO, BookshelfUpdateDTO } from '@models/bookshelf.dto';
+import type { BookshelfEntryDTO, BookshelfUpdateDTO } from '@models/bookshelf.dto';
 
 export function useUpdateBookshelfEntry() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function updateEntry(isbn: string, data: BookshelfUpdateDTO): Promise<BookshelfDTO | null> {
+  async function updateEntry(isbn: string, data: BookshelfUpdateDTO): Promise<BookshelfEntryDTO | null> {
     setLoading(true);
     setError(null);
     try {

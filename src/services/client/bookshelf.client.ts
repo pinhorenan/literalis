@@ -1,7 +1,7 @@
 // src/services/client/bookshelf.client.ts
 import type {
-  BookshelfDTO,
-  BookshelfCreateDTO,
+  BookshelfEntryDTO,
+  CreateBookshelfEntryDTO,
   BookshelfUpdateDTO,
   BookshelfOptionDTO,
 } from '@models/bookshelf.dto';
@@ -10,13 +10,13 @@ import { ShelfStatus } from '@prisma/client';
 const BASE = '/api/bookshelf';
 
 export const BookshelfClient = {
-  async list(): Promise<BookshelfDTO[]> {
+  async list(): Promise<BookshelfEntryDTO[]> {
     const res = await fetch(BASE);
     if (!res.ok) throw new Error('Erro ao buscar estante do usuário');
     return res.json();
   },
 
-  async listPublic(username: string): Promise<BookshelfDTO[]> {
+  async listPublic(username: string): Promise<BookshelfEntryDTO[]> {
     const res = await fetch(`/api/users/${username}/bookshelf`);
     if (!res.ok) throw new Error('Erro ao buscar estante pública');
     return res.json();
@@ -28,13 +28,13 @@ export const BookshelfClient = {
     return res.json();
   },
 
-  async get(isbn: string): Promise<BookshelfDTO> {
+  async get(isbn: string): Promise<BookshelfEntryDTO> {
     const res = await fetch(`${BASE}/${isbn}`);
     if (!res.ok) throw new Error('Erro ao buscar entrada da estante');
     return res.json();
   },
 
-  async add(data: BookshelfCreateDTO): Promise<BookshelfDTO> {
+  async add(data: CreateBookshelfEntryDTO): Promise<BookshelfEntryDTO> {
     const res = await fetch(BASE, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -44,7 +44,7 @@ export const BookshelfClient = {
     return res.json();
   },
 
-  async update(isbn: string, data: BookshelfUpdateDTO): Promise<BookshelfDTO> {
+  async update(isbn: string, data: BookshelfUpdateDTO): Promise<BookshelfEntryDTO> {
     const res = await fetch(`${BASE}/${isbn}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -54,7 +54,7 @@ export const BookshelfClient = {
     return res.json();
   },
 
-  async updateProgress(isbn: string, currentPage: number): Promise<BookshelfDTO> {
+  async updateProgress(isbn: string, currentPage: number): Promise<BookshelfEntryDTO> {
     const res = await fetch(`${BASE}/${isbn}/progress`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -64,7 +64,7 @@ export const BookshelfClient = {
     return res.json();
   },
 
-  async updateStatus(isbn: string, status: ShelfStatus): Promise<BookshelfDTO> {
+  async updateStatus(isbn: string, status: ShelfStatus): Promise<BookshelfEntryDTO> {
     const res = await fetch(`${BASE}/${isbn}/status`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -74,7 +74,7 @@ export const BookshelfClient = {
     return res.json();
   },
 
-  async remove(isbn: string): Promise<BookshelfDTO> {
+  async remove(isbn: string): Promise<BookshelfEntryDTO> {
     const res = await fetch(`${BASE}/${isbn}`, { method: 'DELETE' });
     if (!res.ok) throw new Error('Erro ao remover livro da estante');
     return res.json();

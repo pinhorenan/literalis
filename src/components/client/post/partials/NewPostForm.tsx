@@ -3,10 +3,10 @@
 import React from 'react';
 import Image from 'next/image';
 import { Button } from '@components/client/ui/Buttons';
-import type { BookshelfDTO } from '@/src/models/bookshelf.dto';
+import type { BookshelfEntryDTO } from '@/src/models/bookshelf.dto';
 
 export interface NewPostFormProps {
-  books: BookshelfDTO[];
+  books: BookshelfEntryDTO[];
   loadingBooks: boolean;
   booksError: string | null;
   selectedBook: string;

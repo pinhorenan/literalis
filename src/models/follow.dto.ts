@@ -1,12 +1,12 @@
 // src/models/follow.dto.ts
 import type { PublicUserDTO } from './user.dto';
 
-export type FollowDTO = {
+export interface FollowDTO {
   user: PublicUserDTO;
   createdAt: string;
 };
 
-export type FullFollowDTO = {
+export interface FullFollowDTO {
   follower: PublicUserDTO;
   followed: PublicUserDTO;
   createdAt: string;

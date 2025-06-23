@@ -10,10 +10,10 @@ import SearchBar  from   '@components/client/ui/SearchBar';
 import ShelfItem  from   '@components/client/bookshelf/BookShelfItem';
 
 import { BookshelfService } from '@services/BookshelfService';
-import type { BookshelfDTO } from '@/src/models/bookshelf.dto';
+import type { BookshelfEntryDTO } from '@/src/models/bookshelf.dto';
 
 interface BookshelfClientProps {
-  initialItems: BookshelfDTO[];
+  initialItems: BookshelfEntryDTO[];
   username: string;
   isOwner: boolean;
 }
@@ -25,7 +25,7 @@ export default function BookshelfClient({
   username,
   isOwner,
 }: BookshelfClientProps) {
-  const [userBooks, setUserBooks] = useState<BookshelfDTO[]>(initialItems);
+  const [userBooks, setUserBooks] = useState<BookshelfEntryDTO[]>(initialItems);
   const [filterText, setFilterText] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('title');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');

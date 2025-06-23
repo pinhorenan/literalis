@@ -26,7 +26,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update post' }, { status: 400 });
   }
-}
+}\
 
 export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
   try {

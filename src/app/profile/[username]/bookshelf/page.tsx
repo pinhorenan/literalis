@@ -5,7 +5,7 @@ import { db }               from '@lib/db'
 import BookshelfClient      from '@components/client/bookshelf/BookshelfClient'
 
 import type { UserDTO }     from '@models/user.dto'
-import type { BookshelfDTO } from '@/src/models/bookshelf.dto'
+import type { BookshelfEntryDTO } from '@/src/models/bookshelf.dto'
 
 interface BookshelfPageProps {
   params: { username: string }
@@ -49,7 +49,7 @@ export default async function Bookshelf({ params }: BookshelfPageProps) {
   })
 
   // 4) Mapeia para UserBookDTO…
-  const initialItems: BookshelfDTO[] = shelfEntries.map((e) => ({
+  const initialItems: BookshelfEntryDTO[] = shelfEntries.map((e) => ({
     user: userDTO,
     book: {
       isbn:             e.book.isbn,

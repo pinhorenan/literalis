@@ -1,39 +1,45 @@
 // src/models/book.dto.ts
-export type BookDTO = {
-    isbn:               string;
-    title:              string;
-    author:             string;
-    coverUrl:           string;
-    external:           boolean;
 
-    publisher?:         string;
-    edition?:           number;
-    pages?:             number;
-    language?:          string;
-    publicationDate?:   string;
+export interface BookDTO {
+    isbn: string;
+    title: string;     
+    author: string; 
+    publisher: string;     
+    coverUrl: string;     
+    language: string;     
+    edition: number;     
+    pages: number;     
+    external: boolean;    
+    publicationDate: Date;       
 };
 
-export type CreateBookDTO = {
+export interface MinimalBookDTO {
     isbn: string;
     title: string;
     author: string;
-    pages: number;
-    coverUrl?: string;
-    publisher?: string;
-    edition?: number;
-    language?: string;
-    publicationDate?: Date;
-    external?: boolean;
+    coverUrl: string;
 };
 
-export type UpdateBookDTO = {
-    title?: string;
-    author?: string;
-    coverUrl?: string;
-    publisher?: string;
-    edition?: number;
-    pages?: number;
-    language?: string;
-    publicationDate?: Date;
-    external?: boolean;
+export interface CreateBookDTO {
+    isbn: string;
+    title: string;
+    author: string;
+    publisher: string;
+    edition: number;
+    pages: number;
+    language: string;
+    publicationDate: Date;
+    coverUrl: string;
+    external: boolean; 
+};
+
+export interface UpdateBookDTO {
+    title: string;
+    author: string;
+    coverUrl: string;
+    publisher: string;
+    edition: number;
+    pages: number;
+    language: string;
+    publicationDate: Date;
 };

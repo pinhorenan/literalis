@@ -3,14 +3,14 @@
 
 import { useState } from 'react';
 import { BookshelfClient } from '@services/client/bookshelf.client';
-import type { BookshelfDTO } from '@models/bookshelf.dto';
+import type { BookshelfEntryDTO } from '@models/bookshelf.dto';
 import { ShelfStatus } from '@prisma/client';
 
 export function useUpdateBookshelfStatus() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function updateStatus(isbn: string, status: ShelfStatus): Promise<BookshelfDTO | null> {
+  async function updateStatus(isbn: string, status: ShelfStatus): Promise<BookshelfEntryDTO | null> {
     setLoading(true);
     setError(null);
     try {

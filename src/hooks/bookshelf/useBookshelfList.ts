@@ -3,10 +3,10 @@
 
 import useSWR from 'swr';
 import { BookshelfClient } from '@services/client/bookshelf.client';
-import type { BookshelfDTO } from '@models/bookshelf.dto';
+import type { BookshelfEntryDTO } from '@models/bookshelf.dto';
 
 export function useBookshelfList() {
-  const { data, error, isLoading, mutate } = useSWR<BookshelfDTO[]>(
+  const { data, error, isLoading, mutate } = useSWR<BookshelfEntryDTO[]>(
     '/api/bookshelf',
     BookshelfClient.list
   );

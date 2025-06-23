@@ -1,42 +1,31 @@
 // File: src/models/bookshelf.dto.ts
-import type { BookDTO } from '@models/book.dto';
-import type { UserBaseDTO } from '@models/user.dto';
+import { BookDTO } from '@models/book.dto';
+import { MinimalUserDTO } from '@models/user.dto';
 
-export type ShelfStatus = 'TO_READ' | 'READING' | 'READ' | 'ABANDONED';
+export type ReadingStatus = 'TO_READ' | 'READING' | 'READ' | 'ABANDONED';
 
-export type BookshelfDTO = {
-    user: UserBaseDTO;
+export interface BookshelfEntryDTO {
+    user: MinimalUserDTO;
     book: BookDTO;
     currentPage: number;
-
-    addedAt: string;
-    updatedAt: string;
-    removedAt?: string;
-    
-    status: ShelfStatus;
+    status: ReadingStatus;
     isPrivate: boolean;
+    addedAt: Date;
+    updatedAt?: Date;
+    removedAt?: Date;
     rating?: number;
 };
 
-export type BookshelfCreateDTO = {
-    bookIsbn: string;
-    status?: ShelfStatus;
-    isPrivate?: boolean;
+export interface CreateBookshelfEntryDTO {
+    user: MinimalUserDTO;
+    book: BookDTO;
+    status: ReadingStatus;
+    isPrivate: boolean;
 };
 
-export type BookshelfUpdateDTO = {
-    currentPage?: number;
-    status?: ShelfStatus;
-    isPrivate?: boolean;
-    rating?: number;
-};
-
-export type BookshelfOptionDTO = {
-    isbn: string;
-    title: string;
-    coverUrl: string;
-    pages?: number;
-
+export interface UpdateBookshelfEntryDTO {
     currentPage: number;
+    status: ReadingStatus;
     isPrivate: boolean;
+    rating: number;
 };
