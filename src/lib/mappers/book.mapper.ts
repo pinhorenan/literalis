@@ -1,20 +1,23 @@
-// src/lib/mappers/book.mapper.ts
-
 import type { Book } from '@prisma/client';
-import type { BookDTO } from '@models/book.dto';
+import { MinimalBookDTO, BookDTO } from '@models/book.dto';
 
-export function toBookDTO(book: Book): BookDTO {
+export function mapBookToMinimalDTO(book: Book): MinimalBookDTO {
   return {
     isbn: book.isbn,
     title: book.title,
-    author: book.author,
     coverUrl: book.coverUrl,
-    external: book.external,
+    pages: book.pages,
+  };
+}
 
-    publisher: book.publisher ?? undefined,
-    edition: book.edition ?? undefined,
-    pages: book.pages ?? undefined,
-    language: book.language ?? undefined,
-    publicationDate: book.publicationDate?.toISOString() ?? undefined,
+export function mapBookToDTO(book: Book): BookDTO {
+  return {
+    ...mapBookToMinimalDTO(book),
+    author: book.author,
+    publisher: book.publisher,
+    edition: book.edition,
+    language: book.language,
+    publicationDate: book.publicationDate,
+    external: book.external,
   };
 }

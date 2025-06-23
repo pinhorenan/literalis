@@ -1,25 +1,12 @@
-// src/models/notification.dto.ts
-import type { PublicUserDTO } from '@models/user.dto';
+import type { NotificationType } from '@prisma/client';
+import type { MinimalUserDTO } from './user.dto';
 
-export type NotificationDTO = {
+export interface NotificationDTO {
   id: string;
-  notifType: 'FOLLOW' | 'LIKE' | 'COMMENT';
-  createdAt: string;
-  readAt?: string;
-  actor: PublicUserDTO;
-  recipient: PublicUserDTO;
+  notifType: NotificationType;
+  createdAt: Date;
+  readAt?: Date;
+  actor: MinimalUserDTO;
   postId?: string;
   commentId?: string;
 }
-
-export type CreateNotificationDTO = {
-  notifType: 'FOLLOW' | 'LIKE' | 'COMMENT';
-  actorUsername: string;
-  recipientUsername: string;
-  postId?: string;
-  commentId?: string;
-};
-
-export type UpdateNotificationDTO = {
-  readAt?: string; // ISO date string
-};

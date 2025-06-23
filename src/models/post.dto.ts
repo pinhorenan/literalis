@@ -1,29 +1,21 @@
-// src/models/post.dto.ts
-import type { CommentDTO } from '@models/comment.dto';
-import type { BookshelfEntryDTO } from '@models/bookshelf.dto';
+import type { MinimalUserDTO } from './user.dto';
+import type { MinimalBookDTO } from './book.dto';
+import type { CommentDTO } from './comment.dto';
 
-export type PostDTO = {
+export interface PostDTO {
   id: string;
   content: string;
+
   progress: number;
-  createdAt: string;
-  updatedAt: string;
-  likeCount: number;
-  commentCount: number;
-  likedByMe: boolean;
-  isFollowingAuthor: boolean;
-  userBook: BookshelfEntryDTO;
-  likedBy: string[];
+  currentPage: number;
+  totalPages: number;
+  rating?: number;
+
+  createdAt: Date;
+  updatedAt: Date;
+
+  author: MinimalUserDTO;
+  book: MinimalBookDTO;
+  likes: MinimalUserDTO[];
   comments: CommentDTO[];
-};
-
-export type CreatePostDTO = {
-  bookshelf: BookshelfEntryDTO;
-  content: string;
-  progress: number;
-};
-
-export type UpdatePostDTO = {
-  content?: string;
-  progress?: number;
-};
+}

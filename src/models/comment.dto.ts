@@ -1,17 +1,11 @@
-// src/models/comment.dto.ts
-import type { PublicUserDTO } from '@models/user.dto';
+import type { MinimalUserDTO } from './user.dto';
 
-export type CommentDTO = {
+export interface CommentDTO {
   id: string;
   content: string;
-  createdAt: string;
-  updatedAt: string;
-  likeCount: number;
-  likedByMe: boolean;
-  author: PublicUserDTO;
-  likedBy?: PublicUserDTO[];
+  createdAt: Date;
+  updatedAt: Date;
+  author: MinimalUserDTO;
+  postId: string;        
+  likes: MinimalUserDTO[];
 };
-
-export type CreateCommentDTO = { content: string };
-
-export type UpdateCommentDTO = Partial<Pick<CommentDTO, 'content'>>;

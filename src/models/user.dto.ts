@@ -1,61 +1,25 @@
-// src/models/user.dto.ts
-
-export interface UserDTO {
-  username: string;
-  name: string;
-  email: string;
-  avatarUrl: string;
-  bio: string;
-  createdAt: Date;
-  updatedAt: Date;
-  postCount: number;
-  bookCount: number;
-  followerCount: number;
-  followingCount: number;
-  followerUsernames: string[];
-  followingUsernames: string[];
-};
-
-export interface PublicUserDTO {
-  username: string;
-  name: string;
-  bio: string;
-  avatarUrl: string;
-  postCount: number;
-  bookCount: number;
-  followerCount: number;
-  followingCount: number;
-  followerUsernames: string[];
-  followingUsernames: string[];
-};
-
-export interface PrivateUserDTO extends PublicUserDTO {
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export interface UserWithContextDTO extends PublicUserDTO {
-  isMe: boolean;
-  isFollowing: boolean;
-  isFollower: boolean;
-};
+import { PostDTO } from './post.dto';
+import { BookshelfEntryDTO } from './bookshelf-entry.dto';
 
 export interface MinimalUserDTO {
-  username: string;
-  name: string;
-  avatarUrl: string;
+    username: string;
+    name: string;
+    avatarUrl: string;
 };
 
-export interface CreateUserDTO {
-  username: string;
-  email: string;
-  name: string;
+export interface UserDTO extends MinimalUserDTO {
+    bio: string;
+    createdAt: Date;
+    updatedAt: Date;
 };
 
-export interface UpdateUserDTO {
-  name: string;
-  bio: string;
-  email: string;
-  avatarUrl: string;
+export interface UserProfileDTO extends UserDTO {
+    posts: PostDTO[];
+    followers: MinimalUserDTO[];
+    following: MinimalUserDTO[];
+    bookshelfEntries: BookshelfEntryDTO[];
+};
+
+export interface UserPrivateDTO extends UserProfileDTO {
+    email: string;
 };
