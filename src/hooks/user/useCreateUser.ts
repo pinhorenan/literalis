@@ -1,14 +1,15 @@
-// src/hooks/user/useUserCreate.ts
+// src/hooks/user/useCreateUser.ts
 'use client';
+
 import { useState } from 'react';
 import { UserServiceClient } from '@services/client/user.client';
-import type { CreateUserDTO } from '@models/user.dto';
+import type { CreateUserDTO, UserDTO } from '@models/user.dto';
 
 export function useUserCreate() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  async function create(data: CreateUserDTO) {
+  async function create(data: CreateUserDTO): Promise<UserDTO | null> {
     setLoading(true);
     setError(null);
     try {
@@ -21,5 +22,9 @@ export function useUserCreate() {
     }
   }
 
-  return { create, loading, error };
+  return {
+    create,
+    loading,
+    error,
+  };
 }

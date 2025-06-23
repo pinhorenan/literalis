@@ -1,18 +1,18 @@
-// src/hooks/user/useUpdateUser.ts
+// src/hooks/user/useUpdateUserForm.ts
 'use client';
 
 import { useState } from 'react';
-import { UserServiceClient } from '@services/client/user.client';
 import type { UserDTO } from '@models/user.dto';
+import { useUserUpdateMutation } from '@hooks/user/useUpdateUserMutation';
 
-export default function useUpdateUser(initialUser: UserDTO) {
+export function useUpdateUserForm(initialUser: UserDTO) {
   const [user, setUser] = useState<UserDTO>(initialUser);
   const [editName, setEditName] = useState(initialUser.name);
   const [editBio, setEditBio] = useState(initialUser.bio);
   const [editAvatar, setEditAvatar] = useState(initialUser.avatarUrl);
   const [isEditing, setIsEditing] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+
+  const { update, saving, error } = useUserUpdateMutation(user.username);
 
   function startEditing() {
     setIsEditing(true);
@@ -44,22 +44,14 @@ export default function useUpdateUser(initialUser: UserDTO) {
   }
 
   async function saveProfile() {
-    setSaving(true);
-    setError(null);
-    try {
-      const updated = await UserServiceClient.update(user.username, {
-        name: editName,
-        bio: editBio,
-        avatarUrl: editAvatar,
-      });
-      if (updated) {
-        setUser(updated);
-        setIsEditing(false);
-      }
-    } catch (err: any) {
-      setError(err);
-    } finally {
-      setSaving(false);
+    const updated = await update({
+      name: editName,
+      bio: editBio,
+      avatarUrl: editAvatar,
+    });
+    if (updated) {
+      setUser(updated);
+      setIsEditing(false);
     }
   }
 

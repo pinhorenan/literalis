@@ -9,19 +9,18 @@ export function useCreateBook() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createBook = async (data: CreateBookDTO): Promise<BookDTO | null> => {
+  async function createBook(data: CreateBookDTO): Promise<BookDTO | null> {
     setLoading(true);
     setError(null);
     try {
-      const book = await BookClient.create(data);
-      return book;
+      return await BookClient.create(data);
     } catch (err: any) {
       setError(err.message || 'Erro ao criar livro');
       return null;
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return {
     createBook,

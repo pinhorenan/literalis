@@ -3,25 +3,24 @@
 
 import { useState } from 'react';
 import { BookClient } from '@services/client/book.client';
-import type { BookDTO } from '@models/book.dto';
 
 export function useDeleteBook() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const deleteBook = async (isbn: string): Promise<BookDTO | null> => {
+  async function deleteBook(isbn: string): Promise<boolean> {
     setLoading(true);
     setError(null);
     try {
-      const book = await BookClient.delete(isbn);
-      return book;
+      await BookClient.delete(isbn);
+      return true;
     } catch (err: any) {
       setError(err.message || 'Erro ao deletar livro');
-      return null;
+      return false;
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return {
     deleteBook,

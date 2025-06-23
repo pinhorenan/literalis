@@ -3,10 +3,12 @@
 
 import useSWR from 'swr';
 import { BookClient } from '@services/client/book.client';
+import type { BookDTO } from '@models/book.dto';
 
 export function useBook(isbn?: string) {
   const shouldFetch = Boolean(isbn);
-  const { data, error, isLoading, mutate } = useSWR(
+
+  const { data, error, isLoading, mutate } = useSWR<BookDTO>(
     shouldFetch ? `/api/books/${isbn}` : null,
     () => BookClient.getByIsbn(isbn!)
   );
@@ -15,6 +17,6 @@ export function useBook(isbn?: string) {
     book: data,
     isLoading,
     error,
-    mutate,
+    refresh: mutate,
   };
 }
