@@ -1,28 +1,39 @@
 // src/app/api/users/[username]/route.ts
-import { db } from '@lib/db';
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
+import { getViewer } from '@lib/auth/viewer'
+import { UserService } from '@services/server/user.service';
 
-const updateSchema = z.object({
-    name: z.string().min(1),
-    bio: z.string().optional(),
-    avatarUrl: z.string().url().optional(),
-});
+export async function GET(_: NextRequest, { params }: { params: Promise<{ username: string }> }) {
+    const viewer = await getViewer();
+    const { username } = await params;
+    const user = await UserService.getByUsername(viewer?.username || null, username);
 
-export async function PATCH(req: NextRequest, { params }: { params: { username: string } }) {
-    const body = await req.json();
-    const data = updateSchema.safeParse(body);
+    if (!user) {
+        return NextResponse.json({ error: 'Usuário não encontrado.' }, { status: 404 });
+    }
 
-    const updated = await db.user.update({
-        where: { username: params.username },
-        data,
-        select: {
-            username: true,
-            name: true,
-            avatarUrl: true,
-            bio: true,
-        },
-    });
+    return NextResponse.json(user, { status: 200 });
+}
 
-    return NextResponse.json(updated);
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ username: string }> }) {
+    const viewer = await getViewer();
+    const { username } = await params;
+    if (!viewer || viewer.username !== username) {
+        return NextResponse.json({ error: 'Acesso negado.' }, { status: 403 });
+    }
+
+    const data = await req.json();
+    const updated = await UserService.update(username, data);
+    return NextResponse.json(updated, { status: 200 });
+}
+
+export async function DELETE(_: NextRequest, { params }: { params: Promise<{ username: string }> }) {
+    const viewer = await getViewer();
+    const { username } = await params;
+    if (!viewer || viewer.username !== username) {
+        return NextResponse.json({ error: 'Acesso negado.' }, { status: 403 });
+    }
+
+    await UserService.delete(username);
+    return NextResponse.json({ message: 'Usuário deletado com sucesso.' }, { status: 200 });
 }

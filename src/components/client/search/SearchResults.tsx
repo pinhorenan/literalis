@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import useBookSearch from '@hooks/search/useBookSearch';
-import useUserSearch from '@hooks/search/useUserSearch';
+import useUserSearch from '@hooks/user/useUserSearch';
 
 interface Props {
   query: string;

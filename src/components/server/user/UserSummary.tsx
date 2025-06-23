@@ -1,10 +1,10 @@
 // File: src/components/server/user/UserSummary.tsx
 import UserAvatar from '@components/server/user/UserAvatar';
 import Link       from 'next/link';
-import type { UserDTO } from '@models/user.dto';
+import type { PublicUserDTO } from '@models/user.dto';
 
 export interface UserSummaryProps {
-  user: UserDTO;
+  user: PublicUserDTO;
   size?: 'sm' | 'md' | 'lg';
   redirect?: boolean;
   className?: string;

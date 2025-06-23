@@ -4,7 +4,7 @@ import { authOptions }        from '@/src/lib/auth/authOptions';
 import { db }             from '@lib/db';
 import UserSummary            from '@components/server/user/UserSummary';
 import FollowButton           from '@components/client/ui/FollowButton';
-import type { UserDTO }       from '@models/user.dto';
+import type { PublicUserDTO }       from '@models/user.dto';
 
 export default async function UserSuggestions() {
   const session = await getServerSession(authOptions);
@@ -19,7 +19,7 @@ export default async function UserSuggestions() {
     select: { username: true, name: true, avatarUrl: true },
     take: 10,
     orderBy: { username: 'asc' },
-  })) as UserDTO[];
+  })) as PublicUserDTO[];
 
   if (suggestedUsers.length === 0) return null;
 

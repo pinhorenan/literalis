@@ -42,11 +42,11 @@
 
       "@hooks/*":       ["./src/hooks/*"],
       
-      "@lib/*":         ["./src/lib/*"],
-      "@mappers/*":     ["./src/lib/mappers/*"],
-      "@services/*":    ["./src/services/*"],
-      "@includes/*":    ["./src/includes/*"],
-      "@repository/*":  ["./src/repository/*"],
+      "@lib/*":           ["./src/lib/*"],
+      "@mappers/*":       ["./src/lib/mappers/*"],
+      "@services/*":      ["./src/services/*"],
+      "@includes/*":      ["./src/includes/*"],
+      "@repositories/*":  ["./src/repositories/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "prisma/seed.ts"],

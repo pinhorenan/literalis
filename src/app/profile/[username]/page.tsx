@@ -1,17 +1,17 @@
 // src/app/profile/[username]/page.tsx
-import { notFound }                     from 'next/navigation';
-import { getViewerSession }             from '@/src/services/viewer.service';
-import { ProfileService }               from '@/src/services/server/profile.service';
-import ProfileShell                     from '@components/client/profile/ProfileShell';
+import { notFound } from 'next/navigation';
+import { getViewer } from '@lib/auth/viewer';
+import { UserService } from '@services/server/user.service';
+import ProfileShell from '@components/client/profile/ProfileShell';
 
 export default async function Profile({ params }: { params: { username: string } }) {
-  const session = await getViewerSession();
-  const viewerUsername = session?.user?.username ?? null;
+  const viewer = await getViewer();
+  const viewerUsername = viewer?.username ?? null;
 
-  const user = await ProfileService.getUserProfile(params.username);
+  const user = await UserService.getByUsername(viewerUsername, params.username, );
   if (!user) notFound();
 
-  const posts = await ProfileService.getUserPosts(params.username, viewerUsername);
+  const posts = []; // TODO: Temporariamente vazio ou com loading em ProfileShell
 
   return <ProfileShell initialUser={user} initialPosts={posts} />;
 }
