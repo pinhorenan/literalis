@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { UserServiceClient } from '@services/client/user.client';
+import { UserClient } from '@services/client/user.client';
 import type { UpdateUserDTO, UserDTO } from '@models/user.dto';
 
 export function useUserUpdateMutation(username: string) {
@@ -13,7 +13,7 @@ export function useUserUpdateMutation(username: string) {
     setSaving(true);
     setError(null);
     try {
-      return await UserServiceClient.update(username, data);
+      return await UserClient.update(username, data);
     } catch (err: any) {
       setError(err);
       throw err;

@@ -35,7 +35,7 @@ async function main() {
 
   // 1. Usuários + Accounts (credentials provider)
   for (let i = 0; i < NUM_USERS; i++) {
-    const username = faker.internet.userName().toLowerCase();
+    const username = faker.internet.username().toLowerCase();
     const avatarPath = path.join(AVATAR_DIR, `${username}.jpg`);
 
     try {

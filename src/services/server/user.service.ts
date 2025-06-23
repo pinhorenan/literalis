@@ -1,12 +1,10 @@
 // src/services/server/user.service.ts
 import { UserRepository } from '@repositories/user.repository';
-import { FollowRepository } from '@repositories/follow.repository'; // TODO
 import type {
     CreateUserDTO,
     UpdateUserDTO,
     UserDTO,
     PublicUserDTO,
-    UserBaseDTO,
 } from '@models/user.dto';
 
 export const UserService = {

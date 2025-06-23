@@ -49,11 +49,11 @@ model Book {
   isbn            String    @id
   title           String
   author          String
-  publisher       String?
-  edition         Int?
-  pages           Int?
-  language        String?
-  publicationDate DateTime?
+  publisher       String    @default("Editora desconhecida")
+  edition         Int       @default(1)
+  pages           Int       @default(9999)
+  language        String    @default("Idioma desconhecido")
+  publicationDate DateTime  @default(now())
   coverUrl        String    @default("/uploads/covers/default.jpg")
   external        Boolean   @default(false)
 

@@ -2,7 +2,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { UserServiceClient } from '@services/client/user.client';
+import { UserClient } from '@services/client/user.client';
 import type { PublicUserDTO } from '@models/user.dto';
 
 export default function useSearchUser(query: string) {
@@ -10,7 +10,7 @@ export default function useSearchUser(query: string) {
 
   const { data, error, isLoading } = useSWR<PublicUserDTO[]>(
     shouldFetch ? `/api/users/search?q=${query}` : null,
-    () => UserServiceClient.search(query)
+    () => UserClient.search(query)
   );
 
   return {

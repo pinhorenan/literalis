@@ -2,7 +2,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { UserServiceClient } from '@services/client/user.client';
+import { UserClient } from '@services/client/user.client';
 import type { UserDTO } from '@models/user.dto';
 
 export function useUser(username: string | null) {
@@ -10,7 +10,7 @@ export function useUser(username: string | null) {
 
   const { data, error, isLoading, mutate } = useSWR<UserDTO>(
     shouldFetch ? `/api/users/${username}` : null,
-    () => UserServiceClient.getByUsername(username!)
+    () => UserClient.getByUsername(username!)
   );
 
   return {

@@ -1,11 +1,11 @@
-// File: src/models/userBook.dto.ts
+// File: src/models/bookshelf.dto.ts
 import type { BookDTO } from '@models/book.dto';
-import type { UserDTO } from '@models/user.dto';
+import type { UserBaseDTO } from '@models/user.dto';
 
 export type ShelfStatus = 'TO_READ' | 'READING' | 'READ' | 'ABANDONED';
 
-export type UserBookDTO = {
-    user: UserDTO;
+export type BookshelfDTO = {
+    user: UserBaseDTO;
     book: BookDTO;
     currentPage: number;
 
@@ -18,20 +18,20 @@ export type UserBookDTO = {
     rating?: number;
 };
 
-export type UserBookCreateDTO = {
+export type BookshelfCreateDTO = {
     bookIsbn: string;
     status?: ShelfStatus;
     isPrivate?: boolean;
 };
 
-export type UserBookUpdateDTO = {
+export type BookshelfUpdateDTO = {
     currentPage?: number;
     status?: ShelfStatus;
     isPrivate?: boolean;
     rating?: number;
 };
 
-export type UserBookOptionDTO = {
+export type BookshelfOptionDTO = {
     isbn: string;
     title: string;
     coverUrl: string;

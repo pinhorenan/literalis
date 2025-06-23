@@ -5,10 +5,10 @@ import React from 'react';
 import OptionsMenu          from '@components/client/ui/OptionsMenu';
 import BookCover            from '@components/server/book/BookCover';
 import BookInfo             from '@components/server/book/BookInfo';
-import type { UserBookDTO } from '@models/userBook.dto';
+import type { BookshelfDTO } from '@/src/models/bookshelf.dto';
 
 interface ShelfItemProps {
-  item: UserBookDTO;
+  item: BookshelfDTO;
   viewMode: 'grid' | 'list';
   isOwner: boolean;
   onEdit: (isbn: string, oldPct: number) => void;

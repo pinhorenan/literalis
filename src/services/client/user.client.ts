@@ -6,7 +6,7 @@ import type {
     UpdateUserDTO,
 } from '@models/user.dto';
 
-export const UserServiceClient = {
+export const UserClient = {
     /** Busca perfil completo (UserDTO) */
     async getByUsername(username: string): Promise<UserDTO> {
         const res = await httpClient.get(`/api/users/${username}`);

@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { UserServiceClient } from '@services/client/user.client';
+import { UserClient } from '@services/client/user.client';
 
 export function useDeleteUser(username: string) {
   const [deleting, setDeleting] = useState(false);
@@ -12,7 +12,7 @@ export function useDeleteUser(username: string) {
     setDeleting(true);
     setError(null);
     try {
-      await UserServiceClient.delete(username);
+      await UserClient.delete(username);
       return true;
     } catch (err: any) {
       setError(err);

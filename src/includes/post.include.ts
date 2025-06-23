@@ -1,10 +1,24 @@
 // src/includes/post.include.ts
 import { commentInclude } from './comment.include';
-import { userBookInclude } from './userBook.include';
+import { bookshelfInclude } from './bookshelf.include';
 
 export const postInclude = {
-  userBook: { include: userBookInclude },
-  comments: { include: commentInclude },
+  userBook: { include: bookshelfInclude },
+  comments: {
+    include: commentInclude,
+    select: {
+      id: true,
+      content: true,
+      createdAt: true,
+      updatedAt: true,
+      authorUsername: true,
+      postId: true,
+      _count: { select: { likes: true } },  // Incluindo o contador de likes
+      likedBy: {
+        select: { username: true },  // Adicionando usuários que curtiram o comentário
+      },
+    },
+  },
   likes: { select: { userUsername: true } },
   _count: {
     select: {
@@ -27,10 +41,10 @@ export const feedPostInclude = (viewerUsername: string | null) => {
     },
     userBook: {
       include: {
-        ...userBookInclude,
+        ...bookshelfInclude,
         user: {
           select: {
-            ...userBookInclude.user.select,
+            ...bookshelfInclude.user.select,
             followers: {
               where: { followerUsername: viewerUsername },
               select: { followerUsername: true },

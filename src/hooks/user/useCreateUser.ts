@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { UserServiceClient } from '@services/client/user.client';
+import { UserClient } from '@services/client/user.client';
 import type { CreateUserDTO, UserDTO } from '@models/user.dto';
 
 export function useUserCreate() {
@@ -13,7 +13,7 @@ export function useUserCreate() {
     setLoading(true);
     setError(null);
     try {
-      return await UserServiceClient.create(data);
+      return await UserClient.create(data);
     } catch (err: any) {
       setError(err);
       throw err;

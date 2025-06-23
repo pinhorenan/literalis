@@ -1,7 +1,7 @@
 // src/lib/mappers/userBook.mapper.ts
-import type { UserBookDTO } from '@models/userBook.dto';
+import type { BookshelfDTO } from '@/src/models/bookshelf.dto';
 
-export function toUserBookDTO(entry: any, viewerUsername: string | null): UserBookDTO {
+export function toUserBookDTO(entry: any, viewerUsername: string | null): BookshelfDTO {
   const { user, book, ...rest } = entry;
 
   return {

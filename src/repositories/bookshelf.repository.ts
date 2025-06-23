@@ -1,9 +1,9 @@
 // src/repository/userBook.repository.ts
 import { db } from '@lib/db';
-import { userBookInclude, userBookOptionSelect } from '@includes/userBook.include';
-import type { UserBookCreateDTO, UserBookUpdateDTO } from '@models/userBook.dto';
+import { bookshelfInclude, bookshelfOptionSelect } from '@/src/includes/bookshelf.include';
+import type { BookshelfCreateDTO, BookshelfUpdateDTO } from '@/src/models/bookshelf.dto';
 
-export const UserBookRepository = {
+export const BookshelfRepository = {
   // Busca todos os livros ativos de um usuário (sem removedAt)
   findAllByUser: (userUsername: string) => {
     return db.userBook.findMany({
@@ -11,7 +11,7 @@ export const UserBookRepository = {
         userUsername,
         removedAt: null,
       },
-      include: userBookInclude,
+      include: bookshelfInclude,
     });
   },
 
@@ -24,7 +24,7 @@ export const UserBookRepository = {
           bookIsbn,
         },
       },
-      include: userBookInclude,
+      include: bookshelfInclude,
     });
   },
 
@@ -35,7 +35,7 @@ export const UserBookRepository = {
         userUsername,
         removedAt: null,
       },
-      select: userBookOptionSelect,
+      select: bookshelfOptionSelect,
     });
   },
 
@@ -47,26 +47,26 @@ export const UserBookRepository = {
         isPrivate: false,
         removedAt: null,
       },
-      include: userBookInclude,
+      include: bookshelfInclude,
     });
   },
 
 
 
   // Cria nova entrada na estante do usuário com include
-  create: (userUsername: string, bookIsbn: string, data?: Partial<UserBookCreateDTO>) => {
+  create: (userUsername: string, bookIsbn: string, data?: Partial<BookshelfCreateDTO>) => {
     return db.userBook.create({
       data: {
         userUsername,
         bookIsbn,
         ...data,
       },
-      include: userBookInclude,
+      include: bookshelfInclude,
     });
   },
 
   // Atualiza uma entrada específica na estante com include
-  update: (userUsername: string, bookIsbn: string, data: Partial<UserBookUpdateDTO>) => {
+  update: (userUsername: string, bookIsbn: string, data: Partial<BookshelfUpdateDTO>) => {
     return db.userBook.update({
       where: {
         userUsername_bookIsbn: {
@@ -75,7 +75,7 @@ export const UserBookRepository = {
         },
       },
       data,
-      include: userBookInclude,
+      include: bookshelfInclude,
     });
   },
 
@@ -91,7 +91,7 @@ export const UserBookRepository = {
       data: {
         removedAt: new Date(),
       },
-      include: userBookInclude,
+      include: bookshelfInclude,
     });
   },
 
@@ -104,7 +104,7 @@ export const UserBookRepository = {
           bookIsbn,
         },
       },
-      include: userBookInclude,
+      include: bookshelfInclude,
     });
   },
 };
