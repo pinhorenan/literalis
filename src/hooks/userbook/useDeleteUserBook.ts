@@ -1,11 +1,11 @@
-// src/hooks/userbook/useRemoveUserBook.ts
+// src/hooks/userbook/useDeleteUserBook.ts
 'use client';
 
 import { useState } from 'react';
 import { UserBookClientService } from '@services/client/userBook.client';
 import type { UserBookDTO } from '@models/userBook.dto';
 
-export default function useRemoveUserBook() {
+export default function useDeleteUserBook() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

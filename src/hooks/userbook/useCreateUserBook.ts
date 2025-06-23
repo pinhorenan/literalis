@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { UserBookClientService } from '@services/client/userBook.client';
+import { UserBookClientService } from '@/src/services/client/userBook.client';
 import type { UserBookCreateDTO, UserBookDTO } from '@models/userBook.dto';
 
 export default function useCreateUserBook() {

@@ -1,11 +1,11 @@
-// src/hooks/book/useBookCreate.ts
+// src/hooks/book/useCreateBook.ts
 'use client';
 
 import { useState } from 'react';
 import { BookClient } from '@services/client/book.client';
 import type { CreateBookDTO, BookDTO } from '@models/book.dto';
 
-export function useBookCreate() {
+export function useCreateBook() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

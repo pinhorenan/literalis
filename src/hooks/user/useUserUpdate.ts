@@ -1,11 +1,11 @@
-// src/hooks/user/useUserUpdate.ts
+// src/hooks/user/useUpdateUser.ts
 'use client';
 
 import { useState } from 'react';
 import { UserServiceClient } from '@services/client/user.client';
 import type { UserDTO } from '@models/user.dto';
 
-export default function useUserUpdate(initialUser: UserDTO) {
+export default function useUpdateUser(initialUser: UserDTO) {
   const [user, setUser] = useState<UserDTO>(initialUser);
   const [editName, setEditName] = useState(initialUser.name);
   const [editBio, setEditBio] = useState(initialUser.bio);

@@ -3,8 +3,8 @@
 
 import BookSearchResult from './partials/BookSearchResult';
 import UserSearchResult from './partials/UserSearchResult';
-import useBookSearch from '@hooks/search/useBookSearch';
-import useUserSearch from '@hooks/search/useUserSearch';
+import useBookSearch from '@/src/hooks/search/useSearchBook';
+import useUserSearch from '@/src/hooks/search/useSearchUser';
 
 interface Props {
   query: string;

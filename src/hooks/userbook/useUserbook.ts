@@ -2,7 +2,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { UserBookClientService } from '@services/client/userBook.client';
+import { UserBookClientService } from '@/src/services/client/userBook.client';
 
 export default function useUserBooks() {
   const { data, error, isLoading, mutate } = useSWR(

@@ -9,7 +9,7 @@ import type {
 export const UserServiceClient = {
     /** Busca perfil completo (UserDTO) */
     async getByUsername(username: string): Promise<UserDTO> {
-        const res = await httpClient.get(`/api/user/${username}`);
+        const res = await httpClient.get(`/api/users/${username}`);
         if (!res.ok) throw new Error('Erro ao buscar perfil.');
         return res.json();
     },

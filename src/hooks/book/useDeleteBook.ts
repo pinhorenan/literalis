@@ -1,22 +1,22 @@
-// src/hooks/book/useBookUpdate.ts
+// src/hooks/book/useDeleteBook.ts
 'use client';
 
 import { useState } from 'react';
 import { BookClient } from '@services/client/book.client';
-import type { UpdateBookDTO, BookDTO } from '@models/book.dto';
+import type { BookDTO } from '@models/book.dto';
 
-export function useBookUpdate() {
+export function useDeleteBook() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateBook = async (isbn: string, data: UpdateBookDTO): Promise<BookDTO | null> => {
+  const deleteBook = async (isbn: string): Promise<BookDTO | null> => {
     setLoading(true);
     setError(null);
     try {
-      const book = await BookClient.update(isbn, data);
+      const book = await BookClient.delete(isbn);
       return book;
     } catch (err: any) {
-      setError(err.message || 'Erro ao atualizar livro');
+      setError(err.message || 'Erro ao deletar livro');
       return null;
     } finally {
       setLoading(false);
@@ -24,7 +24,7 @@ export function useBookUpdate() {
   };
 
   return {
-    updateBook,
+    deleteBook,
     loading,
     error,
   };
