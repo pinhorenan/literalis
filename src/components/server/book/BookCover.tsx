@@ -1,7 +1,7 @@
-// File: src/components/server/book/BookCover.tsx
+// src/components/server/book/BookCover.tsx
 import Image from 'next/image';
 import { Check } from 'lucide-react';
-import type { BookDTO } from '@models/book.dto';
+import type { BookDTO } from '@/src/models/book.dto';
 
 interface BookCoverProps {
   book: BookDTO;
@@ -21,11 +21,12 @@ export default function BookCover({
   return (
     <div className={`relative ${className}`}>
       <Image
-        src={book.coverUrl}
-        alt={`Capa: ${book.title}`}
+        src={book.coverUrl || '/images/book-placeholder.png'}
+        alt={`Capa do livro ${book.title}`}
         width={width}
         height={height}
-        className="rounded object-contain border"
+        className="w-full h-auto rounded-lg border border-[var(--border-subtle)] shadow-sm object-contain"
+        loading="lazy"
       />
       {inShelf && (
         <div className="absolute top-1 right-1 p-1 bg-white rounded-full shadow">

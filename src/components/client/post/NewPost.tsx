@@ -7,7 +7,7 @@ import { Dialog } from '@headlessui/react';
 import { BookPlus } from 'lucide-react';
 
 import { Button } from '@components/client/ui/Buttons';
-import NewPostForm from '@components/client/post/NewPostForm';
+import NewPostForm from '@/src/components/client/post/partials/NewPostForm';
 
 import useBookshelfOptions from '@hooks/useBookshelfOptions';
 import useNewPost from '@hooks/post/useNewPost';

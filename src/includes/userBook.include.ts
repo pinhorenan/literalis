@@ -1,14 +1,13 @@
 // src/includes/userBook.include.ts
 import { bookSelect } from './book.include';
-import { publicUserSelect } from './user.include';
+import { fullUserSelect } from './user.include';
 
 export const userBookInclude = {
-    user: { select: publicUserSelect },
+    user: { select: fullUserSelect },
     book: { select: bookSelect },
 } as const;
 
 export const userBookOptionSelect = {
-  
   currentPage: true,
   isPrivate: true,
   book: {

@@ -10,7 +10,7 @@ type UseBookSearchOptions = {
   orderBy?: 'title' | 'author';
 };
 
-export function useBookSearch(query: string, options?: UseBookSearchOptions) {
+export default function useBookSearch(query: string, options?: UseBookSearchOptions) {
   const { limit = 10, skip = 0, orderBy = 'title' } = options || {};
 
   const shouldFetch = query.length > 0;

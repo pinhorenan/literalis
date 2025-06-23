@@ -1,12 +1,10 @@
 // src/components/client/search/SearchResults.tsx
 'use client';
 
-import BookCard from '@components/server/book/BookCard';
-import Link from 'next/link';
-import Image from 'next/image';
-
+import BookSearchResult from './partials/BookSearchResult';
+import UserSearchResult from './partials/UserSearchResult';
 import useBookSearch from '@hooks/search/useBookSearch';
-import useUserSearch from '@hooks/user/useUserSearch';
+import useUserSearch from '@hooks/search/useUserSearch';
 
 interface Props {
   query: string;
@@ -14,22 +12,24 @@ interface Props {
 }
 
 export default function SearchResults({ query, tab }: Props) {
-  const {
-    books,
-    isLoading: loadingBooks,
-    error: errorBooks,
-  } = useBookSearch(query);
+  const activeQuery = query.trim();
 
   const {
-    users,
+    books = [],
+    isLoading: loadingBooks,
+    error: errorBooks,
+  } = useBookSearch(tab === 'books' ? activeQuery : '');
+
+  const {
+    users = [],
     isLoading: loadingUsers,
     error: errorUsers,
-  } = useUserSearch(query);
+  } = useUserSearch(tab === 'users' ? activeQuery : '');
 
   const loading = tab === 'books' ? loadingBooks : loadingUsers;
   const error = tab === 'books' ? errorBooks : errorUsers;
 
-  if (!query.trim()) return null;
+  if (!activeQuery) return null;
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>Erro ao buscar.</p>;
 
@@ -37,32 +37,16 @@ export default function SearchResults({ query, tab }: Props) {
     (tab === 'books' && books.length === 0) ||
     (tab === 'users' && users.length === 0);
 
-  if (hasNoResults) return <p>Nenhum resultado encontrado.</p>;
+  if (hasNoResults) {
+    return <p>Nenhum resultado encontrado para “{query}”.</p>;
+  }
 
   return (
     <div className="space-y-4 mt-4">
-      {tab === 'books' &&
-        books.map(book => (
-          <BookCard key={book.isbn} book={book} />
-        ))}
-
-      {tab === 'users' &&
-        users.map(user => (
-          <Link
-            key={user.username}
-            href={`/profile/${user.username}`}
-            className="flex items-center gap-3"
-          >
-            <Image
-              src={user.avatarUrl}
-              alt={user.name}
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
-            <span>{user.name}</span>
-          </Link>
-        ))}
+      {tab === 'books' && <BookSearchResult books={books} />}
+      {tab === 'users' && (
+        <UserSearchResult users={users as any /* ← solução temporária */} />
+      )}
     </div>
   );
 }

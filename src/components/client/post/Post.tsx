@@ -4,10 +4,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import PostHeader from './PostHeader';
-import PostBody from './PostBody';
-import PostActions from './PostActions';
-import PostComments from './PostComments';
+import PostHeader from './partials/PostHeader';
+import PostBody from './partials/PostBody';
+import PostActions from './partials/PostActions';
+import PostComments from './partials/PostComments';
 import EditPostModal from './EditPostModal';
 import DeletePostModal from './DeletePostModal';
 

@@ -15,7 +15,7 @@ export default function useUserSearch(query: string) {
 
   return {
     users: data || [],
-    loading: isLoading,
+    isLoading,
     error,
   };
 }

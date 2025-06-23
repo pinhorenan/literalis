@@ -11,6 +11,7 @@ export type UserBookDTO = {
 
     addedAt: string;
     updatedAt: string;
+    removedAt?: string;
     
     status: ShelfStatus;
     isPrivate: boolean;

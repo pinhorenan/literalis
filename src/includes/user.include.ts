@@ -27,3 +27,15 @@ export const userWithCountsSelect = {
         orderBy: { createdAt: 'desc' },
     },
 } as const;
+
+export const fullUserSelect = {
+  ...publicUserSelect,
+  createdAt: true,
+  updatedAt: true,
+  followerCount: true,
+  followingCount: true,
+  followerUsernames: true,
+  followingUsernames: true,
+  postCount: true,
+  bookCount: true,
+} as const;
