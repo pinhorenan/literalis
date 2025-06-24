@@ -1,5 +1,5 @@
 import { minimalBookSelect } from '@includes/book.include';
-import { feedPostInclude } from '@includes/post.include';
+import { feedPostInclude, feedPostIncludeWithComments } from '@includes/post.include';
 import { publicUserSelect } from '@includes/user.include';
 import { db } from '@libs/db';
 import type { Prisma } from '@prisma/client';
@@ -25,7 +25,7 @@ export const PostRepository = {
       where: { authorUsername },
       orderBy: { createdAt: 'desc' },
       take: limit,
-      include: feedPostInclude(viewer),
+      include: feedPostIncludeWithComments(viewer),
     });
   },
 

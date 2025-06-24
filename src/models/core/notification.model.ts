@@ -1,10 +1,10 @@
-import { NotificationType, Notification, User } from '@prisma/client';
-import { type MinimalUserDTO, mapUserToMinimalDTO } from '@models/user.model';
-import { z } from 'zod';
+import { Notification, User } from '@prisma/client';
+import z from 'zod';
+import { mapUserToMinimalDTO, MinimalUserDTO } from './user.model';
 
 export interface NotificationDTO {
   id: string;
-  notifType: NotificationType;
+  notifType: string;
   createdAt: Date;
   readAt?: Date;
   actor: MinimalUserDTO;
@@ -13,14 +13,11 @@ export interface NotificationDTO {
 }
 
 export const notificationMarkReadSchema = z.object({
-  id: z.string().min(1),
+  id: z.string(),
 });
 export type NotificationMarkReadDTO = z.infer<typeof notificationMarkReadSchema>;
 
-export function mapNotificationToDTO(
-  notification: Notification,
-  actor: User
-): NotificationDTO {
+export function mapNotificationToDTO(notification: Notification, actor: User): NotificationDTO {
   return {
     id: notification.id,
     notifType: notification.notifType,
