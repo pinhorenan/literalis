@@ -1,4 +1,4 @@
-import { db } from '@lib/db';
+import { db } from '@libs/db';
 import { minimalBookSelect, fullBookSelect } from '@includes/book.include';
 
 export const BookRepository = {
@@ -6,7 +6,6 @@ export const BookRepository = {
     return db.book.findUnique({ where: { isbn }, select: fullBookSelect });
   },
 
-  /** Autocomplete – BOOK-002 */
   search(term: string, limit = 10) {
     return db.book.findMany({
       where: {
@@ -22,7 +21,6 @@ export const BookRepository = {
     });
   },
 
-  /** Lista completa paginada (admin / seed) */
   list(skip = 0, take = 50) {
     return db.book.findMany({ skip, take, select: fullBookSelect });
   },

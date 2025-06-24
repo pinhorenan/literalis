@@ -1,4 +1,3 @@
-// Campos mínimos – MinimalBookDTO :contentReference[oaicite:1]{index=1}
 export const minimalBookSelect = {
   isbn: true,
   title: true,
@@ -6,7 +5,6 @@ export const minimalBookSelect = {
   pages: true,
 } as const;
 
-/** Seleção completa – BookDTO */
 export const fullBookSelect = {
   ...minimalBookSelect,
   author: true,

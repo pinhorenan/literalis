@@ -1,4 +1,4 @@
-import { minimalBookSelect } from '@lib/api/book.include';
+import { minimalBookSelect } from '@includes/book.include';
 
 export const bookshelfEntrySelect = {
   ownerUsername: true,

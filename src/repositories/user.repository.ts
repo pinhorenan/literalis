@@ -1,6 +1,6 @@
-import { db } from '@lib/db';
 import type { Prisma } from '@prisma/client';
-import { userProfileSelect, publicUserSelect } from '@lib/api/user.include';
+import { db } from '@libs/db';
+import { userProfileSelect, publicUserSelect } from '@includes/user.include';
 
 export const UserRepository = {
   async findProfile(username: string, includePrivate = false) {

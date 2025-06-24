@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
-import { PostDTO } from './post.model';
-import { BookshelfEntryDTO } from './bookshelf-entry.model';
+import { PostDTO } from '@models/post.model';
+import { BookshelfEntryDTO } from '@models/bookshelf-entry.model';
 import { z } from 'zod';
 
 export interface MinimalUserDTO {
@@ -43,9 +43,6 @@ export const userUpdateSchema = z.object({
 });
 export type UserUpdateDTO = z.infer<typeof userUpdateSchema>;
 
-/**
- * Map a Prisma User to MinimalUserDTO
- */
 export function mapUserToMinimalDTO(user: User): MinimalUserDTO {
     return {
         username: user.username,
@@ -54,9 +51,6 @@ export function mapUserToMinimalDTO(user: User): MinimalUserDTO {
     };
 }
 
-/**
- * Map a Prisma User to UserDTO (public view)
- */
 export function mapUserToDTO(user: User): UserDTO {
     return {
         ...mapUserToMinimalDTO(user),
@@ -66,14 +60,6 @@ export function mapUserToDTO(user: User): UserDTO {
     };
 }
 
-/**
- * Map Prisma User and related data to UserProfileDTO
- * @param user       - Prisma User record
- * @param posts      - Array of PostDTO (nested posts)
- * @param followers  - Array of MinimalUserDTO
- * @param following  - Array of MinimalUserDTO
- * @param entries    - Array of BookshelfEntryDTO
- */
 export function mapUserToProfileDTO(
     user: User,
     posts: PostDTO[],
@@ -90,9 +76,6 @@ export function mapUserToProfileDTO(
     };
 }
 
-/**
- * Map to UserPrivateDTO by extending profile
- */
 export function mapUserToPrivateDTO(
     profile: UserProfileDTO,
     email: string

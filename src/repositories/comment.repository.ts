@@ -1,6 +1,6 @@
-import { db } from '@lib/db';
-import { commentInclude } from '@lib/api/comment.include';
 import type { Prisma } from '@prisma/client';
+import { db } from '@libs/db';
+import { commentInclude } from '@includes/comment.include';
 
 export const CommentRepository = {
   listByPost(postId: string, limit = 30, cursor?: { id: string; createdAt: Date }) {

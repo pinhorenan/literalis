@@ -1,8 +1,8 @@
 import type { Prisma } from '@prisma/client';
-import { db } from '@lib/db';
-import { feedPostInclude } from '@lib/api/post.include';
-import { publicUserSelect } from '@lib/api/user.include';
-import { minimalBookSelect } from '@lib/api/book.include';
+import { db } from '@libs/db';
+import { feedPostInclude } from '@includes/post.include';
+import { publicUserSelect } from '@includes/user.include';
+import { minimalBookSelect } from '@includes/book.include';
 
 export const PostRepository = {
   async listFeed(viewer: string | null, where: Prisma.PostWhereInput, limit = 20, cursor?: { id: string; createdAt: Date }) {

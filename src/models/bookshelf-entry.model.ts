@@ -1,5 +1,5 @@
 import { ReadingStatus, Book, BookshelfEntry } from '@prisma/client';
-import { type MinimalBookDTO, mapBookToMinimalDTO } from './book.model';
+import { type MinimalBookDTO, mapBookToMinimalDTO } from '@models/book.model';
 import { z } from 'zod';
 
 
@@ -8,7 +8,7 @@ export interface BookshelfEntryDTO {
   book: MinimalBookDTO;
   currentPage: number;
   totalPages: number;
-  progress: number; // derived 0–100%
+  progress: number;
   status: ReadingStatus;
   isPrivate: boolean;
   addedAt: Date;

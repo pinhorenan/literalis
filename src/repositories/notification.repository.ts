@@ -1,8 +1,7 @@
-import { db } from '@lib/db';
-import { notificationInclude } from '@lib/api/notification.include';
+import { db } from '@libs/db';
+import { notificationInclude } from '@includes/notification.include';
 
 export const NotificationRepository = {
-  /** Lista ordenada desc (NOT-002) */
   listForUser(username: string, limit = 20, cursor?: { id: string; createdAt: Date }) {
     return db.notification.findMany({
       where: { recipientUsername: username },
@@ -13,12 +12,10 @@ export const NotificationRepository = {
     });
   },
 
-  /** Marcar como lida */
   markRead(id: string) {
     return db.notification.update({ where: { id }, data: { readAt: new Date() } });
   },
 
-  /** Gerar notificação (NOT-001)  */
   create(data: {
     recipientUsername: string;
     actorUsername: string;

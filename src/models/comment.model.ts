@@ -1,5 +1,5 @@
 import { Comment, User } from '@prisma/client';
-import { type MinimalUserDTO, mapUserToMinimalDTO } from './user.model';
+import { type MinimalUserDTO, mapUserToMinimalDTO } from '@models/user.model';
 import { z } from 'zod';
 
 export interface CommentDTO {
