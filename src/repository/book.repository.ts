@@ -1,5 +1,5 @@
 import { db } from '@lib/db';
-import { minimalBookSelect, fullBookSelect } from '@lib/api/book.include';
+import { minimalBookSelect, fullBookSelect } from '@includes/book.include';
 
 export const BookRepository = {
   find(isbn: string) {

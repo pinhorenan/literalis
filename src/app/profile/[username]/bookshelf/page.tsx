@@ -1,6 +1,6 @@
 // File: src/app/profile/[username]/bookshelf/page.tsx
 import { getServerSession } from 'next-auth'
-import { authOptions }      from '@/src/lib/auth/authOptions'
+import { authOptions }      from '@/src/libs/authOptions'
 import { db }               from '@lib/db'
 import BookshelfClient      from '@components/client/bookshelf/BookshelfClient'
 

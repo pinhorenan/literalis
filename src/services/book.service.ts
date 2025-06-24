@@ -1,7 +1,7 @@
 // src/lib/service/book.service.ts
 
 import { NotFoundError } from '@lib/utils/errors'
-import { BookRepository } from '@lib/repository/book.repository'
+import { BookRepository } from '@/src/repository/book.repository'
 import {
   BookDTO,
   MinimalBookDTO,

@@ -1,7 +1,7 @@
 // src/services/viewer.service.ts
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { authOptions } from '@/src/lib/auth/authOptions';
+import { authOptions } from '@/src/libs/authOptions';
 
 /**
  * getViewerSession
