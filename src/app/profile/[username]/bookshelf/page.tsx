@@ -4,7 +4,7 @@ import { authOptions }      from '@/src/lib/auth/authOptions'
 import { db }               from '@lib/db'
 import BookshelfClient      from '@components/client/bookshelf/BookshelfClient'
 
-import type { UserDTO }     from '@models/user.dto'
+import type { UserDTO }     from '@/src/models/user.model'
 import type { BookshelfEntryDTO } from '@/src/models/bookshelf.dto'
 
 interface BookshelfPageProps {

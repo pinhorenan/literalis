@@ -3,7 +3,7 @@ import SidebarShell     from '@components/server/ui/SidebarShell';
 import UserSummary      from '@components/server/user/UserSummary';
 import UserSuggestions  from '@components/server/user/UserSuggestions';
 import { getViewer }    from '@lib/auth/viewer';
-import type { UserDTO } from '@models/user.dto';
+import type { UserDTO } from '@/src/models/user.model';
 
 interface FeedSidebarProps {
   onNewBook?: () => void;

@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import UserAvatar from '@components/server/user/UserAvatar';
 import useRelativeTime from '@hooks/global/useRelativeTime';
-import type { CommentDTO } from '@models/comment.dto';
+import type { CommentDTO } from '@/src/models/comment.model';
 
 interface Props {
   comments: CommentDTO[];

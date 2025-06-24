@@ -1,7 +1,7 @@
 // src/components/server/book/BookCover.tsx
 import Image from 'next/image';
 import { Check } from 'lucide-react';
-import type { BookDTO } from '@/src/models/book.dto';
+import type { BookDTO } from '@/src/models/book.model';
 
 interface BookCoverProps {
   book: BookDTO;

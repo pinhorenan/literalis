@@ -4,7 +4,7 @@
 import { useRef, useState, useCallback } from 'react';
 import { Heart, MessageCircle } from 'lucide-react';
 import clsx from 'clsx';
-import type { CommentDTO } from '@models/comment.dto';
+import type { CommentDTO } from '@/src/models/comment.model';
 
 interface Props {
     like: {

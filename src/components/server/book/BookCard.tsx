@@ -2,7 +2,7 @@
 
 import BookCover from '@components/server/book/BookCover';
 import BookInfo  from '@components/server/book/BookInfo';
-import type { BookDTO } from '@models/book.dto';
+import type { BookDTO } from '@/src/models/book.model';
 import clsx from 'clsx';
 
 export default function BookCard({ book, className }: { book: BookDTO, className?: string }) {

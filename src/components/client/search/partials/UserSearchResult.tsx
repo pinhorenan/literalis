@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import type { PublicUserDTO } from '@/src/models/user.dto';
+import type { PublicUserDTO } from '@/src/models/user.model';
 
 export default function UserSearchResult({ users }: { users: PublicUserDTO[] }) {
   return (

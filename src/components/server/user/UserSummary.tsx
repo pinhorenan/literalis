@@ -1,7 +1,7 @@
 // File: src/components/server/user/UserSummary.tsx
 import UserAvatar from '@components/server/user/UserAvatar';
 import Link       from 'next/link';
-import type { PublicUserDTO } from '@models/user.dto';
+import type { PublicUserDTO } from '@/src/models/user.model';
 
 export interface UserSummaryProps {
   user: PublicUserDTO;

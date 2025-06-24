@@ -8,8 +8,8 @@ import EditProfilePanel from '@components/client/profile/EditProfilePanel';
 
 import useUserUpdate from '@hooks/user/useUserUpdate';
 
-import type { UserDTO } from '@models/user.dto';
-import type { PostDTO } from '@models/post.dto';
+import type { UserDTO } from '@/src/models/user.model';
+import type { PostDTO } from '@/src/models/post.model';
 
 interface Props {
   initialUser: UserDTO;

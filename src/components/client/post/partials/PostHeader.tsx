@@ -7,7 +7,7 @@ import useRelativeTime from '@hooks/global/useRelativeTime';
 import UserSummary from '@components/server/user/UserSummary';
 import FollowButton from '@components/client/ui/FollowButton';
 import OptionsMenu from '@components/client/ui/OptionsMenu';
-import type { UserDTO } from '@models/user.dto';
+import type { UserDTO } from '@/src/models/user.model';
 
 interface Props {
     author: UserDTO;

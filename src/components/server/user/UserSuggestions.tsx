@@ -4,7 +4,7 @@ import { authOptions }        from '@/src/lib/auth/authOptions';
 import { db }             from '@lib/db';
 import UserSummary            from '@components/server/user/UserSummary';
 import FollowButton           from '@components/client/ui/FollowButton';
-import type { PublicUserDTO }       from '@models/user.dto';
+import type { PublicUserDTO }       from '@/src/models/user.model';
 
 export default async function UserSuggestions() {
   const session = await getServerSession(authOptions);

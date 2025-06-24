@@ -3,7 +3,7 @@
 
 import useSWR from 'swr';
 import { UserClient } from '@services/client/user.client';
-import type { PublicUserDTO } from '@models/user.dto';
+import type { PublicUserDTO } from '@/src/models/user.model';
 
 export default function useSearchUser(query: string) {
   const shouldFetch = query.length >= 2;

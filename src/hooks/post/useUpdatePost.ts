@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { PostClient } from '@services/client/post.client';
-import type { UpdatePostDTO, PostDTO } from '@models/post.dto';
+import type { UpdatePostDTO, PostDTO } from '@/src/models/post.model';
 
 export function useUpdatePost(postId: string) {
   const [loading, setLoading] = useState(false);

@@ -6,7 +6,7 @@ import useFeedPosts from '@hooks/post/useFeedPosts';
 import { Button } from '@components/client/ui/Buttons';
 import PostCard from '@/src/components/client/post/Post';
 import PostSkeleton from '@components/server/post/PostSkeleton';
-import type { PostDTO } from '@models/post.dto';
+import type { PostDTO } from '@/src/models/post.model';
 
 type Tab = 'discover' | 'friends';
 

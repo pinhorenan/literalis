@@ -2,7 +2,7 @@
 'use client'; 
 
 import PostCard from '@/src/components/client/post/Post';
-import type { PostDTO } from '@models/post.dto';
+import type { PostDTO } from '@/src/models/post.model';
 
 interface Props {
   posts: PostDTO[];

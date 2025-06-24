@@ -2,7 +2,7 @@
 'use client';
 
 import BookCard from '@components/server/book/BookCard';
-import type { BookDTO } from '@models/book.dto';
+import type { BookDTO } from '@/src/models/book.model';
 
 export default function BookSearchResult({ books }: { books: BookDTO[] }) {
   return (

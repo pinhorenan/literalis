@@ -1,20 +1,13 @@
-// src/app/api/users/[username]/follow/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { UserService } from '@services/user.service';
 import { getViewerSession } from '@services/viewer.service';
-import { FollowService } from '@services/server/follow.service';
 
-export async function PATCH(
-  _: NextRequest,
-  { params }: { params: { username: string } }
-) {
+export async function PATCH(_: NextRequest, { params }) {
   const session = await getViewerSession();
-  if (!session)
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const viewer = session?.username;
+  if (!viewer || viewer === params.username)
+    return NextResponse.json({ error: 'Operação inválida' }, { status: 403 });
 
-  const result = await FollowService.toggle(
-    session.username,
-    params.username
-  );
-
-  return NextResponse.json(result);
+  const followed = await UserService.toggleFollow(viewer, params.username);
+  return NextResponse.json({ followed });
 }

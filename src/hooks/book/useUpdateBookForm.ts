@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { BookDTO } from '@models/book.dto';
+import type { BookDTO } from '@/src/models/book.model';
 import { useUpdateBookMutation } from '@hooks/book/useUpdateBookMutation';
 
 export function useUpdateBookForm(initialBook: BookDTO) {

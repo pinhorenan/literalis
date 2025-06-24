@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { BookClient } from '@services/client/book.client';
-import type { UpdateBookDTO, BookDTO } from '@models/book.dto';
+import type { UpdateBookDTO, BookDTO } from '@/src/models/book.model';
 
 export function useUpdateBookMutation() {
   const [loading, setLoading] = useState(false);

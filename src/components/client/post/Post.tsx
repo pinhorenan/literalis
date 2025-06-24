@@ -14,7 +14,7 @@ import DeletePostModal from './DeletePostModal';
 import usePostController from '@hooks/post/usePostController';
 import { useFollowContext } from '@/src/contexts/followContext';
 
-import type { PostDTO } from '@models/post.dto';
+import type { PostDTO } from '@/src/models/post.model';
 
 export default function PostCard({ post, isProfile = false }: { post: PostDTO; isProfile?: boolean }) {
   const router = useRouter();

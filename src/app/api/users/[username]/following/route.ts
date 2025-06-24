@@ -1,15 +1,10 @@
-// src/app/api/users/[username]/following/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { FollowService } from '@services/server/follow.service';
+import { UserService } from '@services/user.service';
 
-export async function GET(
-  _: NextRequest,
-  { params }: { params: { username: string } }
-) {
-  try {
-    const following = await FollowService.getFollowing(params.username);
-    return NextResponse.json(following);
-  } catch (error) {
-    return NextResponse.json({ error: 'Erro ao obter usuários seguidos' }, { status: 500 });
-  }
+export async function GET(req: NextRequest, { params }) {
+  const limit  = Number(req.nextUrl.searchParams.get('limit') ?? '20');
+  const cursor = req.nextUrl.searchParams.get('cursor') ?? undefined;
+
+  const data = await UserService.listFollowing(params.username, limit, cursor);
+  return NextResponse.json(data);
 }

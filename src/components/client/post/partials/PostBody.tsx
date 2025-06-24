@@ -3,7 +3,7 @@
 
 import BookCover from '@components/server/book/BookCover';
 import BookInfo from '@components/server/book/BookInfo';
-import type { PostDTO } from '@models/post.dto';
+import type { PostDTO } from '@/src/models/post.model';
 
 export default function PostBody({ post }: { post: PostDTO }) {
     return (

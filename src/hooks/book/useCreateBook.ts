@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { BookClient } from '@services/client/book.client';
-import type { CreateBookDTO, BookDTO } from '@models/book.dto';
+import type { CreateBookDTO, BookDTO } from '@/src/models/book.model';
 
 export function useCreateBook() {
   const [loading, setLoading] = useState(false);

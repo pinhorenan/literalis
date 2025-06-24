@@ -1,58 +1,76 @@
-import { httpClient } from '@lib/httpClient';
+// src/services/client/user.client.ts
 import type {
-    UserDTO,
-    PublicUserDTO,
-    CreateUserDTO,
-    UpdateUserDTO,
-} from '@models/user.dto';
+  UserProfileDTO,
+  UserDTO,
+  MinimalUserDTO,
+} from '@/src/models/user.model';
+
+const BASE = '/api/users';
+
+async function jsonFetch<T>(
+  input: RequestInfo,
+  init?: RequestInit
+): Promise<T> {
+  const res = await fetch(input, init);
+  if (!res.ok) {
+    const { error } = await res.json().catch(() => ({ error: 'Erro desconhecido' }));
+    throw new Error(error ?? `HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+export interface CursorPage<T> {
+  items: T[];
+  nextCursor?: string;
+}
 
 export const UserClient = {
-    /** Busca perfil completo (UserDTO) */
-    async getByUsername(username: string): Promise<UserDTO> {
-        const res = await httpClient.get(`/api/users/${username}`);
-        if (!res.ok) throw new Error('Erro ao buscar perfil.');
-        return res.json();
-    },
+  /* ---------------------------------- read --------------------------------- */
+  /** Perfil público (ou privado se auth && username === viewer) */
+  get(username: string): Promise<UserProfileDTO> {
+    return jsonFetch(`${BASE}/${username}`);
+  },
 
-    /** Busca perfil público simples */
-    async getPublicByUsername(username: string): Promise<PublicUserDTO> {
-      const res = await httpClient.get(`/api/users/public/${username}`);
-      if (!res.ok) throw new Error('Usuário não encontrado');
-      return await res.json();
-    },
+  /** Perfil privado do viewer (inclui email) */
+  me(): Promise<UserProfileDTO & { email: string }> {
+    return jsonFetch(`${BASE}/me`);
+  },
 
-    /** Busca usuários com texto (barra de pesquisa) */
-    async search(query: string): Promise<PublicUserDTO[]> {
-      const res = await httpClient.get(`/api/users/search?q=${encodeURIComponent(query)}`);
-      if (!res.ok) throw new Error('Erro ao buscar usuários');
-      return await res.json();
-    },
+  /* --------------------------------- write --------------------------------- */
+  update(username: string, data: Partial<UserDTO>): Promise<UserDTO> {
+    return jsonFetch(`${BASE}/${username}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+  },
 
-    /** Lista todos os usuários públicos */
-    async listAll(): Promise<PublicUserDTO[]> {
-      const res = await httpClient.get(`/api/users`);
-      if (!res.ok) throw new Error('Erro ao buscar usuários');
-      return await res.json();
-    },
+  toggleFollow(username: string): Promise<{ followed: boolean }> {
+    return jsonFetch(`${BASE}/${username}/follow`, { method: 'PATCH' });
+  },
 
-    /** Atualiza dados do próprio perfil */
-    async update(username: string, data: UpdateUserDTO) {
-      const res = await httpClient.patch(`/api/users/${username}`, data);
-      if (!res.ok) throw new Error('Erro ao atualizar perfil');
-      return await res.json();
-    },
+  /* ------------------------------ collections ------------------------------ */
+  followers(
+    username: string,
+    limit = 20,
+    cursor?: string
+  ): Promise<CursorPage<MinimalUserDTO>> {
+    const qs = new URLSearchParams({ limit: String(limit) });
+    if (cursor) qs.set('cursor', cursor);
+    return jsonFetch(`${BASE}/${username}/followers?${qs.toString()}`);
+  },
 
-    /** Remove a conta do próprio usuário */
-    async delete(username: string) {
-      const res = await httpClient.delete(`/api/users/${username}`);
-      if (!res.ok) throw new Error('Erro ao excluir conta');
-      return await res.json();
-    },
+  following(
+    username: string,
+    limit = 20,
+    cursor?: string
+  ): Promise<CursorPage<MinimalUserDTO>> {
+    const qs = new URLSearchParams({ limit: String(limit) });
+    if (cursor) qs.set('cursor', cursor);
+    return jsonFetch(`${BASE}/${username}/following?${qs.toString()}`);
+  },
 
-    /** Cria um novo usuário (signup) */
-    async create(data: CreateUserDTO) {
-      const res = await httpClient.post(`/api/users`, data);
-      if (!res.ok) throw new Error('Erro ao criar usuário');
-      return await res.json();
-    },
-}
+  search(q: string): Promise<MinimalUserDTO[]> {
+    return jsonFetch(`${BASE}/search?q=${encodeURIComponent(q)}`);
+  },
+};

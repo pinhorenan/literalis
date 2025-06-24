@@ -3,7 +3,7 @@
 
 import useSWR from 'swr';
 import { BookClient } from '@services/client/book.client';
-import type { BookDTO } from '@models/book.dto';
+import type { BookDTO } from '@/src/models/book.model';
 
 export function useBook(isbn?: string) {
   const shouldFetch = Boolean(isbn);
