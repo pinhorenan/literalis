@@ -1,11 +1,11 @@
-import { publicUserSelect } from '@lib/api/user.include';
-import { minimalBookSelect } from '@lib/api/book.include';
+import { minimalBookSelect } from '@includes/book.include';
+import { publicUserSelect } from '@includes/user.include';
 
 /** Seleção para feed / perfil – counts + flags (POST-004/005) */
 export function feedPostInclude(viewerUsername?: string | null) {
   const base = {
     author: { select: publicUserSelect },
-    book:   { select: minimalBookSelect },
+    book: { select: minimalBookSelect },
     _count: {
       select: { likes: true, comments: true },
     },
@@ -17,7 +17,7 @@ export function feedPostInclude(viewerUsername?: string | null) {
     ...base,
     likes: {
       where: { userUsername: viewerUsername },
-      select: { userUsername: true },   // likedByMe flag
+      select: { userUsername: true }, // likedByMe flag
     },
     author: {
       select: {

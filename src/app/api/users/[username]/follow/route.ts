@@ -1,13 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { UserService } from '@services/user.service';
-import { getViewerSession } from '@services/viewer.service';
+import { NextResponse } from 'next/server';
 
-export async function PATCH(_: NextRequest, { params }) {
-  const session = await getViewerSession();
-  const viewer = session?.username;
-  if (!viewer || viewer === params.username)
-    return NextResponse.json({ error: 'Operação inválida' }, { status: 403 });
-
-  const followed = await UserService.toggleFollow(viewer, params.username);
-  return NextResponse.json({ followed });
+export async function PATCH(_req: Request, { params }: { params: { username: string } }) {
+  try {
+    const result = await UserService.toggleFollow(params.username);
+    return NextResponse.json(result);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 400 });
+  }
 }

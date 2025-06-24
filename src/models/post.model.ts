@@ -1,8 +1,8 @@
-import { Post, User, Book } from '@prisma/client';
-import { type MinimalUserDTO, mapUserToMinimalDTO } from '@models/user.model';
-import { type MinimalBookDTO, mapBookToMinimalDTO } from '@models/book.model';
-import { CommentDTO } from '@models/comment.model';
+import { Book, Post, User } from '@prisma/client';
 import { z } from 'zod';
+import { type MinimalBookDTO, mapBookToMinimalDTO } from './book.model';
+import { CommentDTO } from './comment.model';
+import { type MinimalUserDTO, mapUserToMinimalDTO } from './user.model';
 
 export interface PostDTO {
   id: string;
@@ -37,17 +37,23 @@ export const postUpdateSchema = z.object({
 });
 export type PostUpdateDTO = z.infer<typeof postUpdateSchema>;
 
+/**
+ * Map a Post record with related data to PostDTO
+ * @param post      - Prisma Post record
+ * @param author    - Prisma User record (author)
+ * @param book      - Prisma Book record
+ * @param likes     - Array of Users who liked
+ * @param comments  - Array of CommentDTO
+ */
 export function mapPostToDTO(
   post: Post,
   author: User,
   book: Book,
   likes: User[],
-  comments: CommentDTO[]
+  comments: CommentDTO[],
 ): PostDTO {
   const totalPages = book.pages;
-  const progress = totalPages > 0
-    ? Math.floor((post.currentPage / totalPages) * 100)
-    : 0;
+  const progress = totalPages > 0 ? Math.floor((post.currentPage / totalPages) * 100) : 0;
 
   return {
     id: post.id,

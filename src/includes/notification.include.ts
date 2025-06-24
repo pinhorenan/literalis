@@ -1,4 +1,4 @@
-import { publicUserSelect } from '@lib/api/user.include';
+import { publicUserSelect } from '@includes/user.include';
 
 export const notificationInclude = {
   actor: { select: publicUserSelect },

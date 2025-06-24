@@ -1,11 +1,16 @@
-import type { Prisma } from '@prisma/client';
-import { db } from '@libs/db';
+import { minimalBookSelect } from '@includes/book.include';
 import { feedPostInclude } from '@includes/post.include';
 import { publicUserSelect } from '@includes/user.include';
-import { minimalBookSelect } from '@includes/book.include';
+import { db } from '@libs/db';
+import type { Prisma } from '@prisma/client';
 
 export const PostRepository = {
-  async listFeed(viewer: string | null, where: Prisma.PostWhereInput, limit = 20, cursor?: { id: string; createdAt: Date }) {
+  async listFeed(
+    viewer: string | null,
+    where: Prisma.PostWhereInput,
+    limit = 20,
+    cursor?: { id: string; createdAt: Date },
+  ) {
     return db.post.findMany({
       where,
       orderBy: { createdAt: 'desc' },
@@ -29,13 +34,13 @@ export const PostRepository = {
       where: { id },
       include: {
         author: { select: publicUserSelect },
-        book:   { select: minimalBookSelect },
-        likes:  { select: { user: { select: publicUserSelect } } },
+        book: { select: minimalBookSelect },
+        likes: { select: { user: { select: publicUserSelect } } },
         comments: {
           orderBy: { createdAt: 'asc' },
           include: {
             author: { select: publicUserSelect },
-            likes:  { select: { user: { select: publicUserSelect } } },
+            likes: { select: { user: { select: publicUserSelect } } },
           },
         },
       },

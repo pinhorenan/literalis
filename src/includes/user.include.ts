@@ -1,8 +1,7 @@
-// src/lib/api/user.include.ts
 import type { Prisma } from '@prisma/client';
 
 /**
- * Campos mínimos – MinimalUserDTO :contentReference[oaicite:0]{index=0}
+ * Campos mínimos – MinimalUserDTO
  */
 export const publicUserSelect = {
   username: true,
@@ -11,49 +10,27 @@ export const publicUserSelect = {
 } as const;
 
 /**
- * Seleção de perfil.  
- * Se `includePrivateShelf` = true o filtro por isPrivate é removido
- * (viewer === owner).  Atende SHELF-003 :contentReference[oaicite:1]{index=1}
+ * Include para montar o perfil completo:
+ * - followers -> follower { username, name, avatarUrl }
+ * - following -> followed { username, name, avatarUrl }
+ * - bookshelf -> book { todos os campos necessários }
+ *
+ * Se includePrivateShelf = false, filtra isPrivate
  */
-export function userProfileSelect(
-  includePrivateShelf = false,
-): Prisma.UserSelect {
+export function userProfileInclude(includePrivateShelf = false): Prisma.UserInclude {
   return {
-    username: true,
-    name: true,
-    avatarUrl: true,
-    bio: true,
-    createdAt: true,
-    updatedAt: true,
-
-    // seguidores / seguindo – ordered desc (FOL-002)
     followers: {
       orderBy: { createdAt: 'desc' },
-      select: {
-        follower: { select: publicUserSelect },
-        createdAt: true,
-      },
+      include: { follower: { select: publicUserSelect } },
     },
     following: {
       orderBy: { createdAt: 'desc' },
-      select: {
-        followed: { select: publicUserSelect },
-        createdAt: true,
-      },
+      include: { followed: { select: publicUserSelect } },
     },
-
-    // estante
     bookshelf: {
       ...(includePrivateShelf ? {} : { where: { isPrivate: false } }),
       orderBy: { addedAt: 'desc' },
-      select: {
-        currentPage: true,
-        status: true,
-        isPrivate: true,
-        addedAt: true,
-        updatedAt: true,
-        removedAt: true,
-        rating: true,
+      include: {
         book: {
           select: {
             isbn: true,
@@ -70,12 +47,24 @@ export function userProfileSelect(
         },
       },
     },
-
-    // IDs dos posts mais recentes (para feed rápido)
     posts: {
       orderBy: { createdAt: 'desc' },
-      take: 3,                            // POST-004
       select: { id: true },
     },
   };
 }
+
+/**
+ * Tipagem bruta do perfil público (RawUserProfile).
+ * Usamos include, então este payload traz todos os scalars + as relações acim.
+ */
+export type RawUserProfile = Prisma.UserGetPayload<{
+  include: ReturnType<typeof userProfileInclude>;
+}>;
+
+/**
+ * Para o perfil privado, basta reaproveitar RawUserProfile:
+ * o objetoretornado já traz, via include padrão, todos os scalars (incluindo email).
+ * Existe para evitar confusão e extensibilidade futura.
+ */
+export type RawUserPrivateProfile = RawUserProfile;

@@ -1,25 +1,27 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { UserService } from '@services/user.service';
 import { getViewerSession } from '@services/viewer.service';
-import { userUpdateSchema } from '@schemas/user.schema';
+import { NextResponse } from 'next/server';
 
-export async function GET(_: NextRequest, { params }) {
-  const session = await getViewerSession();
-  const profile = await UserService.getProfile(session?.username ?? null, params.username);
-  if (!profile) return NextResponse.json({ error: 'Usuário não encontrado' }, { status: 404 });
-  return NextResponse.json(profile);
+export async function GET(_req: Request, { params }: { params: { username: string } }) {
+  try {
+    const viewer = await getViewerSession(false);
+    const profile = await UserService.getProfile(params.username, viewer?.username);
+    return NextResponse.json(profile);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 404 });
+  }
 }
 
-export async function PATCH(req: NextRequest, { params }) {
-  const session = await getViewerSession();
-  if (!session || session.username !== params.username)
-    return NextResponse.json({ error: 'Operação negada' }, { status: 403 });
+export async function PATCH(req: Request, { params }: { params: { username: string } }) {
+  try {
+    const viewer = await getViewerSession(true);
+    if (viewer!.username !== params.username)
+      return NextResponse.json({ error: 'Proibido' }, { status: 403 });
 
-  const body = await req.json();
-  const parsed = userUpdateSchema.safeParse(body);
-  if (!parsed.success)
-    return NextResponse.json({ error: 'Payload inválido' }, { status: 400 });
-
-  const dto = await UserService.update(params.username, parsed.data);
-  return NextResponse.json(dto);
+    const dto = await req.json();
+    const updated = await UserService.update(dto);
+    return NextResponse.json(updated);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 400 });
+  }
 }

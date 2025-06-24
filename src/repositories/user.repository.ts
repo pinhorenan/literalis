@@ -1,30 +1,40 @@
-import type { Prisma } from '@prisma/client';
+import {
+  publicUserSelect,
+  userProfileInclude,
+  type RawUserPrivateProfile,
+  type RawUserProfile,
+} from '@includes/user.include';
 import { db } from '@libs/db';
-import { userProfileSelect, publicUserSelect } from '@includes/user.include';
+import type { Prisma } from '@prisma/client';
 
 export const UserRepository = {
-  async findProfile(username: string, includePrivate = false) {
+  /** Perfil público (sem enamil nem passwordHash) */
+  async findProfile(username: string, includePrivate = false): Promise<RawUserProfile | null> {
     return db.user.findUnique({
       where: { username },
-      select: userProfileSelect(includePrivate),
+      include: userProfileInclude(includePrivate),
     });
   },
 
-  async findPrivateProfile(username: string) {
+  /** Perfil privado (com email) */
+  async findPrivateProfile(username: string): Promise<RawUserPrivateProfile | null> {
     return db.user.findUnique({
       where: { username },
-      select: {
-        email: true,
-        ...userProfileSelect(true),
-      },
+      include: userProfileInclude(true),
     });
   },
 
-  async findMinimal(where: Prisma.UserWhereUniqueInput) {
-    return db.user.findUnique({ where, select: publicUserSelect });
+  /** Minimal - para "follow toggle", etc. */
+  async findMinimal(
+    where: Prisma.UserWhereUniqueInput,
+  ): Promise<{ username: string; name: string; avatarUrl: string } | null> {
+    return db.user.findUnique({
+      where,
+      select: publicUserSelect,
+    });
   },
 
-  async search(term: string, limit = 10) {
+  async search(term: string, limit = 20) {
     return db.user.findMany({
       where: {
         OR: [
@@ -39,7 +49,11 @@ export const UserRepository = {
   },
 
   async update(username: string, data: Prisma.UserUpdateInput) {
-    return db.user.update({ where: { username }, data, select: publicUserSelect });
+    return db.user.update({
+      where: { username },
+      data,
+      select: publicUserSelect,
+    });
   },
 
   async toggleFollow(followerUsername: string, followedUsername: string) {
@@ -61,7 +75,11 @@ export const UserRepository = {
     return true;
   },
 
-  async listFollowers(username: string, limit = 20, cursor?: { followerUsername: string; createdAt: Date }) {
+  async listFollowers(
+    username: string,
+    limit = 20,
+    cursor?: { followerUsername: string; createdAt: Date },
+  ) {
     return db.follow.findMany({
       where: { followedUsername: username },
       orderBy: { createdAt: 'desc' },
@@ -81,7 +99,11 @@ export const UserRepository = {
     });
   },
 
-  async listFollowing(username: string, limit = 20, cursor?: { followedUsername: string; createdAt: Date }) {
+  async listFollowing(
+    username: string,
+    limit = 20,
+    cursor?: { followedUsername: string; createdAt: Date },
+  ) {
     return db.follow.findMany({
       where: { followerUsername: username },
       orderBy: { createdAt: 'desc' },
