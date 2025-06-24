@@ -1,7 +1,6 @@
-// src/app/page.tsx
-import { redirect } from 'next/navigation';
-import { getViewerSession } from '@/src/services/viewer.service';
 import LandingContent from '@components/client/landing/LandingClient';
+import { getViewerSession } from '@services/viewer.service';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const session = await getViewerSession();
