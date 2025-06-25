@@ -32,7 +32,6 @@ export default [
     ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.next/**'],
     rules: {
       'prettier/prettier': 'error',
-      'unused-imports/no-unused-imports': 'warn',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'import/order': [
         'warn',

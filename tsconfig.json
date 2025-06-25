@@ -21,11 +21,12 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@tests/*": ["./tests/*"],
+      "@tests/*": ["./__tests__/*"],
       "@prisma/*": ["./prisma/*"],
 
       // src/
       "@app/*": ["./src/app/*"],
+      "@api/*": ["./src/app/api/*"],
       "@clients/*": ["./src/clients/*"],
       "@components/*": ["./src/components/*"],
       "@contexts/*": ["./src/contexts/*"],
@@ -34,8 +35,6 @@
       "@libs/*": ["./src/libs/*"],
       "@models/*": ["./src/models/*"],
       "@repositories/*": ["./src/repositories/*"],
-
-      "@api/*": ["./src/app/api/*"],
       "@styles/*": ["./src/styles/*"],
       "@services/*": ["./src/services/*"]
     }
