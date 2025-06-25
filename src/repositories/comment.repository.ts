@@ -11,7 +11,7 @@ export const commentRepository = {
     return db.comment.findUnique({ where: { id } });
   },
 
-  async fiindByPost(postId: string, take = 20, cursor?: string): Promise<Comment[]> {
+  async findByPost(postId: string, take = 20, cursor?: string): Promise<Comment[]> {
     return db.comment.findMany({
       where: { postId },
       orderBy: { createdAt: 'desc' },
