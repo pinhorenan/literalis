@@ -1,11 +1,8 @@
 from pathlib import Path
 import shutil
 
-# Define the folders to process
 SOURCE_FOLDERS = [
     Path("src/clients"),
-    Path("src/contexts"),
-    Path("src/hooks"),
     Path("src/includes"),
     Path("src/libs"),
     Path("src/models"),
@@ -29,18 +26,21 @@ def process_folder(source_folder: Path):
         print(f"🚫 No .ts files in: {source_folder}")
         return
 
-    # Create destination folder path relative to src/
     relative_path = source_folder.relative_to("src")
     dest_folder = DEST_BASE / relative_path
     dest_folder.mkdir(parents=True, exist_ok=True)
 
+    files_coverted = 0
+
     for file_path in files:
-        base_name = file_path.stem  # 'user.service' part
+        base_name = file_path.stem
         new_name = dot_to_camel(base_name) + ".txt"
         dest_path = dest_folder / new_name
 
         shutil.copy2(file_path, dest_path)
-        print(f"✅ Copied: {file_path} → {dest_path}")
+        files_coverted += 1
+
+    print(f"✅ Processed {files_coverted} files from {source_folder}")
 
 def main():
     for folder in SOURCE_FOLDERS:

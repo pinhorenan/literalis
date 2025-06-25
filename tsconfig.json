@@ -20,26 +20,24 @@
       }
     ],
     "paths": {
-      "@/*":              ["./*"],
-      "@tests/*":         ["./tests/*"],
-      "@prisma/*":        ["./prisma/*"],
-
+      "@/*": ["./*"],
+      "@tests/*": ["./tests/*"],
+      "@prisma/*": ["./prisma/*"],
 
       // src/
-      "@app/*":           ["./src/app/*"],
-      "@clients/*":       ["./src/clients/*"],
-      "@components/*":    ["./src/components/*"],
-      "@contexts/*":      ["./src/contexts/*"],
-      "@hooks/*":         ["./src/hooks/*"],
-      "@includes/*":      ["./src/includes/*"],
-      "@libs/*":          ["./src/libs/*"],
-      "@models/*":        ["./src/models/*"],
-      "@repositories/*":  ["./src/repositories/*"],
+      "@app/*": ["./src/app/*"],
+      "@clients/*": ["./src/clients/*"],
+      "@components/*": ["./src/components/*"],
+      "@contexts/*": ["./src/contexts/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@includes/*": ["./src/includes/*"],
+      "@libs/*": ["./src/libs/*"],
+      "@models/*": ["./src/models/*"],
+      "@repositories/*": ["./src/repositories/*"],
 
-
-      "@api/*":           ["./src/app/api/*"],
-      "@styles/*":        ["./src/styles/*"],
-      "@services/*":      ["./src/services/*"],
+      "@api/*": ["./src/app/api/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@services/*": ["./src/services/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "prisma/seed.ts"],

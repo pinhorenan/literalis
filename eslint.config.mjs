@@ -19,8 +19,9 @@ export default [
     'plugin:import/typescript',
     'plugin:perfectionist/recommended-natural',
     'plugin:prettier/recommended',
-    'next/core-web-vitals', 
-    'next/typescript'),
+    'next/core-web-vitals',
+    'next/typescript',
+  ),
   {
     languageOptions: {
       parserOptions: {
@@ -28,11 +29,10 @@ export default [
         sourceType: 'module',
       },
     },
-    plugins: ['unused-imports'],
     ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/.next/**'],
     rules: {
       'prettier/prettier': 'error',
-      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-imports': 'warn',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'import/order': [
         'warn',
