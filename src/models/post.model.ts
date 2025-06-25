@@ -32,7 +32,7 @@ export function mapPostToDTO(
   post: Post,
   author: User,
   book: Book,
-  likes: User[],
+  likes: MinimalUserDTO[],
   comments: CommentDTO[],
 ): PostDTO {
   const totalPages = book.pages;
@@ -48,7 +48,7 @@ export function mapPostToDTO(
     updatedAt: post.updatedAt,
     author: mapUserToMinimalDTO(author),
     book: mapBookToDTO(book),
-    likes: likes.map(mapUserToMinimalDTO),
+    likes: likes,
     comments,
   };
 }

@@ -18,6 +18,6 @@ export function mapCommentToDTO(comment: Comment, author: User, likes: User[]): 
     createdAt: comment.createdAt,
     updatedAt: comment.updatedAt,
     author: mapUserToMinimalDTO(author),
-    likes: likes.map(mapUserToMinimalDTO),
+    likes: likes,
   };
 }

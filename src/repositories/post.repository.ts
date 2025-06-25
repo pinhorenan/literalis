@@ -20,6 +20,28 @@ export const postRepository = {
     });
   },
 
+  async findByAuthors(authors: string[], take = 20, cursor?: { id: string }): Promise<Post[]> {
+    return db.post.findMany({
+      where: { authorUsername: { in: authors } },
+      orderBy: { createdAt: 'desc' },
+      take,
+      ...(cursor ? { cursor, skip: 1 } : {}),
+    });
+  },
+
+  async findExcludingAuthors(
+    excludeAuthors: string[],
+    take = 20,
+    cursor?: { id: string },
+  ): Promise<Post[]> {
+    return db.post.findMany({
+      where: { authorUsername: { notIn: excludeAuthors } },
+      orderBy: { createdAt: 'desc' },
+      take,
+      ...(cursor ? { cursor, skip: 1 } : {}),
+    });
+  },
+
   async findByBook(bookIsbn: string, take = 20, cursor?: string): Promise<Post[]> {
     return db.post.findMany({
       where: { bookIsbn },
