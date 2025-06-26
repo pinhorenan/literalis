@@ -150,7 +150,9 @@ export class PostService {
    * GET /api/posts/feed/discover  (POST-003)
    */
   async feedDiscover(username: string, take = 20, cursor?: string): Promise<PostDTO[]> {
-    const following = await followRepository.findFollowing(username);
+    const maybeFollowing = await followRepository.findFollowing(username);
+    const following = maybeFollowing ?? [];
+
     const ignored = new Set(following.map((f) => f.followedUsername).concat([username]));
 
     const prismaCursor = cursor ? { id: cursor } : undefined;

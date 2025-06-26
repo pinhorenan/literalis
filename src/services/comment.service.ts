@@ -1,4 +1,3 @@
-// src/services/comment.service.ts
 import { commentRepository } from '@repositories/comment.repository';
 import { commentLikeRepository } from '@repositories/commentLike.repository';
 import { postRepository } from '@repositories/post.repository';
@@ -68,13 +67,22 @@ export class CommentService {
    */
   async listComments(postId: string, take = 20, cursor?: string): Promise<CommentDTO[]> {
     const raw = await commentRepository.findByPost(postId, take, cursor);
-    raw.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+
+    // **ordenar do mais novo para o mais antigo**
+    raw.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     return Promise.all(
       raw.map(async (c) => {
         const author = await userRepository.findByUsername(c.authorUsername);
 
-        const likeRecords = await commentLikeRepository.findByComment(c.id, 20);
+        // normaliza o retorno do mock (objeto ou array)
+        const likeRecordsRaw = await commentLikeRepository.findByComment(c.id, 20);
+        const likeRecords = Array.isArray(likeRecordsRaw)
+          ? likeRecordsRaw
+          : likeRecordsRaw
+            ? [likeRecordsRaw]
+            : [];
+
         const likeUsers = await Promise.all(
           likeRecords.map((r) => userRepository.findByUsername(r.userUsername)),
         );
