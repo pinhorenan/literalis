@@ -1,4 +1,4 @@
-// src/app/api/posts/[postId]/route.ts
+// src/app/api/posts/[id]/route.ts
 import { PostService } from '@services/post.service';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -10,27 +10,27 @@ const editSchema = z.object({
   rating: z.number().min(0).max(10).optional(),
 });
 
-export async function PATCH(req: Request, { params }: { params: { postId: string } }) {
+export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   try {
     // TODO: proteger rota e extrair username da sessão
     const author = req.headers.get('x-username');
     if (!author) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 });
 
     const data = editSchema.parse(await req.json());
-    const updated = await postService.editPost(params.postId, author, data);
+    const updated = await postService.editPost(params.id, author, data);
     return NextResponse.json(updated);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 400 });
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { postId: string } }) {
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
   try {
     // TODO: proteger rota e extrair username da sessão
     const author = req.headers.get('x-username');
     if (!author) return NextResponse.json({ error: 'Não autorizado' }, { status: 401 });
 
-    await postService.deletePost(params.postId, author);
+    await postService.deletePost(params.id, author);
     return NextResponse.json(null, { status: 204 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 400 });

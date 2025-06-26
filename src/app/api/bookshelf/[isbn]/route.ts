@@ -1,11 +1,11 @@
-// src/app/api/bookshelf/[bookIsbn]/route.ts
+// src/app/api/bookshelf/[isbn]/route.ts
 import { ReadingStatus } from '@prisma/client';
 import { BookshelfService } from '@services/bookshelf.service';
 import { NextResponse } from 'next/server';
 
 const shelfService = new BookshelfService();
 
-export async function PATCH(req: Request, { params }: { params: { bookIsbn: string } }) {
+export async function PATCH(req: Request, { params }: { params: { isbn: string } }) {
   try {
     // TODO: proteger rota e extrair username da sessão
     const owner = req.headers.get('x-username');
@@ -17,7 +17,7 @@ export async function PATCH(req: Request, { params }: { params: { bookIsbn: stri
       rating?: number;
       isPrivate?: boolean;
     };
-    const updated = await shelfService.updateEntry(owner, params.bookIsbn, data);
+    const updated = await shelfService.updateEntry(owner, params.isbn, data);
     return NextResponse.json(updated);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 400 });
