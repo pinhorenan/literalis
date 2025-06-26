@@ -8,6 +8,7 @@ SOURCE_FOLDERS = [
     Path("src/models"),
     Path("src/repositories"),
     Path("src/services"),
+    Path("tests/services"),
 ]
 
 DEST_BASE = Path(".temp")
@@ -15,6 +16,14 @@ DEST_BASE = Path(".temp")
 def dot_to_camel(name_with_dot: str) -> str:
     parts = name_with_dot.split(".")
     return parts[0] + "".join(p.capitalize() for p in parts[1:])
+
+def get_base_folder(path: Path) -> str:
+    """Retorna a pasta raiz como 'src' ou 'tests'."""
+    parts = path.parts
+    for base in ["src", "tests"]:
+        if base in parts:
+            return base
+    return parts[0]  # fallback
 
 def process_folder(source_folder: Path):
     if not source_folder.is_dir():
@@ -26,8 +35,9 @@ def process_folder(source_folder: Path):
         print(f"🚫 No .ts files in: {source_folder}")
         return
 
-    relative_path = source_folder.relative_to("src")
-    dest_folder = DEST_BASE / relative_path
+    base = get_base_folder(source_folder)
+    relative_path = source_folder.relative_to(base)
+    dest_folder = DEST_BASE / base / relative_path
     dest_folder.mkdir(parents=True, exist_ok=True)
 
     files_coverted = 0

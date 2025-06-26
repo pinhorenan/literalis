@@ -19,12 +19,11 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@tests/*": ["./__tests__/*"],
+      "@tests/*": ["./tests/*"],
       "@prisma/*": ["./prisma/*"],
-
-      // src/
       "@app/*": ["./src/app/*"],
       "@api/*": ["./src/app/api/*"],
       "@clients/*": ["./src/clients/*"],
