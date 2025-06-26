@@ -1,5 +1,5 @@
 import LandingContent from '@components/client/landing/LandingClient';
-import { getViewerSession } from '@services/viewer.service';
+import { getViewerSession } from '@services/session.service';
 import { redirect } from 'next/navigation';
 
 export default async function Home() {

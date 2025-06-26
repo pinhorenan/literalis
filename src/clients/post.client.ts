@@ -1,5 +1,4 @@
 // src/clients/postClient.ts
-import { FeedDTO } from '@models/feed.model';
 import { PostCreateDTO, PostDTO } from '@models/post.model';
 
 const POSTS_BASE = '/api/posts';
@@ -24,7 +23,7 @@ export async function createPost(data: PostCreateDTO): Promise<PostDTO> {
 
 /**
  * Edita conteúdo, página atual ou avaliação de um post.
- * PATCH /api/posts/:postId
+ * PATCH /api/posts/:id
  */
 export async function editPost(
   postId: string,
@@ -48,7 +47,7 @@ export async function editPost(
 
 /**
  * Exclui um post.
- * DELETE /api/posts/:postId
+ * DELETE /api/posts/:id
  */
 export async function deletePost(postId: string): Promise<void> {
   const res = await fetch(`${POSTS_BASE}/${encodeURIComponent(postId)}`, {
@@ -64,7 +63,7 @@ export async function deletePost(postId: string): Promise<void> {
  * Busca feed “Amigos” (posts de quem você segue).
  * GET /api/posts/feed/friends?take=&cursor=
  */
-export async function feedFriends(take = 20, cursor?: string): Promise<FeedDTO> {
+export async function feedFriends(take = 20, cursor?: string): Promise<PostDTO[]> {
   const params = new URLSearchParams({ take: String(take) });
   if (cursor) params.set('cursor', cursor);
 
@@ -80,7 +79,7 @@ export async function feedFriends(take = 20, cursor?: string): Promise<FeedDTO> 
  * Busca feed “Descobrir” (posts de quem você não segue).
  * GET /api/posts/feed/discover?take=&cursor=
  */
-export async function feedDiscover(take = 20, cursor?: string): Promise<FeedDTO> {
+export async function feedDiscover(take = 20, cursor?: string): Promise<PostDTO> {
   const params = new URLSearchParams({ take: String(take) });
   if (cursor) params.set('cursor', cursor);
 

@@ -1,8 +1,8 @@
 // src/app/layout.tsx
-import { type Metadata    } from  'next';
-import { ReactNode        } from  'react';
-import { getViewerSession } from  '@services/viewer.service';
-import { Providers        } from  '@/src/contexts/providers';
+import { type Metadata } from 'next';
+import { ReactNode } from 'react';
+import { getViewerSession } from '@services/session.service';
+import { Providers } from '@contexts/providers';
 import { Toaster } from 'react-hot-toast';
 import '@styles/globals.css';
 
