@@ -1,7 +1,7 @@
 // File: src/components/server/user/UserSuggestions.tsx
 import { getServerSession }   from 'next-auth/next';
 import { authOptions }        from '@/src/libs/authOptions';
-import { db }             from '@lib/db';
+import { db }             from '@libs/db';
 import UserSummary            from '@components/server/user/UserSummary';
 import FollowButton           from '@components/client/ui/FollowButton';
 import type { PublicUserDTO }       from '@/src/models/user.model';

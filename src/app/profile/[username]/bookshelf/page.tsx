@@ -1,11 +1,11 @@
 // File: src/app/profile/[username]/bookshelf/page.tsx
 import { getServerSession } from 'next-auth'
 import { authOptions }      from '@/src/libs/authOptions'
-import { db }               from '@lib/db'
+import { db }               from '@libs/db'
 import BookshelfClient      from '@components/client/bookshelf/BookshelfClient'
 
 import type { UserDTO }     from '@/src/models/user.model'
-import type { BookshelfEntryDTO } from '@/src/models/bookshelf.dto'
+import type { BookshelfEntryDTO } from '@models/bookshelf-entry.model'
 
 interface BookshelfPageProps {
   params: { username: string }
