@@ -1,5 +1,5 @@
 // src/app/profile/me/bookshelf/page.tsx
-import { redirectToViewerProfile } from '@lib/auth/redirectToViewer';
+import { redirectToViewerProfile } from '@libs/auth/redirectToViewer';
 
 export default async function MeBookshelf() {
   return redirectToViewerProfile('/bookshelf');

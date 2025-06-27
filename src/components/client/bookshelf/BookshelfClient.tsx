@@ -10,7 +10,7 @@ import SearchBar  from   '@components/client/ui/SearchBar';
 import ShelfItem  from   '@components/client/bookshelf/BookShelfItem';
 
 import { BookshelfService } from '@services/BookshelfService';
-import type { BookshelfEntryDTO } from '@/src/models/bookshelf.dto';
+import type { BookshelfEntryDTO } from '@models/bookshelf-entry.model';
 
 interface BookshelfClientProps {
   initialItems: BookshelfEntryDTO[];

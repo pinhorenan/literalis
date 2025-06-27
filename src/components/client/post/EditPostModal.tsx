@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { updatePostRequest } from '@services/client/post.service';
-import type { UpdatePostDTO } from '@/src/models/post.model';
+import type { UpdatePostDTO } from '@services/client/post.service';
 
 interface Props {
   postId: string;

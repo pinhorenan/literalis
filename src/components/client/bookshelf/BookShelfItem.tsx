@@ -5,7 +5,7 @@ import React from 'react';
 import OptionsMenu          from '@components/client/ui/OptionsMenu';
 import BookCover            from '@components/server/book/BookCover';
 import BookInfo             from '@components/server/book/BookInfo';
-import type { BookshelfEntryDTO } from '@/src/models/bookshelf.dto';
+import type { BookshelfEntryDTO } from '@models/bookshelf-entry.model';
 
 interface ShelfItemProps {
   item: BookshelfEntryDTO;
