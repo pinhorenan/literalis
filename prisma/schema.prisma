@@ -1,0 +1,185 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum NotificationType {
+  FOLLOW
+  LIKE
+  COMMENT
+}
+
+enum ReadingStatus {
+  TO_READ
+  READING
+  READ
+  ABANDONED
+}
+
+model User {
+  username        String              @id
+  name            String
+  email           String              @unique
+  passwordHash    String
+  avatarUrl       String              @default("/uploads/avatars/default.jpg")
+  bio             String              @default("Esse usuário ainda não escreveu uma bio")
+
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @default(now()) @updatedAt
+
+  posts           Post[]
+  comments        Comment[]
+  bookshelf       BookshelfEntry[]
+  postLikes       PostLike[]          @relation("UserPostLikes")
+  commentLikes    CommentLike[]       @relation("UserCommentLikes")
+
+  followers       Follow[]            @relation("Following")
+  following       Follow[]            @relation("Followers")
+
+  notificationsSent     Notification[] @relation("NotificationActor")
+  notificationsReceived Notification[] @relation("NotificationRecipient")
+}
+
+model Book {
+  isbn            String              @id
+  title           String
+  author          String
+  publisher       String              @default("Editora desconhecida")
+  edition         Int                 @default(1)
+  pages           Int
+  language        String              @default("Idioma desconhecido")
+  publicationDate DateTime            @default(now())
+  coverUrl        String              @default("/uploads/covers/default.jpg")
+  external        Boolean             @default(false)
+
+  posts           Post[]
+  inShelves       BookshelfEntry[]
+}
+
+model BookshelfEntry {
+  ownerUsername String
+  bookIsbn      String
+
+  currentPage   Int             @default(0)
+  status        ReadingStatus   @default(TO_READ)
+  isPrivate     Boolean         @default(false)
+
+  addedAt       DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  removedAt     DateTime?
+  rating        Int?
+
+  owner User @relation(fields: [ownerUsername], references: [username], onDelete: Cascade)
+  book  Book @relation(fields: [bookIsbn],      references: [isbn],      onDelete: Cascade)
+
+  @@id([ownerUsername, bookIsbn])
+  @@index([ownerUsername])
+  @@index([bookIsbn])
+}
+
+model Post {
+  id             String    @id @default(cuid())
+  content        String
+
+  progress       Int
+  currentPage    Int
+  totalPages     Int
+  rating         Int?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+
+  authorUsername String
+  bookIsbn       String
+
+  author User @relation(fields: [authorUsername], references: [username], onDelete: Cascade)
+  book   Book @relation(fields: [bookIsbn],      references: [isbn],      onDelete: Cascade)
+
+  likes    PostLike[] @relation("PostLikes")
+  comments Comment[]
+  notifications Notification[] @relation("PostNotifications")
+
+  @@index([authorUsername])
+  @@index([bookIsbn])
+}
+
+model Comment {
+  id             String    @id @default(cuid())
+  content        String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+
+  postId         String
+  authorUsername String
+
+  post   Post @relation(fields: [postId],         references: [id],       onDelete: Cascade)
+  author User @relation(fields: [authorUsername], references: [username], onDelete: Cascade)
+
+  likes         CommentLike[]
+  notifications Notification[] @relation("CommentNotifications")
+
+  @@index([postId])
+  @@index([authorUsername])
+}
+
+model PostLike {
+  userUsername String
+  postId       String
+  createdAt    DateTime @default(now())
+
+  user User @relation("UserPostLikes", fields: [userUsername], references: [username], onDelete: Cascade)
+  post Post @relation("PostLikes",     fields: [postId],       references: [id],       onDelete: Cascade)
+
+  @@id([userUsername, postId])
+  @@index([postId, createdAt])
+  @@index([userUsername])
+}
+
+model CommentLike {
+  userUsername String
+  commentId    String
+  createdAt    DateTime @default(now())
+
+  user    User    @relation("UserCommentLikes", fields: [userUsername], references: [username], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId],         references: [id],       onDelete: Cascade)
+
+  @@id([userUsername, commentId])
+  @@index([userUsername])
+}
+
+model Follow {
+  followerUsername String
+  followedUsername String
+  createdAt        DateTime @default(now())
+
+  follower User @relation("Following", fields: [followerUsername], references: [username], onDelete: Cascade)
+  followed User @relation("Followers", fields: [followedUsername], references: [username], onDelete: Cascade)
+
+  @@id([followerUsername, followedUsername])
+  @@index([followerUsername])
+  @@index([followedUsername])
+}
+
+model Notification {
+  id                 String           @id @default(cuid())
+  notifType          NotificationType
+  createdAt          DateTime         @default(now())
+  readAt             DateTime?
+
+  recipientUsername  String
+  actorUsername      String
+  postId             String?
+  commentId          String?
+
+  recipient User  @relation("NotificationRecipient", fields: [recipientUsername], references: [username], onDelete: Cascade)
+  actor     User  @relation("NotificationActor",     fields: [actorUsername],     references: [username], onDelete: Cascade)
+  post      Post? @relation("PostNotifications",      fields: [postId],            references: [id],       onDelete: Cascade)
+  comment   Comment? @relation("CommentNotifications", fields: [commentId],         references: [id],       onDelete: Cascade)
+
+  @@index([recipientUsername, readAt])
+  @@index([actorUsername])
+}
