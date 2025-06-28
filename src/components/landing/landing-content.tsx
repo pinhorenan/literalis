@@ -2,6 +2,7 @@
 
 import { Sparkles, UserPlus as UserRoundPlusIcon } from 'lucide-react';
 import { CircleVector, Logo } from '@/components/landing/landing-decorations';
+import { ModeToggle } from '@/components/ui/mode-toggle';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -51,7 +52,6 @@ function LandingHero() {
             transition={{ delay: 0.9, duration: 0.8, ease: 'easeOut' }}
             className={clsx(
               'relative z-10',
-              // se quiser, adicione um utilitário customizado para esse gradiente
               'bg-[linear-gradient(120deg,var(--theme-color-surface-alt)_0%,var(--theme-color-surface-alt)_100%)]',
               'bg-[length:0%_0.25rem] bg-left-bottom bg-no-repeat',
             )}
@@ -101,8 +101,18 @@ export default function LandingContent() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="from-surface to-surface-alt relative isolate flex min-h-screen flex-col-reverse items-center justify-evenly gap-12 overflow-hidden bg-gradient-to-b px-6 py-16 lg:flex-row lg:px-24"
+      className={clsx(
+        'relative isolate flex min-h-screen flex-col-reverse items-center justify-evenly gap-12 overflow-hidden',
+        'from-surface to-surface-alt bg-gradient-to-b',
+        'px-6 py-16 lg:flex-row lg:px-24',
+      )}
     >
+      {/* Toggle de tema */}
+      <div className="absolute right-6 top-6 z-20">
+        <ModeToggle />
+      </div>
+
+      {/* Background texture */}
       <Image
         src="/images/paper-texture.png"
         alt=""

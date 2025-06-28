@@ -1,5 +1,5 @@
-import LandingContent from '@/components/landing/LandingClient';
+import LandingContent from '@/src/components/landing/landing-content';
 
-export default function Home() {
+export default function Landing() {
   return <LandingContent />;
 }
