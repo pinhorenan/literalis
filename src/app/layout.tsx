@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Literalis',
   description: 'Nova rede social literária',
+  applicationName: 'Literalis',
+  authors: [{ url: 'github.com/pinhorenan', name: 'Renan Pinho' }],
+  icons: '/icons/favicon.svg',
 };
 
 export default function RootLayout({

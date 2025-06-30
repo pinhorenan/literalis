@@ -2,7 +2,8 @@
 
 import { Sparkles, UserPlus as UserRoundPlusIcon } from 'lucide-react';
 import { CircleVector, Logo } from '@/components/landing/landing-decorations';
-import { ModeToggle } from '@/components/ui/mode-toggle';
+import { ModeToggle } from '@/src/components/ui/core/mode-toggle';
+import { Button } from '@/src/components/ui/core/button';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -78,7 +79,7 @@ function LandingHero() {
         transition={{ delay: 1.5, duration: 0.6 }}
       >
         <Link href="/signup">
-          <button
+          <Button
             className={clsx(
               'flex items-center gap-2 rounded-lg px-8 py-4 text-lg font-extrabold tracking-tight',
               'bg-card hover:bg-surface-alt',
@@ -88,7 +89,7 @@ function LandingHero() {
           >
             <UserRoundPlusIcon className="h-5 w-5" />
             Crie sua conta
-          </button>
+          </Button>
         </Link>
       </motion.div>
     </div>
