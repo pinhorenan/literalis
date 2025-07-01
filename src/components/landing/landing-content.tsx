@@ -2,8 +2,8 @@
 
 import { Sparkles, UserPlus as UserRoundPlusIcon } from 'lucide-react';
 import { CircleVector, Logo } from '@/components/landing/landing-decorations';
-import { ModeToggle } from '@/src/components/ui/core/mode-toggle';
-import { Button } from '@/src/components/ui/core/button';
+import { ModeToggle } from '@/src/components/ModeToggle';
+import { Button } from '@/src/components/ui/button';
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';

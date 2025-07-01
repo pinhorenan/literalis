@@ -1,8 +1,8 @@
-import { ModeToggle } from '@/src/components/ui/core/mode-toggle';
+import { ModeToggle } from '@/src/components/ModeToggle';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <section className="flex justify-center">
+    <section className="relative flex h-full w-full justify-center">
       {children}
       {/* Toggle de tema */}
       <div className="absolute bottom-6 right-6 z-20">
