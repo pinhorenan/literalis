@@ -1,17 +1,6 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/src/components/ThemeProvider';
 import './globals.css';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: 'Literalis',
@@ -21,15 +10,11 @@ export const metadata: Metadata = {
   icons: '/icons/favicon.svg',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" className="antialiased" suppressHydrationWarning>
       <head />
-      <body className={`${geistSans.variable} ${geistMono.variable} h-svh w-svw antialiased`}>
+      <body className="flex h-svh w-svw">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -1,5 +1,10 @@
 'use client';
 
+import { useState } from 'react';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale/pt-BR';
+import clsx from 'clsx';
+
 import {
   Card,
   CardHeader,
@@ -7,7 +12,6 @@ import {
   CardFooter,
   CardTitle,
   CardDescription,
-  CardAction,
 } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -15,109 +19,162 @@ import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import BookCover from '@/components/book/BookCover';
 import BookInfo from '@/components/book/BookInfo';
-import { Heart, MessageCircle } from 'lucide-react';
+import { Heart, MessageCircle, Share2 } from 'lucide-react';
+import type { PostDTO } from '@/src/models/types/post.type';
 
-// temp
-type User = {
-  name: string;
-  avatarUrl?: string;
-};
-type Comment = {
-  id: number;
-  user: User;
-  text: string;
-  createdAt: string;
-};
-type Props = {
-  author: User; // MinimalUserDTO
-  isFollowing?: boolean; // Vem da relação Follow (followerUsername_followingUsername)
-  postedAt: string; // Date
-  book: any; // BookDTO
-  progress: number; // derivado
-  description: string; // conteúdo principal
-  likes: number; // Vai ser uma lista PostLike[], o number vai vir de um _count
-  comments: Comment[]; // CommentDTO, vai ter _count tb p/ isso
-  onFollow?: () => void; // Create new follow relantionship (viewerUsername_authorUsername)
-  onLike?: () => void; // Create new PostLike
-};
+export default function PostCard(post: PostDTO) {
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
+  const [commentDraft, setCommentDraft] = useState('');
 
-export default function PostCard({
-  author,
-  isFollowing,
-  postedAt,
-  book,
-  progress,
-  description,
-  likes,
-  comments,
-  onFollow,
-  onLike,
-}: Props) {
+  const author = post.author;
+  const book = post.book;
+  const description = post.content;
+  const comments = post.comments;
+  const likeList = post.likeUserList;
+  const relativeTime = formatDistanceToNow(post.createdAt, { locale: ptBR, addSuffix: true });
+
+  const isFollowing = true; // todo
+  const onFollow = () => prompt('seguiu'); // todo
+
   return (
-    <Card className="mx-auto w-full max-w-2xl gap-0">
-      <CardHeader className="flex items-center gap-4 border-b">
-        <Avatar>
-          <AvatarImage src={author.avatarUrl} alt={author.name} />
-          <AvatarFallback>{author.name}</AvatarFallback>
-        </Avatar>
-        <div>
-          <CardTitle className="text-base">{author.name}</CardTitle>
-          <CardDescription className="text-xs">{postedAt}</CardDescription>
+    <Card className="mx-auto w-full max-w-2xl">
+      {/* Header */}
+      <CardHeader className="flex items-center justify-between border-b px-5 py-4">
+        <div className="flex items-center gap-4">
+          <Avatar>
+            <AvatarImage src={author.avatarUrl} alt={author.name} />
+            <AvatarFallback>{author.name}</AvatarFallback>
+          </Avatar>
+          <div>
+            <CardTitle className="text-base">{author.name}</CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">
+              {relativeTime}
+            </CardDescription>
+          </div>
         </div>
-        <CardAction>
-          <Button
-            variant={isFollowing ? 'secondary' : 'outline'}
-            size="sm"
-            className="px-3"
-            onClick={onFollow}
-          >
-            {isFollowing ? 'Seguindo' : 'Seguir'}
-          </Button>
-        </CardAction>
+        <Button variant={isFollowing ? 'secondary' : 'outline'} size="sm" onClick={onFollow}>
+          {isFollowing ? 'Seguindo' : 'Seguir'}
+        </Button>
       </CardHeader>
 
-      <CardContent className="flex flex-row gap-6 py-6">
-        <BookCover book={book} width={80} height={120} className="max=h-[120px] min-w-[80px]" />
-
-        <div className="flex flex-1 flex-col gap-1">
+      {/* Conteúdo do post */}
+      <CardContent className="flex gap-6 px-5 py-6">
+        <BookCover book={book} width={80} height={120} className="flex-shrink-0 rounded-lg" />
+        <div className="flex flex-1 flex-col gap-3">
           <BookInfo book={book} />
           <div className="flex items-center gap-2">
-            <Progress value={progress} className="h-2 w-32" />
-            <span className="text-muted-foreground text-xs">{progress}% lido </span>
+            <Progress value={post.progress} className="h-2 flex-1" />
+            <span className="text-muted-foreground text-xs">{post.progress}% lido </span>
           </div>
-          <div className="line-clamp-3 text-sm">{description}</div>
+
+          {/* Descrição (conteúdo escrito pelo autor) */}
+          <p
+            className={clsx(
+              'text-foreground text-sm transition-all',
+              !showFullDescription && 'line-clamp-3',
+            )}
+          >
+            {description}
+          </p>
+          {description.length > 200 && (
+            <Button
+              variant="link"
+              size="sm"
+              className="-mt-1 self-start p-0"
+              onClick={() => setShowFullDescription(!showFullDescription)}
+            >
+              {showFullDescription ? 'Mostrar menos' : 'Mostrar mais'}
+            </Button>
+          )}
         </div>
       </CardContent>
 
-      <CardFooter className="flex flex-col items-center justify-start gap-2 border-t pt-2">
-        <div className="border-accent flex w-full justify-start gap-4">
-          <Input placeholder="Escreva um comentário..." className="" />
-          <div className="flex flex-1 items-center gap-4">
-            <div className="text-muted-foreground flex items-center text-sm">
-              <MessageCircle className="mr-1 size-4" /> {comments.length}
+      {/* Ações principais */}
+      <CardFooter className="flex items-center justify-between border-t px-5 py-4">
+        <div className="flex items-center gap-6 text-sm">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={() => setOpenComments(!openComments)}
+          >
+            <MessageCircle className="h-4 w-4" />
+            {comments.length}
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={
+              // onLike() todo
+              () => prompt('liked')
+            } // TODO
+          >
+            <Heart className="h-4 w-4" />
+            {likeList.length}
+            {/* TODO AQUI ABRIR LISTA QND CLICA NO NUMERO, LIKAR QND CLICA NO CORACAO */}
+          </Button>
+        </div>
+        <Button variant="outline" size="sm" className="flex items-center gap-1">
+          <Share2 className="h-4 w-4" /> Compartilhar
+        </Button>
+      </CardFooter>
+
+      {/* Seção de comentários */}
+      {openComments && (
+        <div className="space-y-4 px-5 pb-5 pt-2">
+          {/* Form de comentário */}
+          <div className="flex items-start gap-3">
+            <Avatar className="h-8 w-8">
+              <AvatarImage src={author.avatarUrl} alt={author.name} />
+              <AvatarFallback>{author.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-1 gap-2">
+              <Input
+                value={commentDraft}
+                onChange={(e) => setCommentDraft(e.target.value)}
+                placeholder="Escreva um comentário..."
+                className="flex-1"
+              />
+              <Button
+                size="sm"
+                disabled={!commentDraft.trim()}
+                onClick={() => {
+                  // onCommentSubmit?.(commentDraft.trim());
+                  setCommentDraft('');
+                }}
+              >
+                Enviar
+              </Button>
             </div>
-            <Button variant="ghost" size="sm" className="p-2" onClick={onLike}>
-              <Heart className="mr-1" /> {likes}
-            </Button>
+          </div>
+
+          {/* Lista de comentários */}
+          <div className="max-h-40 space-y-3 overflow-y-auto">
+            {comments.map((c) => (
+              <div key={c.id} className="flex items-start gap-3 text-sm last:mb-0">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={c.author.avatarUrl} />
+                  <AvatarFallback>{c.author.name[0].toUpperCase()}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">{c.author.name}</span>
+                    <span className="text-muted-foreground text-xs">
+                      {formatDistanceToNow(new Date(c.createdAt), {
+                        locale: ptBR,
+                        addSuffix: true,
+                      })}
+                    </span>
+                  </div>
+                  <p>{c.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-
-        <div className="mt-2 flex max-h-28 w-full flex-col gap-1 overflow-y-auto">
-          {comments.map((c) => (
-            <div key={c.id} className="flex items-center gap-2 text-sm">
-              <Avatar className="size-8">
-                <AvatarImage src={c.user.avatarUrl} />
-                <AvatarFallback>{c.user.name[0]}</AvatarFallback>
-              </Avatar>
-              <div>
-                <span className="mr-2 font-bold">{c.user.name}</span>
-                <span className="text-muted-foreground text-xs">{c.createdAt}</span>
-                <div>{c.text}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </CardFooter>
+      )}
     </Card>
   );
 }

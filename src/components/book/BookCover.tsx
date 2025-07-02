@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Check } from 'lucide-react';
-import type { BookDTO } from '@/src/models/bookModels';
+import type { BookDTO } from '@/src/models/types/book.type';
 
 interface Props {
   book: BookDTO;

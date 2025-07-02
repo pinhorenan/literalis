@@ -1,13 +1,29 @@
+'use client';
 import { ModeToggle } from '@/src/components/ModeToggle';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
+import { PrimarySidebar } from '@/components/PrimarySidebar';
+import { SuggestionsSidebar } from '@/components/SuggestionsSidebar';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <section className="relative flex h-full w-full justify-center">
-      {children}
-      {/* Toggle de tema */}
-      <div className="absolute bottom-6 right-6 z-20">
-        <ModeToggle />
+    <SidebarProvider>
+      <div className="bg-page flex min-h-screen w-full">
+        {/* Coluna esquerda */}
+        <PrimarySidebar />
+
+        {/* Conteúdo central (dentro do inset) */}
+        <SidebarInset>
+          <div className="flex w-full max-w-screen-lg flex-1 flex-col px-4 py-6">{children}</div>
+        </SidebarInset>
+
+        {/* Coluna direita */}
+        <SuggestionsSidebar />
+
+        {/* Toggle de tema */}
+        <div className="absolute bottom-6 right-6 z-20">
+          <ModeToggle />
+        </div>
       </div>
-    </section>
+    </SidebarProvider>
   );
 }
