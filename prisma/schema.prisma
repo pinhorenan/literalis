@@ -7,179 +7,267 @@ generator client {
   provider = "prisma-client-js"
 }
 
+/**
+ * ─────────────────── ENUMS ───────────────────
+ */
 enum NotificationType {
   FOLLOW
   LIKE
   COMMENT
+  MENTION
+  REVIEW
 }
 
 enum ReadingStatus {
   TO_READ
+  WISHLISTED
   READING
+  PAUSED
   READ
   ABANDONED
 }
 
+/**
+ * ──────────── AUTH & IDENTITY ────────────
+ */
 model User {
-  username        String              @id
-  name            String
-  email           String              @unique
-  passwordHash    String
-  avatarUrl       String              @default("/uploads/avatars/default.jpg")
-  bio             String              @default("Esse usuário ainda não escreveu uma bio")
+  id        String   @id @default(uuid()) @db.Uuid
+  username  String   @unique @db.Citext
+  name      String?
+  avatarUrl String   @default("/uploads/avatars/default.jpg")
+  bio       String   @default("Esse usuário ainda não escreveu uma bio")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @default(now()) @updatedAt
+  accounts      Account[]
+  posts         Post[]
+  comments      Comment[]
+  readingList   ReadingListItem[]
+  postLikes     PostLike[]    @relation("UserPostLikes")
+  commentLikes  CommentLike[] @relation("UserCommentLikes")
+  followers     Follow[]      @relation("Following")
+  following     Follow[]      @relation("Followers")
+  sentNotifs    Notification[] @relation("NotificationActor")
+  recvNotifs    Notification[] @relation("NotificationRecipient")
+  oauthTokens   OAuthToken[]
 
-  posts           Post[]
-  comments        Comment[]
-  bookshelf       BookshelfEntry[]
-  postLikes       PostLike[]          @relation("UserPostLikes")
-  commentLikes    CommentLike[]       @relation("UserCommentLikes")
-
-  followers       Follow[]            @relation("Following")
-  following       Follow[]            @relation("Followers")
-
-  notificationsSent     Notification[] @relation("NotificationActor")
-  notificationsReceived Notification[] @relation("NotificationRecipient")
+  @@index([createdAt])
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  provider          String
+  providerAccountId String
+  type              String
+  access_token      String? @map("access_token")
+  expires_at        Int?    @map("expires_at")
+  refresh_token     String? @map("refresh_token")
+  token_type        String?
+  scope             String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model OAuthToken {
+  id               String   @id @default(cuid())
+  provider         String
+  userId           String
+  accessToken      String
+  refreshToken     String
+  expiresAt        DateTime
+  refreshExpiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, userId])
+  @@index([expiresAt])
+}
+
+/**
+ * ───────────── CONTENT & LIBRARY ─────────────
+ */
 model Book {
-  isbn            String              @id
+  isbn            String      @id
   title           String
-  author          String
-  publisher       String              @default("Editora desconhecida")
-  edition         Int                 @default(1)
   pages           Int
-  language        String              @default("Idioma desconhecido")
-  publicationDate DateTime            @default(now())
-  coverUrl        String              @default("/uploads/covers/default.jpg")
-  external        Boolean             @default(false)
+  language        String      @default("Idioma desconhecido")
+  publicationDate DateTime    @default(now())
+  coverUrl        String      @default("/uploads/covers/default.jpg")
+  rating          Float?      @default(0)
 
-  posts           Post[]
-  inShelves       BookshelfEntry[]
+  publisherId String    @default("unknown")
+  publisher   Publisher @relation(fields: [publisherId], references: [id])
+
+  authors  BookAuthor[]
+  genres   BookGenre[]
+  posts    Post[]
+  shelvings ReadingListItem[]
+
+  @@index([title])
 }
 
-model BookshelfEntry {
-  ownerUsername String
-  bookIsbn      String
+model Publisher {
+  id    String @id @default(uuid()) @db.Uuid
+  name  String @unique
 
-  currentPage   Int             @default(0)
-  status        ReadingStatus   @default(TO_READ)
-  isPrivate     Boolean         @default(false)
+  books Book[]
+}
 
-  addedAt       DateTime        @default(now())
-  updatedAt     DateTime        @default(now()) @updatedAt
-  removedAt     DateTime?
-  rating        Int?
+model Author {
+  id    String       @id @default(uuid()) @db.Uuid
+  name  String
 
-  owner User @relation(fields: [ownerUsername], references: [username], onDelete: Cascade)
-  book  Book @relation(fields: [bookIsbn],      references: [isbn],      onDelete: Cascade)
+  books BookAuthor[]
+}
 
-  @@id([ownerUsername, bookIsbn])
-  @@index([ownerUsername])
+model BookAuthor {
+  book     Book   @relation(fields: [bookIsbn], references: [isbn])
+  bookIsbn String
+  author   Author @relation(fields: [authorId], references: [id])
+  authorId String
+
+  @@id([bookIsbn, authorId])
+}
+
+model Genre {
+  id    String     @id @default(uuid()) @db.Uuid
+  name  String     @unique
+
+  books BookGenre[]
+}
+
+model BookGenre {
+  book     Book   @relation(fields: [bookIsbn], references: [isbn])
+  bookIsbn String
+  genre    Genre  @relation(fields: [genreId], references: [id])
+  genreId  String
+
+  @@id([bookIsbn, genreId])
+}
+
+model ReadingListItem {
+  userId     String
+  bookIsbn   String
+  status     ReadingStatus @default(TO_READ)
+  currentPage Int          @default(0)
+  isPrivate  Boolean       @default(false)
+  addedAt    DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  removedAt  DateTime?
+  rating     Int?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookIsbn], references: [isbn], onDelete: Cascade)
+
+  @@id([userId, bookIsbn])
+  @@index([userId])
   @@index([bookIsbn])
 }
 
 model Post {
-  id             String    @id @default(cuid())
-  content        String
+  id         String   @id @default(cuid())
+  authorId   String
+  bookIsbn   String
+  content    String
+  progress   Int?
+  currentPage Int?
+  totalPages Int?
+  rating     Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  progress       Int
-  currentPage    Int
-  totalPages     Int
-  rating         Int?
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  book   Book @relation(fields: [bookIsbn], references: [isbn], onDelete: Cascade)
 
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now()) @updatedAt
-
-  authorUsername String
-  bookIsbn       String
-
-  author User @relation(fields: [authorUsername], references: [username], onDelete: Cascade)
-  book   Book @relation(fields: [bookIsbn],      references: [isbn],      onDelete: Cascade)
-
-  likes    PostLike[] @relation("PostLikes")
-  comments Comment[]
+  comments      Comment[]
+  likes         PostLike[]     @relation("PostLikes")
   notifications Notification[] @relation("PostNotifications")
 
-  @@index([authorUsername])
+  @@index([authorId, createdAt])
   @@index([bookIsbn])
 }
 
 model Comment {
-  id             String    @id @default(cuid())
-  content        String
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now()) @updatedAt
+  id        String   @id @default(cuid())
+  postId    String
+  authorId  String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  postId         String
-  authorUsername String
-
-  post   Post @relation(fields: [postId],         references: [id],       onDelete: Cascade)
-  author User @relation(fields: [authorUsername], references: [username], onDelete: Cascade)
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   likes         CommentLike[]
   notifications Notification[] @relation("CommentNotifications")
 
   @@index([postId])
-  @@index([authorUsername])
+  @@index([authorId, createdAt])
 }
 
 model PostLike {
-  userUsername String
-  postId       String
-  createdAt    DateTime @default(now())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
 
-  user User @relation("UserPostLikes", fields: [userUsername], references: [username], onDelete: Cascade)
-  post Post @relation("PostLikes",     fields: [postId],       references: [id],       onDelete: Cascade)
+  user User @relation("UserPostLikes", fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation("PostLikes", fields: [postId], references: [id], onDelete: Cascade)
 
-  @@id([userUsername, postId])
+  @@id([userId, postId])
   @@index([postId, createdAt])
-  @@index([userUsername])
 }
 
 model CommentLike {
-  userUsername String
-  commentId    String
-  createdAt    DateTime @default(now())
+  userId    String
+  commentId String
+  createdAt DateTime @default(now())
 
-  user    User    @relation("UserCommentLikes", fields: [userUsername], references: [username], onDelete: Cascade)
-  comment Comment @relation(fields: [commentId],         references: [id],       onDelete: Cascade)
+  user    User    @relation("UserCommentLikes", fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
-  @@id([userUsername, commentId])
-  @@index([userUsername])
+  @@id([userId, commentId])
+  @@index([userId, createdAt])
 }
 
 model Follow {
-  followerUsername String
-  followedUsername String
-  createdAt        DateTime @default(now())
+  followerId String
+  followedId String
+  createdAt  DateTime @default(now())
 
-  follower User @relation("Following", fields: [followerUsername], references: [username], onDelete: Cascade)
-  followed User @relation("Followers", fields: [followedUsername], references: [username], onDelete: Cascade)
+  follower User @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  followed User @relation("Followers", fields: [followedId], references: [id], onDelete: Cascade)
 
-  @@id([followerUsername, followedUsername])
-  @@index([followerUsername])
-  @@index([followedUsername])
+  @@id([followerId, followedId])
+  @@index([followerId])
+  @@index([followedId])
 }
 
 model Notification {
-  id                 String           @id @default(cuid())
-  notifType          NotificationType
-  createdAt          DateTime         @default(now())
-  readAt             DateTime?
+  id          String           @id @default(cuid())
+  notifType   NotificationType
+  recipientId String
+  actorId     String
+  postId      String?
+  commentId   String?
+  createdAt   DateTime         @default(now())
+  readAt      DateTime?
 
-  recipientUsername  String
-  actorUsername      String
-  postId             String?
-  commentId          String?
+  recipient User     @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  actor     User     @relation("NotificationActor", fields: [actorId], references: [id], onDelete: Cascade)
+  post      Post?    @relation("PostNotifications", fields: [postId], references: [id], onDelete: Cascade)
+  comment   Comment? @relation("CommentNotifications", fields: [commentId], references: [id], onDelete: Cascade)
 
-  recipient User  @relation("NotificationRecipient", fields: [recipientUsername], references: [username], onDelete: Cascade)
-  actor     User  @relation("NotificationActor",     fields: [actorUsername],     references: [username], onDelete: Cascade)
-  post      Post? @relation("PostNotifications",      fields: [postId],            references: [id],       onDelete: Cascade)
-  comment   Comment? @relation("CommentNotifications", fields: [commentId],         references: [id],       onDelete: Cascade)
-
-  @@index([recipientUsername, readAt])
-  @@index([actorUsername])
+  @@index([recipientId, readAt])
+  @@index([actorId])
 }
