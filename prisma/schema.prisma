@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 /**
@@ -31,25 +31,29 @@ enum ReadingStatus {
  * ──────────── AUTH & IDENTITY ────────────
  */
 model User {
-  id        String   @id @default(uuid()) @db.Uuid
-  username  String   @unique @db.Citext
+  id        String   @id @default(uuid())
+  username  String   @unique
   name      String?
   avatarUrl String   @default("/uploads/avatars/default.jpg")
   bio       String   @default("Esse usuário ainda não escreveu uma bio")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  accounts      Account[]
-  posts         Post[]
-  comments      Comment[]
-  readingList   ReadingListItem[]
-  postLikes     PostLike[]    @relation("UserPostLikes")
-  commentLikes  CommentLike[] @relation("UserCommentLikes")
-  followers     Follow[]      @relation("Following")
-  following     Follow[]      @relation("Followers")
-  sentNotifs    Notification[] @relation("NotificationActor")
-  recvNotifs    Notification[] @relation("NotificationRecipient")
-  oauthTokens   OAuthToken[]
+  accounts  Account[]
+  posts     Post[]
+  comments  Comment[]
+  bookshelf BookshelfItem[]
+
+  postLikes    PostLike[]    @relation("UserPostLikes")
+  commentLikes CommentLike[] @relation("UserCommentLikes")
+
+  followers Follow[] @relation("Following")
+  following Follow[] @relation("Followers")
+
+  sentNotifs Notification[] @relation("NotificationActor")
+  recvNotifs Notification[] @relation("NotificationRecipient")
+
+  oauthTokens OAuthToken[]
 
   @@index([createdAt])
 }
@@ -98,35 +102,35 @@ model OAuthToken {
  * ───────────── CONTENT & LIBRARY ─────────────
  */
 model Book {
-  isbn            String      @id
+  isbn            String   @id
   title           String
   pages           Int
-  language        String      @default("Idioma desconhecido")
-  publicationDate DateTime    @default(now())
-  coverUrl        String      @default("/uploads/covers/default.jpg")
-  rating          Float?      @default(0)
+  language        String   @default("Idioma desconhecido")
+  publicationDate DateTime @default(now())
+  coverUrl        String   @default("/uploads/covers/default.jpg")
+  rating          Int?
 
   publisherId String    @default("unknown")
   publisher   Publisher @relation(fields: [publisherId], references: [id])
 
-  authors  BookAuthor[]
-  genres   BookGenre[]
-  posts    Post[]
-  shelvings ReadingListItem[]
+  authors   BookAuthor[]
+  genres    BookGenre[]
+  posts     Post[]
+  shelvings BookshelfItem[]
 
-  @@index([title])
+  @@index([title], name: "idx_books_title")
 }
 
 model Publisher {
-  id    String @id @default(uuid()) @db.Uuid
-  name  String @unique
+  id   String @id @default(uuid())
+  name String @unique
 
   books Book[]
 }
 
 model Author {
-  id    String       @id @default(uuid()) @db.Uuid
-  name  String
+  id   String @id @default(uuid())
+  name String @unique
 
   books BookAuthor[]
 }
@@ -141,8 +145,8 @@ model BookAuthor {
 }
 
 model Genre {
-  id    String     @id @default(uuid()) @db.Uuid
-  name  String     @unique
+  id   String @id @default(uuid())
+  name String @unique
 
   books BookGenre[]
 }
@@ -156,16 +160,16 @@ model BookGenre {
   @@id([bookIsbn, genreId])
 }
 
-model ReadingListItem {
-  userId     String
-  bookIsbn   String
-  status     ReadingStatus @default(TO_READ)
-  currentPage Int          @default(0)
-  isPrivate  Boolean       @default(false)
-  addedAt    DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-  removedAt  DateTime?
-  rating     Int?
+model BookshelfItem {
+  userId      String
+  bookIsbn    String
+  status      ReadingStatus @default(TO_READ)
+  currentPage Int           @default(0)
+  isPrivate   Boolean       @default(false)
+  addedAt     DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  removedAt   DateTime?
+  rating      Int?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   book Book @relation(fields: [bookIsbn], references: [isbn], onDelete: Cascade)
@@ -176,16 +180,16 @@ model ReadingListItem {
 }
 
 model Post {
-  id         String   @id @default(cuid())
-  authorId   String
-  bookIsbn   String
-  content    String
-  progress   Int?
+  id          String   @id @default(cuid())
+  authorId    String
+  bookIsbn    String
+  content     String
+  progress    Int?
   currentPage Int?
-  totalPages Int?
-  rating     Int?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  totalPages  Int?
+  rating      Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
   book   Book @relation(fields: [bookIsbn], references: [isbn], onDelete: Cascade)
@@ -248,9 +252,9 @@ model Follow {
   follower User @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
   followed User @relation("Followers", fields: [followedId], references: [id], onDelete: Cascade)
 
-  @@id([followerId, followedId])
-  @@index([followerId])
-  @@index([followedId])
+  @@id([followerId, followedId]) // composite pk: findUnique
+  @@index([followerId], name: "idx_follow_follower") // listagem de quem sigo
+  @@index([followedId], name: "idx_follow_followed") // listagem de meus seguidores
 }
 
 model Notification {
