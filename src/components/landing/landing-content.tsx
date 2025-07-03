@@ -80,12 +80,10 @@ function LandingHero() {
       >
         <Link href="/signup">
           <Button
-            className={clsx(
-              'flex items-center gap-2 rounded-lg px-8 py-4 text-lg font-extrabold tracking-tight',
-              'bg-card hover:bg-surface-alt',
-              'border-border text-foreground border-2 shadow-lg',
-              'transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl',
-            )}
+            variant="outline"
+            className="w-full sm:w-auto"
+            size="lg"
+            onClick={() => console.log('Sign Up Clicked')}
           >
             <UserRoundPlusIcon className="h-5 w-5" />
             Crie sua conta
@@ -103,7 +101,7 @@ export default function LandingContent() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
       className={clsx(
-        'relative isolate flex min-h-screen flex-col-reverse items-center justify-evenly gap-12 overflow-hidden',
+        'min-w-screen relative isolate flex min-h-screen flex-col-reverse items-center justify-evenly gap-12 overflow-hidden',
         'from-surface to-surface-alt bg-gradient-to-b',
         'px-6 py-16 lg:flex-row lg:px-24',
       )}

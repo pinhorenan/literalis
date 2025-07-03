@@ -1,4 +1,4 @@
-import type { BookDTO } from '@/src/models/types/book.type';
+import type { BookDTO } from '@/src/hooks/types/book.type';
 import clsx from 'clsx';
 
 export default function BookInfo({ book, className }: { book: BookDTO; className?: string }) {

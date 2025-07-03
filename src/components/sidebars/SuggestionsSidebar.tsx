@@ -10,9 +10,9 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { Button } from '@/components/ui/button';
+import { FollowButton } from '@/components/buttons/FollowButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { userMock1, userMock2, userMock3 } from '@/models/mocks/user.mocks';
+import { userMock1, userMock2, userMock3 } from '@/src/lib/mocks/user.mocks';
 
 export function SuggestionsSidebar() {
   const suggestions = [userMock2, userMock3];
@@ -51,9 +51,7 @@ export function SuggestionsSidebar() {
                       </div>
                     </div>
                   </SidebarMenuButton>
-                  <Button size="sm" variant="default">
-                    Seguir
-                  </Button>
+                  <FollowButton isFollowing={false} onClick={() => console.log('seguindo')} />
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

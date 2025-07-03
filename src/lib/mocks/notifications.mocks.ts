@@ -1,5 +1,5 @@
 import { userMock1, userMock2, userMock3 } from './user.mocks';
-import type { NotificationDTO } from '../types/notification.type';
+import type { NotificationDTO } from '../../hooks/types/notification.type';
 
 export const notificationsMock: NotificationDTO[] = [
   {

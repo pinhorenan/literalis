@@ -12,9 +12,9 @@ import {
   SidebarMenuButton,
   SidebarSeparator,
 } from '@/components/ui/sidebar';
-import { BookIcon, Home, User, Search, Mail, Bell, SunMedium, Power } from 'lucide-react';
+import { BookIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react';
 import Link from 'next/link';
-import { ModeToggle } from '@/components/ModeToggle'; // tenho mas ta c outro nome mudar
+import { ModeToggle } from '@/components/ModeToggle';
 
 export function PrimarySidebar() {
   return (
@@ -69,7 +69,7 @@ export function PrimarySidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild tooltip="Tema Claro/Escuro">
-              <ModeToggle>{/* todo */}</ModeToggle>
+              <ModeToggle />
             </SidebarMenuButton>
           </SidebarMenuItem>
 

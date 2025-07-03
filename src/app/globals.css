@@ -58,8 +58,6 @@
   --color-sidebar-ring: var(--theme-color-sidebar-ring);
 
   /* Typography */
-  --font-sans: var(--font-theme-sans);
-  --font-mono: var(--font-theme-mono);
 
   /* Radii */
   --radius-sm: var(--theme-radius-sm);
@@ -74,9 +72,6 @@
 */
 :root {
   /* Font Families */
-  --font-theme-sans: var(--font-geist-sans);
-  --font-theme-mono: var(--font-geist-mono);
-
   /* Radii */
   --theme-radius-sm: 0.3125rem; /* 5px */
   --theme-radius-md: 0.5rem; /* 8px */

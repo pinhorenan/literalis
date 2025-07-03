@@ -1,6 +1,6 @@
-import type { MinimalUserDTO } from '../types/user.type';
-import type { BookDTO } from '../types/book.type';
-import type { PostDTO, PostCommentDTO } from '../types/post.type';
+import type { MinimalUserDTO } from '../../hooks/types/user.type';
+import type { BookDTO } from '../../hooks/types/book.type';
+import type { PostDTO, PostCommentDTO } from '../../hooks/types/post.type';
 
 import { userMock1, userMock2, userMock3, userMock4, userMock5 } from './user.mocks';
 

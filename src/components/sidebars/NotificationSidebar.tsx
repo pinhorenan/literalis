@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Bell } from 'lucide-react';
-import { notificationsMock } from '@/models/mocks/notifications.mocks'; // todo
+import { notificationsMock } from '@/src/lib/mocks/notifications.mocks'; // todo
 
 export function NotificationSidebar() {
   return (

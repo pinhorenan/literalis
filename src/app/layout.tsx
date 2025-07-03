@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className="antialiased" suppressHydrationWarning>
       <head />
-      <body className="flex h-svh w-svw">
+      <body className="h-vh flex w-full">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

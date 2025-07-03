@@ -1,4 +1,4 @@
-import type { BookDTO, MinimalBookDTO } from '@/models/types/book.type';
+import type { BookDTO, MinimalBookDTO } from '@/src/hooks/types/book.type';
 
 function olCover(isbn: string, size: 'S' | 'M' | 'L' = 'M') {
   return `https://covers.openlibrary.org/b/isbn/${isbn}-${size}.jpg`;

@@ -1,4 +1,4 @@
-import type { MinimalUserDTO } from '../types/user.type';
+import type { MinimalUserDTO } from '../../hooks/types/user.type';
 
 export const userMock1: MinimalUserDTO = {
   username: 'blackleopard471',

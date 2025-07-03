@@ -4,7 +4,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { Button } from '@/src/components/ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import BookCover from '@/src/components/book/BookCover';
-import type { BookDTO } from '@/src/models/types/book.type';
+import type { BookDTO } from '@/src/hooks/types/book.type';
 import { cn } from '@/src/lib/utils';
 
 interface BookCarouselProps {
@@ -43,7 +43,7 @@ export default function BookCarousel({
       {/* viewport com altura fixa */}
       <div ref={emblaRef} className="overflow-hidden" style={{ height: 220 }}>
         {/* track sem justify-around, só alinhamento no início */}
-        <div className="-ml-4 flex h-full items-center">
+        <div className="flex h-full items-center">
           {books.map((book, idx) => (
             <div
               key={book.isbn + idx}

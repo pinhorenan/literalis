@@ -1,9 +1,9 @@
 'use server';
 
 import clsx from 'clsx';
-import BookCover from '@components/book/BookCover';
-import BookInfo from '@components/book/BookInfo';
-import type { BookDTO } from '@/src/models/types/book.type';
+import BookCover from '@/components/book/BookCover';
+import BookInfo from '@/components/book/BookInfo';
+import type { BookDTO } from '@/src/hooks/types/book.type';
 
 export default function BookCard({ book, className }: { book: BookDTO; className?: string }) {
   return (
