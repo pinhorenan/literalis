@@ -2,7 +2,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchUserProfile, UserProfileResponse } from '@/api/users';
+import { fetchUserProfile, UserProfileResponse } from '@/src/data/api/users';
 
 export function useUserProfile(username: string) {
   return useQuery<UserProfileResponse>({

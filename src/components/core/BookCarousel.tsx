@@ -7,7 +7,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { BookCover } from '@/src/components/core/Book';
 import { Button } from '@/src/components/ui/button';
 import { cn } from '@/src/lib/utils';
-import type { BookDataResponse } from '@/src/api/books';
+import type { BookDataResponse } from '@/src/data/api/books';
 
 interface BookCarouselProps {
   books: BookDataResponse[];

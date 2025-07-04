@@ -2,7 +2,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchBooksCount, BooksCountResponse } from '@/api/users';
+import { fetchBooksCount, BooksCountResponse } from '@/src/data/api/users';
 
 export function useBooksCount(username: string) {
   return useQuery<BooksCountResponse>({

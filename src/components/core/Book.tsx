@@ -1,7 +1,7 @@
 // src/components/core/Book.tsx
 import clsx from 'clsx';
 import Image from 'next/image';
-import type { BookDataResponse } from '@/src/api/books';
+import type { BookDataResponse } from '@/src/data/api/books';
 
 interface BookCoverProps {
   book: BookDataResponse;

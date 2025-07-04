@@ -10,12 +10,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ user
 
   const user = await getUserByUsername(username);
   if (!user) {
-    return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    return NextResponse.json({ message: 'Usuário não encontrado' }, { status: 404 });
   }
 
   const followers = await prisma.follow.findMany({
     where: { followedId: user.id },
-    orderBy: { createdAt: 'desc' },
+    orderBy: [{ createdAt: 'desc' }, { followerId: 'asc' }],
     take,
     ...(cursor
       ? {

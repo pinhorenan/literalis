@@ -7,7 +7,7 @@ import {
   fetchShelfItem,
   upsertShelfItemClient,
   deleteShelfItemClient,
-} from '@/src/api/bookshelf';
+} from '@/src/data/api/bookshelf';
 import type { BookshelfItemData } from '@/src/services/bookshelf.service';
 
 export function useUserShelf(userId: string) {

@@ -1,6 +1,6 @@
 // app/api/users/[username]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getUserProfile } from '@/services/user.service';
+import { getUserProfile } from '@/src/services/user.service';
 import { auth } from '@/src/lib/auth';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ username: string }> }) {
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ user
 
   const profile = await getUserProfile(username, viewerId);
   if (!profile) {
-    return new NextResponse(null, { status: 404 });
+    return NextResponse.json({ message: 'Usuário não encontrado' }, { status: 404 });
   }
   return NextResponse.json(profile);
 }

@@ -1,15 +1,15 @@
 // src/app/api/books/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getBooksByName } from '@/services/book.service';
+import { searchBookByTitle } from '@/src/services/book.service';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const name = searchParams.get('name');
+  const title = searchParams.get('title');
 
   try {
-    if (name) {
-      const books = await getBooksByName(name);
+    if (title) {
+      const books = await searchBookByTitle(title);
       return NextResponse.json(books || [], { status: 200 });
     }
 
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     const data = books.map((book) => ({
       isbn: book.isbn,
       title: book.title,
-      pages: book.pages,
+      totalPages: book.pages,
       language: book.language,
       publisher: { id: book.publisher.id, name: book.publisher.name },
       authors: book.authors.map((a) => ({
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
         id: g.genre.id,
         name: g.genre.name,
       })),
-      publicationDate: book.publicationDate.toISOString(), // string JSON-safe
+      publicationDate: book.publicationDate.toISOString(),
       rating: book.rating,
     }));
 

@@ -1,7 +1,7 @@
 // src/hooks/useFollowers.ts
 'use client';
 import { useInfiniteQuery, QueryFunctionContext } from '@tanstack/react-query';
-import { fetchFollowers, FollowersResponse } from '@/api/users';
+import { fetchFollowers, FollowersResponse } from '@/src/data/api/users';
 
 export function useFollowers(username: string) {
   return useInfiniteQuery<

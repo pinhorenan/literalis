@@ -4,7 +4,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { useUserShelf } from '@/src/hooks/bookshelf/useUserShelf';
-import { useBookData } from '@/src/hooks/book/useBookData';
+import { useBookData } from '@/src/hooks/book/useBook';
 import { BookCard } from '@/src/components/core/Book';
 import { Session } from 'next-auth';
 

@@ -1,5 +1,5 @@
 // src/api/bookshelf.ts
-import { BookshelfItemData } from '@/services/bookshelf.service';
+import type { BookshelfItemData } from '@/types/bookshelf';
 
 export async function fetchUserShelf(userId: string): Promise<BookshelfItemData[]> {
   const res = await fetch(`/api/bookshelf?userId=${userId}`);
@@ -13,6 +13,13 @@ export async function fetchShelfItem(userId: string, isbn: string): Promise<Book
   return res.json();
 }
 
+export async function deleteShelfItemClient(userId: string, isbn: string): Promise<void> {
+  const res = await fetch(`/api/bookshelf/${isbn}?userId=${userId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Erro ao remover item da estante');
+}
+
 export async function upsertShelfItemClient(
   item: Omit<BookshelfItemData, 'addedAt' | 'updatedAt'>,
 ): Promise<BookshelfItemData> {
@@ -23,11 +30,4 @@ export async function upsertShelfItemClient(
   });
   if (!res.ok) throw new Error('Erro ao salvar item da estante');
   return res.json();
-}
-
-export async function deleteShelfItemClient(userId: string, isbn: string): Promise<void> {
-  const res = await fetch(`/api/bookshelf/${isbn}?userId=${userId}`, {
-    method: 'DELETE',
-  });
-  if (!res.ok) throw new Error('Erro ao remover item da estante');
 }

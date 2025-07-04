@@ -1,158 +1,48 @@
 // src/services/book.service.ts
 import { prisma } from '@/lib/prisma';
+import type { Book, MinimalBook, MinimalAuthor, MinimalGenre } from '@/types/book';
 
-export interface BookData {
-  isbn: string;
-  title: string;
-  pages: number;
-  language: string;
-  publisher: {
-    id: string;
-    name: string;
+const bookSelect = {
+  isbn: true,
+  title: true,
+  pages: true,
+  language: true,
+  coverUrl: true,
+  publicationDate: true,
+  rating: true,
+  publisher: { select: { id: true, name: true } },
+  authors: { select: { author: { select: { id: true, name: true } } } },
+  genres: { select: { genre: { select: { id: true, name: true } } } },
+} as const;
+
+/* ---- helpers ---- */
+function mapBook(b: any): Book {
+  return {
+    isbn: b.isbn,
+    title: b.title,
+    totalPages: b.pages,
+    language: b.language,
+    coverUrl: b.coverUrl,
+    publicationDate: b.publicationDate,
+    averageRating: b.rating ?? undefined,
+    ratingsCount: undefined,
+    publisher: b.publisher,
+    authors: b.authors.map((a: { author: MinimalAuthor }) => a.author),
+    genres: b.genres.map((g: { genre: MinimalGenre }) => g.genre),
   };
-  authors: {
-    id: string;
-    name: string;
-  }[];
-  coverUrl: string;
-  genres: {
-    id: string;
-    name: string;
-  }[];
-  publicationDate: Date;
-  rating: number | null;
 }
 
-export async function getBookByIsbn(isbn: string): Promise<BookData | null> {
-  const book = await prisma.book.findUnique({
-    where: { isbn },
-    select: {
-      isbn: true,
-      title: true,
-      pages: true,
-      language: true,
-      publisher: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-      authors: {
-        select: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-      },
-      coverUrl: true,
-      genres: {
-        select: {
-          genre: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-      },
-      publicationDate: true,
-      rating: true,
-    },
-  });
-
-  if (!book) return null;
-
-  const data: BookData = {
-    isbn: book.isbn,
-    title: book.title,
-    pages: book.pages,
-    language: book.language,
-    publisher: {
-      id: book.publisher.id,
-      name: book.publisher.name,
-    },
-    authors: book.authors.map((a) => ({
-      id: a.author.id,
-      name: a.author.name,
-    })),
-    coverUrl: book.coverUrl,
-    genres: book.genres.map((g) => ({
-      id: g.genre.id,
-      name: g.genre.name,
-    })),
-    publicationDate: book.publicationDate,
-    rating: book.rating,
-  };
-
-  return data;
+/* ---- queries ---- */
+export async function getBookByIsbn(isbn: string): Promise<Book | null> {
+  const book = await prisma.book.findUnique({ where: { isbn }, select: bookSelect });
+  return book ? mapBook(book) : null;
 }
 
-export async function getBooksByName(name: string): Promise<BookData[] | null> {
+export async function searchBookByTitle(title: string, limit = 20): Promise<MinimalBook[]> {
   const books = await prisma.book.findMany({
-    where: { title: { contains: name, mode: 'insensitive' } },
-    select: {
-      isbn: true,
-      title: true,
-      pages: true,
-      language: true,
-      publisher: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-      authors: {
-        select: {
-          author: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-      },
-      coverUrl: true,
-      genres: {
-        select: {
-          genre: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-      },
-      publicationDate: true,
-      rating: true,
-    },
+    where: { title: { contains: title, mode: 'insensitive' } },
+    select: bookSelect,
+    take: limit,
   });
-
-  if (books.length === 0) return null;
-
-  const data: BookData[] = books.map((book) => ({
-    isbn: book.isbn,
-    title: book.title,
-    pages: book.pages,
-    language: book.language,
-    publisher: {
-      id: book.publisher.id,
-      name: book.publisher.name,
-    },
-    authors: book.authors.map((a) => ({
-      id: a.author.id,
-      name: a.author.name,
-    })),
-    coverUrl: book.coverUrl,
-    genres: book.genres.map((g) => ({
-      id: g.genre.id,
-      name: g.genre.name,
-    })),
-    publicationDate: book.publicationDate,
-    rating: book.rating,
-  }));
-
-  return data;
+  return books.map(mapBook);
 }

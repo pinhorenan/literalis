@@ -1,85 +1,55 @@
 // src/services/bookshelf.service.ts
-import { prisma } from '@/src/lib/prisma';
-import { ReadingStatus } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
+import type { ShelfItem } from '@/types/bookshelf';
 
-export interface BookshelfItemData {
-  userId: string;
-  bookIsbn: string;
-  status: ReadingStatus;
-  currentPage: number;
-  isPrivate: boolean;
-  rating: number | null;
-  addedAt: Date;
-  updatedAt: Date;
-  removedAt: Date | null;
-}
-
-export async function getShelfByUser(userId: string): Promise<BookshelfItemData[]> {
+/* ---- queries ---- */
+export async function getUserShelf(userId: string): Promise<ShelfItem[]> {
   const items = await prisma.bookshelfItem.findMany({
-    where: { userId },
-    select: {
-      userId: true,
-      bookIsbn: true,
-      status: true,
-      currentPage: true,
-      isPrivate: true,
-      rating: true,
-      addedAt: true,
-      updatedAt: true,
-      removedAt: true,
-    },
+    where: { userId, removedAt: null },
     orderBy: { addedAt: 'desc' },
   });
-  return items;
+
+  // converte removedAt:null → undefined para satisfazer ShelfItem.removedAt?: Date
+  return items.map((item) => ({
+    ...item,
+    removedAt: item.removedAt ?? undefined,
+    rating: item.rating ?? undefined,
+  }));
 }
 
-export async function getShelfItem(
-  userId: string,
-  bookIsbn: string,
-): Promise<BookshelfItemData | null> {
-  const item = await prisma.bookshelfItem.findUnique({
-    where: { userId_bookIsbn: { userId, bookIsbn } },
-    select: {
-      userId: true,
-      bookIsbn: true,
-      status: true,
-      currentPage: true,
-      isPrivate: true,
-      rating: true,
-      addedAt: true,
-      updatedAt: true,
-      removedAt: true,
-    },
-  });
-  return item;
-}
-
+/* ---- mutations ---- */
 export async function upsertShelfItem(
-  data: Omit<BookshelfItemData, 'addedAt' | 'updatedAt'>,
-): Promise<BookshelfItemData> {
-  const { userId, bookIsbn, status, currentPage, isPrivate, rating } = data;
+  input: Omit<ShelfItem, 'addedAt' | 'updatedAt' | 'removedAt'>,
+): Promise<ShelfItem> {
   const item = await prisma.bookshelfItem.upsert({
-    where: { userId_bookIsbn: { userId, bookIsbn } },
-    update: { status, currentPage, isPrivate, rating },
-    create: { userId, bookIsbn, status, currentPage, isPrivate, rating },
-    select: {
-      userId: true,
-      bookIsbn: true,
-      status: true,
-      currentPage: true,
-      isPrivate: true,
-      rating: true,
-      addedAt: true,
-      updatedAt: true,
-      removedAt: true,
+    where: {
+      userId_bookIsbn: {
+        userId: input.userId,
+        bookIsbn: input.bookIsbn,
+      },
+    },
+    update: {
+      status: input.status,
+      currentPage: input.currentPage,
+      isPrivate: input.isPrivate,
+      rating: input.rating,
+      removedAt: null, // “restaura” caso estivesse removido
+    },
+    create: {
+      ...input,
     },
   });
-  return item;
+
+  return {
+    ...item,
+    removedAt: item.removedAt ?? undefined,
+    rating: item.rating ?? undefined,
+  };
 }
 
-export async function removeShelfItem(userId: string, bookIsbn: string): Promise<void> {
-  await prisma.bookshelfItem.delete({
-    // ?? todo: era pra ser soft delete
+export async function softRemoveShelfItem(userId: string, bookIsbn: string): Promise<void> {
+  await prisma.bookshelfItem.update({
     where: { userId_bookIsbn: { userId, bookIsbn } },
+    data: { removedAt: new Date() },
   });
 }
