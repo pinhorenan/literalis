@@ -1,6 +1,6 @@
 // app/profile/[username]/page.tsx
 
-import ProfileHeader from '@/components/ProfileHeader';
+import ProfileHeader from '@/src/components/profile/ProfileHeader';
 import { ReactNode } from 'react';
 
 // Esta é uma Server Component por padrão

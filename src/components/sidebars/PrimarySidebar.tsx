@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/sidebar';
 import { BookIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react';
 import Link from 'next/link';
-import { ModeToggle } from '@/components/ModeToggle';
+import { ModeToggle } from '@/src/components/buttons/ModeToggle';
 
 export function PrimarySidebar() {
   return (

@@ -1,8 +1,8 @@
 // app/layout.tsx
 import './globals.css';
-import Providers from './providers';
+import Providers from '../providers/providers';
 import { auth } from '@/lib/auth';
-import { FloatingProfile } from '@/components/FloatingProfile';
+import { FloatingProfile } from '@/src/components/user/FloatingProfile';
 
 export const metadata = {
   title: 'Literalis',

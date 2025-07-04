@@ -8,7 +8,7 @@ import type { BookDTO } from '@/src/hooks/types/book.type';
 import { useSession, signIn } from 'next-auth/react';
 
 import BookCarousel from '@/src/components/book/BookCarousel';
-import PostCard from '@/src/components/PostCard';
+import PostCard from '@/src/components/post/PostCard';
 
 export default function HomePage() {
   const { data: session, status } = useSession();

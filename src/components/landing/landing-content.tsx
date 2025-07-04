@@ -2,7 +2,7 @@
 
 import { Sparkles, UserPlus as UserRoundPlusIcon } from 'lucide-react';
 import { CircleVector, Logo } from '@/components/landing/landing-decorations';
-import { ModeToggle } from '@/src/components/ModeToggle';
+import { ModeToggle } from '@/src/components/buttons/ModeToggle';
 import { Button } from '@/src/components/ui/button';
 
 import { motion } from 'framer-motion';
