@@ -1,7 +1,7 @@
 'use client';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-import { PrimarySidebar } from '@/src/components/sidebars/PrimarySidebar';
-import { SuggestionsSidebar } from '@/src/components/sidebars/SuggestionsSidebar';
+import { PrimarySidebar } from '@/src/components/layout/sidebars/PrimarySidebar';
+import { SuggestionsSidebar } from '@/src/components/layout/sidebars/SuggestionsSidebar';
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -36,7 +36,7 @@ export default function ProfileHeader({ username }: { username: string }) {
   const booksCount = booksCountData?.booksCount ?? counts.posts;
 
   return (
-    <header className="flex flex-col items-center rounded-lg bg-white p-6 shadow">
+    <header className="bg-card flex items-center gap-6 rounded-lg p-6 shadow">
       <Image
         src={user.avatarUrl || '/default-avatar.png'}
         alt={`${user.username}'s avatar`}
@@ -44,17 +44,19 @@ export default function ProfileHeader({ username }: { username: string }) {
         height={120}
         className="rounded-full"
       />
-      <h1 className="mt-4 text-2xl font-semibold">
-        {user.name} <span className="text-gray-500">@{user.username}</span>
-      </h1>
-      <p className="mt-2 text-center text-gray-700">{user.bio}</p>
+      <div>
+        <h1 className="mt-4 text-2xl font-semibold">{user.name}</h1>
+        <span className="text-primary">@{user.username}</span>
 
-      <div className="mt-4 flex space-x-4 text-gray-600">
-        <span>{counts.followers} seguidores</span>
-        <span>{counts.following} seguindo</span>
-        <Link href={`/profile/${username}/bookshelf`} className="hover:underline">
-          {isBooksCountLoading ? '...' : `${booksCount} livros na estante`}
-        </Link>
+        <div className="flex gap-4">
+          <span>{counts.followers} seguidores</span>
+          <span>{counts.following} seguindo</span>
+          <Link href={`/profile/${username}/bookshelf`} className="hover:underline">
+            {isBooksCountLoading ? '...' : `${booksCount} livros`}
+          </Link>
+        </div>
+
+        <p className="text-secondary">{user.bio}</p>
       </div>
 
       {!isMe && (

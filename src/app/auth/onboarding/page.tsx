@@ -17,7 +17,7 @@ export default function OnboardingPage() {
       <input
         name="username"
         className="rounded border px-3 py-2"
-        placeholder="ex.: clarice_lispector"
+        placeholder="ex.: fiódor_dostoievski"
         required
       />
 

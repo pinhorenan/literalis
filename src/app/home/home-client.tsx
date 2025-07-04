@@ -3,7 +3,7 @@
 import { Session } from 'next-auth';
 import BookCarousel from '@/src/components/book/BookCarousel';
 import type { BookDTO } from '@/src/hooks/types/book.type';
-import PostCard from '@/src/components/post/PostCard';
+import PostCard from '@/src/components/core/post/PostCard';
 import * as books from '@/src/lib/mocks/book.mocks';
 import { postsMock } from '@/src/lib/mocks/post.mocks';
 

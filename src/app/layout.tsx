@@ -2,7 +2,7 @@
 import './globals.css';
 import Providers from '../providers/providers';
 import { auth } from '@/lib/auth';
-import { FloatingProfile } from '@/src/components/user/FloatingProfile';
+import { FloatingProfile } from '@/src/components/layout/FloatingProfile';
 
 export const metadata = {
   title: 'Literalis',

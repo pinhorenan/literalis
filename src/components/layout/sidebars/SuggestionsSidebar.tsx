@@ -11,9 +11,16 @@ import {
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { userMock1, userMock2, userMock3 } from '@/src/lib/mocks/user.mocks';
+import { userMock2, userMock3 } from '@/src/lib/mocks/user.mocks';
+import { useSession } from 'next-auth/react';
 
 export function SuggestionsSidebar() {
+  const session = useSession();
+  if (session.status !== 'authenticated') {
+    return null; // nao renderisza, mas whatever pq o middleware n deveria deixar chegar aqui
+  }
+  const viewer = session.data?.user;
+
   const suggestions = [userMock2, userMock3];
 
   return (
@@ -21,23 +28,22 @@ export function SuggestionsSidebar() {
       <SidebarHeader>
         <div className="flex items-center gap-3">
           <Avatar>
-            <AvatarImage src={userMock1.avatarUrl} />
-            <AvatarFallback>{userMock1.name}</AvatarFallback>
+            <AvatarImage src={viewer.avatarUrl!} />
           </Avatar>
           <div className="flex flex-col">
-            <span className="text-md flex flex-col">{userMock1.name}</span>
-            <span className="text-muted-foreground text-sm">@{userMock1.username}</span>
+            <span className="text-md flex flex-col">{viewer.name}</span>
+            <span className="text-muted-foreground text-sm">@{viewer.username}</span>
           </div>
         </div>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Sugestões para você</SidebarGroupLabel>
+          <SidebarGroupLabel>Perfis recomendados</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {suggestions.map((u) => (
-                <SidebarMenuItem key={u.username} className="flex">
+                <SidebarMenuItem key={u.username} className="flex py-2">
                   <SidebarMenuButton>
                     <div className="flex w-full items-center gap-2 p-2">
                       <Avatar className="size-8">

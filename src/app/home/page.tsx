@@ -1,14 +1,15 @@
+// src/app/home/page.tsx
 'use client';
 
 import { useState } from 'react';
 import { userMock1 } from '@/src/lib/mocks/user.mocks';
 import * as books from '@/src/lib/mocks/book.mocks';
 import { postsMock } from '@/src/lib/mocks/post.mocks';
-import type { BookDTO } from '@/src/hooks/types/book.type';
+import type { BookDTO } from '@/src/types/book.type';
 import { useSession, signIn } from 'next-auth/react';
 
 import BookCarousel from '@/src/components/book/BookCarousel';
-import PostCard from '@/src/components/post/PostCard';
+import PostCard from '@/src/components/core/post/PostCard';
 
 export default function HomePage() {
   const { data: session, status } = useSession();
@@ -17,7 +18,6 @@ export default function HomePage() {
 
   const [showCarousel] = useState(true);
 
-  // pega todos os bookMockX exportados
   const carouselBooks = Object.values(books).filter(
     (b): b is BookDTO => typeof b === 'object' && 'isbn' in b,
   );
