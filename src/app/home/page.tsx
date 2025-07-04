@@ -5,16 +5,15 @@ import { userMock1 } from '@/src/lib/mocks/user.mocks';
 import * as books from '@/src/lib/mocks/book.mocks';
 import { postsMock } from '@/src/lib/mocks/post.mocks';
 import type { BookDTO } from '@/src/hooks/types/book.type';
-import { getServerSession } from 'next-auth';
-import { options } from '@/src/lib/auth';
-import type { Session } from 'next-auth';
+import { useSession, signIn } from 'next-auth/react';
 
 import BookCarousel from '@/src/components/book/BookCarousel';
 import PostCard from '@/src/components/PostCard';
 
 export default function HomePage() {
-  // Obtém a sessão do usuário
-  const session = getServerSession(options) as Promise<Session | null>;
+  const { data: session, status } = useSession();
+
+  if (status === 'loading') return <p>Carregando...</p>;
 
   const [showCarousel] = useState(true);
 

@@ -1,28 +1,25 @@
-import type { Metadata } from 'next';
-import { ThemeProvider } from '@/src/components/ThemeProvider';
+// app/layout.tsx
 import './globals.css';
+import Providers from './providers';
+import { auth } from '@/lib/auth';
+import { FloatingProfile } from '@/components/FloatingProfile';
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Literalis',
   description: 'Nova rede social literária',
-  applicationName: 'Literalis',
-  authors: [{ url: 'github.com/pinhorenan', name: 'Renan Pinho' }],
-  icons: '/icons/favicon.svg',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+
   return (
     <html lang="pt-BR" className="antialiased" suppressHydrationWarning>
       <head />
-      <body className="h-vh flex w-full">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+      <body className="relative h-screen w-full">
+        <Providers session={session}>
           {children}
-        </ThemeProvider>
+          <FloatingProfile />
+        </Providers>
       </body>
     </html>
   );

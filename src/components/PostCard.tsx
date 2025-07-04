@@ -21,7 +21,6 @@ import BookCover from '@/components/book/BookCover';
 import BookInfo from '@/components/book/BookInfo';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import type { PostDTO } from '@/src/hooks/types/post.type';
-import { FollowButton } from '@/components/buttons/FollowButton';
 
 export default function PostCard(post: PostDTO) {
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -54,7 +53,6 @@ export default function PostCard(post: PostDTO) {
             </CardDescription>
           </div>
         </div>
-        <FollowButton isFollowing={false} onClick={() => 'following'} />
       </CardHeader>
 
       {/* Conteúdo do post */}

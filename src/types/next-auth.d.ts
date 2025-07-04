@@ -1,3 +1,5 @@
+// src/types/next-auth.d.ts
+
 import { Session, User } from 'next-auth';
 
 declare module 'next-auth' {

@@ -10,7 +10,6 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
-import { FollowButton } from '@/components/buttons/FollowButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { userMock1, userMock2, userMock3 } from '@/src/lib/mocks/user.mocks';
 
@@ -51,7 +50,6 @@ export function SuggestionsSidebar() {
                       </div>
                     </div>
                   </SidebarMenuButton>
-                  <FollowButton isFollowing={false} onClick={() => console.log('seguindo')} />
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

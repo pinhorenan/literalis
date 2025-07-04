@@ -1,68 +1,57 @@
-import GitHubProvider from 'next-auth/providers/github';
+// src/lib/auth.ts
+import NextAuth, { type NextAuthConfig } from 'next-auth';
+import GitHubProvider, { type GitHubProfile } from 'next-auth/providers/github';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { prisma } from '@/src/lib/prisma';
-import type { NextAuthOptions } from 'next-auth';
+import { prisma } from '@/lib/prisma';
 
-export const options: NextAuthOptions = {
+export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
-
-      profile(profile) {
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
+      profile(p: GitHubProfile) {
         return {
-          id: profile.id,
-          name: profile.name ?? profile.login,
-          avatarUrl: profile.avatar_url,
+          id: p.id.toString(),
+          name: p.name ?? p.login,
+          email: p.email ?? null,
+          avatarUrl: p.avatar_url,
         };
       },
     }),
   ],
   session: { strategy: 'jwt' },
-  callbacks: {
-    /**
-     * 1️⃣ After every sign-in we check if profile is complete.
-     * Returning a string here turns the sign-in into a redirect.
-     */
-    async signIn({ user }) {
-      if (!user.username) return '/onboarding';
-      return true; // continue normally
-    },
 
-    /**
-     * 2️⃣ Expose extra fields to the client session object.
-     */
-    async session({ session, token, user }) {
-      session.user.id = user.id;
-      session.user.username = user.username;
-      session.user.avatar = user.avatarUrl;
+  callbacks: {
+    async signIn() {
+      return true;
+    },
+    async session({ session, token }) {
+      session.user.id = token.sub as string;
+      session.user.username = token.username as string | null;
+      session.user.avatarUrl = token.avatar as string | null;
       return session;
     },
-
-    /**
-     * 3️⃣ Persist `username` inside the JWT so middleware
-     *     can decide quickly without DB round-trip.
-     */
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.username = user.username ?? null;
+        token.avatar = (user as any).avatarUrl ?? null;
       }
+      if (trigger === 'update' && session?.user?.username) token.username = session.user.username;
       return token;
     },
   },
-  /**
-   * 4️⃣ Keep profile in sync whenever a provider is (re)linked.
-   */
   events: {
     async linkAccount({ user, profile }) {
       await prisma.user.update({
         where: { id: user.id },
         data: {
-          avatarUrl: profile.avatarUrl ?? user.avatarUrl,
-          name: profile.name ?? user.name,
+          ...(profile.name && { name: profile.name }),
+          ...(profile.avatarUrl && { avatarUrl: profile.avatarUrl }),
         },
       });
     },
   },
 };
+
+export const { handlers, auth, unstable_update } = NextAuth(authConfig);

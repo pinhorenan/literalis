@@ -1,23 +1,23 @@
+import { auth } from '@/src/lib/auth';
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { getToken } from 'next-auth/jwt';
 
-export async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  // unauth -> let page decide
-  if (!token) return NextResponse.next();
+export default auth((req) => {
+  const user = req.auth?.user;
+  const { pathname, origin } = req.nextUrl;
 
-  // incomplete profile -> redirect to onboarding
-  if (!token.username && !req.nextUrl.pathname.startsWith('/onboarding')) {
-    const url = req.nextUrl.clone();
-    url.pathname = '/onboarding';
-    return NextResponse.redirect(url);
+  // 1) Not signed-in → built-in HTML page
+  if (!user && !pathname.startsWith('/api/auth')) {
+    return NextResponse.redirect(new URL('/api/auth/signin', origin));
   }
+
+  // 2) Signed-in but missing username → onboarding
+  if (user && !user.username && pathname !== '/auth/onboarding') {
+    return NextResponse.redirect(new URL('/auth/onboarding', origin));
+  }
+
   return NextResponse.next();
-}
+});
 
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: ['/((?!api/auth|_next|.*\\..*).*)'],
 };
-
-
