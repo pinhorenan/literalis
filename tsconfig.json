@@ -25,18 +25,15 @@
       "@/tests/*": ["./tests/*"],
       "@/prisma/*": ["./prisma/*"],
       "@/app/*": ["./src/app/*"],
-      "@/clients/*": ["./src/clients/*"],
       "@/components/*": ["./src/components/*"],
       "@/contexts/*": ["./src/contexts/*"],
       "@/hooks/*": ["./src/hooks/*"],
-      "@/includes/*": ["./src/includes/*"],
       "@/lib/*": ["./src/lib/*"],
-      "@/api/*": ["./src/api/*"],
+      "@/api/*": ["src/data/api/*"],
       "@/models/*": ["src/models/*"],
       "@/repos/*": ["./src/repos/*"],
-      "@/styles/*": ["./src/styles/*"],
-      "@/schemas/*": ["./src/schemas/*"],
-      "@/services/*": ["./src/services/*"]
+      "@/types/*": ["./src/types/*"],
+      "@/services/*": ["src/services/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
