@@ -2,7 +2,7 @@ import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PrimarySidebar } from '@/src/components/layout/sidebars/PrimarySidebar';
 import { SuggestionsSidebar } from '@/src/components/layout/sidebars/SuggestionsSidebar';
 
-export default function FeedLayout({ children }: { children: React.ReactNode }) {
+export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <div className="bg-page flex min-h-screen w-full">

@@ -2,7 +2,6 @@
 import './globals.css';
 import Providers from '../providers/providers';
 import { auth } from '@/lib/auth';
-import { FloatingProfile } from '@/src/components/layout/FloatingProfile';
 
 export const metadata = {
   title: 'Literalis',
@@ -16,10 +15,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="pt-BR" className="antialiased" suppressHydrationWarning>
       <head />
       <body className="relative h-screen w-full">
-        <Providers session={session}>
-          {children}
-          <FloatingProfile />
-        </Providers>
+        <Providers session={session}>{children}</Providers>
       </body>
     </html>
   );

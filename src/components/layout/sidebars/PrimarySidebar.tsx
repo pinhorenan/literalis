@@ -12,11 +12,20 @@ import {
   SidebarMenuButton,
   SidebarSeparator,
 } from '@/components/ui/sidebar';
-import { BookIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react';
+import { BookIcon, LibraryIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { ModeToggle } from '@/src/components/layout/buttons/ModeToggle';
+import { userAgent } from 'next/server';
 
 export function PrimarySidebar() {
+  const { data: session } = useSession();
+  if (!session || !session.user) {
+    return null; // or a loading state
+  }
+  const viewer = session.user!;
+  const username = viewer.username!;
+
   return (
     <Sidebar side="left" variant="sidebar" collapsible="icon">
       {/* topo */}
@@ -41,9 +50,14 @@ export function PrimarySidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {[
-                { href: '/', icon: Home, label: 'Início' },
-                { href: '/', icon: User, label: 'Perfil' },
-                { href: '/', icon: Search, label: 'Buscar' },
+                { href: '/feed', icon: Home, label: 'Início' },
+                { href: `/${viewer.username}/profile`, icon: User, label: 'Perfil' },
+                {
+                  href: `/${viewer.username}/bookshelf`,
+                  icon: LibraryIcon,
+                  label: 'Estante',
+                },
+                { href: '/search', icon: Search, label: 'Buscar' },
                 { href: '/', icon: Mail, label: 'Mensagens' },
                 { href: '/', icon: Bell, label: 'Notificações', badge: 3 },
               ].map((item) => (
