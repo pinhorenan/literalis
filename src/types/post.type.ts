@@ -1,6 +1,5 @@
 import { type MinimalUserDTO } from './user.type';
-import { type BookDTO } from './book.type';
-
+import { type BookDataResponse } from '@/src/api/books';
 export interface PostDTO {
   postID: string;
   content: string;
@@ -11,7 +10,7 @@ export interface PostDTO {
   createdAt: Date;
   updatedAt?: Date;
 
-  book: BookDTO;
+  book: BookDataResponse;
   author: MinimalUserDTO;
   comments: PostCommentDTO[];
   likeUserList: MinimalUserDTO[];

@@ -4,9 +4,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { useUserProfile } from '@/hooks/useUserProfile';
-import { useToggleFollow } from '@/hooks/useToggleFollow';
-import { useBooksCount } from '@/hooks/useBooksCount';
+import { useUserProfile } from '@/src/hooks/user/useUserProfile';
+import { useToggleFollow } from '@/src/hooks/user/useToggleFollow';
+import { useBooksCount } from '@/src/hooks/user/useBooksCount';
 import { use } from 'react';
 
 export default function ProfileHeader({ username }: { username: string }) {

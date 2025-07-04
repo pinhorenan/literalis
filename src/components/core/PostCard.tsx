@@ -17,10 +17,9 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
-import BookCover from '@/components/book/BookCover';
-import BookInfo from '@/components/book/BookInfo';
+import { BookCover, BookInfo } from '@/components/core/Book';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
-import type { PostDTO } from '@/src/hooks/types/post.type';
+import type { PostDTO } from '@/src/types/post.type';
 
 export default function PostCard(post: PostDTO) {
   const [showFullDescription, setShowFullDescription] = useState(false);
