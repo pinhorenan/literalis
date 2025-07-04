@@ -1,14 +1,16 @@
+// src/components/core/book/BookCarousel.tsx
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import { Button } from '@/src/components/ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import BookCover from '@/src/components/book/BookCover';
-import type { BookDTO } from '@/src/hooks/types/book.type';
+import { BookCover } from '@/src/components/core/Book';
+import { Button } from '@/src/components/ui/button';
 import { cn } from '@/src/lib/utils';
+import type { BookDataResponse } from '@/src/api/books';
 
 interface BookCarouselProps {
-  books: BookDTO[];
+  books: BookDataResponse[];
   slidesToShow?: number;
   className?: string;
 }
