@@ -15,6 +15,10 @@ export interface UserCounters {
   books?: number;
 }
 
+export interface BooksCount {
+  books: number;
+}
+
 export interface UserProfile {
   user: MinimalUser & { bio: string };
   counts: UserCounters;

@@ -2,7 +2,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postToggleFollow } from '@/src/data/api/users';
+import { postToggleFollow } from '@/src/api/users';
 
 export function useToggleFollow(username: string) {
   const queryClient = useQueryClient();

@@ -1,32 +1,25 @@
 // src/api/users.ts
-import type {
-  UserProfileData,
-  UserFollowersData,
-  UserFollowingData,
-  UserBookCountData,
-} from '@/types/user';
+import type { UserProfile, FollowersPage, FollowingPage, BooksCount } from '@/src/types/user';
 
-export async function fetchUserProfile(username: string): Promise<UserProfileData> {
+/* GET /users/[username] ---------------------------------------------------- */
+export async function fetchUserProfile(username: string): Promise<UserProfile> {
   const res = await fetch(`/api/users/${username}`);
   if (!res.ok) throw new Error('Erro ao buscar perfil do usuário');
   return res.json();
 }
 
+/* POST /users/[username]/follow ------------------------------------------- */
 export async function postToggleFollow(username: string): Promise<{
   isFollowing: boolean;
   followersCount: number;
 }> {
-  const res = await fetch(`/api/users/${username}/follow`, {
-    method: 'POST',
-  });
+  const res = await fetch(`/api/users/${username}/follow`, { method: 'POST' });
   if (!res.ok) throw new Error('Erro ao alternar follow');
   return res.json();
 }
 
-export async function fetchFollowers(
-  username: string,
-  cursor?: string,
-): Promise<UserFollowersData> {
+/* GET /users/[username]/followers ----------------------------------------- */
+export async function fetchFollowers(username: string, cursor?: string): Promise<FollowersPage> {
   const url = new URL(`/api/users/${username}/followers`, window.location.origin);
   if (cursor) url.searchParams.set('cursor', cursor);
   const res = await fetch(url.toString());
@@ -34,10 +27,8 @@ export async function fetchFollowers(
   return res.json();
 }
 
-export async function fetchFollowing(
-  username: string,
-  cursor?: string,
-): Promise<UserFollowingData> {
+/* GET /users/[username]/following ----------------------------------------- */
+export async function fetchFollowing(username: string, cursor?: string): Promise<FollowingPage> {
   const url = new URL(`/api/users/${username}/following`, window.location.origin);
   if (cursor) url.searchParams.set('cursor', cursor);
   const res = await fetch(url.toString());
@@ -45,8 +36,9 @@ export async function fetchFollowing(
   return res.json();
 }
 
-export async function fetchBooksCount(username: string): Promise<UserBookCountData> {
-  const res = await fetch(`/api/users/${username}/bookshelf/count`); // TODO!
+/* GET /users/[username]/bookshelf/count ----------------------------------- */
+export async function fetchBooksCount(username: string): Promise<BooksCount> {
+  const res = await fetch(`/api/users/${username}/bookshelf/count`);
   if (!res.ok) throw new Error('Erro ao buscar contagem de livros na estante');
   return res.json();
 }

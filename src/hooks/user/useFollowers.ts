@@ -1,20 +1,21 @@
 // src/hooks/useFollowers.ts
 'use client';
-import { useInfiniteQuery, QueryFunctionContext } from '@tanstack/react-query';
-import { fetchFollowers, FollowersResponse } from '@/src/data/api/users';
+
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchFollowers } from '@/src/api/users';
+import type { FollowersPage } from '@/src/types/user';
 
 export function useFollowers(username: string) {
   return useInfiniteQuery<
-    FollowersResponse, // TQueryFnData
+    FollowersPage, // TQueryFnData
     Error, // TError
-    FollowersResponse, // TData
+    FollowersPage, // TData
     [string, string], // TQueryKey
     string | undefined // TPageParam
   >({
     queryKey: ['followers', username],
-    queryFn: ({ pageParam }: QueryFunctionContext<[string, string], string | undefined>) =>
-      fetchFollowers(username, pageParam),
-    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    queryFn: ({ pageParam }) => fetchFollowers(username, pageParam),
+    getNextPageParam: (last) => last.nextCursor ?? undefined,
     initialPageParam: undefined,
   });
 }

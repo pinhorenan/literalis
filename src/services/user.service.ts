@@ -87,6 +87,11 @@ export async function listFollowers(
   return { items, nextCursor };
 }
 
+export async function countBooksInShelf(userId: string) {
+  const books = await prisma.bookshelfItem.count({ where: { userId } });
+  return books;
+}
+
 /* ---------- mutations ---------- */
 export async function toggleFollow(
   targetUserId: string,

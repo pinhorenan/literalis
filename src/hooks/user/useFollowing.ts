@@ -1,20 +1,21 @@
 // src/hooks/useFollowing.ts
 'use client';
-import { useInfiniteQuery, QueryFunctionContext } from '@tanstack/react-query';
-import { fetchFollowing, FollowingResponse } from '@/src/data/api/users';
+
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchFollowing } from '@/src/api/users';
+import type { FollowingPage } from '@/src/types/user';
 
 export function useFollowing(username: string) {
   return useInfiniteQuery<
-    FollowingResponse,
-    Error,
-    FollowingResponse,
-    [string, string],
-    string | undefined
+    FollowingPage, // TQueryFnData
+    Error, // TError
+    FollowingPage, // TData
+    [string, string], // TQueryKey
+    string | undefined // TPageParam
   >({
     queryKey: ['following', username],
-    queryFn: ({ pageParam }: QueryFunctionContext<[string, string], string | undefined>) =>
-      fetchFollowing(username, pageParam),
-    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    queryFn: ({ pageParam }) => fetchFollowing(username, pageParam),
+    getNextPageParam: (last) => last.nextCursor ?? undefined,
     initialPageParam: undefined,
   });
 }

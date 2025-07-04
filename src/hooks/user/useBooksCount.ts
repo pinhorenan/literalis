@@ -1,14 +1,14 @@
 // src/hooks/useBooksCount.ts
 'use client';
-
 import { useQuery } from '@tanstack/react-query';
-import { fetchBooksCount, BooksCountResponse } from '@/src/data/api/users';
+import { fetchBooksCount } from '@/src/api/users';
+import type { BooksCount } from '@/types/user';
 
 export function useBooksCount(username: string) {
-  return useQuery<BooksCountResponse>({
+  return useQuery<BooksCount, Error>({
     queryKey: ['booksCount', username],
     queryFn: () => fetchBooksCount(username),
+    staleTime: 1000 * 60 * 5, // 5 min
     retry: 1,
-    staleTime: 1000 * 60 * 5, // 5 minutos
   });
 }
