@@ -1,6 +1,5 @@
 // src/api/posts.ts
-import type { Paginated } from '@/types/common';
-import type { Post, Comment } from '@/types/post';
+import type { Paginated, Post, Comment } from '@/types/index';
 
 /* -------------------------------------------------------------------------- */
 /* utilitário de fetch com tratamento de erro                                 */
@@ -17,15 +16,15 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 }
 
 /* -------------------------------------------------------------------------- */
-/* queries                                                                    */
+/* QUERIES                                                                    */
 /* -------------------------------------------------------------------------- */
 
-/** GET /api/posts/:id */
+/** GET /api/posts/[id] */
 export function fetchPost(id: string) {
   return request<Post>(`/api/posts/${id}`);
 }
 
-/** GET /api/posts/user/:username?cursor=<id> */
+/** GET /api/posts/user/[username]cursor=<id> */
 export function fetchUserPosts(username: string, cursor?: string, take = 20) {
   const url = new URL(`/api/user/${username}/posts`, window.location.origin);
   url.searchParams.set('take', String(take));
@@ -42,7 +41,7 @@ export function fetchFeedPosts(cursor?: string, take = 20) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* mutations                                                                  */
+/* MUTATIONS                                                                  */
 /* -------------------------------------------------------------------------- */
 
 /** POST /api/posts */
@@ -61,19 +60,19 @@ export function createPost(data: {
   });
 }
 
-/** DELETE /api/posts/:id  – servidor deve retornar 204 No Content */
+/** DELETE /api/posts/[id]  – servidor deve retornar 204 No Content */
 export function deletePost(id: string) {
   return request<void>(`/api/posts/${id}`, { method: 'DELETE' });
 }
 
-/** POST /api/posts/:id/like  (toggle) */
+/** POST /api/posts/[id]/like  (toggle) */
 export function toggleLikePost(id: string) {
   return request<{ liked: boolean; likesCount: number }>(`/api/posts/${id}/like`, {
     method: 'POST',
   });
 }
 
-/** POST /api/posts/:id/comments */
+/** POST /api/posts/[id]/comments */
 export function commentPost(id: string, content: string) {
   return request<Comment>(`/api/posts/${id}/comments`, {
     method: 'POST',

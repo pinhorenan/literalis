@@ -1,10 +1,8 @@
 // src/services/bookshelf.service.ts
 import { BookshelfItem as PrismaShelfItem } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
-import type { Paginated } from '@/types/common';
-import type { ShelfItem } from '@/types/bookshelf';
-import type { ShelfItemInput } from '@/validators/bookshelf';
-import { ShelfItemInputSchema } from '@/validators/bookshelf';
+import type { Paginated, ShelfItem } from '@/types/index';
+import { ShelfItemInputSchema, type ShelfItemInput } from '@/lib/validators/bookshelf';
 
 function normalize(item: PrismaShelfItem): ShelfItem {
   return {

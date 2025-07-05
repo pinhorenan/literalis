@@ -1,5 +1,5 @@
 // src/api/users.ts
-import type { UserProfile, FollowersPage, FollowingPage, BooksCount } from '@/src/types/user';
+import type { UserProfile, FollowersPage, FollowingPage, BooksCount } from '@/types/index';
 
 /* GET /users/[username] ---------------------------------------------------- */
 export async function fetchUserProfile(username: string): Promise<UserProfile> {
@@ -36,6 +36,7 @@ export async function fetchFollowing(username: string, cursor?: string): Promise
   return res.json();
 }
 
+// ESSE AQ TODO REFAZER MTO RUIM
 /* GET /users/[username]/bookshelf/count ----------------------------------- */
 export async function fetchBooksCount(username: string): Promise<BooksCount> {
   const res = await fetch(`/api/users/${username}/bookshelf/count`);

@@ -1,3 +1,5 @@
+// src/lib/constants/selects.ts
+
 /** Seleção mínima para exibir capas, infos rápidas e para o feed */
 export const MINIMAL_BOOK_SELECT = {
   isbn: true,
@@ -15,4 +17,12 @@ export const FULL_BOOK_SELECT = {
   publicationDate: true,
   rating: true,
   genres: { select: { genre: { select: { id: true, name: true } } } },
+} as const;
+
+/** Seleção mínima para exibir informações do usuário */
+export const MINIMAL_USER_SELECT = {
+  id: true,
+  username: true,
+  name: true,
+  avatarUrl: true,
 } as const;

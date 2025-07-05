@@ -1,8 +1,7 @@
 import { prisma } from '@/lib/prisma';
+import { MINIMAL_USER_SELECT } from '@/lib/constants/selects';
 import type { User } from '@prisma/client';
-import type { Paginated } from '@/types/common';
-import type { MinimalUser, UserProfile } from '@/types/user';
-import { minimalUserSelect } from '@/types/user';
+import type { Paginated, MinimalUser, UserProfile } from '@/types/index';
 
 /* ---------- helpers ---------- */
 function mapMinimal(user: Pick<User, 'id' | 'username' | 'name' | 'avatarUrl'>): MinimalUser {
@@ -18,7 +17,7 @@ function mapMinimal(user: Pick<User, 'id' | 'username' | 'name' | 'avatarUrl'>):
 export async function getUserByUsername(username: string) {
   return prisma.user.findUnique({
     where: { username },
-    select: minimalUserSelect,
+    select: MINIMAL_USER_SELECT,
   });
 }
 
@@ -29,7 +28,7 @@ export async function getUserProfile(
   const user = await prisma.user.findUnique({
     where: { username },
     select: {
-      ...minimalUserSelect,
+      ...MINIMAL_USER_SELECT,
       bio: true,
       _count: { select: { followers: true, following: true, posts: true } },
       followers: viewerId
@@ -70,7 +69,7 @@ export async function listFollowers(
           },
         }
       : {}),
-    select: { follower: { select: minimalUserSelect } },
+    select: { follower: { select: MINIMAL_USER_SELECT } },
     orderBy: [{ createdAt: 'desc' }, { followerId: 'asc' }],
   });
 

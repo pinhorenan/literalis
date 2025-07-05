@@ -1,6 +1,6 @@
 // src/server/users/suggestions.ts
 import { prisma } from '@/lib/prisma';
-import { minimalUserSelect } from '@/types/user';
+import { MINIMAL_USER_SELECT } from '@/src/lib/utils/includes/user';
 
 export async function getSuggestedUsers(viewerId: string, limit = 5) {
   const users = await prisma.$queryRaw<

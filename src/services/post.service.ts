@@ -1,54 +1,9 @@
+// src/services/post.service.ts
+import { MINIMAL_BOOK_SELECT, MINIMAL_USER_SELECT } from '@/lib/constants/selects';
+import { mapComment, mapPost } from '@/lib/mappings/mappers';
 import { prisma } from '@/lib/prisma';
-import { MINIMAL_BOOK_SELECT } from '@/lib/includes/book';
-import { mapBook } from '@/services/book.service';
-import type { Paginated, ReadingStatus } from '@/types/common';
-import type { Post, Comment, Like } from '@/types/post';
-import type { MinimalUser } from '@/types/user';
+import type { Paginated, Post, Comment } from '@/types/index';
 
-/* ---------- selects ---------- */
-const userSelect = { id: true, username: true, avatarUrl: true } as const;
-const bookSelect = MINIMAL_BOOK_SELECT;
-
-/* ---------- helpers ---------- */
-function mapComment(c: any, viewerId?: string): Comment {
-  return {
-    id: c.id,
-    content: c.content,
-    createdAt: c.createdAt,
-    updatedAt: c.updatedAt,
-    author: c.author as MinimalUser,
-    likesCount: c._count.likes,
-    likedByMe: viewerId ? c.likes.length > 0 : false,
-  };
-}
-
-async function mapPost(p: any, viewerId?: string): Promise<Post> {
-  const shelf = viewerId
-    ? await prisma.bookshelfItem.findUnique({
-        where: { userId_bookIsbn: { userId: viewerId, bookIsbn: p.book.isbn } },
-        select: { status: true },
-      })
-    : null;
-
-  return {
-    id: p.id,
-    content: p.content,
-    progress: p.progress ?? undefined,
-    currentPage: p.currentPage ?? undefined,
-    totalPages: p.totalPages ?? undefined,
-    rating: p.rating ?? undefined,
-    createdAt: p.createdAt,
-    updatedAt: p.updatedAt,
-    author: p.author,
-    book: mapBook(p.book), // ← achata autores/publisher
-    likesCount: p._count.likes,
-    commentsCount: p._count.comments,
-    likedByMe: !!p.likes?.length,
-    ...(shelf && { inShelfStatus: shelf.status as ReadingStatus }),
-  };
-}
-
-/* ---------- queries ---------- */
 export async function getPostById(id: string, viewerId?: string): Promise<Post | null> {
   const row = await prisma.post.findUnique({
     where: { id },
@@ -61,10 +16,22 @@ export async function getPostById(id: string, viewerId?: string): Promise<Post |
       rating: true,
       createdAt: true,
       updatedAt: true,
-      author: { select: userSelect },
-      book: { select: bookSelect },
+      author: { select: MINIMAL_USER_SELECT },
+      book: { select: MINIMAL_BOOK_SELECT },
       likes: viewerId ? { where: { userId: viewerId }, select: { userId: true } } : false,
       _count: { select: { likes: true, comments: true } },
+      comments: {
+        orderBy: { createdAt: 'asc' },
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          updatedAt: true,
+          author: { select: MINIMAL_USER_SELECT },
+          likes: viewerId ? { where: { userId: viewerId }, select: { userId: true } } : false,
+          _count: { select: { likes: true } },
+        },
+      },
     },
   });
 
@@ -91,8 +58,8 @@ export async function listUserPosts(
       rating: true,
       createdAt: true,
       updatedAt: true,
-      author: { select: userSelect },
-      book: { select: bookSelect },
+      author: { select: MINIMAL_USER_SELECT },
+      book: { select: MINIMAL_BOOK_SELECT },
       likes: viewerId ? { where: { userId: viewerId }, select: { userId: true } } : false,
       _count: { select: { likes: true, comments: true } },
     },
@@ -103,7 +70,6 @@ export async function listUserPosts(
   return { items, nextCursor: rows.length > take ? rows[take].id : null };
 }
 
-/* ---------- mutations ---------- */
 export async function createPost(input: {
   authorId: string;
   bookIsbn: string;
@@ -132,8 +98,8 @@ export async function createPost(input: {
       rating: true,
       createdAt: true,
       updatedAt: true,
-      author: { select: userSelect },
-      book: { select: bookSelect },
+      author: { select: MINIMAL_USER_SELECT },
+      book: { select: MINIMAL_BOOK_SELECT },
       _count: { select: { likes: true, comments: true } },
     },
   });
@@ -169,7 +135,7 @@ export async function addComment(
       content: true,
       createdAt: true,
       updatedAt: true,
-      author: { select: userSelect },
+      author: { select: MINIMAL_USER_SELECT },
       likes: false,
       _count: { select: { likes: true } },
     },
