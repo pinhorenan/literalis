@@ -1,35 +1,38 @@
 // src/services/post.service.ts
 import { prisma } from '@/lib/prisma';
-import type { Paginated, ReadingStatus } from '@/types/common';
+import type { Paginated } from '@/types/common';
+import type { ReadingStatus } from '@/types/common';
 import type { Post, Comment, Like } from '@/types/post';
 import type { MinimalUser } from '@/types/user';
 
+/* ---------- selects compartilhados ---------- */
 const userSelect = { id: true, username: true, avatarUrl: true } as const;
 const bookSelect = { isbn: true, title: true, coverUrl: true } as const;
 
-/* ---- helpers ---- */
-function mapLike(l: any): Like {
+/* ---------- helpers ---------- */
+function mapLike(l: { user: MinimalUser; createdAt: Date }): Like {
   return { user: l.user, createdAt: l.createdAt };
 }
 
-function mapComment(c: any): Comment {
+function mapComment(c: any, viewerId?: string): Comment {
   return {
     id: c.id,
     content: c.content,
     createdAt: c.createdAt,
     updatedAt: c.updatedAt,
     author: c.author as MinimalUser,
-    likesCount: c._count?.likes ?? 0,
-    likedByMe: false, // TODO: calcular likedByMe se necessário
+    likesCount: c._count.likes,
+    likedByMe: viewerId ? c.likes.length > 0 : false,
   };
 }
 
-async function mapPost(p: any, currentUserId?: string): Promise<Post> {
+export async function mapPost(p: any, viewerId?: string): Promise<Post> {
   const likedByMe = !!p.likes?.length;
 
-  const shelf = currentUserId
+  // status do livro na estante do viewer (opcional)
+  const shelf = viewerId
     ? await prisma.bookshelfItem.findUnique({
-        where: { userId_bookIsbn: { userId: currentUserId, bookIsbn: p.book.isbn } },
+        where: { userId_bookIsbn: { userId: viewerId, bookIsbn: p.book.isbn } },
         select: { status: true },
       })
     : null;
@@ -48,10 +51,11 @@ async function mapPost(p: any, currentUserId?: string): Promise<Post> {
     likesCount: p._count.likes,
     commentsCount: p._count.comments,
     likedByMe,
+    ...(shelf ? { inShelfStatus: shelf.status as ReadingStatus } : {}),
   };
 }
 
-/* ---- queries ---- */
+/* ---------- queries ---------- */
 export async function getPostById(id: string, viewerId?: string): Promise<Post | null> {
   const post = await prisma.post.findUnique({
     where: { id },
@@ -70,6 +74,7 @@ export async function getPostById(id: string, viewerId?: string): Promise<Post |
       _count: { select: { likes: true, comments: true } },
     },
   });
+
   return post ? mapPost(post, viewerId) : null;
 }
 
@@ -77,15 +82,16 @@ export async function listUserPosts(
   userId: string,
   viewerId?: string,
   take = 20,
-  cursor?: string, // agora cursor é string contendo o ID
+  cursor?: string,
 ): Promise<Paginated<Post>> {
-  const posts = await prisma.post.findMany({
+  const rows = await prisma.post.findMany({
     where: { authorId: userId },
-    take: take + 1, // busca um a mais para saber se há próximo cursor
-    ...(cursor
-      ? { cursor: { id: cursor } } // cursor único no campo `id` :contentReference[oaicite:8]{index=8}
-      : {}),
-    orderBy: { createdAt: 'desc' },
+    take: take + 1,
+    ...(cursor && { cursor: { id: cursor }, skip: 1 }),
+    orderBy: [
+      { createdAt: 'desc' },
+      { id: 'desc' }, // tie-breaker para ordem consistente
+    ],
     select: {
       id: true,
       content: true,
@@ -102,14 +108,15 @@ export async function listUserPosts(
     },
   });
 
-  const items = await Promise.all(posts.slice(0, take).map((p) => mapPost(p, viewerId)));
-  const nextCursor = posts.length > take ? posts[take].id : null; // devolve string ID :contentReference[oaicite:9]{index=9}
+  const items = await Promise.all(rows.slice(0, take).map((p) => mapPost(p, viewerId)));
+  const nextCursor = rows.length > take ? rows[take].id : null;
+
   return { items, nextCursor };
 }
 
-/* ---- mutations ---- */
+/* ---------- mutations ---------- */
 export async function createPost(input: {
-  authorId: string; // deve corresponder ao campo authorId do schema :contentReference[oaicite:10]{index=10}
+  authorId: string;
   bookIsbn: string;
   content: string;
   progress?: number;
@@ -119,7 +126,7 @@ export async function createPost(input: {
 }): Promise<Post> {
   const post = await prisma.post.create({
     data: {
-      authorId: input.authorId, // campo obrigatório
+      authorId: input.authorId,
       bookIsbn: input.bookIsbn,
       content: input.content,
       progress: input.progress,
@@ -138,25 +145,45 @@ export async function createPost(input: {
       updatedAt: true,
       author: { select: userSelect },
       book: { select: bookSelect },
-      likes: false,
       _count: { select: { likes: true, comments: true } },
     },
   });
-  return mapPost(post, input.authorId);
+
+  // viewerId = undefined => likedByMe false
+  return mapPost(post, undefined);
 }
 
 export async function toggleLike(postId: string, userId: string): Promise<Post | null> {
   const where = { userId_postId: { userId, postId } } as const;
-  const existing = await prisma.postLike.findUnique({ where });
 
-  if (existing) {
-    await prisma.postLike.delete({ where });
-  } else {
-    await prisma.postLike.create({ data: where.userId_postId });
-  }
+  await prisma.$transaction(async (tx) => {
+    const existing = await tx.postLike.findUnique({ where });
+    if (existing) {
+      await tx.postLike.delete({ where });
+    } else {
+      await tx.postLike.create({ data: where.userId_postId });
+    }
+  });
+
   return getPostById(postId, userId);
 }
 
-export async function addComment(postId: string, userId: string, content: string): Promise<void> {
-  await prisma.comment.create({ data: { postId, authorId: userId, content } });
+export async function addComment(
+  postId: string,
+  userId: string,
+  content: string,
+): Promise<Comment> {
+  const raw = await prisma.comment.create({
+    data: { postId, authorId: userId, content },
+    select: {
+      id: true,
+      content: true,
+      createdAt: true,
+      updatedAt: true,
+      author: { select: userSelect },
+      likes: false,
+      _count: { select: { likes: true } },
+    },
+  });
+  return mapComment(raw, userId);
 }

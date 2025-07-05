@@ -1,15 +1,13 @@
-// src/app/api/posts/route.ts
+// app/api/posts/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { createPost, getFeedPosts } from '@/src/services/post.service';
-import { request } from 'http';
-
-export async function GET() {
-  const posts = await getFeedPosts();
-  return NextResponse.json(posts);
-}
+import { createPost } from '@/services/post.service';
+import { auth } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
-  const data = await request.json();
-  const post = await createPost(data);
+  const session = await auth();
+  if (!session?.user?.id) return NextResponse.json({ message: 'Não autorizado' }, { status: 401 });
+
+  const body = await req.json();
+  const post = await createPost({ authorId: session.user.id, ...body });
   return NextResponse.json(post, { status: 201 });
 }

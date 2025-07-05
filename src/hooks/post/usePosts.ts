@@ -1,68 +1,120 @@
 // src/hooks/post/usePosts.ts
 'use client';
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import * as api from '@/src/data/api/posts';
-import type { PostData } from '@/src/services/post.service';
+import {
+  useQuery,
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+  QueryFunctionContext,
+} from '@tanstack/react-query';
 
-export function usePosts(id: string) {
-  return useQuery<PostData>(['post', id], () => api.fetchPost(id));
+import * as api from '@/src/api/posts';
+import type { Post, Comment } from '@/types/post';
+import type { Paginated } from '@/types/common';
+
+/** Fetch a single post */
+export function usePost(id: string) {
+  return useQuery<Post, Error>({
+    queryKey: ['post', id],
+    queryFn: () => api.fetchPost(id),
+    enabled: Boolean(id),
+  });
 }
 
+/** Fetch posts by user (cursor-based) */
 export function useUserPosts(username: string) {
-  return useQuery<PostData[]>(['posts', 'user', username], () => api.fetchUserPosts(username));
+  return useInfiniteQuery<
+    Paginated<Post>, // TQueryFnData
+    Error, // TError
+    Paginated<Post>, // TData
+    ['posts', 'user', string], // TQueryKey
+    string | undefined // TPageParam
+  >({
+    queryKey: ['posts', 'user', username],
+    queryFn: ({ pageParam }: QueryFunctionContext<['posts', 'user', string], string | undefined>) =>
+      api.fetchUserPosts(username, pageParam),
+    getNextPageParam: (last) => last.nextCursor ?? undefined,
+    initialPageParam: undefined,
+    enabled: Boolean(username),
+  });
 }
 
+/** Fetch feed posts (cursor-based) */
 export function useFeedPosts() {
-  return useQuery<PostData[]>(['posts', 'feed'], api.fetchFeedPosts);
+  return useInfiniteQuery<
+    Paginated<Post>, // TQueryFnData
+    Error, // TError
+    Paginated<Post>, // TData
+    ['posts', 'feed'], // TQueryKey
+    string | undefined // TPageParam
+  >({
+    queryKey: ['posts', 'feed'],
+    queryFn: ({ pageParam }) => api.fetchFeedPosts(pageParam),
+    getNextPageParam: (last) => last.nextCursor ?? undefined,
+    initialPageParam: undefined,
+  });
 }
 
+/** Create a new post */
 export function useCreatePost() {
-  const queryClient = useQueryClient();
-  return useMutation(api.createPost, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['posts', 'feed']);
-      queryClient.invalidateQueries(['posts', 'user']);
+  const qc = useQueryClient();
+  return useMutation<
+    Post, // TData
+    Error, // TError
+    Parameters<typeof api.createPost>[0] // TVariables
+  >({
+    mutationFn: (data) => api.createPost(data),
+    onSuccess: (_newPost, _vars) => {
+      qc.invalidateQueries({ queryKey: ['posts', 'feed'] });
+      qc.invalidateQueries({ queryKey: ['posts', 'user'] });
     },
   });
 }
 
-export function useUpdatePost(id: string) {
-  const queryClient = useQueryClient();
-  return useMutation((data: any) => api.updatePost(id, data), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['post', id]);
-      queryClient.invalidateQueries(['posts', 'user']);
-      queryClient.invalidateQueries(['posts', 'feed']);
-    },
-  });
-}
-
+/** Delete a post */
 export function useDeletePost() {
-  const queryClient = useQueryClient();
-  return useMutation(api.deletePost, {
-    onSuccess: (_, id) => {
-      queryClient.invalidateQueries(['posts', 'feed']);
-      queryClient.invalidateQueries(['posts', 'user']);
-      queryClient.removeQueries(['post', id]);
+  const qc = useQueryClient();
+  return useMutation<
+    void, // TData
+    Error, // TError
+    string // TVariables (post ID)
+  >({
+    mutationFn: (postId) => api.deletePost(postId),
+    onSuccess: (_data, postId) => {
+      qc.invalidateQueries({ queryKey: ['posts', 'feed'] });
+      qc.invalidateQueries({ queryKey: ['posts', 'user'] });
+      qc.removeQueries({ queryKey: ['post', postId] });
     },
   });
 }
 
+/** Toggle like/unlike on a post */
 export function useToggleLikePost(id: string) {
-  const queryClient = useQueryClient();
-  return useMutation(() => api.toggleLikePost(id), {
+  const qc = useQueryClient();
+  return useMutation<
+    { liked: boolean; likesCount: number }, // TData
+    Error, // TError
+    void // TVariables
+  >({
+    mutationFn: () => api.toggleLikePost(id),
     onSuccess: () => {
-      queryClient.invalidateQueries(['post', id]);
+      qc.invalidateQueries({ queryKey: ['post', id] });
     },
   });
 }
 
+/** Add a comment to a post */
 export function useCommentPost(id: string) {
-  const queryClient = useQueryClient();
-  return useMutation((content: string) => api.commentPost(id, content), {
+  const qc = useQueryClient();
+  return useMutation<
+    Comment, // TData
+    Error, // TError
+    string // TVariables (comment content)
+  >({
+    mutationFn: (content) => api.commentPost(id, content),
     onSuccess: () => {
-      queryClient.invalidateQueries(['post', id]);
+      qc.invalidateQueries({ queryKey: ['post', id] });
     },
   });
 }

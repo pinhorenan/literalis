@@ -4,7 +4,7 @@ import { getUserByUsername, toggleFollow } from '@/services/user.service';
 import { auth } from '@/lib/auth';
 
 export async function POST(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ username: string }> },
 ) {
   const { username } = await params;

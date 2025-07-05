@@ -6,7 +6,6 @@ import type { ShelfItem } from '@/types/bookshelf';
 import type { ShelfItemInput } from '@/src/validators/bookshelf';
 import { ShelfItemInputSchema } from '@/src/validators/bookshelf';
 
-/* ---- helper que converte null → undefined ---- */
 function normalize(item: PrismaShelfItem): ShelfItem {
   return {
     ...item,
@@ -19,24 +18,21 @@ function normalize(item: PrismaShelfItem): ShelfItem {
 export async function getUserShelf(
   userId: string,
   pageSize = 20,
-  cursor?: string, // agora o cursor é o bookIsbn do último item
+  cursor?: string,
+  isOwner = false,
 ): Promise<Paginated<ShelfItem>> {
   const rows = await prisma.bookshelfItem.findMany({
-    where: { userId, removedAt: null },
-    take: pageSize + 1, // over-fetch
+    where: { userId, removedAt: null, ...(isOwner ? {} : { isPrivate: false }) },
+    take: pageSize + 1,
     ...(cursor
       ? {
           cursor: {
-            // usa a composite PK existente
             userId_bookIsbn: { userId, bookIsbn: cursor },
           },
           skip: 1,
         }
       : {}),
-    orderBy: [
-      { addedAt: 'desc' }, // ordena por data
-      { bookIsbn: 'asc' }, // tie-breaker; parte da PK
-    ],
+    orderBy: [{ addedAt: 'desc' }, { bookIsbn: 'asc' }],
   });
 
   const items = rows.slice(0, pageSize).map(normalize);
@@ -45,13 +41,25 @@ export async function getUserShelf(
   return { items, nextCursor };
 }
 
+export async function getShelfItem(
+  userId: string,
+  isbn: string,
+  isOwner = false,
+): Promise<ShelfItem | null> {
+  const raw = await prisma.bookshelfItem.findUnique({
+    where: { userId_bookIsbn: { userId, bookIsbn: isbn } },
+  });
+  if (!raw || (!isOwner && raw.isPrivate)) return null;
+  return normalize(raw);
+}
+
 export async function countBooksInShelf(userId: string) {
   return prisma.bookshelfItem.count({ where: { userId, removedAt: null } });
 }
 
 /* ---------- MUTATIONS ---------- */
 export async function upsertShelfItem(input: ShelfItemInput): Promise<ShelfItem> {
-  const data = ShelfItemInputSchema.parse(input); // valida
+  const data = ShelfItemInputSchema.parse(input);
   const [item] = await prisma.$transaction([
     prisma.bookshelfItem.upsert({
       where: { userId_bookIsbn: { userId: data.userId, bookIsbn: data.bookIsbn } },

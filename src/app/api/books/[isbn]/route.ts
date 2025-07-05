@@ -1,8 +1,8 @@
 // src/app/api/books/[isbn]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getBookByIsbn } from '@/src/services/book.service';
+import { getBookByIsbn } from '@/services/book.service';
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ isbn: string }> }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ isbn: string }> }) {
   const { isbn } = await params;
 
   try {

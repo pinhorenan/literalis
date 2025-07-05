@@ -1,7 +1,7 @@
 // app/api/users/[username]/followers/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
 import { getUserByUsername } from '@/services/user.service';
+import { prisma } from '@/lib/prisma';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ user
 
   const user = await getUserByUsername(username);
   if (!user) {
-    return NextResponse.json({ message: 'Usuário não encontrado' }, { status: 404 });
+    return NextResponse.json({ message: 'Usuário não encontrado.' }, { status: 404 });
   }
 
   const followers = await prisma.follow.findMany({

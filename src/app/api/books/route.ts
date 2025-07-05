@@ -1,6 +1,6 @@
 // src/app/api/books/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { searchBookByTitle } from '@/src/services/book.service';
+import { searchBookByTitle } from '@/services/book.service';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(req: NextRequest) {
