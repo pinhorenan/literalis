@@ -1,28 +1,41 @@
 // src/api/bookshelf.ts
-import type { BookshelfItemData } from '@/types/bookshelf';
+import type { ShelfItem } from '@/types/bookshelf';
+import type { Paginated } from '@/types/common';
 
-export async function fetchUserShelf(userId: string): Promise<BookshelfItemData[]> {
-  const res = await fetch(`/api/bookshelf?userId=${userId}`);
+/* ---------------- LISTA COM CURSOR ---------------- */
+export async function fetchUserShelf(
+  userId: string,
+  cursor?: string,
+): Promise<Paginated<ShelfItem>> {
+  const url = new URL('/api/bookshelf', window.location.origin);
+  url.searchParams.set('userId', userId);
+  if (cursor) url.searchParams.set('cursor', cursor);
+  const res = await fetch(url.toString());
   if (!res.ok) throw new Error('Erro ao buscar estante');
   return res.json();
 }
 
-export async function fetchShelfItem(userId: string, isbn: string): Promise<BookshelfItemData> {
-  const res = await fetch(`/api/bookshelf/${isbn}?userId=${userId}`);
+/* ---------------- ITEM ÚNICO ---------------- */
+export async function fetchShelfItem(userId: string, isbn: string): Promise<ShelfItem> {
+  const url = new URL(`/api/bookshelf/${isbn}`, window.location.origin);
+  url.searchParams.set('userId', userId);
+  const res = await fetch(url.toString());
   if (!res.ok) throw new Error('Erro ao buscar item da estante');
   return res.json();
 }
 
+/* ---------------- DELETE ---------------- */
 export async function deleteShelfItemClient(userId: string, isbn: string): Promise<void> {
-  const res = await fetch(`/api/bookshelf/${isbn}?userId=${userId}`, {
-    method: 'DELETE',
-  });
+  const url = new URL(`/api/bookshelf/${isbn}`, window.location.origin);
+  url.searchParams.set('userId', userId);
+  const res = await fetch(url.toString(), { method: 'DELETE' });
   if (!res.ok) throw new Error('Erro ao remover item da estante');
 }
 
+/* ---------------- UPSERT ---------------- */
 export async function upsertShelfItemClient(
-  item: Omit<BookshelfItemData, 'addedAt' | 'updatedAt'>,
-): Promise<BookshelfItemData> {
+  item: Omit<ShelfItem, 'addedAt' | 'updatedAt' | 'removedAt'>,
+): Promise<ShelfItem> {
   const res = await fetch('/api/bookshelf', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
