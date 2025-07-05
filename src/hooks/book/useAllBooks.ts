@@ -2,7 +2,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchAllBooks } from '@/src/api/books';
+import { fetchAllBooks } from '@/api/books';
 import type { MinimalBook } from '@/types/book';
 
 export function useAllBooks() {

@@ -2,13 +2,10 @@
 'use client';
 
 import { useInfiniteQuery, QueryFunctionContext } from '@tanstack/react-query';
-import { fetchUserShelf } from '@/src/api/bookshelf';
+import { fetchUserShelf } from '@/api/bookshelf';
 import type { Paginated } from '@/types/common';
 import type { ShelfItem } from '@/types/bookshelf';
 
-/**
- * Hook para paginação infinita da estante de um usuário público ou próprio.
- */
 export function useUserShelf(username: string) {
   return useInfiniteQuery<
     Paginated<ShelfItem>,

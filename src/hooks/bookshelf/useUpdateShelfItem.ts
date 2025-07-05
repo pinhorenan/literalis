@@ -2,12 +2,9 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateShelfItemClient } from '@/src/api/bookshelf';
+import { updateShelfItemClient } from '@/api/bookshelf';
 import type { ShelfItem } from '@/types/bookshelf';
 
-/**
- * Hook opcional para atualização explícita (PUT) de um ISBN específico.
- */
 export function useUpdateShelfItem(username: string, isbn: string) {
   const qc = useQueryClient();
   return useMutation<

@@ -9,11 +9,10 @@ import {
   QueryFunctionContext,
 } from '@tanstack/react-query';
 
-import * as api from '@/src/api/posts';
+import * as api from '@/api/posts';
 import type { Post, Comment } from '@/types/post';
 import type { Paginated } from '@/types/common';
 
-/** Fetch a single post */
 export function usePost(id: string) {
   return useQuery<Post, Error>({
     queryKey: ['post', id],
@@ -22,14 +21,13 @@ export function usePost(id: string) {
   });
 }
 
-/** Fetch posts by user (cursor-based) */
 export function useUserPosts(username: string) {
   return useInfiniteQuery<
-    Paginated<Post>, // TQueryFnData
-    Error, // TError
-    Paginated<Post>, // TData
-    ['posts', 'user', string], // TQueryKey
-    string | undefined // TPageParam
+    Paginated<Post>,
+    Error,
+    Paginated<Post>,
+    ['posts', 'user', string],
+    string | undefined
   >({
     queryKey: ['posts', 'user', username],
     queryFn: ({ pageParam }: QueryFunctionContext<['posts', 'user', string], string | undefined>) =>
@@ -40,14 +38,13 @@ export function useUserPosts(username: string) {
   });
 }
 
-/** Fetch feed posts (cursor-based) */
 export function useFeedPosts() {
   return useInfiniteQuery<
-    Paginated<Post>, // TQueryFnData
-    Error, // TError
-    Paginated<Post>, // TData
-    ['posts', 'feed'], // TQueryKey
-    string | undefined // TPageParam
+    Paginated<Post>,
+    Error,
+    Paginated<Post>,
+    ['posts', 'feed'],
+    string | undefined
   >({
     queryKey: ['posts', 'feed'],
     queryFn: ({ pageParam }) => api.fetchFeedPosts(pageParam),
@@ -56,14 +53,9 @@ export function useFeedPosts() {
   });
 }
 
-/** Create a new post */
 export function useCreatePost() {
   const qc = useQueryClient();
-  return useMutation<
-    Post, // TData
-    Error, // TError
-    Parameters<typeof api.createPost>[0] // TVariables
-  >({
+  return useMutation<Post, Error, Parameters<typeof api.createPost>[0]>({
     mutationFn: (data) => api.createPost(data),
     onSuccess: (_newPost, _vars) => {
       qc.invalidateQueries({ queryKey: ['posts', 'feed'] });
@@ -72,14 +64,9 @@ export function useCreatePost() {
   });
 }
 
-/** Delete a post */
 export function useDeletePost() {
   const qc = useQueryClient();
-  return useMutation<
-    void, // TData
-    Error, // TError
-    string // TVariables (post ID)
-  >({
+  return useMutation<void, Error, string>({
     mutationFn: (postId) => api.deletePost(postId),
     onSuccess: (_data, postId) => {
       qc.invalidateQueries({ queryKey: ['posts', 'feed'] });
@@ -89,14 +76,9 @@ export function useDeletePost() {
   });
 }
 
-/** Toggle like/unlike on a post */
 export function useToggleLikePost(id: string) {
   const qc = useQueryClient();
-  return useMutation<
-    { liked: boolean; likesCount: number }, // TData
-    Error, // TError
-    void // TVariables
-  >({
+  return useMutation<{ liked: boolean; likesCount: number }, Error, void>({
     mutationFn: () => api.toggleLikePost(id),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['post', id] });
@@ -104,14 +86,9 @@ export function useToggleLikePost(id: string) {
   });
 }
 
-/** Add a comment to a post */
 export function useCommentPost(id: string) {
   const qc = useQueryClient();
-  return useMutation<
-    Comment, // TData
-    Error, // TError
-    string // TVariables (comment content)
-  >({
+  return useMutation<Comment, Error, string>({
     mutationFn: (content) => api.commentPost(id, content),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['post', id] });

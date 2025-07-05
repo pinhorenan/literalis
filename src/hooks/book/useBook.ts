@@ -2,7 +2,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchBookData } from '@/src/api/books';
+import { fetchBookData } from '@/api/books';
 import type { Book } from '@/types/book';
 
 export function useBook(isbn: string) {

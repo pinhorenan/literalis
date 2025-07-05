@@ -29,7 +29,7 @@
       "@/contexts/*": ["./src/contexts/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/lib/*": ["./src/lib/*"],
-      "@/api/*": ["src/data/api/*"],
+      "@/api/*": ["src/api/*"],
       "@/models/*": ["src/models/*"],
       "@/repos/*": ["./src/repos/*"],
       "@/types/*": ["./src/types/*"],
