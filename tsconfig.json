@@ -29,11 +29,13 @@
       "@/contexts/*": ["./src/contexts/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/lib/*": ["./src/lib/*"],
-      "@/api/*": ["src/api/*"],
-      "@/models/*": ["src/models/*"],
+      "@/api/*": ["./src/api/*"],
+      "@/models/*": ["./src/models/*"],
       "@/repos/*": ["./src/repos/*"],
       "@/types/*": ["./src/types/*"],
-      "@/services/*": ["src/services/*"]
+      "@/services/*": ["./src/services/*"],
+      "@/validators/*": ["./src/validators/*"],
+      "@/providers/*": ["./src/providers/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

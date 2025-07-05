@@ -1,3 +1,4 @@
+// src/app/auth/onboarding/actions.ts
 'use server';
 
 import { auth, unstable_update } from '@/lib/auth';
@@ -5,7 +6,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function completeOnboarding(
   _prevState: { success: boolean; error?: string },
-  formData: FormData
+  formData: FormData,
 ) {
   const username = (formData.get('username') as string)?.trim();
 

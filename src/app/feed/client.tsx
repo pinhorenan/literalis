@@ -1,9 +1,9 @@
-// app/feed/client.tsx
+// src/app/feed/client.tsx
 'use client';
 
 import { Session } from 'next-auth';
 import { useAllBooks } from '@/hooks/book/useAllBooks';
-import BookCarousel from '@/src/components/core/BookCarousel';
+import BookCarousel from '@/components/core/BookCarousel';
 
 export default function FeedClient({ session }: { session: Session | null }) {
   const username = session?.user.username ?? 'leitor';

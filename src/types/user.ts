@@ -1,5 +1,5 @@
 // src/types/user.ts
-import type { Paginated } from '@/src/types/common';
+import type { Paginated } from '@/types/common';
 
 export interface MinimalUser {
   id: string;

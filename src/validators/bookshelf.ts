@@ -2,7 +2,6 @@
 import { z } from 'zod';
 import { ReadingStatusEnum } from '@/types/common';
 
-/** Schema para criar ou atualizar um item da estante */
 export const ShelfItemInputSchema = z.object({
   userId: z.string().uuid(),
   bookIsbn: z.string().min(10),

@@ -14,7 +14,7 @@ const minimalUserSelect = {
 function mapMinimal(user: Pick<User, 'id' | 'username' | 'name' | 'avatarUrl'>): MinimalUser {
   return {
     id: user.id,
-    username: user.username!, // vai dar merda isso aqui ta forçando se não passou pelo onboarding ainda dá merda tem q melhorar isso vai dar merda #todo
+    username: user.username!,
     name: user.name ?? undefined,
     avatarUrl: user.avatarUrl,
   };
@@ -61,7 +61,7 @@ export async function getUserProfile(
 export async function listFollowers(
   userId: string,
   pageSize = 20,
-  cursor?: string, // cursor é **string**, compatível com Paginated
+  cursor?: string,
 ): Promise<Paginated<MinimalUser>> {
   const followers = await prisma.follow.findMany({
     where: { followedId: userId },
@@ -70,7 +70,6 @@ export async function listFollowers(
       ? {
           cursor: {
             followerId_followedId: {
-              // passa chave composta inteira
               followerId: cursor,
               followedId: userId,
             },
@@ -78,7 +77,7 @@ export async function listFollowers(
         }
       : {}),
     select: { follower: { select: minimalUserSelect } },
-    orderBy: [{ createdAt: 'desc' }, { followerId: 'asc' }], // tie-breaker evita duplicatas :contentReference[oaicite:1]{index=1}
+    orderBy: [{ createdAt: 'desc' }, { followerId: 'asc' }],
   });
 
   const items = followers.slice(0, pageSize).map((f) => mapMinimal(f.follower));

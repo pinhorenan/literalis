@@ -29,7 +29,6 @@ function mapComment(c: any, viewerId?: string): Comment {
 export async function mapPost(p: any, viewerId?: string): Promise<Post> {
   const likedByMe = !!p.likes?.length;
 
-  // status do livro na estante do viewer (opcional)
   const shelf = viewerId
     ? await prisma.bookshelfItem.findUnique({
         where: { userId_bookIsbn: { userId: viewerId, bookIsbn: p.book.isbn } },
@@ -88,10 +87,7 @@ export async function listUserPosts(
     where: { authorId: userId },
     take: take + 1,
     ...(cursor && { cursor: { id: cursor }, skip: 1 }),
-    orderBy: [
-      { createdAt: 'desc' },
-      { id: 'desc' }, // tie-breaker para ordem consistente
-    ],
+    orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
     select: {
       id: true,
       content: true,
@@ -149,7 +145,6 @@ export async function createPost(input: {
     },
   });
 
-  // viewerId = undefined => likedByMe false
   return mapPost(post, undefined);
 }
 

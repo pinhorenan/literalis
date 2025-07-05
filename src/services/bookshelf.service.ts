@@ -3,8 +3,8 @@ import { BookshelfItem as PrismaShelfItem } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import type { Paginated } from '@/types/common';
 import type { ShelfItem } from '@/types/bookshelf';
-import type { ShelfItemInput } from '@/src/validators/bookshelf';
-import { ShelfItemInputSchema } from '@/src/validators/bookshelf';
+import type { ShelfItemInput } from '@/validators/bookshelf';
+import { ShelfItemInputSchema } from '@/validators/bookshelf';
 
 function normalize(item: PrismaShelfItem): ShelfItem {
   return {

@@ -1,14 +1,12 @@
-// app/[username]/profile/page.tsx
-import ProfileHeader from '@/src/components/pages/profile/ProfileHeader';
+// src/app/[username]/profile/page.tsx
+import ProfileHeader from '@/components/pages/profile/ProfileHeader';
 import { ReactNode } from 'react';
 
-interface ProfilePageProps {
-  params: {
-    username: string;
-  };
-}
-
-export default async function ProfilePage({ params }: ProfilePageProps): Promise<ReactNode> {
+export default async function ProfilePage({
+  params,
+}: {
+  params: Promise<{ username: string }>;
+}): Promise<ReactNode> {
   const { username } = await params;
 
   return (

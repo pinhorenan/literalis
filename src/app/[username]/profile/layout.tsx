@@ -1,6 +1,7 @@
+// src/app/[username]/profile/layout.tsx
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-import { PrimarySidebar } from '@/src/components/layout/sidebars/PrimarySidebar';
-import { SuggestionsSidebar } from '@/src/components/layout/sidebars/SuggestionsSidebar';
+import { PrimarySidebar } from '@/components/layout/sidebars/PrimarySidebar';
+import { SuggestionsSidebar } from '@/components/layout/sidebars/SuggestionsSidebar';
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   return (

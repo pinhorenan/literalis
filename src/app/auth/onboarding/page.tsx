@@ -1,4 +1,5 @@
-'use client'; // ✅ precisa ser client
+// src/app/auth/onboarding/page.tsx
+'use client';
 
 import { useFormState } from 'react-dom';
 import { completeOnboarding } from './actions';

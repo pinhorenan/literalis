@@ -1,6 +1,6 @@
-// app/layout.tsx
+// src/app/layout.tsx
 import './globals.css';
-import Providers from '../providers/providers';
+import Providers from '@/providers/providers';
 import { auth } from '@/lib/auth';
 
 export const metadata = {

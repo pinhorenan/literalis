@@ -1,4 +1,4 @@
-// app/feed/page.tsx
+// src/app/feed/page.tsx
 import { auth } from '@/lib/auth';
 import FeedClient from './client';
 
