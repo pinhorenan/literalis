@@ -7,6 +7,7 @@ import {
   useMutation,
   useQueryClient,
   QueryFunctionContext,
+  InfiniteData,
 } from '@tanstack/react-query';
 
 import * as api from '@/api/posts';
@@ -47,7 +48,18 @@ export function useFeedPosts() {
     string | undefined
   >({
     queryKey: ['posts', 'feed'],
-    queryFn: ({ pageParam }) => api.fetchFeedPosts(pageParam),
+    queryFn: async ({ pageParam }) => {
+      const raw = await api.fetchFeedPosts(pageParam);
+      /* converte strings ISO em Date */
+      return {
+        ...raw,
+        items: raw.items.map((p) => ({
+          ...p,
+          createdAt: new Date(p.createdAt),
+          updatedAt: new Date(p.updatedAt),
+        })),
+      };
+    },
     getNextPageParam: (last) => last.nextCursor ?? undefined,
     initialPageParam: undefined,
   });

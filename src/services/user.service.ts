@@ -2,13 +2,7 @@ import { prisma } from '@/lib/prisma';
 import type { User } from '@prisma/client';
 import type { Paginated } from '@/types/common';
 import type { MinimalUser, UserProfile } from '@/types/user';
-
-const minimalUserSelect = {
-  id: true,
-  username: true,
-  name: true,
-  avatarUrl: true,
-} as const;
+import { minimalUserSelect } from '@/types/user';
 
 /* ---------- helpers ---------- */
 function mapMinimal(user: Pick<User, 'id' | 'username' | 'name' | 'avatarUrl'>): MinimalUser {

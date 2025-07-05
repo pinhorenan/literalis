@@ -3,7 +3,7 @@ import { getUserShelf, upsertShelfItem } from '@/services/bookshelf.service';
 import { getUserByUsername } from '@/services/user.service';
 import { auth } from '@/lib/auth';
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ username: string }> }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ username: string }> }) { 
   const { username } = await params;
   const { searchParams } = req.nextUrl;
   const cursor = searchParams.get('cursor') ?? undefined;

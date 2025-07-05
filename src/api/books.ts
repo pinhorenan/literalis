@@ -10,9 +10,7 @@ export async function fetchBookData(isbn: string): Promise<Book> {
 export async function fetchAllBooks(): Promise<MinimalBook[]> {
   const res = await fetch('/api/books');
   if (!res.ok) throw new Error('Erro ao buscar lista de livros');
-  const dto = await res.json();
-  return {
-    ...dto,
-    publicationDate: new Date(dto.publicationDate),
-  };
+
+  const data = await res.json();
+  return data as MinimalBook[];
 }

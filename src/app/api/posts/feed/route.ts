@@ -1,27 +1,37 @@
-// app/api/posts/feed/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { mapPost } from '@/services/post.service';
+import { MINIMAL_BOOK_SELECT } from '@/lib/includes/book';
+import { mapBook } from '@/services/book.service';
 
-const userSelect = { id: true, username: true, avatarUrl: true } as const;
-const bookSelect = { isbn: true, title: true, coverUrl: true } as const;
+/* ---------- selects ---------- */
+const userSelect = {
+  id: true,
+  username: true,
+  name: true,
+  avatarUrl: true,
+} as const;
+const bookSelect = MINIMAL_BOOK_SELECT;
 
+/* ---------- handler ---------- */
 export async function GET(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) return NextResponse.json({ message: 'Não autorizado' }, { status: 401 });
 
+  /* paginação */
   const { searchParams } = req.nextUrl;
   const cursor = searchParams.get('cursor') ?? undefined;
   const take = Number(searchParams.get('take') ?? 20);
 
-  const followingIds = await prisma.follow.findMany({
+  /* ids que o usuário segue + o próprio */
+  const following = await prisma.follow.findMany({
     where: { followerId: session.user.id },
     select: { followedId: true },
   });
-  const authorIds = [session.user.id, ...followingIds.map((f) => f.followedId)];
+  const authorIds = [session.user.id, ...following.map((f) => f.followedId)];
 
-  const rows = await prisma.post.findMany({
+  /* busca posts */
+  const raw = await prisma.post.findMany({
     where: { authorId: { in: authorIds } },
     take: take + 1,
     ...(cursor && { cursor: { id: cursor }, skip: 1 }),
@@ -37,13 +47,33 @@ export async function GET(req: NextRequest) {
       updatedAt: true,
       author: { select: userSelect },
       book: { select: bookSelect },
-      likes: { where: { userId: session.user.id }, select: { user: true } },
-      _count: { select: { likes: true, comments: true } },
+      _count: { select: { comments: true, likes: true } },
+      likes: {
+        where: { userId: session.user.id },
+        select: { userId: true },
+      },
     },
   });
 
-  const items = await Promise.all(rows.slice(0, take).map((p) => mapPost(p, session.user.id)));
-  const nextCursor = rows.length > take ? rows[take].id : null;
+  /* mapeia para shape do front */
+  const items = raw.slice(0, take).map((p) => ({
+    id: p.id,
+    content: p.content,
+    progress: p.progress ?? undefined,
+    currentPage: p.currentPage ?? undefined,
+    totalPages: p.totalPages ?? undefined,
+    rating: p.rating ?? undefined,
+    createdAt: p.createdAt.toISOString(),
+    updatedAt: p.updatedAt.toISOString(),
+    author: p.author,
+    book: mapBook(p.book), // ← autores achatos
+    commentsCount: p._count.comments,
+    likesCount: p._count.likes,
+    likedByMe: p.likes.length > 0,
+  }));
 
-  return NextResponse.json({ items, nextCursor });
+  return NextResponse.json({
+    items,
+    nextCursor: raw.length > take ? raw[take].id : null,
+  });
 }

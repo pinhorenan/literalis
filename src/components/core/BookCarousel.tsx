@@ -1,33 +1,50 @@
-// src/components/core/book/BookCarousel.tsx
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { BookCover } from '@/src/components/core/Book';
-import { Button } from '@/src/components/ui/button';
-import { cn } from '@/src/lib/utils';
-import type { BookDataResponse } from '@/src/data/api/books';
+import { BookCover } from '@/components/core/Book';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import type { MinimalBook } from '@/types/book';
 
-interface BookCarouselProps {
-  books: BookDataResponse[];
+/* -------- props -------- */
+export interface BookCarouselProps {
+  books: MinimalBook[]; // ✅ aceita MinimalBook
+  /** Nº de slides a exibir SEM breakpoint (mobile‐first). */
   slidesToShow?: number;
+  /**
+   * Mapeia largura mínima da janela → slidesToShow.
+   * Ex.: { 640: 2, 1024: 4 }
+   */
+  responsive?: Record<number, number>;
   className?: string;
 }
 
 export default function BookCarousel({
   books,
-  slidesToShow = 6,
+  slidesToShow = 1,
+  responsive = { 640: 2, 1024: 4 },
   className = '',
 }: BookCarouselProps) {
+  /* ----- Embla ----- */
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
     align: 'start',
+    loop: true,
     skipSnaps: false,
-    slidesToScroll: slidesToShow,
   });
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
+
+  /* ----- responsividade: recalcula slidesToShow em resize ----- */
+  const getSlidesForWidth = useCallback(() => {
+    const w = window.innerWidth;
+    const bp = Object.keys(responsive)
+      .map(Number)
+      .filter((min) => w >= min)
+      .sort((a, b) => b - a)[0];
+    return responsive[bp] ?? slidesToShow;
+  }, [responsive, slidesToShow]);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -40,17 +57,27 @@ export default function BookCarousel({
     onSelect();
   }, [emblaApi]);
 
+  /* força reinit ao mudar width → slidesToShow */
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onResize = () => emblaApi.reInit();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [emblaApi]);
+
+  const dynamicSlides = typeof window === 'undefined' ? slidesToShow : getSlidesForWidth();
+
   return (
     <div className={cn('relative', className)}>
-      {/* viewport com altura fixa */}
+      {/* viewport */}
       <div ref={emblaRef} className="overflow-hidden" style={{ height: 220 }}>
-        {/* track sem justify-around, só alinhamento no início */}
+        {/* track */}
         <div className="flex h-full items-center">
-          {books.map((book, idx) => (
+          {books.map((book) => (
             <div
-              key={book.isbn + idx}
+              key={book.isbn}
               className="flex-shrink-0 px-4"
-              style={{ flex: `0 0 ${100 / slidesToShow}%` }}
+              style={{ flex: `0 0 ${100 / dynamicSlides}%` }}
             >
               <BookCover book={book} width={120} height={180} className="mx-auto max-w-full" />
             </div>
@@ -58,8 +85,9 @@ export default function BookCarousel({
         </div>
       </div>
 
-      {/* botões Prev/Next */}
+      {/* nav buttons */}
       <Button
+        aria-label="Livro anterior"
         variant="outline"
         size="icon"
         onClick={() => emblaApi?.scrollPrev()}
@@ -69,6 +97,7 @@ export default function BookCarousel({
         <ArrowLeft />
       </Button>
       <Button
+        aria-label="Próximo livro"
         variant="outline"
         size="icon"
         onClick={() => emblaApi?.scrollNext()}

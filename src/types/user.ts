@@ -26,5 +26,12 @@ export interface UserProfile {
   isMe: boolean;
 }
 
+export const minimalUserSelect = {
+  id: true,
+  username: true,
+  name: true,
+  avatarUrl: true,
+} as const;
+
 export type FollowersPage = Paginated<MinimalUser>;
 export type FollowingPage = Paginated<MinimalUser>;

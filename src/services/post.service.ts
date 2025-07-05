@@ -1,19 +1,15 @@
-// src/services/post.service.ts
 import { prisma } from '@/lib/prisma';
-import type { Paginated } from '@/types/common';
-import type { ReadingStatus } from '@/types/common';
+import { MINIMAL_BOOK_SELECT } from '@/lib/includes/book';
+import { mapBook } from '@/services/book.service';
+import type { Paginated, ReadingStatus } from '@/types/common';
 import type { Post, Comment, Like } from '@/types/post';
 import type { MinimalUser } from '@/types/user';
 
-/* ---------- selects compartilhados ---------- */
+/* ---------- selects ---------- */
 const userSelect = { id: true, username: true, avatarUrl: true } as const;
-const bookSelect = { isbn: true, title: true, coverUrl: true } as const;
+const bookSelect = MINIMAL_BOOK_SELECT;
 
 /* ---------- helpers ---------- */
-function mapLike(l: { user: MinimalUser; createdAt: Date }): Like {
-  return { user: l.user, createdAt: l.createdAt };
-}
-
 function mapComment(c: any, viewerId?: string): Comment {
   return {
     id: c.id,
@@ -26,9 +22,7 @@ function mapComment(c: any, viewerId?: string): Comment {
   };
 }
 
-export async function mapPost(p: any, viewerId?: string): Promise<Post> {
-  const likedByMe = !!p.likes?.length;
-
+async function mapPost(p: any, viewerId?: string): Promise<Post> {
   const shelf = viewerId
     ? await prisma.bookshelfItem.findUnique({
         where: { userId_bookIsbn: { userId: viewerId, bookIsbn: p.book.isbn } },
@@ -46,17 +40,17 @@ export async function mapPost(p: any, viewerId?: string): Promise<Post> {
     createdAt: p.createdAt,
     updatedAt: p.updatedAt,
     author: p.author,
-    book: p.book,
+    book: mapBook(p.book), // ← achata autores/publisher
     likesCount: p._count.likes,
     commentsCount: p._count.comments,
-    likedByMe,
-    ...(shelf ? { inShelfStatus: shelf.status as ReadingStatus } : {}),
+    likedByMe: !!p.likes?.length,
+    ...(shelf && { inShelfStatus: shelf.status as ReadingStatus }),
   };
 }
 
 /* ---------- queries ---------- */
 export async function getPostById(id: string, viewerId?: string): Promise<Post | null> {
-  const post = await prisma.post.findUnique({
+  const row = await prisma.post.findUnique({
     where: { id },
     select: {
       id: true,
@@ -69,12 +63,12 @@ export async function getPostById(id: string, viewerId?: string): Promise<Post |
       updatedAt: true,
       author: { select: userSelect },
       book: { select: bookSelect },
-      likes: viewerId ? { where: { userId: viewerId }, select: { user: true } } : false,
+      likes: viewerId ? { where: { userId: viewerId }, select: { userId: true } } : false,
       _count: { select: { likes: true, comments: true } },
     },
   });
 
-  return post ? mapPost(post, viewerId) : null;
+  return row ? mapPost(row, viewerId) : null;
 }
 
 export async function listUserPosts(
@@ -99,15 +93,14 @@ export async function listUserPosts(
       updatedAt: true,
       author: { select: userSelect },
       book: { select: bookSelect },
-      likes: viewerId ? { where: { userId: viewerId }, select: { user: true } } : false,
+      likes: viewerId ? { where: { userId: viewerId }, select: { userId: true } } : false,
       _count: { select: { likes: true, comments: true } },
     },
   });
 
-  const items = await Promise.all(rows.slice(0, take).map((p) => mapPost(p, viewerId)));
-  const nextCursor = rows.length > take ? rows[take].id : null;
+  const items = await Promise.all(rows.slice(0, take).map((r) => mapPost(r, viewerId)));
 
-  return { items, nextCursor };
+  return { items, nextCursor: rows.length > take ? rows[take].id : null };
 }
 
 /* ---------- mutations ---------- */
@@ -145,6 +138,7 @@ export async function createPost(input: {
     },
   });
 
+  // viewerId = undefined => likedByMe false
   return mapPost(post, undefined);
 }
 

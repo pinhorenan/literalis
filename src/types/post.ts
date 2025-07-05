@@ -1,7 +1,7 @@
 // src/types/post.ts
 import type { Paginated } from '@/types/common';
 import type { MinimalUser } from '@/types/user';
-import type { MinimalBook } from '@/types/book';
+import type { Book } from '@/types/book';
 
 export interface Comment {
   id: string;
@@ -28,7 +28,7 @@ export interface Post {
   createdAt: Date;
   updatedAt: Date;
   author: MinimalUser;
-  book: MinimalBook;
+  book: Book;
   commentsCount: number;
   likesCount: number;
   likedByMe: boolean;

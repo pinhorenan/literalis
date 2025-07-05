@@ -4,10 +4,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { useUserProfile } from '@/src/hooks/user/useUserProfile';
-import { useToggleFollow } from '@/src/hooks/user/useToggleFollow';
-import { useBooksCount } from '@/src/hooks/user/useBooksCount';
-import { use } from 'react';
+import { useUserProfile } from '@/hooks/user/useUserProfile';
+import { useToggleFollow } from '@/hooks/user/useToggleFollow';
+import { useBooksCount } from '@/hooks/user/useBooksCount';
 
 export default function ProfileHeader({ username }: { username: string }) {
   const { data: session } = useSession();
@@ -21,7 +20,7 @@ export default function ProfileHeader({ username }: { username: string }) {
 
   const toggleFollow = useToggleFollow(username);
 
-  const { data: booksCountData, isLoading: isBooksCountLoading } = useBooksCount(username);
+  const { data: BooksCount, isLoading: isBooksCountLoading } = useBooksCount(username);
 
   if (isProfileLoading || !profile) {
     return <div>Carregando perfil...</div>;
@@ -33,7 +32,7 @@ export default function ProfileHeader({ username }: { username: string }) {
 
   const { user, counts, isFollowing } = profile;
   const isMe = viewerUsername === username;
-  const booksCount = booksCountData?.booksCount ?? counts.posts;
+  const booksCount = BooksCount ?? counts.posts;
 
   return (
     <header className="bg-card flex items-center gap-6 rounded-lg p-6 shadow">
@@ -51,7 +50,7 @@ export default function ProfileHeader({ username }: { username: string }) {
         <div className="flex gap-4">
           <span>{counts.followers} seguidores</span>
           <span>{counts.following} seguindo</span>
-          <Link href={`/profile/${username}/bookshelf`} className="hover:underline">
+          <Link href={`/${username}/bookshelf`} className="hover:underline">
             {isBooksCountLoading ? '...' : `${booksCount} livros`}
           </Link>
         </div>

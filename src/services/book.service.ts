@@ -1,22 +1,9 @@
-// src/services/book.service.ts
 import { prisma } from '@/lib/prisma';
+import { MINIMAL_BOOK_SELECT, FULL_BOOK_SELECT } from '@/lib/includes/book';
 import type { Book, MinimalBook, MinimalAuthor, MinimalGenre } from '@/types/book';
 
-const bookSelect = {
-  isbn: true,
-  title: true,
-  pages: true,
-  language: true,
-  coverUrl: true,
-  publicationDate: true,
-  rating: true,
-  publisher: { select: { id: true, name: true } },
-  authors: { select: { author: { select: { id: true, name: true } } } },
-  genres: { select: { genre: { select: { id: true, name: true } } } },
-} as const;
-
-/* ---- helpers ---- */
-function mapBook(b: any): Book {
+/* ---------- mapper compartilhado ---------- */
+export function mapBook(b: any): Book {
   return {
     isbn: b.isbn,
     title: b.title,
@@ -28,21 +15,31 @@ function mapBook(b: any): Book {
     ratingsCount: undefined,
     publisher: b.publisher,
     authors: b.authors.map((a: { author: MinimalAuthor }) => a.author),
-    genres: b.genres.map((g: { genre: MinimalGenre }) => g.genre),
+    genres: b.genres?.map?.((g: { genre: MinimalGenre }) => g.genre) ?? [],
   };
 }
 
-/* ---- queries ---- */
+/* ---------- queries ---------- */
 export async function getBookByIsbn(isbn: string): Promise<Book | null> {
-  const book = await prisma.book.findUnique({ where: { isbn }, select: bookSelect });
-  return book ? mapBook(book) : null;
+  const row = await prisma.book.findUnique({
+    where: { isbn },
+    select: FULL_BOOK_SELECT,
+  });
+  return row ? mapBook(row) : null;
 }
 
+/** Usado em autocomplete/busca – devolve somente dados mínimos */
 export async function searchBookByTitle(title: string, limit = 20): Promise<MinimalBook[]> {
-  const books = await prisma.book.findMany({
+  const rows = await prisma.book.findMany({
     where: { title: { contains: title, mode: 'insensitive' } },
-    select: bookSelect,
+    select: MINIMAL_BOOK_SELECT,
     take: limit,
   });
-  return books.map(mapBook);
+  return rows.map((b) => ({
+    isbn: b.isbn,
+    title: b.title,
+    coverUrl: b.coverUrl,
+    totalPages: b.pages,
+    authors: b.authors.map((a) => a.author),
+  }));
 }

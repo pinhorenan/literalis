@@ -1,10 +1,10 @@
 // src/components/core/Book.tsx
 import clsx from 'clsx';
 import Image from 'next/image';
-import type { BookDataResponse } from '@/src/data/api/books';
+import type { Book, MinimalBook } from '@/types/book';
 
 interface BookCoverProps {
-  book: BookDataResponse;
+  book: MinimalBook;
   width?: number;
   height?: number;
   inShelf?: boolean;
@@ -26,7 +26,7 @@ export function BookCover({ book, width = 120, height = 180, className = '' }: B
   );
 }
 
-export function BookInfo({ book, className }: { book: BookDataResponse; className?: string }) {
+export function BookInfo({ book, className }: { book: Book; className?: string }) {
   return (
     <div className={clsx('flex flex-col', className)}>
       <h3 className="text-primary text-lg font-semibold">{book.title}</h3>
@@ -34,10 +34,10 @@ export function BookInfo({ book, className }: { book: BookDataResponse; classNam
 
       {book.publisher && <p className="text-tertiary text-xs">{book.publisher.name}</p>}
 
-      {(book.pages || book.language) && (
+      {(book.totalPages || book.language) && (
         <p className="text-tertiary text-xs">
-          {book.pages && `${book.pages} páginas`}
-          {book.pages && book.language ? ' • ' : ''}
+          {book.totalPages && `${book.totalPages} páginas`}
+          {book.totalPages && book.language ? ' • ' : ''}
           {book.language}
         </p>
       )}
@@ -47,7 +47,7 @@ export function BookInfo({ book, className }: { book: BookDataResponse; classNam
   );
 }
 
-export function BookCard({ book, className }: { book: BookDataResponse; className?: string }) {
+export function BookCard({ book, className }: { book: Book; className?: string }) {
   return (
     <article
       className={clsx(
