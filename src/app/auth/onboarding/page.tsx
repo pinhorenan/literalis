@@ -1,8 +1,8 @@
 // src/app/auth/onboarding/page.tsx
 'use client';
 
-import { useFormState } from 'react-dom';
 import { completeOnboarding } from './actions';
+import { useFormState } from 'react-dom';
 import { redirect } from 'next/navigation';
 
 const initialState = { success: false, error: undefined as string | undefined };
@@ -22,9 +22,9 @@ export default function OnboardingPage() {
         required
       />
 
-      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state.error && <p className="text-warning text-sm">{state.error}</p>}
 
-      <button className="rounded bg-blue-600 px-4 py-2 text-white">Salvar</button>
+      <button className="text-primary bg-info rounded px-4 py-2">Salvar</button>
     </form>
   );
 }

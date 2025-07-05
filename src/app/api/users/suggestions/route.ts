@@ -1,7 +1,7 @@
 // src/app/api/users/suggestions/route.ts
 import { auth } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { getSuggestedUsers } from '@/src/server/users/suggestions';
+import { getSuggestedUsers } from '@/src/lib/server/users/suggestions';
 
 export async function GET(req: NextRequest) {
   const session = await auth();

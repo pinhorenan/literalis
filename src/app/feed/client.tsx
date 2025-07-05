@@ -3,8 +3,8 @@
 
 import { Session } from 'next-auth';
 import { useInView } from 'react-intersection-observer';
-import { useAllBooks } from '@/hooks/book/useAllBooks';
-import { useFeedPosts } from '@/hooks/post/usePosts';
+import { useAllBooks } from '@/hooks/book';
+import { useFeedPosts } from '@/hooks/post';
 import FeedSkeleton from '@/components/skeletons/FeedSkeleton';
 import BookCarousel from '@/components/core/BookCarousel';
 import ErrorState from '@/components/core/ErrorState';

@@ -1,36 +1,24 @@
+// src/app/api/posts/feed/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { MINIMAL_BOOK_SELECT, MINIMAL_USER_SELECT } from '@/lib/constants/selects';
+import { mapBook } from '@/lib/mappings/mappers';
 import { prisma } from '@/lib/prisma';
-import { MINIMAL_BOOK_SELECT } from '@/lib/includes/book';
-import { mapBook } from '@/services/book.service';
+import { auth } from '@/lib/auth';
 
-/* ---------- selects ---------- */
-const userSelect = {
-  id: true,
-  username: true,
-  name: true,
-  avatarUrl: true,
-} as const;
-const bookSelect = MINIMAL_BOOK_SELECT;
-
-/* ---------- handler ---------- */
 export async function GET(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) return NextResponse.json({ message: 'Não autorizado' }, { status: 401 });
 
-  /* paginação */
   const { searchParams } = req.nextUrl;
   const cursor = searchParams.get('cursor') ?? undefined;
   const take = Number(searchParams.get('take') ?? 20);
 
-  /* ids que o usuário segue + o próprio */
   const following = await prisma.follow.findMany({
     where: { followerId: session.user.id },
     select: { followedId: true },
   });
   const authorIds = [session.user.id, ...following.map((f) => f.followedId)];
 
-  /* busca posts */
   const raw = await prisma.post.findMany({
     where: { authorId: { in: authorIds } },
     take: take + 1,
@@ -45,8 +33,8 @@ export async function GET(req: NextRequest) {
       rating: true,
       createdAt: true,
       updatedAt: true,
-      author: { select: userSelect },
-      book: { select: bookSelect },
+      author: { select: MINIMAL_USER_SELECT },
+      book: { select: MINIMAL_BOOK_SELECT },
       _count: { select: { comments: true, likes: true } },
       likes: {
         where: { userId: session.user.id },
@@ -55,7 +43,6 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  /* mapeia para shape do front */
   const items = raw.slice(0, take).map((p) => ({
     id: p.id,
     content: p.content,
@@ -66,7 +53,7 @@ export async function GET(req: NextRequest) {
     createdAt: p.createdAt.toISOString(),
     updatedAt: p.updatedAt.toISOString(),
     author: p.author,
-    book: mapBook(p.book), // ← autores achatos
+    book: mapBook(p.book),
     commentsCount: p._count.comments,
     likesCount: p._count.likes,
     likedByMe: p.likes.length > 0,

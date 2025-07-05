@@ -1,12 +1,10 @@
-// src/components/ProfileHeader.tsx
+// src/components/pages/profile/ProfileHeader.tsx
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { useUserProfile } from '@/hooks/user/useUserProfile';
-import { useToggleFollow } from '@/hooks/user/useToggleFollow';
-import { useBooksCount } from '@/hooks/user/useBooksCount';
+import { useToggleFollow, useBooksCount, useUserProfile } from '@/hooks/user';
 
 export default function ProfileHeader({ username }: { username: string }) {
   const { data: session } = useSession();

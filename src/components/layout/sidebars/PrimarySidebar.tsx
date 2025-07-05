@@ -1,3 +1,4 @@
+// src/components/layout/sidebars/PrimarySidebar.tsx
 'use client';
 
 import {
@@ -15,8 +16,7 @@ import {
 import { BookIcon, LibraryIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { ModeToggle } from '@/src/components/layout/buttons/ModeToggle';
-import { userAgent } from 'next/server';
+import { ModeToggle } from '@/components/layout/buttons/ModeToggle';
 
 export function PrimarySidebar() {
   const { data: session } = useSession();

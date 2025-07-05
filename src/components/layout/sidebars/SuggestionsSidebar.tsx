@@ -2,6 +2,9 @@
 'use client';
 
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import Skeleton from '@/components/skeletons/UserRowSkeleton';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Sidebar,
   SidebarHeader,
@@ -12,11 +15,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useSession } from 'next-auth/react';
-import { useSuggestedUsers } from '@/hooks/user/useSuggestedUsers';
-import { useToggleFollow } from '@/hooks/user/useToggleFollow';
-import Skeleton from '@/components/skeletons/UserRowSkeleton';
+import { useSuggestedUsers, useToggleFollow } from '@/hooks/user';
 import type { MinimalUser } from '@/types/user';
 
 export function SuggestionsSidebar() {

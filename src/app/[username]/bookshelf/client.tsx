@@ -3,18 +3,12 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { useUserShelf } from '@/src/hooks/bookshelf/useUserShelf';
+import { useUserShelf } from '@/hooks/bookshelf/useUserShelf';
 import { useBook } from '@/hooks/book/useBook';
 import { BookCard } from '@/components/core/Book';
 
-interface Props {
-  userId: string;
-  username: string;
-  isOwn: boolean;
-}
-
-export default function BookshelfClient({ userId, username, isOwn }: Props) {
-  const { data: shelfItems = [], isLoading, error } = useUserShelf(userId);
+export default function BookshelfClient({ username, isOwn }: { username: string; isOwn: boolean }) {
+  const { data: shelfItems = [], isLoading, error } = useUserShelf(username);
 
   if (isLoading) return <p>Carregando estante...</p>;
   if (error) return <p>Erro ao carregar estante.</p>;
