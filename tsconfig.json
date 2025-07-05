@@ -34,7 +34,7 @@
       "@/repos/*": ["./src/repos/*"],
       "@/types/*": ["./src/types/*"],
       "@/services/*": ["./src/services/*"],
-      "@/validators/*": ["./src/validators/*"],
+      "@/validators/*": ["src/lib/validators/*"],
       "@/providers/*": ["./src/providers/*"]
     }
   },

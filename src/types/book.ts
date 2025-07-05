@@ -25,16 +25,3 @@ export interface Book extends MinimalBook {
   averageRating?: number;
   ratingsCount?: number;
 }
-
-export const bookSelect = {
-  isbn: true,
-  title: true,
-  pages: true,
-  language: true,
-  coverUrl: true,
-  publicationDate: true,
-  rating: true,
-  publisher: { select: { id: true, name: true } },
-  authors: { select: { author: { select: { id: true, name: true } } } },
-  genres: { select: { genre: { select: { id: true, name: true } } } },
-} as const;

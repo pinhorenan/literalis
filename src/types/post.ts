@@ -29,6 +29,8 @@ export interface Post {
   updatedAt: Date;
   author: MinimalUser;
   book: Book;
+  comments: Comment[];
+  likes: Like[];
   commentsCount: number;
   likesCount: number;
   likedByMe: boolean;

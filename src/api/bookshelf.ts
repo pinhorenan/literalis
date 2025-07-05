@@ -1,8 +1,7 @@
 // src/api/bookshelf.ts
-import type { ShelfItem } from '@/types/bookshelf';
-import type { Paginated } from '@/types/common';
+import type { Paginated, ShelfItem } from '@/types/index';
 
-/** GET /api/users/:username/bookshelf?cursor=&take= */
+/** GET     app/api/users/[username]/bookshelf?cursor=&take= */
 export async function fetchUserShelf(
   username: string,
   cursor?: string,
@@ -17,16 +16,7 @@ export async function fetchUserShelf(
   return res.json();
 }
 
-/** GET /api/users/:username/bookshelf/:isbn */
-export async function fetchShelfItem(username: string, isbn: string): Promise<ShelfItem> {
-  const url = new URL(`/api/users/${username}/bookshelf/${isbn}`, window.location.origin);
-
-  const res = await fetch(url.toString(), { credentials: 'include' });
-  if (!res.ok) throw new Error(`Erro ao buscar item da estante: ${res.status}`);
-  return res.json();
-}
-
-/** POST  /api/users/:username/bookshelf  – cria ou atualiza */
+/** POST    app/api/users/[username]/bookshelf */
 export async function upsertShelfItemClient(
   username: string,
   item: Omit<ShelfItem, 'addedAt' | 'updatedAt' | 'removedAt'>,
@@ -42,7 +32,16 @@ export async function upsertShelfItemClient(
   return res.json();
 }
 
-/** PUT /api/users/:username/bookshelf/:isbn  – atualiza item */
+/** GET     app/api/users/[username]/bookshelf/[isbn] */
+export async function fetchShelfItem(username: string, isbn: string): Promise<ShelfItem> {
+  const url = new URL(`/api/users/${username}/bookshelf/${isbn}`, window.location.origin);
+
+  const res = await fetch(url.toString(), { credentials: 'include' });
+  if (!res.ok) throw new Error(`Erro ao buscar item da estante: ${res.status}`);
+  return res.json();
+}
+
+/** PUT     app/api/users/[username]/bookshelf/[isbn] */
 export async function updateShelfItemClient(
   username: string,
   isbn: string,
@@ -59,7 +58,7 @@ export async function updateShelfItemClient(
   return res.json();
 }
 
-/** DELETE /api/users/:username/bookshelf/:isbn  – soft-delete */
+/** DELETE  app/api/users/[username]/bookshelf/[isbn] */
 export async function deleteShelfItemClient(username: string, isbn: string): Promise<void> {
   const url = `/api/users/${username}/bookshelf/${isbn}`;
   const res = await fetch(url, {

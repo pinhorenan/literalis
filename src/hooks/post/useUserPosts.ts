@@ -1,23 +1,15 @@
 // src/hooks/post/useUserPosts.ts
 'use client';
-import { useInfiniteQuery, QueryFunctionContext } from '@tanstack/react-query';
-import * as api from '@/api/posts';
-import type { Post } from '@/types/post';
-import type { Paginated } from '@/types/common';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchUserPosts } from '@/api/posts';
+import type { Paginated, Post } from '@/types/index';
 
 export function useUserPosts(username: string) {
-  return useInfiniteQuery<
-    Paginated<Post>,
-    Error,
-    Paginated<Post>,
-    ['posts', 'user', string],
-    string | undefined
-  >({
+  return useInfiniteQuery({
     queryKey: ['posts', 'user', username],
-    queryFn: ({ pageParam }: QueryFunctionContext<['posts', 'user', string], string | undefined>) =>
-      api.fetchUserPosts(username, pageParam),
-    getNextPageParam: (last) => last.nextCursor ?? undefined,
+    enabled: !!username,
     initialPageParam: undefined,
-    enabled: Boolean(username),
+    getNextPageParam: (last: Paginated<Post>) => last.nextCursor ?? undefined,
+    queryFn: ({ pageParam }) => fetchUserPosts(username, pageParam),
   });
 }
