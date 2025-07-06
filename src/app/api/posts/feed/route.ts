@@ -35,10 +35,24 @@ export async function GET(req: NextRequest) {
       updatedAt: true,
       author: { select: MINIMAL_USER_SELECT },
       book: { select: MINIMAL_BOOK_SELECT },
-      _count: { select: { comments: true, likes: true } },
       likes: {
         where: { userId: session.user.id },
         select: { userId: true },
+      },
+      _count: { select: { comments: true, likes: true } },
+      comments: {
+        orderBy: { createdAt: 'asc' },
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          updatedAt: true,
+          author: { select: MINIMAL_USER_SELECT },
+          likes: session.user.id
+            ? { where: { userId: session.user.id }, select: { userId: true } }
+            : false,
+          _count: { select: { likes: true } },
+        },
       },
     },
   });
@@ -57,6 +71,7 @@ export async function GET(req: NextRequest) {
     commentsCount: p._count.comments,
     likesCount: p._count.likes,
     likedByMe: p.likes.length > 0,
+    comments: p.comments,
   }));
 
   return NextResponse.json({

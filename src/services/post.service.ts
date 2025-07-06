@@ -66,8 +66,8 @@ export async function listUserPosts(
   });
 
   const items = await Promise.all(rows.slice(0, take).map((r) => mapPost(r, viewerId)));
-
-  return { items, nextCursor: rows.length > take ? rows[take].id : null };
+  const total = 0;
+  return { items, nextCursor: rows.length > take ? rows[take].id : null, total };
 }
 
 export async function createPost(input: {

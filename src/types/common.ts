@@ -14,4 +14,5 @@ export type ReadingStatus = z.infer<typeof ReadingStatusEnum>;
 export interface Paginated<T> {
   items: T[];
   nextCursor: string | null;
+  total: number;
 }

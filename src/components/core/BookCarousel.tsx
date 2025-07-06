@@ -1,3 +1,4 @@
+// src/components/core/BookCarousel.tsx
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -10,13 +11,8 @@ import type { MinimalBook } from '@/types/book';
 
 /* -------- props -------- */
 export interface BookCarouselProps {
-  books: MinimalBook[]; // ✅ aceita MinimalBook
-  /** Nº de slides a exibir SEM breakpoint (mobile‐first). */
+  books: MinimalBook[];
   slidesToShow?: number;
-  /**
-   * Mapeia largura mínima da janela → slidesToShow.
-   * Ex.: { 640: 2, 1024: 4 }
-   */
   responsive?: Record<number, number>;
   className?: string;
 }
@@ -68,43 +64,45 @@ export default function BookCarousel({
   const dynamicSlides = typeof window === 'undefined' ? slidesToShow : getSlidesForWidth();
 
   return (
-    <div className={cn('relative', className)}>
-      {/* viewport */}
-      <div ref={emblaRef} className="overflow-hidden" style={{ height: 220 }}>
-        {/* track */}
-        <div className="flex h-full items-center">
-          {books.map((book) => (
-            <div
-              key={book.isbn}
-              className="flex-shrink-0 px-4"
-              style={{ flex: `0 0 ${100 / dynamicSlides}%` }}
-            >
-              <BookCover book={book} width={120} height={180} className="mx-auto max-w-full" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* nav buttons */}
+    <div className={cn('flex items-center gap-2', className)}>
       <Button
         aria-label="Livro anterior"
         variant="outline"
         size="icon"
         onClick={() => emblaApi?.scrollPrev()}
         disabled={!canPrev}
-        className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full"
+        className="z-10"
       >
-        <ArrowLeft />
+        <ArrowLeft className="bg-card rounded-full" />
       </Button>
+
+      {/* viewport */}
+      <div ref={emblaRef} className="overflow-hidden" style={{ height: 220 }}>
+        {/* track */}
+        <div className="flex h-full items-center rounded-lg">
+          {books.map((book) => (
+            <div
+              key={book.isbn}
+              className="flex-shrink-0"
+              style={{ flex: `0 0 ${100 / dynamicSlides}%` }}
+            >
+              <BookCover isbn={book.isbn} width={120} height={180} className="mx-auto" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* nav buttons */}
+
       <Button
         aria-label="Próximo livro"
         variant="outline"
         size="icon"
         onClick={() => emblaApi?.scrollNext()}
         disabled={!canNext}
-        className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full"
+        className="z-10"
       >
-        <ArrowRight />
+        <ArrowRight className="bg-card rounded-full" />
       </Button>
     </div>
   );

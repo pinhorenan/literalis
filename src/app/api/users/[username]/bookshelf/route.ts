@@ -1,9 +1,12 @@
+// src/app/api/users/[username]/bookshelf/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserShelf, upsertShelfItem } from '@/services/bookshelf.service';
 import { getUserByUsername } from '@/services/user.service';
 import { auth } from '@/lib/auth';
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ username: string }> }) { 
+export const dynamic = 'force-dynamic'; // Force dynamic rendering for this route
+
+export async function GET(req: NextRequest, { params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
   const { searchParams } = req.nextUrl;
   const cursor = searchParams.get('cursor') ?? undefined;
@@ -25,11 +28,10 @@ export async function POST(
   const viewer = await auth();
   if (!viewer?.user?.id) return NextResponse.json({ message: 'Não autorizado.' }, { status: 401 });
 
-  const target = await getUserByUsername(username);
-  if (!target || target.id !== viewer.user.id)
+  if (viewer.user.username !== username)
     return NextResponse.json({ message: 'Proibido.' }, { status: 403 });
 
   const body = await req.json();
-  const item = await upsertShelfItem({ ...body, userId: target.id });
+  const item = await upsertShelfItem({ ...body, userId: viewer.user.id });
   return NextResponse.json(item, { status: 201 });
 }

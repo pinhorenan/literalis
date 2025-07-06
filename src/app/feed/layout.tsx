@@ -6,20 +6,12 @@ import { SuggestionsSidebar } from '@/components/layout/sidebars/SuggestionsSide
 export default function FeedLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <div className="bg-page grid min-h-screen grid-cols-[auto_minmax(0,1fr)_auto]">
-        <aside aria-label="Primary navigation">
-          <PrimarySidebar />
-        </aside>
+      <div className="bg-page mx-auto flex min-h-screen justify-between">
+        <PrimarySidebar />
 
-        <SidebarInset>
-          <main className="mx-auto w-full max-w-screen-lg overflow-y-auto px-4 py-6">
-            {children}
-          </main>
-        </SidebarInset>
+        <SidebarInset>{children}</SidebarInset>
 
-        <aside aria-label="People you may like">
-          <SuggestionsSidebar />
-        </aside>
+        <SuggestionsSidebar />
       </div>
     </SidebarProvider>
   );

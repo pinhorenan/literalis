@@ -19,24 +19,33 @@ export async function getUserShelf(
   cursor?: string,
   isOwner = false,
 ): Promise<Paginated<ShelfItem>> {
-  const rows = await prisma.bookshelfItem.findMany({
-    where: { userId, removedAt: null, ...(isOwner ? {} : { isPrivate: false }) },
+  const where: any = {
+    userId,
+    removedAt: null,
+    ...(isOwner ? {} : { isPrivate: false }),
+  };
+
+  const countPromise = prisma.bookshelfItem.count({ where });
+
+  const findManyArgs: any = {
+    where,
     take: pageSize + 1,
-    ...(cursor
-      ? {
-          cursor: {
-            userId_bookIsbn: { userId, bookIsbn: cursor },
-          },
-          skip: 1,
-        }
-      : {}),
     orderBy: [{ addedAt: 'desc' }, { bookIsbn: 'asc' }],
-  });
+  };
+
+  if (cursor) {
+    findManyArgs.cursor = { userId_bookIsbn: { userId, bookIsbn: cursor } };
+    findManyArgs.skip = 1;
+  }
+
+  const findPromise = prisma.bookshelfItem.findMany(findManyArgs);
+
+  const [total, rows] = await prisma.$transaction([countPromise, findPromise]);
 
   const items = rows.slice(0, pageSize).map(normalize);
   const nextCursor = rows.length > pageSize ? rows[pageSize].bookIsbn : null;
 
-  return { items, nextCursor };
+  return { items, nextCursor, total };
 }
 
 export async function getShelfItem(

@@ -1,18 +1,39 @@
 // src/api/bookshelf.ts
 import type { Paginated, ShelfItem } from '@/types/index';
 
-/** GET     app/api/users/[username]/bookshelf?cursor=&take= */
+export interface ShelfFilters {
+  query?: string;
+  status?: string;
+}
+
+/** GET  /api/users/:username/bookshelf?cursor=&take=&query=&status= */
 export async function fetchUserShelf(
   username: string,
   cursor?: string,
   take = 20,
+  filters: ShelfFilters = {},
 ): Promise<Paginated<ShelfItem>> {
   const url = new URL(`/api/users/${username}/bookshelf`, window.location.origin);
   url.searchParams.set('take', String(take));
-  if (cursor) url.searchParams.set('cursor', cursor);
 
-  const res = await fetch(url.toString(), { credentials: 'include' });
-  if (!res.ok) throw new Error(`Erro ao buscar estante: ${res.status}`);
+  if (cursor) {
+    url.searchParams.set('cursor', cursor);
+  }
+
+  if (filters.query) {
+    url.searchParams.set('query', filters.query);
+  }
+
+  if (filters.status) {
+    url.searchParams.set('status', filters.status);
+  }
+
+  const res = await fetch(url.toString(), {
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    throw new Error(`Erro ao buscar estante: ${res.status}`);
+  }
   return res.json();
 }
 

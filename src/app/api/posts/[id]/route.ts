@@ -10,14 +10,14 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   const viewerId = session?.user?.id;
 
   const post = await getPostById(id, viewerId);
-  if (!post) return NextResponse.json({ message: 'Post not found' }, { status: 404 });
+  if (!post) return NextResponse.json({ message: 'Post não encontrado.' }, { status: 404 });
   return NextResponse.json(post);
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const session = await auth();
-  if (!session?.user?.id) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+  if (!session?.user?.id) return NextResponse.json({ message: 'Não autorizado' }, { status: 401 });
 
   await prisma.post.deleteMany({
     where: { id, authorId: session.user.id },

@@ -13,7 +13,7 @@ export default async function BookshelfPage({ params }: { params: Promise<{ user
     return notFound();
   }
 
-  const isOwn = session?.user?.id === user.id;
+  const isOwn = session?.user?.username === user.username;
 
-  return <BookshelfClient userId={user.id} username={user.username!} isOwn={isOwn} />;
+  return <BookshelfClient username={user.username!} isOwn={isOwn} />;
 }

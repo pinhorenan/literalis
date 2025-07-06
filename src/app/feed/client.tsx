@@ -27,7 +27,7 @@ export default function FeedClient({ session }: { session: Session }) {
   if (isError) return <ErrorState />;
 
   return (
-    <main className="bg-background flex h-full w-full flex-col">
+    <main className="bg-background my-8 flex h-full w-full flex-col">
       {/* ---- Book Carousel ---- */}
       <section className="flex justify-center px-4">
         <div className="w-full max-w-2xl">
@@ -36,7 +36,7 @@ export default function FeedClient({ session }: { session: Session }) {
             books={books}
             slidesToShow={4}
             responsive={{ 1024: 4, 640: 2, 0: 1 }}
-            className="border-accent rounded-lg border"
+            className="bg-card rounded-2xl border px-2"
           />
         </div>
       </section>
