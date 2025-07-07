@@ -15,8 +15,9 @@ import {
 } from '@/components/ui/sidebar';
 import { BookIcon, LibraryIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { ModeToggle } from '@/components/layout/buttons/ModeToggle';
+import { Logo } from '../../pages/landing/landing-decorations';
 
 export function PrimarySidebar() {
   const { data: session } = useSession();
@@ -24,73 +25,60 @@ export function PrimarySidebar() {
     return null; // or a loading state
   }
   const viewer = session.user!;
-  const username = viewer.username!;
 
   return (
     <Sidebar side="left" variant="sidebar" collapsible="icon">
       {/* topo */}
-      <SidebarHeader>
-        <SidebarMenuButton
-          asChild
-          variant="outline"
-          size="lg"
-          className="gap-3 text-lg font-semibold"
-          isActive
-        >
-          <Link href="/">
-            <BookIcon className="size-5" />
-            <span>Literalis</span>
-          </Link>
-        </SidebarMenuButton>
+      <SidebarHeader className="flex flex-row items-center gap-4 p-4">
+        <Logo className="size-14" />
+        <h1 className="text-3xl font-semibold">Literalis</h1>
       </SidebarHeader>
 
       {/* nav */}
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {[
-                { href: '/feed', icon: Home, label: 'Início' },
-                { href: `/${viewer.username}/profile`, icon: User, label: 'Perfil' },
-                {
-                  href: `/${viewer.username}/bookshelf`,
-                  icon: LibraryIcon,
-                  label: 'Estante',
-                },
-                { href: '/search', icon: Search, label: 'Buscar' },
-                { href: '/', icon: Mail, label: 'Mensagens' },
-                { href: '/', icon: Bell, label: 'Notificações', badge: 3 },
-              ].map((item) => (
-                <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton asChild tooltip={item.label}>
-                    <Link href={item.href}>
-                      <item.icon />
-                      <span>{item.label}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                  {item.badge && <div data-sidebar="menu-badge">{item.badge}</div>}
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarSeparator />
+        <SidebarMenu className="flex flex-col gap-4 px-2 py-6">
+          {[
+            { href: '/feed', icon: Home, label: 'Início' },
+            { href: `/${viewer.username}/profile`, icon: User, label: 'Perfil' },
+            {
+              href: `/${viewer.username}/bookshelf`,
+              icon: LibraryIcon,
+              label: 'Estante',
+            },
+            { href: '/search', icon: Search, label: 'Buscar' },
+            { href: '/', icon: Mail, label: 'Mensagens' },
+            { href: '/', icon: Bell, label: 'Notificações', badge: 3 },
+          ].map((item) => (
+            <SidebarMenuItem key={item.label}>
+              <SidebarMenuButton tooltip={item.label}>
+                <Link href={item.href} className="flex items-center gap-2">
+                  <item.icon size={30} />
+                  <h2 className="text-lg font-semibold">{item.label}</h2>
+                  {item.badge && (
+                    <div
+                      data-sidebar="menu-badge"
+                      className="text-primary bg-destructive ml-2 mt-1 flex h-7 w-7 items-center justify-center rounded-full p-1 font-semibold"
+                    >
+                      {item.badge}
+                    </div>
+                  )}
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
       </SidebarContent>
 
       {/* rodape */}
       <SidebarFooter>
-        <SidebarMenu>
+        <SidebarMenu className="flex flex-col gap-4 px-2 py-6">
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Tema Claro/Escuro">
-              <ModeToggle />
-            </SidebarMenuButton>
+            <ModeToggle />
           </SidebarMenuItem>
-
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => console.log('sign-out')} tooltip="Sair">
+            <SidebarMenuButton className="cursor-pointer" onClick={() => signOut()} tooltip="Sair">
               <Power />
-              <span>Sair</span>
+              <h2 className="texg-lg">Sair</h2>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

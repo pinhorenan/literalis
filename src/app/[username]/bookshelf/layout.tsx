@@ -6,13 +6,11 @@ import { SuggestionsSidebar } from '@/components/layout/sidebars/SuggestionsSide
 export default function BookshelfLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <div className="bg-page flex min-h-screen w-full">
+      <div className="bg-page flex min-h-screen w-full justify-between">
         <PrimarySidebar />
 
         <SidebarInset>
-          <div className="mx-auto flex w-full max-w-screen-lg flex-1 flex-col px-4 py-6">
-            {children}
-          </div>
+          <div className="mx-4 my-4 flex w-full max-w-screen-xl flex-col border">{children}</div>
         </SidebarInset>
 
         <SuggestionsSidebar />

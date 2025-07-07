@@ -5,7 +5,6 @@ import { Session } from 'next-auth';
 import { useInView } from 'react-intersection-observer';
 import { useAllBooks } from '@/hooks/book';
 import { useFeedPosts } from '@/hooks/post';
-import FeedSkeleton from '@/components/skeletons/FeedSkeleton';
 import BookCarousel from '@/components/core/BookCarousel';
 import ErrorState from '@/components/core/ErrorState';
 import PostCard from '@/components/core/PostCard';
@@ -44,9 +43,7 @@ export default function FeedClient({ session }: { session: Session }) {
       {/* ---- Feed Posts ---- */}
       <section className="mt-6 flex flex-1 flex-col items-center overflow-y-auto px-4 pb-8">
         <div className="flex w-full max-w-2xl flex-col gap-4">
-          <h1 className="mb-6 text-2xl font-bold">
-            Olá {username}! Aqui está o seu feed. NAO AAGUENTO MASI ESSA MERDA QUERO CHORAR
-          </h1>
+          <h1 className="mb-6 text-2xl font-bold">Olá {username}! Aqui está o seu feed.</h1>
 
           {data?.pages.flatMap((p) =>
             p.items.map((post) => <PostCard key={post.id} post={post} />),
@@ -55,9 +52,19 @@ export default function FeedClient({ session }: { session: Session }) {
           {/* sentinel */}
           <div ref={ref} />
 
-          {isFetchingNextPage && <FeedSkeleton rows={2} />}
+          {isFetchingNextPage && <FeedSkeleton rows={6} />}
         </div>
       </section>
     </main>
+  );
+}
+
+function FeedSkeleton({ rows = 3 }: { rows?: number }) {
+  return (
+    <div className="flex animate-pulse flex-col gap-4">
+      {Array.from({ length: rows }).map((_, i) => (
+        <div key={i} className="bg-muted h-24 w-full rounded-lg" />
+      ))}
+    </div>
   );
 }

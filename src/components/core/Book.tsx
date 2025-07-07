@@ -17,16 +17,18 @@ export function BookCover({ isbn, width = 120, height = 180, className = '' }: B
   return (
     <div className={`relative overflow-hidden shadow-sm ${className}`} style={{ width, height }}>
       {isLoading || !book ? (
-        <div className="skeleton-shimmer absolute inset-0" />
+        <div className="skeleton-shimmer absolute inset-0 rounded-lg border" />
       ) : (
-        <div className={`relative aspect-[2/3] w-[${width}] overflow-hidden rounded-lg`}>
+        <div
+          className={`skeleton-shimmer relative aspect-[2/3] border w-[${width}] overflow-hidden rounded-lg`}
+        >
           <Image
-            src={book.coverUrl || '/uploads/covers/default.jpg'}
+            src={book.coverUrl}
             alt={`Capa do livro ${book.title}`}
             fill
             sizes="120px"
             className="rounded-lg border object-cover"
-            priority
+            loading="lazy"
           />
         </div>
       )}
@@ -77,10 +79,14 @@ export function BookTile({ isbn }: { isbn: string }) {
   if (!book) return null;
 
   return (
-    <div className="flex flex-col items-center gap-2 text-center">
-      <BookCover isbn={isbn} width={96} height={144} />
-      <p className="line-clamp-2 text-sm font-medium">{book.title}</p>
+    <div className="flex flex-col items-center gap-1 text-center">
+      <BookCover
+        isbn={isbn}
+        className="transition-all ease-in-out hover:scale-105 hover:shadow-lg"
+      />
+      <p className="line-clamp-1 text-sm font-medium">{book.title}</p>
       <p className="text-muted-foreground line-clamp-1 text-xs">{book.authors[0]?.name}</p>
+      <p>progresso (todo)</p>
     </div>
   );
 }

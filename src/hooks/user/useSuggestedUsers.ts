@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { MinimalUser } from '@/types/user';
 
-export function useSuggestedUsers(limit = 5) {
+export function useSuggestedUsers(limit = 10) {
   return useQuery<MinimalUser[], Error>({
     queryKey: ['suggestedUsers', limit],
     queryFn: async () => {

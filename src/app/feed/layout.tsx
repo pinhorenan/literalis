@@ -6,7 +6,7 @@ import { SuggestionsSidebar } from '@/components/layout/sidebars/SuggestionsSide
 export default function FeedLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <div className="bg-page mx-auto flex min-h-screen justify-between">
+      <div suppressHydrationWarning className="bg-page mx-auto flex min-h-screen justify-between">
         <PrimarySidebar />
 
         <SidebarInset>{children}</SidebarInset>

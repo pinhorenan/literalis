@@ -3,8 +3,8 @@
 
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import Skeleton from '@/components/skeletons/UserRowSkeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   Sidebar,
   SidebarHeader,
@@ -27,20 +27,20 @@ export function SuggestionsSidebar() {
   if (status !== 'authenticated') return null;
 
   return (
-    <Sidebar side="right" variant="inset" collapsible="icon">
+    <Sidebar side="right" variant="sidebar" collapsible="icon">
       {/* ---- Perfil do viewer ---- */}
       <SidebarHeader>
         <Link
           href={`/${viewer.username}/profile`}
           className="hover:bg-surface-alt flex items-center gap-3 rounded-md p-2 transition-colors"
         >
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-18 w-18 border">
             <AvatarImage src={viewer.avatarUrl || undefined} />
             <AvatarFallback>{viewer.name?.[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col truncate">
-            <span className="truncate text-sm font-semibold">{viewer.name}</span>
-            <span className="text-muted-foreground truncate text-xs">@{viewer.username}</span>
+            <span className="truncate text-lg font-semibold">{viewer.name}</span>
+            <span className="text-muted-foreground truncate text-sm">@{viewer.username}</span>
           </div>
         </Link>
       </SidebarHeader>
@@ -51,7 +51,7 @@ export function SuggestionsSidebar() {
           <SidebarGroupLabel>Perfis recomendados</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {isLoading && Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} />)}
+              {isLoading && Array.from({ length: 10 }).map((_, i) => <UserRowSkeleton key={i} />)}
 
               {isError && (
                 <p className="text-destructive px-2 py-4 text-sm">
@@ -76,11 +76,8 @@ function SuggestionRow({ user }: { user: MinimalUser }) {
   return (
     <SidebarMenuItem>
       <div className="hover:bg-surface-alt flex items-center gap-3 rounded-md p-2 transition-colors">
-        <Link
-          href={`/${user.username}/profile`}
-          className="flex flex-1 items-center gap-3 truncate"
-        >
-          <Avatar className="h-8 w-8">
+        <Link href={`/${user.username}/profile`} className="flex items-center gap-2 truncate">
+          <Avatar className="h-10 w-10 border">
             <AvatarImage src={user.avatarUrl || undefined} />
             <AvatarFallback>{user.name?.[0]}</AvatarFallback>
           </Avatar>
@@ -92,7 +89,7 @@ function SuggestionRow({ user }: { user: MinimalUser }) {
 
         <button
           aria-label={`Seguir ${user.name}`}
-          className="bg-primary ml-auto rounded-full px-3 py-1 text-sm text-white transition-opacity disabled:opacity-60"
+          className="bg-card ml-auto rounded-sm border px-3 py-1.5 text-sm"
           disabled={toggleFollow.isPending}
           onClick={(e) => {
             e.stopPropagation();
@@ -103,5 +100,18 @@ function SuggestionRow({ user }: { user: MinimalUser }) {
         </button>
       </div>
     </SidebarMenuItem>
+  );
+}
+
+export function UserRowSkeleton() {
+  return (
+    <div className="flex animate-pulse items-center gap-3 p-2">
+      <div className="bg-muted size-10 rounded-full" />
+      <div className="flex-1 space-y-1">
+        <div className="bg-muted h-3 w-full rounded" />
+        <div className="bg-muted/70 h-3 w-full rounded" />
+      </div>
+      <button className="bg-muted/70 ml-auto h-8 w-16 rounded" disabled />
+    </div>
   );
 }

@@ -27,7 +27,7 @@ import type { ShelfItem } from '@/types/index';
 
 const PAGE_SIZE = 20;
 
-type ViewMode = 'card' | 'compact' | 'cover';
+type ViewMode = 'compact' | 'cover';
 
 export default function BookshelfClient({ username, isOwn }: { username: string; isOwn: boolean }) {
   /* ---------------------- estado de filtros & modo ---------------------- */
@@ -35,7 +35,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   const debouncedQuery = useDebounce(query, 300);
 
   const [status, setStatus] = React.useState<string>('all');
-  const [mode, setMode] = React.useState<ViewMode>('card');
+  const [mode, setMode] = React.useState<ViewMode>('cover');
 
   /* --------------------------- paginação ------------------------------- */
   const [cursorStack, setCursorStack] = React.useState<(string | undefined)[]>([undefined]);
@@ -59,13 +59,9 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   if (isError || !data) return <p>Erro ao carregar estante.</p>;
 
   return (
-    <main className="p-4">
-      <h1 className="mb-4 text-2xl font-bold">
-        {isOwn ? 'Minha Estante' : `Estante de ${username}`}
-      </h1>
-
+    <main className="my-2 flex flex-col gap-6">
       {/* ---------- toolbar de busca / filtros / modo ---------- */}
-      <div className="mb-6 flex flex-wrap items-center gap-4">
+      <div className="bg-card flex flex-wrap items-center gap-4 rounded-lg p-4">
         {/* pesquisa */}
         <Input
           placeholder="Buscar título ou autor…"
@@ -93,11 +89,8 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
           type="single"
           value={mode}
           onValueChange={(v) => v && setMode(v as ViewMode)}
-          className="ml-auto"
+          className="ml-auto border"
         >
-          <ToggleGroupItem value="card" aria-label="Modo detalhado">
-            <List className="h-4 w-4" />
-          </ToggleGroupItem>
           <ToggleGroupItem value="compact" aria-label="Modo compacto">
             <Grid3x3 className="h-4 w-4" />
           </ToggleGroupItem>
@@ -110,28 +103,31 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
       {/* ---------------- grade/lista de livros ---------------- */}
       <div
         className={clsx(
-          mode === 'card' && 'grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
           mode === 'compact' &&
-            'grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
-          mode === 'cover' && 'grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8',
+            'bg-card grid grid-cols-2 gap-4 rounded-lg px-2 py-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
+          mode === 'cover' &&
+            'bg-card grid grid-cols-2 gap-3 rounded-lg px-2 py-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7',
         )}
       >
         {data.items.map((item: ShelfItem) => {
           if (mode === 'cover') {
-            return <BookCover key={item.bookIsbn} isbn={item.bookIsbn} />;
+            return (
+              <BookCover
+                key={item.bookIsbn}
+                isbn={item.bookIsbn}
+                className="transition-all ease-in-out hover:scale-105 hover:shadow-lg"
+              />
+            );
           }
 
           if (mode === 'compact') {
             return <BookTile key={item.bookIsbn} isbn={item.bookIsbn} />;
           }
-
-          /* modo "card" detalhado */
-          return <BookCard key={item.bookIsbn} isbn={item.bookIsbn} />;
         })}
       </div>
 
       {/* ----------------------- paginação ---------------------- */}
-      <Pagination className="mt-8">
+      <Pagination>
         <PaginationContent>
           {pageIndex > 1 && <PaginationPrevious onClick={goPrev} className="cursor-pointer" />}
 
