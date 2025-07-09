@@ -1,8 +1,10 @@
+// src/app/[username]/bookshelf/client.tsx
+
 'use client';
 
 import React from 'react';
 import clsx from 'clsx';
-import { Grid3x3, List, Image as ImageIcon } from 'lucide-react';
+import { Grid3x3, Image as ImageIcon } from 'lucide-react';
 import {
   Pagination,
   PaginationContent,
@@ -20,7 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { BookCard, BookCover, BookTile } from '@/components/core/Book';
+import { BookCover, BookTile } from '@/components/core/Book';
 import { useUserShelf, type ShelfFilters } from '@/hooks/bookshelf/useUserShelf';
 import { useDebounce } from '@/hooks/useDebounce';
 import type { ShelfItem } from '@/types/index';
