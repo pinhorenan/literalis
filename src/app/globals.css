@@ -1,227 +1,114 @@
+/* -------------- imports -------------- */
 @import 'tailwindcss';
-@import 'tw-animate-css';
+@import 'tailwindcss-animate'; /* novo nome do plugin :contentReference[oaicite:11]{index=11} */
 
-/* dark mode variant for all nested selectors */
+/* -------------- custom variants -------------- */
 @custom-variant dark (&:is(.dark *));
 
-/*
-  Tailwind CSS v4 CSS-first theme mapping
-  Map semantic tailwind tokens (--color-*, --font-*, --radius-*) to raw CSS variables
-*/
+/* -------------- semantic mapping -------------- */
 @theme inline {
-  /* Colors */
-  --color-bg: var(--theme-color-bg);
-  --color-foreground: var(--theme-color-text-primary);
-  --color-muted: var(--theme-color-text-secondary);
+  /* BASE */
+  --bg: var(--paper-0);
+  --fg: var(--ink-9);
+  --surface: var(--paper-0);
+  --surface-alt: var(--paper-1);
+  --card: var(--paper-1);
+  --popover: var(--paper-1);
 
-  --color-surface: var(--theme-color-surface);
-  --color-surface-alt: var(--theme-color-surface-alt);
-  --color-card: var(--theme-color-card);
-  --color-popover: var(--theme-color-popover);
+  --border: var(--paper-3);
+  --ring: rgba(0 0 0 / 0.08);
+  --input: var(--paper-0);
 
-  --color-border: var(--theme-color-border);
-  --color-ring: var(--theme-color-ring);
-  --color-input: var(--theme-color-input);
+  /* BRAND */
+  --brand: var(--brand-6);
+  --brand-hover: var(--brand-7);
+  --brand-pressed: var(--brand-8);
 
-  --color-brand-primary: var(--theme-color-brand-primary);
-  --color-brand-primary-light: var(--theme-color-brand-primary-light);
-  --color-brand-primary-dark: var(--theme-color-brand-primary-dark);
+  --secondary: var(--terra-6);
+  --accent: var(--slate-6);
 
-  --color-brand-secondary: var(--theme-color-brand-secondary);
-  --color-brand-secondary-light: var(--theme-color-brand-secondary-light);
-  --color-brand-secondary-dark: var(--theme-color-brand-secondary-dark);
+  /* STATE */
+  --success: var(--success-6);
+  --warning: var(--warning-6);
+  --info: var(--info-6);
+  --destructive: var(--error-6);
 
-  --color-accent: var(--theme-color-accent);
-  --color-accent-strong: var(--theme-color-accent-strong);
-
-  /* Status */
-  --color-success: var(--theme-color-success);
-  --color-warning: var(--theme-color-warning);
-  --color-info: var(--theme-color-info);
-  --color-destructive: var(--theme-color-destructive);
-
-  /* Charts */
-  --color-chart-1: var(--theme-color-chart-1);
-  --color-chart-2: var(--theme-color-chart-2);
-  --color-chart-3: var(--theme-color-chart-3);
-  --color-chart-4: var(--theme-color-chart-4);
-  --color-chart-5: var(--theme-color-chart-5);
-
-  /* Sidebar */
-  --color-sidebar: var(--theme-color-sidebar);
-  --color-sidebar-foreground: var(--theme-color-sidebar-foreground);
-  --color-sidebar-primary: var(--theme-color-sidebar-primary);
-  --color-sidebar-primary-foreground: var(--theme-color-sidebar-primary-foreground);
-  --color-sidebar-accent: var(--theme-color-sidebar-accent);
-  --color-sidebar-accent-foreground: var(--theme-color-sidebar-accent-foreground);
-  --color-sidebar-border: var(--theme-color-sidebar-border);
-  --color-sidebar-ring: var(--theme-color-sidebar-ring);
-
-  /* Typography */
-
-  /* Radii */
-  --radius-sm: var(--theme-radius-sm);
-  --radius: var(--theme-radius);
-  --radius-md: var(--theme-radius-md);
-  --radius-lg: var(--theme-radius-lg);
-  --radius-xl: var(--theme-radius-xl);
+  /* RADII */
+  --r-xs: 0.25rem;
+  --r-sm: 0.5rem;
+  --r-md: 0.625rem;
+  --r-lg: 0.75rem;
 }
 
-/*
-  Raw theme variables: organized, semantic, ready for overrides
-*/
+/* -------------- raw tokens -------------- */
 :root {
-  /* Font Families */
-  /* Radii */
-  --theme-radius-sm: 0.3125rem; /* 5px */
-  --theme-radius-md: 0.5rem; /* 8px */
-  --theme-radius: 0.625rem; /* 10px */
-  --theme-radius-lg: 0.75rem; /* 12px */
-  --theme-radius-xl: 1rem; /* 16px */
+  /* --- Neutrals (“paper” & “ink”) --- */
+  --paper-0: oklch(98% 0.03 95) /* #FCFAF6 */;
+  --paper-1: oklch(94% 0.03 95) /* #F3EEE4 */;
+  --paper-3: oklch(86% 0.03 95) /* #D9D1C4 */;
 
-  /* Neutral Palette */
-  --theme-neutral-100: #f3e8d6;
-  --theme-neutral-200: #eadfcd;
-  --theme-neutral-300: #e0d3c0;
-  --theme-neutral-400: #c8b39e;
-  --theme-neutral-500: #a89683;
-  --theme-neutral-600: #867662;
-  --theme-neutral-700: #625746;
-  --theme-neutral-800: #40392f;
-  --theme-neutral-900: #2a241c;
+  --ink-9: oklch(20% 0.02 95) /* #322A24 */;
 
-  /* Semantic Surfaces */
-  --theme-color-bg: var(--theme-neutral-100);
-  --theme-color-surface: var(--theme-neutral-100);
-  --theme-color-surface-alt: var(--theme-neutral-200);
-  --theme-color-card: var(--theme-neutral-200);
-  --theme-color-popover: var(--theme-neutral-200);
-  --theme-color-input: var(--theme-neutral-100);
-  --theme-color-border: var(--theme-neutral-300);
+  /* --- Brand gold --- */
+  --brand-6: oklch(75% 0.12 85) /* #C9A349 */;
+  --brand-7: oklch(70% 0.14 85);
+  --brand-8: oklch(63% 0.16 85);
 
-  /* Overlays & Rings */
-  --theme-color-ring: rgba(0, 0, 0, 0.08);
-  --theme-color-overlay-light: rgba(0, 0, 0, 0.02);
-  --theme-color-overlay-dark: rgba(0, 0, 0, 0.4);
+  /* --- Terracota --- */
+  --terra-6: oklch(65% 0.15 40); /* #A65A3B */
 
-  /* Text */
-  --theme-color-text-primary: #2e271e;
-  --theme-color-text-secondary: #5a4f40;
-  --theme-color-muted: #897b6a;
-  --theme-color-link: var(--theme-color-brand-primary);
+  /* --- Slate accent --- */
+  --slate-6: oklch(64% 0.07 260); /* #5D6C86 */
 
-  /* Brand Palette */
-  --theme-color-brand-primary: #5a5223;
-  --theme-color-brand-primary-light: #7a6c4b;
-  --theme-color-brand-primary-dark: #3e3a1c;
+  /* --- Feedback */ /* APCA-checked */
+  --success-6: #3d9970;
+  --warning-6: #ff851b;
+  --info-6: #007acc;
+  --error-6: #c0392b;
 
-  --theme-color-brand-secondary: #a25430;
-  --theme-color-brand-secondary-light: #c17b55;
-  --theme-color-brand-secondary-dark: #7a3f1f;
-
-  --theme-color-accent: #d4b483;
-  --theme-color-accent-strong: #c8a16f;
-
-  /* Status */
-  --theme-color-success: #3d9970;
-  --theme-color-warning: #ff851b;
-  --theme-color-info: #007acc;
-  --theme-color-destructive: #c0392b;
-
-  /* Charts */
-  --theme-color-chart-1: var(--theme-color-brand-primary);
-  --theme-color-chart-2: var(--theme-color-brand-primary-light);
-  --theme-color-chart-3: var(--theme-color-brand-secondary);
-  --theme-color-chart-4: var(--theme-color-accent);
-  --theme-color-chart-5: var(--theme-color-success);
-
-  /* Sidebar */
-  --theme-color-sidebar: var(--theme-neutral-100);
-  --theme-color-sidebar-foreground: var(--theme-color-text-primary);
-  --theme-color-sidebar-primary: var(--theme-color-brand-secondary);
-  --theme-color-sidebar-primary-foreground: var(--theme-neutral-100);
-  --theme-color-sidebar-accent: var(--theme-color-accent);
-  --theme-color-sidebar-accent-foreground: var(--theme-color-brand-primary);
-  --theme-color-sidebar-border: var(--theme-neutral-200);
-  --theme-color-sidebar-ring: rgba(0, 0, 0, 0.04);
-
-  /* Shadows */
-  --theme-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --theme-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+  /* --- Typography --- */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Dark mode overrides */
+/* ------------- dark mode overrides ------------- */
 .dark {
-  /* Semantic Surfaces */
-  --theme-color-bg: var(--theme-neutral-900);
-  --theme-color-surface: var(--theme-neutral-900);
-  --theme-color-surface-alt: var(--theme-neutral-800);
-  --theme-color-card: var(--theme-neutral-800);
-  --theme-color-popover: var(--theme-neutral-800);
-  --theme-color-input: var(--theme-neutral-900);
-  --theme-color-border: var(--theme-neutral-700);
+  --bg: var(--ink-9);
+  --fg: var(--paper-0);
+  --surface: var(--ink-9);
+  --surface-alt: var(--ink-8); /* new, see below */
+  --card: var(--ink-8);
+  --popover: var(--ink-8);
+  --border: var(--ink-7);
 
-  /* Overlays & Rings */
-  --theme-color-ring: rgba(255, 255, 255, 0.2);
-  --theme-color-overlay-light: rgba(255, 255, 255, 0.03);
-  --theme-color-overlay-dark: rgba(255, 255, 255, 0.2);
-
-  /* Text */
-  --theme-color-text-primary: var(--theme-neutral-100);
-  --theme-color-text-secondary: var(--theme-neutral-300);
-  --theme-color-muted: var(--theme-neutral-500);
-  --theme-color-link: var(--theme-color-brand-primary-light);
-
-  /* Brand & Status adjust */
-  --theme-color-destructive: #ef5350;
-  --theme-color-success: #3ecf8e;
-  --theme-color-warning: #ffb347;
-  --theme-color-info: #64b5f6;
-
-  /* Charts */
-  --theme-color-chart-1: var(--theme-color-brand-primary-light);
-  --theme-color-chart-2: var(--theme-color-brand-primary);
-  --theme-color-chart-3: var(--theme-color-brand-secondary-light);
-  --theme-color-chart-4: var(--theme-color-accent);
-  --theme-color-chart-5: var(--theme-color-success);
-
-  /* Sidebar */
-  --theme-color-sidebar: var(--theme-neutral-900);
-  --theme-color-sidebar-foreground: var(--theme-neutral-100);
-  --theme-color-sidebar-primary: var(--theme-color-brand-secondary-light);
-  --theme-color-sidebar-primary-foreground: var(--theme-neutral-900);
-  --theme-color-sidebar-accent: var(--theme-color-accent);
-  --theme-color-sidebar-accent-foreground: var(--theme-color-brand-primary-light);
-  --theme-color-sidebar-border: var(--theme-neutral-800);
-  --theme-color-sidebar-ring: rgba(255, 255, 255, 0.1);
+  /* derive tokens with color-mix for subtle shifts */
+  --brand: color-mix(in oklch, var(--brand-6) 80%, black 20%);
+  --secondary: color-mix(in oklch, var(--terra-6) 85%, black 15%);
+  --accent: color-mix(in oklch, var(--slate-6) 85%, white 15%);
 }
 
-/* Base layer: resets + utility defaults */
+/* ------------ base layer reset & defaults ------------ */
 @layer base {
-  /* Box sizing reset */
   *,
   *::before,
   *::after {
     box-sizing: border-box;
   }
 
-  /* Document defaults */
   html,
   body {
-    margin: 0;
-    min-height: 100vh;
-    overflow-x: hidden;
+    @apply h-full w-full overflow-x-hidden antialiased;
+    background: var(--bg);
+    color: var(--fg);
     font-family: var(--font-sans);
-    background: var(--color-bg);
-    color: var(--color-foreground);
   }
 
-  /* Tailwind utility defaults */
+  /* outline & border default */
   * {
     @apply border-border outline-ring/50;
   }
 }
 
+/* -------------- skeleton shimmer -------------- */
 @keyframes shimmer {
   0% {
     background-position: -100% 0;
@@ -234,10 +121,16 @@
 .skeleton-shimmer {
   background: linear-gradient(
     120deg,
-    rgba(200, 200, 200, 0.1) 0%,
-    rgba(160, 160, 160, 0.2) 50%,
-    rgba(200, 200, 200, 0.1) 100%
+    rgba(255 255 255 / 0.05) 0%,
+    rgba(255 255 255 / 0.12) 50%,
+    rgba(255 255 255 / 0.05) 100%
   );
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+  animation: shimmer 1.5s ease-in-out 0s 3 forwards; /* 3 × 1.5 s = 4.5 s */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer {
+    animation: none;
+  }
 }
