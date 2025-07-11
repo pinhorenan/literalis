@@ -6,14 +6,11 @@ import {
   SidebarHeader,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarSeparator,
 } from '@/components/ui/sidebar';
-import { BookIcon, LibraryIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react';
+import { LibraryIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { ModeToggle } from '@/components/layout/buttons/ModeToggle';
@@ -22,7 +19,7 @@ import { Logo } from '../../pages/landing/landing-decorations';
 export function PrimarySidebar() {
   const { data: session } = useSession();
   if (!session || !session.user) {
-    return null; // or a loading state
+    return null;
   }
   const viewer = session.user!;
 
@@ -36,23 +33,19 @@ export function PrimarySidebar() {
 
       {/* nav */}
       <SidebarContent>
-        <SidebarMenu className="flex flex-col gap-4 px-2 py-6">
+        <SidebarMenu className="flex h-auto flex-col gap-8 px-4">
           {[
             { href: '/feed', icon: Home, label: 'Início' },
             { href: `/${viewer.username}/profile`, icon: User, label: 'Perfil' },
-            {
-              href: `/${viewer.username}/bookshelf`,
-              icon: LibraryIcon,
-              label: 'Estante',
-            },
+            { href: `/${viewer.username}/bookshelf`, icon: LibraryIcon, label: 'Estante' },
             { href: '/search', icon: Search, label: 'Buscar' },
             { href: '/', icon: Mail, label: 'Mensagens' },
             { href: '/', icon: Bell, label: 'Notificações', badge: 3 },
           ].map((item) => (
-            <SidebarMenuItem key={item.label}>
-              <SidebarMenuButton tooltip={item.label}>
-                <Link href={item.href} className="flex items-center gap-2">
-                  <item.icon size={30} />
+            <SidebarMenuItem className="min-h-auto border px-10 py-2" key={item.label}>
+              <SidebarMenuButton className="m min-h-12 py-2" tooltip={item.label}>
+                <Link href={item.href} className="flex items-center gap-2 overflow-visible p-6">
+                  <item.icon size={36} />
                   <h2 className="text-lg font-semibold">{item.label}</h2>
                   {item.badge && (
                     <div

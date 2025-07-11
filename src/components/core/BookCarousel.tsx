@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { MinimalBook } from '@/types/book';
 
-/* -------- props -------- */
 export interface BookCarouselProps {
   books: MinimalBook[];
   slidesToShow?: number;
@@ -32,7 +31,6 @@ export default function BookCarousel({
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
 
-  /* ----- responsividade: recalcula slidesToShow em resize ----- */
   const getSlidesForWidth = useCallback(() => {
     const w = window.innerWidth;
     const bp = Object.keys(responsive)
@@ -53,7 +51,6 @@ export default function BookCarousel({
     onSelect();
   }, [emblaApi]);
 
-  /* força reinit ao mudar width → slidesToShow */
   useEffect(() => {
     if (!emblaApi) return;
     const onResize = () => emblaApi.reInit();
@@ -93,7 +90,6 @@ export default function BookCarousel({
       </div>
 
       {/* nav buttons */}
-
       <Button
         aria-label="Próximo livro"
         variant="outline"
