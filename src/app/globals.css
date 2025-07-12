@@ -1,136 +1,181 @@
-/* -------------- imports -------------- */
+/* ───────────────────────────────────────────────
+ * Imports
+ * ─────────────────────────────────────────────── */
 @import 'tailwindcss';
-@import 'tailwindcss-animate'; /* novo nome do plugin :contentReference[oaicite:11]{index=11} */
+@import 'tw-animate-css';
 
-/* -------------- custom variants -------------- */
+/* ───────────────────────────────────────────────
+ * Custom Variants
+ * ─────────────────────────────────────────────── */
 @custom-variant dark (&:is(.dark *));
 
-/* -------------- semantic mapping -------------- */
+/* ───────────────────────────────────────────────
+ * Theme Token Bridge (maps --color-* → --theme-*)
+ * ─────────────────────────────────────────────── */
 @theme inline {
-  /* BASE */
-  --bg: var(--paper-0);
-  --fg: var(--ink-9);
-  --surface: var(--paper-0);
-  --surface-alt: var(--paper-1);
-  --card: var(--paper-1);
-  --popover: var(--paper-1);
+  --color-bg: var(--theme-color-bg);
+  --color-foreground: var(--theme-color-text-primary);
+  --color-muted: var(--theme-color-text-secondary);
 
-  --border: var(--paper-3);
-  --ring: rgba(0 0 0 / 0.08);
-  --input: var(--paper-0);
+  --color-surface: var(--theme-color-surface);
+  --color-surface-alt: var(--theme-color-surface-alt);
+  --color-card: var(--theme-color-card);
+  --color-popover: var(--theme-color-popover);
 
-  /* BRAND */
-  --brand: var(--brand-6);
-  --brand-hover: var(--brand-7);
-  --brand-pressed: var(--brand-8);
+  --color-border: var(--theme-color-border);
+  --color-ring: var(--theme-color-ring);
+  --color-input: var(--theme-color-input);
 
-  --secondary: var(--terra-6);
-  --accent: var(--slate-6);
+  --color-brand-primary: var(--theme-color-brand-primary);
+  --color-brand-primary-light: var(--theme-color-brand-primary-light);
+  --color-brand-primary-dark: var(--theme-color-brand-primary-dark);
 
-  /* STATE */
-  --success: var(--success-6);
-  --warning: var(--warning-6);
-  --info: var(--info-6);
-  --destructive: var(--error-6);
+  --color-brand-secondary: var(--theme-color-brand-secondary);
+  --color-brand-secondary-light: var(--theme-color-brand-secondary-light);
+  --color-brand-secondary-dark: var(--theme-color-brand-secondary-dark);
 
-  /* RADII */
-  --r-xs: 0.25rem;
-  --r-sm: 0.5rem;
-  --r-md: 0.625rem;
-  --r-lg: 0.75rem;
+  --color-accent: var(--theme-color-accent);
+  --color-accent-strong: var(--theme-color-accent-strong);
+
+  --color-success: var(--theme-color-success);
+  --color-warning: var(--theme-color-warning);
+  --color-info: var(--theme-color-info);
+  --color-destructive: var(--theme-color-destructive);
+
+  --radius-sm: var(--theme-radius-sm);
+  --radius: var(--theme-radius);
+  --radius-md: var(--theme-radius-md);
+  --radius-lg: var(--theme-radius-lg);
+  --radius-xl: var(--theme-radius-xl);
 }
 
-/* -------------- raw tokens -------------- */
+/* ───────────────────────────────────────────────
+ * Light Theme (default)
+ * ─────────────────────────────────────────────── */
 :root {
-  /* --- Neutrals (“paper” & “ink”) --- */
-  --paper-0: oklch(98% 0.03 95) /* #FCFAF6 */;
-  --paper-1: oklch(94% 0.03 95) /* #F3EEE4 */;
-  --paper-3: oklch(86% 0.03 95) /* #D9D1C4 */;
+  /* Radii */
+  --theme-radius-sm: 4px;
+  --theme-radius-md: 6px;
+  --theme-radius: 8px;
+  --theme-radius-lg: 10px;
+  --theme-radius-xl: 14px;
 
-  --ink-9: oklch(20% 0.02 95) /* #322A24 */;
+  /* Neutral – “Paper” */
+  --theme-neutral-100: #fdfcf7;
+  --theme-neutral-200: #f7f5ef;
+  --theme-neutral-300: #ebe7dd;
+  --theme-neutral-400: #d6d0c2;
+  --theme-neutral-500: #bfb8a6;
+  --theme-neutral-600: #a79f8c;
+  --theme-neutral-700: #807a69;
+  --theme-neutral-800: #594d46;
+  --theme-neutral-900: #3a3530;
 
-  /* --- Brand gold --- */
-  --brand-6: oklch(75% 0.12 85) /* #C9A349 */;
-  --brand-7: oklch(70% 0.14 85);
-  --brand-8: oklch(63% 0.16 85);
+  /* Surface tokens */
+  --theme-color-bg: var(--theme-neutral-100);
+  --theme-color-surface: var(--theme-neutral-100);
+  --theme-color-surface-alt: var(--theme-neutral-200);
+  --theme-color-card: var(--theme-neutral-200);
+  --theme-color-popover: var(--theme-neutral-200);
+  --theme-color-input: var(--theme-neutral-100);
+  --theme-color-border: var(--theme-neutral-300);
+  --theme-color-ring: rgba(0, 0, 0, 0.08);
 
-  /* --- Terracota --- */
-  --terra-6: oklch(65% 0.15 40); /* #A65A3B */
+  /* Typography */
+  --theme-color-text-primary: #2b2216; /* ink */
+  --theme-color-text-secondary: #5e5649;
+  --theme-color-muted: #8b8375;
+  --theme-color-link: var(--theme-color-brand-primary);
 
-  /* --- Slate accent --- */
-  --slate-6: oklch(64% 0.07 260); /* #5D6C86 */
+  /* Brand – “Indigo Ink” */
+  --theme-color-brand-primary: #4338ca;
+  --theme-color-brand-primary-light: #6366f1;
+  --theme-color-brand-primary-dark: #312e81;
 
-  /* --- Feedback */ /* APCA-checked */
-  --success-6: #3d9970;
-  --warning-6: #ff851b;
-  --info-6: #007acc;
-  --error-6: #c0392b;
+  /* Secondary – “Bookmark Amber” */
+  --theme-color-brand-secondary: #d97706;
+  --theme-color-brand-secondary-light: #fbbf24;
+  --theme-color-brand-secondary-dark: #92400e;
 
-  /* --- Typography --- */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  /* Accent – “Teal Highlight” */
+  --theme-color-accent: #14b8a6;
+  --theme-color-accent-strong: #0d9488;
+
+  /* Status */
+  --theme-color-success: #16a34a;
+  --theme-color-warning: #f59e0b;
+  --theme-color-info: #2563eb;
+  --theme-color-destructive: #dc2626;
+
+  /* Shadow */
+  --theme-shadow-sm: 0 1px 2px rgba(0, 0, 0, .04);
+  --theme-shadow-md: 0 4px 6px rgba(0, 0, 0, .08);
+
+  /* System */
+  color-scheme: light;
 }
 
-/* ------------- dark mode overrides ------------- */
+/* ───────────────────────────────────────────────
+ * Dark Theme (via next-themes .dark)
+ * ─────────────────────────────────────────────── */
 .dark {
-  --bg: var(--ink-9);
-  --fg: var(--paper-0);
-  --surface: var(--ink-9);
-  --surface-alt: var(--ink-8); /* new, see below */
-  --card: var(--ink-8);
-  --popover: var(--ink-8);
-  --border: var(--ink-7);
+  --theme-color-bg: var(--theme-neutral-900);
+  --theme-color-surface: var(--theme-neutral-900);
+  --theme-color-surface-alt: var(--theme-neutral-800);
+  --theme-color-card: var(--theme-neutral-800);
+  --theme-color-popover: var(--theme-neutral-800);
+  --theme-color-input: var(--theme-neutral-900);
+  --theme-color-border: var(--theme-neutral-700);
+  --theme-color-ring: rgba(255, 255, 255, .16);
 
-  /* derive tokens with color-mix for subtle shifts */
-  --brand: color-mix(in oklch, var(--brand-6) 80%, black 20%);
-  --secondary: color-mix(in oklch, var(--terra-6) 85%, black 15%);
-  --accent: color-mix(in oklch, var(--slate-6) 85%, white 15%);
+  --theme-color-text-primary: var(--theme-neutral-100);
+  --theme-color-text-secondary: var(--theme-neutral-300);
+  --theme-color-muted: var(--theme-neutral-500);
+  --theme-color-link: var(--theme-color-brand-primary-light);
+
+  --theme-color-success: #22c55e;
+  --theme-color-warning: #faca15;
+  --theme-color-info: #60a5fa;
+  --theme-color-destructive: #f87171;
+
+  color-scheme: dark;
 }
 
-/* ------------ base layer reset & defaults ------------ */
+/* ───────────────────────────────────────────────
+ * Base Layer (Resets & defaults)
+ * ─────────────────────────────────────────────── */
 @layer base {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     box-sizing: border-box;
   }
 
-  html,
-  body {
-    @apply h-full w-full overflow-x-hidden antialiased;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-sans);
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: var(--font-sans, system-ui, sans-serif);
+    background: var(--color-bg);
+    color: var(--color-foreground);
   }
 
-  /* outline & border default */
+  /* Universal border + focus defaults */
   * {
     @apply border-border outline-ring/50;
   }
 }
 
-/* -------------- skeleton shimmer -------------- */
-@keyframes shimmer {
-  0% {
-    background-position: -100% 0;
+/* ───────────────────────────────────────────────
+ * Utilities Layer
+ * ─────────────────────────────────────────────── */
+@layer utilities {
+  /* Skeleton loader */
+  .skeleton {
+    @apply relative overflow-hidden bg-slate-200 dark:bg-slate-700 rounded;
   }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.skeleton-shimmer {
-  background: linear-gradient(
-    120deg,
-    rgba(255 255 255 / 0.05) 0%,
-    rgba(255 255 255 / 0.12) 50%,
-    rgba(255 255 255 / 0.05) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out 0s 3 forwards; /* 3 × 1.5 s = 4.5 s */
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skeleton-shimmer {
-    animation: none;
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    @apply animate-pulse bg-gradient-to-r from-transparent via-white/40 to-transparent dark:via-white/10;
   }
 }

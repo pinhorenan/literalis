@@ -10,21 +10,27 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 import { LibraryIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { ModeToggle } from '@/components/layout/buttons/ModeToggle';
 import { Logo } from '../../pages/landing/landing-decorations';
 
-export function PrimarySidebar() {
+export function PrimarySidebar({ className }: { className?: string }) {
   const { data: session } = useSession();
-  if (!session || !session.user) {
-    return null;
-  }
-  const viewer = session.user!;
+  if (!session || !session.user) return null;
+
+  const viewer = session.user;
+
 
   return (
-    <Sidebar side="left" variant="sidebar" collapsible="icon">
+    <Sidebar 
+    side="left" 
+    variant="sidebar" 
+    collapsible="icon"
+    className={cn('h-full', className)}
+    >
       {/* topo */}
       <SidebarHeader className="flex flex-row items-center gap-4 p-4">
         <Logo className="size-14" />

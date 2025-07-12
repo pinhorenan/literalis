@@ -1,4 +1,4 @@
-// src/components/pages/landing/landing-content.tsx
+// src/app/client.tsx
 'use client';
 
 import { Sparkles, UserPlus as UserRoundPlusIcon } from 'lucide-react';
@@ -14,7 +14,7 @@ import clsx from 'clsx';
 
 function LandingHero() {
   return (
-    <div className="relative z-10 max-w-xl space-y-6 pb-2 text-left border border-red-500">
+    <div className="relative z-10 max-w-xl space-y-6 pb-2 text-left">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -101,9 +101,11 @@ export default function LandingContent() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="
-        min-w-screen relative isolate flex min-h-screen flex-col-reverse items-center justify-evenly gap-12 overflow-hidden from-surface to-surface-alt bg-gradient-to-b px-6 py-16 lg:flex-row lg:px-24'
-      "
+      className={clsx(
+        'min-w-screen relative isolate flex min-h-screen flex-col-reverse items-center justify-evenly gap-12 overflow-hidden',
+        'from-surface to-surface-alt bg-gradient-to-b',
+        'px-6 py-16 lg:flex-row lg:px-24',
+      )}
     >
       {/* Toggle de tema */}
       <div className="absolute right-6 top-6 z-20">
@@ -141,3 +143,4 @@ export default function LandingContent() {
     </motion.section>
   );
 }
+import2

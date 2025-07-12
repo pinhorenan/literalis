@@ -1,19 +1,14 @@
+// src/components/pages/landing/landing-decorations.tsx
 'use client';
 
 import React, { useId } from 'react';
 import clsx from 'clsx';
 
-interface SVGProps {
-  className?: string;
-}
-
-// Círculo sólido com 30% de opacidade usando a cor de accent
-export function CircleVector({ className }: SVGProps) {
+export function CircleVector({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 300 300"
       xmlns="http://www.w3.org/2000/svg"
-      // fill-current faz fill=currentColor; text-accent/30 define currentColor
       className={clsx('text-accent/30 fill-current', className)}
     >
       <circle cx="150" cy="150" r="140" />
@@ -21,8 +16,7 @@ export function CircleVector({ className }: SVGProps) {
   );
 }
 
-// Círculo com gradiente radial usando currentColor
-export function GradientCircleVector({ className }: SVGProps) {
+export function GradientCircleVector({ className }: { className?: string }) {
   const gradientId = useId();
   return (
     <svg
@@ -41,19 +35,13 @@ export function GradientCircleVector({ className }: SVGProps) {
   );
 }
 
-interface LogoProps {
-  className?: string;
-  size?: number;
-}
-
-export function Logo({ className, size = 60 }: LogoProps) {
+export function Logo({ className, size = 60 }: { className?: string; size?: number }) {
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 110 110"
       xmlns="http://www.w3.org/2000/svg"
-      // fill-current + text-foreground define a cor de preenchimento e stroke-current aplica stroke igual a currentColor
       className={clsx('text-primary fill-current stroke-current', className)}
     >
       <g strokeWidth="1">
