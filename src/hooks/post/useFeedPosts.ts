@@ -11,6 +11,7 @@ export function useFeedPosts() {
     getNextPageParam: (last: Paginated<Post>) => last.nextCursor ?? undefined,
     queryFn: async ({ pageParam }) => {
       const raw = await fetchFeedPosts(pageParam);
+      console.log('useFeedPosts', raw);
       return {
         ...raw,
         items: raw.items.map((p) => ({

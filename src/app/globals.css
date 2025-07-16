@@ -61,15 +61,15 @@
   --theme-radius-xl: 14px;
 
   /* Neutral – “Paper” */
-  --theme-neutral-100: #fdfcf7;
-  --theme-neutral-200: #f7f5ef;
+  --theme-neutral-100: #fefefe;
+  --theme-neutral-200: #f5f5f5;
   --theme-neutral-300: #ebe7dd;
   --theme-neutral-400: #d6d0c2;
   --theme-neutral-500: #bfb8a6;
   --theme-neutral-600: #a79f8c;
-  --theme-neutral-700: #807a69;
-  --theme-neutral-800: #594d46;
-  --theme-neutral-900: #3a3530;
+  --theme-neutral-700: #5d5c65;
+  --theme-neutral-800: #4343498b;
+  --theme-neutral-900: #0a0a10;
 
   /* Surface tokens */
   --theme-color-bg: var(--theme-neutral-100);

@@ -61,7 +61,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   if (isError || !data) return <p>Erro ao carregar estante.</p>;
 
   return (
-    <main className="my-2 flex flex-col gap-6">
+    <main className="m-4 flex flex-col gap-6">
       {/* ---------- toolbar de busca / filtros / modo ---------- */}
       <div className="bg-card flex flex-wrap items-center gap-4 rounded-lg p-4">
         {/* pesquisa */}
@@ -106,9 +106,9 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
       <div
         className={clsx(
           mode === 'compact' &&
-            'bg-card grid grid-cols-2 gap-4 rounded-lg px-2 py-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
+            'bg-card grid grid-cols-2 gap-4 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
           mode === 'cover' &&
-            'bg-card grid grid-cols-2 gap-3 rounded-lg px-2 py-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7',
+            'bg-card grid grid-cols-2 gap-3 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7',
         )}
       >
         {data.items.map((item: ShelfItem) => {

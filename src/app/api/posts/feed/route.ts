@@ -13,14 +13,7 @@ export async function GET(req: NextRequest) {
   const cursor = searchParams.get('cursor') ?? undefined;
   const take = Number(searchParams.get('take') ?? 20);
 
-  const following = await prisma.follow.findMany({
-    where: { followerId: session.user.id },
-    select: { followedId: true },
-  });
-  const authorIds = [session.user.id, ...following.map((f) => f.followedId)];
-
   const raw = await prisma.post.findMany({
-    where: { authorId: { in: authorIds } },
     take: take + 1,
     ...(cursor && { cursor: { id: cursor }, skip: 1 }),
     orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],

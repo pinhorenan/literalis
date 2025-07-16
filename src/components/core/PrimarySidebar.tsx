@@ -15,7 +15,7 @@ import { LibraryIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { ModeToggle } from '@/components/layout/buttons/ModeToggle';
-import { Logo } from '../../pages/landing/landing-decorations';
+import { Logo } from '../pages/landing/landing-decorations';
 
 export function PrimarySidebar({ className }: { className?: string }) {
   const { data: session } = useSession();
@@ -39,7 +39,7 @@ export function PrimarySidebar({ className }: { className?: string }) {
 
       {/* nav */}
       <SidebarContent>
-        <SidebarMenu className="flex h-auto flex-col gap-8 px-4">
+        <SidebarMenu className="flex h-auto flex-col gap-4 px-4">
           {[
             { href: '/feed', icon: Home, label: 'Início' },
             { href: `/${viewer.username}/profile`, icon: User, label: 'Perfil' },
@@ -48,9 +48,9 @@ export function PrimarySidebar({ className }: { className?: string }) {
             { href: '/', icon: Mail, label: 'Mensagens' },
             { href: '/', icon: Bell, label: 'Notificações', badge: 3 },
           ].map((item) => (
-            <SidebarMenuItem className="min-h-auto border px-10 py-2" key={item.label}>
-              <SidebarMenuButton className="m min-h-12 py-2" tooltip={item.label}>
-                <Link href={item.href} className="flex items-center gap-2 overflow-visible p-6">
+            <SidebarMenuItem className="min-h-auto" key={item.label}>
+              <SidebarMenuButton className="min-h-12 py-2 rounded" tooltip={item.label}>
+                <Link href={item.href} className="rounded flex items-center gap-2 p-2 hover:bg-surface-alt">
                   <item.icon size={36} />
                   <h2 className="text-lg font-semibold">{item.label}</h2>
                   {item.badge && (

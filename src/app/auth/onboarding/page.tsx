@@ -2,13 +2,13 @@
 'use client';
 
 import { completeOnboarding } from './actions';
-import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { redirect } from 'next/navigation';
 
 const initialState = { success: false, error: undefined as string | undefined };
 
 export default function OnboardingPage() {
-  const [state, formAction] = useFormState(completeOnboarding, initialState);
+  const [state, formAction] = useActionState(completeOnboarding, initialState);
 
   if (state.success) redirect('/');
 

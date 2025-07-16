@@ -4,20 +4,10 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-  Sidebar,
-  SidebarHeader,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar';
 import { useSuggestedUsers, useToggleFollow } from '@/hooks/user';
 import type { MinimalUser } from '@/types/user';
 
-export function SuggestionsSidebar() {
+export function FeedSuggestions() {
   const { status, data } = useSession();
   const viewer = data?.user!;
 
@@ -26,46 +16,41 @@ export function SuggestionsSidebar() {
   if (status !== 'authenticated') return null;
 
   return (
-    <Sidebar side="right" variant="sidebar" collapsible="icon">
+    <div className="ml-0 m-8">
       {/* ---- Perfil do viewer ---- */}
-      <SidebarHeader>
+      <div>
         <Link
           href={`/${viewer.username}/profile`}
           className="hover:bg-surface-alt flex items-center gap-3 rounded-md p-2 transition-colors"
         >
-          <Avatar className="h-18 w-18 border">
+          <Avatar className="h-12 w-12 border">
             <AvatarImage src={viewer.avatarUrl || undefined} />
             <AvatarFallback>{viewer.name?.[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col truncate">
-            <span className="truncate text-lg font-semibold">{viewer.name}</span>
+            <span className="truncate text-md font-semibold">{viewer.name}</span>
             <span className="text-muted-foreground truncate text-sm">@{viewer.username}</span>
           </div>
         </Link>
-      </SidebarHeader>
+      </div>
 
       {/* ---- Sugestões ---- */}
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Perfis recomendados</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {isLoading && Array.from({ length: 10 }).map((_, i) => <UserRowSkeleton key={i} />)}
-
-              {isError && (
-                <p className="text-destructive px-2 py-4 text-sm">
-                  Não foi possível carregar as sugestões.
-                </p>
-              )}
-
-              {suggestions?.map((user) => (
-                <SuggestionRow key={user.id} user={user} />
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+      <div className="flex flex-col gap-2 ml-2 mt-4">
+        <label className="">Perfis recomendados</label>
+        
+        <div className="flex flex-col gap-1">
+          {isLoading && Array.from({ length: 10 }).map((_, i) => <UserRowSkeleton key={i} />)}
+          {isError && (
+            <p className="text-destructive px-2 py-4 text-sm">
+              Não foi possível carregar as sugestões.
+            </p>
+          )}
+          {suggestions?.map((user) => (
+            <SuggestionRow key={user.id} user={user} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -73,22 +58,22 @@ function SuggestionRow({ user }: { user: MinimalUser }) {
   const toggleFollow = useToggleFollow(user.username);
 
   return (
-    <SidebarMenuItem>
-      <div className="hover:bg-surface-alt flex items-center gap-3 rounded-md p-2 transition-colors">
+    <div>
+      <div className="hover:bg-surface-alt flex items-center gap-3 rounded p-2 transition-colors">
         <Link href={`/${user.username}/profile`} className="flex items-center gap-2 truncate">
-          <Avatar className="h-10 w-10 border">
+          <Avatar className="h-8 w-8 border">
             <AvatarImage src={user.avatarUrl || undefined} />
             <AvatarFallback>{user.name?.[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col truncate">
-            <span className="truncate text-sm font-medium">{user.name}</span>
-            <span className="text-muted-foreground truncate text-xs">@{user.username}</span>
+            <span className="truncate text-xs font-medium">{user.name}</span>
+            <span className="text-muted-foreground text-xs">@{user.username}</span>
           </div>
         </Link>
 
         <button
           aria-label={`Seguir ${user.name}`}
-          className="bg-card ml-auto rounded-sm border px-3 py-1.5 text-sm"
+          className="bg-card ml-auto rounded-sm border px-2 py-1 text-xs cursor-pointer hover:bg-surface"
           disabled={toggleFollow.isPending}
           onClick={(e) => {
             e.stopPropagation();
@@ -98,7 +83,7 @@ function SuggestionRow({ user }: { user: MinimalUser }) {
           Seguir
         </button>
       </div>
-    </SidebarMenuItem>
+    </div>
   );
 }
 

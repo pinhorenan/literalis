@@ -1,7 +1,7 @@
   // src/app/[username]/profile/layout.tsx
   import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-  import { PrimarySidebar } from '@/components/layout/sidebars/PrimarySidebar';
-  import { SuggestionsSidebar } from '@/components/layout/sidebars/SuggestionsSidebar';
+  import { PrimarySidebar } from '@/src/components/core/PrimarySidebar';
+  import { FeedSuggestions } from '@/src/components/core/FeedSuggestions';
 
   export default function ProfileLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -15,7 +15,7 @@
             </div>
           </SidebarInset>
 
-          <SuggestionsSidebar />
+          <FeedSuggestions />
         </div>
       </SidebarProvider>
     );
