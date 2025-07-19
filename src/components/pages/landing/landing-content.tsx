@@ -5,6 +5,7 @@ import { Sparkles, UserPlus as UserRoundPlusIcon } from 'lucide-react';
 import { CircleVector, Logo } from '@/components/pages/landing/landing-decorations';
 import { ModeToggle } from '@/src/components/layout/buttons/ModeToggle';
 import { Button } from '@/src/components/ui/button';
+import { useSession } from 'next-auth/react';
 
 import { motion } from 'motion/react';
 import Image from 'next/image';
@@ -13,8 +14,10 @@ import React from 'react';
 import clsx from 'clsx';
 
 function LandingHero() {
+  const { data: session } = useSession();
+
   return (
-    <div className="relative z-10 max-w-xl space-y-6 pb-2 text-left border border-red-500">
+    <div className="relative z-10 max-w-xl space-y-6 pb-2 text-left">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -29,11 +32,7 @@ function LandingHero() {
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
-        className={clsx(
-          'inline-flex items-center gap-2 rounded-full px-3 py-1',
-          'bg-card text-foreground',
-          'mt-2 text-sm font-medium',
-        )}
+        className="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-card text-foreground mt-2 text-sm font-medium"
       >
         <Sparkles size={16} />
         Nova rede social literária
@@ -52,11 +51,10 @@ function LandingHero() {
             initial={{ backgroundSize: '0% 100%' }}
             animate={{ backgroundSize: '100% 100%' }}
             transition={{ delay: 0.9, duration: 0.8, ease: 'easeOut' }}
-            className={clsx(
-              'relative z-10',
-              'bg-[linear-gradient(120deg,var(--theme-color-surface-alt)_0%,var(--theme-color-surface-alt)_100%)]',
-              'bg-[length:0%_0.25rem] bg-left-bottom bg-no-repeat',
-            )}
+            className="
+            relative z-10 px-2 -left-2 
+            bg-[linear-gradient(120deg,var(--theme-color-surface-alt)_0%,var(--theme-color-surface-alt)_100%)] 
+            bg-[length:0%_0.25rem] bg-left-bottom bg-no-repeat"
           >
             Compartilhe histórias.
           </motion.span>
@@ -74,20 +72,18 @@ function LandingHero() {
       </motion.p>
 
       <motion.div
-        className="flex flex-col gap-4 sm:flex-row"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.6 }}
       >
-        <Link href="/signup">
+        <Link href={session ? `/feed` : `/auth/signin`} className="w-full sm:w-auto">
           <Button
             variant="outline"
             className="w-full sm:w-auto"
             size="lg"
-            onClick={() => console.log('Sign Up Clicked')}
           >
-            <UserRoundPlusIcon className="h-5 w-5" />
-            Crie sua conta
+            {session ? null : <UserRoundPlusIcon className="h-5 w-5" />}
+            {session ? 'Feed' : 'Faça parte da comunidade'}
           </Button>
         </Link>
       </motion.div>

@@ -8,9 +8,8 @@ export default function SignInPage() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  // Se já está logado, redireciona para home
   if (session) {
-    router.replace('/');
+    router.replace('/feed');
     return null;
   }
 
