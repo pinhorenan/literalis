@@ -61,21 +61,18 @@ export default function BookCarousel({
   const dynamicSlides = typeof window === 'undefined' ? slidesToShow : getSlidesForWidth();
 
   return (
-    <div className={cn('flex items-center gap-2', className)}>
+    <div className={cn('flex items-center', className)}>
       <Button
         aria-label="Livro anterior"
-        variant="outline"
-        size="icon"
+        variant="ghost"
         onClick={() => emblaApi?.scrollPrev()}
         disabled={!canPrev}
-        className="z-10"
+        className="z-10 rounded-full p-4"
       >
-        <ArrowLeft className="bg-card rounded-full" />
+        <ArrowLeft />
       </Button>
 
-      {/* viewport */}
       <div ref={emblaRef} className="overflow-hidden" style={{ height: 220 }}>
-        {/* track */}
         <div className="flex h-full items-center rounded-lg">
           {books.map((book) => (
             <div
@@ -89,16 +86,14 @@ export default function BookCarousel({
         </div>
       </div>
 
-      {/* nav buttons */}
       <Button
         aria-label="Próximo livro"
-        variant="outline"
-        size="icon"
+        variant="ghost"
         onClick={() => emblaApi?.scrollNext()}
         disabled={!canNext}
-        className="z-10"
+        className="z-10 rounded-full p-4"
       >
-        <ArrowRight className="bg-card rounded-full" />
+        <ArrowRight />
       </Button>
     </div>
   );

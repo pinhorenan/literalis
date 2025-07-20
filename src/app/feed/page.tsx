@@ -11,22 +11,18 @@ import FeedClient from './client';
 export default async function FeedPage() {
   const session = await auth();
 
-  // ---------- 1A  · redirect ----------
   if (!session) {
     redirect('/signin?redirectTo=/feed');
   }
 
-  // ---------- 1B · prefetch feed posts ----------
   const queryClient = new QueryClient();
 
-  // page 1 of the infinite feed
   await queryClient.prefetchInfiniteQuery({
     queryKey: ['posts', 'feed'],
     queryFn: () => fetchFeedPosts(undefined),
     initialPageParam: undefined,
   });
 
-  // all books (pro carrossel, por enquanto)
   await queryClient.prefetchQuery({
     queryKey: ['books', 'all'],
     queryFn: () => fetchAllBooks(),

@@ -26,22 +26,21 @@ export default function FeedClient({ session }: { session: Session }) {
   if (isError) return <ErrorState />;
 
   return (
-    <main className="bg-background my-8 flex h-full w-full flex-col">
+    <main className="mx-auto flex h-full flex-col">
       {/* ---- Book Carousel ---- */}
-      <section className="flex justify-center px-4">
-        <div className="w-full max-w-2xl">
+      <section className="flex flex-col items-center w-fit max-w-fit">
+        <div className="w-fit max-w-2xl">
           <BookCarousel
             aria-label="Livros em destaque"
             books={books}
             slidesToShow={4}
             responsive={{ 1024: 4, 640: 2, 0: 1 }}
-            className="bg-card rounded-2xl border px-2"
           />
         </div>
       </section>
 
       {/* ---- Feed Posts ---- */}
-      <section className="mt-6 flex flex-1 flex-col items-center overflow-y-auto px-4 pb-8">
+      <section className="mt-6 flex flex-1 flex-col items-center overflow-y-auto pb-8">
         <div className="flex w-full max-w-2xl flex-col gap-4">
           <h1 className="mb-6 text-2xl font-bold">Olá {username}! Aqui está o seu feed.</h1>
 
@@ -61,7 +60,7 @@ export default function FeedClient({ session }: { session: Session }) {
 
 function FeedSkeleton({ rows = 3 }: { rows?: number }) {
   return (
-    <div className="flex animate-pulse flex-col gap-4">
+    <div className="mx-auto flex animate-pulse flex-col gap-4">
       {Array.from({ length: rows }).map((_, i) => (
         <div key={i} className="bg-muted h-24 w-full rounded-lg" />
       ))}

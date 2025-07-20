@@ -7,14 +7,6 @@ import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale/pt-BR';
 import clsx from 'clsx';
 
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -42,23 +34,23 @@ export default function PostCard({ post }: { post: Post }) {
   }
 
   return (
-    <Card className="w-full max-w-2xl">
+    <div className="w-full max-w-2xl bg-card rounded-lg border">
       {/* header */}
-      <CardHeader className="flex items-center justify-between border-b px-5 py-0">
+      <div className="flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-4">
           <Avatar>
             <AvatarImage src={post.author.avatarUrl ?? undefined} />
             <AvatarFallback>{authorName[0]}</AvatarFallback>
           </Avatar>
           <div>
-            <CardTitle className="text-base">{authorName}</CardTitle>
-            <CardDescription className="text-muted-foreground text-xs">{relTime}</CardDescription>
+            <div className="text-base">{authorName}</div>
+            <div className="text-muted-foreground text-xs">{relTime}</div>
           </div>
         </div>
-      </CardHeader>
+      </div>
 
       {/* corpo */}
-      <CardContent className="flex gap-6 px-5">
+      <div className="flex gap-6 p-4 border-y">
         <BookCover
           isbn={post.book.isbn}
           width={120}
@@ -88,17 +80,17 @@ export default function PostCard({ post }: { post: Post }) {
             </Button>
           )}
         </div>
-      </CardContent>
+      </div>
 
       {/* ações */}
-      <CardFooter className="my-0 flex items-center justify-between gap-2 border-t px-5 py-0">
+      <div className="flex items-center justify-between gap-2 px-4 py-2">
         <div className="flex items-center text-sm">
           <Button variant="ghost" className="flex items-center gap-1">
-            <MessageCircle className="h-6 w-6" />
+            <MessageCircle className="size-5" />
             {post.commentsCount}
           </Button>
           <Button variant="ghost" className="flex items-center gap-1">
-            <Heart className={clsx('h-6 w-6', post.likedByMe && 'fill-primary text-primary')} />
+            <Heart className={clsx('size-5', post.likedByMe && 'fill-primary text-primary')} />
             {post.likesCount}
           </Button>
         </div>
@@ -109,23 +101,23 @@ export default function PostCard({ post }: { post: Post }) {
             placeholder="Escreva um comentário..."
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            className="flex-1 rounded border px-3 py-1 text-sm"
+            className="flex-1 rounded border px-2 py-1 text-sm"
           />
           <Button variant="outline" type="submit">
             Enviar
           </Button>
         </form>
-      </CardFooter>
+      </div>
 
       {/* seção de comentários */}
-      <div className="border-t px-5 py-2">
+      <div className="border-t">
         {(post.comments ?? []).map((c: Comment) => {
           const commentTime = formatDistanceToNow(c.createdAt, {
             locale: ptBR,
             addSuffix: true,
           });
           return (
-            <div key={c.id} className="flex items-center gap-3 py-2">
+            <div key={c.id} className="flex items-center gap-2 px-4 py-2">
               <Avatar className="h-6 w-6">
                 <AvatarImage src={c.author.avatarUrl} />
                 <AvatarFallback>{c.author.name ?? c.author.username}</AvatarFallback>
@@ -140,6 +132,6 @@ export default function PostCard({ post }: { post: Post }) {
           );
         })}
       </div>
-    </Card>
+    </div>
   );
 }
