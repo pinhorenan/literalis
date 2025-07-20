@@ -9,6 +9,7 @@ type ShelfPage = Paginated<ShelfItem>;
 export interface ShelfFilters {
   query?: string;
   status?: string;
+  sortBy?: string;
 }
 
 /**

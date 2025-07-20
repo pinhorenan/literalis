@@ -12,7 +12,7 @@ export default async function FeedPage() {
   const session = await auth();
 
   if (!session) {
-    redirect('/signin?redirectTo=/feed');
+    redirect('/auth/signin?redirectTo=/feed');
   }
 
   const queryClient = new QueryClient();

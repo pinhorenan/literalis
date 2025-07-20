@@ -18,6 +18,7 @@ export async function getUserShelf(
   pageSize = 20,
   cursor?: string,
   isOwner = false,
+  filters: { query?: string; status?: string; sortBy?: string } = {},
 ): Promise<Paginated<ShelfItem>> {
   const where: any = {
     userId,
@@ -25,12 +26,53 @@ export async function getUserShelf(
     ...(isOwner ? {} : { isPrivate: false }),
   };
 
+  // Filtro por status
+  if (filters.status) {
+    where.status = filters.status;
+  }
+
+  // Filtro por busca textual (título ou autor) - precisa usar relacionamento
+  if (filters.query) {
+    where.book = {
+      OR: [
+        { title: { contains: filters.query, mode: 'insensitive' } },
+        { authors: { some: { name: { contains: filters.query, mode: 'insensitive' } } } },
+      ],
+    };
+  }
+
   const countPromise = prisma.bookshelfItem.count({ where });
+
+  // Configurar ordenação baseada no filtro
+  let orderBy: any = [{ addedAt: 'desc' }, { bookIsbn: 'asc' }]; // padrão
+
+  if (filters.sortBy) {
+    switch (filters.sortBy) {
+      case 'title':
+        orderBy = [{ book: { title: 'asc' } }, { bookIsbn: 'asc' }];
+        break;
+      case 'author':
+        // Ordenação básica - podemos melhorar depois se necessário
+        orderBy = [{ addedAt: 'desc' }, { bookIsbn: 'asc' }];
+        break;
+      case 'rating':
+        orderBy = [{ rating: 'desc' }, { bookIsbn: 'asc' }];
+        break;
+      case 'progress':
+        orderBy = [{ currentPage: 'desc' }, { bookIsbn: 'asc' }];
+        break;
+      case 'addedAt':
+      default:
+        orderBy = [{ addedAt: 'desc' }, { bookIsbn: 'asc' }];
+        break;
+    }
+  }
 
   const findManyArgs: any = {
     where,
     take: pageSize + 1,
-    orderBy: [{ addedAt: 'desc' }, { bookIsbn: 'asc' }],
+    orderBy,
+    include: { book: { include: { authors: true } } }, // Sempre incluir para funcionar a busca
   };
 
   if (cursor) {

@@ -11,12 +11,15 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ user
   const { searchParams } = req.nextUrl;
   const cursor = searchParams.get('cursor') ?? undefined;
   const take = Number(searchParams.get('take') ?? 20);
+  const query = searchParams.get('query') ?? undefined;
+  const status = searchParams.get('status') ?? undefined;
+  const sortBy = searchParams.get('sortBy') ?? undefined;
 
   const viewer = await auth();
   const target = await getUserByUsername(username);
   if (!target) return NextResponse.json({ message: 'Usuário não encontrado.' }, { status: 404 });
 
-  const shelf = await getUserShelf(target.id, take, cursor, viewer?.user?.id === target.id);
+  const shelf = await getUserShelf(target.id, take, cursor, viewer?.user?.id === target.id, { query, status, sortBy });
   return NextResponse.json(shelf);
 }
 

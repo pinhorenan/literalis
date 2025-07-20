@@ -4,7 +4,9 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useSuggestedUsers, useToggleFollow } from '@/hooks/user';
+import { useSuggestedUsers } from '@/hooks/user';
+import { FollowButton } from '@/components/layout/buttons/FollowButton';
+import { toast } from 'sonner';
 import type { MinimalUser } from '@/types/user';
 
 export function FeedSuggestions() {
@@ -55,7 +57,13 @@ export function FeedSuggestions() {
 }
 
 function SuggestionRow({ user }: { user: MinimalUser }) {
-  const toggleFollow = useToggleFollow(user.username);
+  const handleToggleFollow = (wasFollowing: boolean, username: string) => {
+    if (wasFollowing) {
+      toast.success(`Você deixou de seguir @${username}`);
+    } else {
+      toast.success(`Você agora segue @${username}`);
+    }
+  };
 
   return (
     <div>
@@ -71,17 +79,14 @@ function SuggestionRow({ user }: { user: MinimalUser }) {
           </div>
         </Link>
 
-        <button
-          aria-label={`Seguir ${user.name}`}
-          className="bg-card ml-auto rounded-sm border px-2 py-1 text-xs cursor-pointer hover:bg-surface"
-          disabled={toggleFollow.isPending}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleFollow.mutate();
-          }}
-        >
-          Seguir
-        </button>
+        <FollowButton
+          username={user.username}
+          variant="outline"
+          size="sm"
+          showIcon={false}
+          className="ml-auto text-xs px-2 py-1"
+          onToggle={handleToggleFollow}
+        />
       </div>
     </div>
   );

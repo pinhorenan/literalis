@@ -143,4 +143,3 @@ export default function LandingContent() {
     </motion.section>
   );
 }
-import2

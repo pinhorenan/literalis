@@ -4,6 +4,7 @@ import type { Paginated, ShelfItem } from '@/types/index';
 export interface ShelfFilters {
   query?: string;
   status?: string;
+  sortBy?: string;
 }
 
 /** GET  /api/users/:username/bookshelf?cursor=&take=&query=&status= */
@@ -26,6 +27,10 @@ export async function fetchUserShelf(
 
   if (filters.status) {
     url.searchParams.set('status', filters.status);
+  }
+
+  if (filters.sortBy) {
+    url.searchParams.set('sortBy', filters.sortBy);
   }
 
   const res = await fetch(url.toString(), {
