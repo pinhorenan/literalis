@@ -61,26 +61,41 @@ export default function BookCarousel({
   const dynamicSlides = typeof window === 'undefined' ? slidesToShow : getSlidesForWidth();
 
   return (
-    <div className={cn('flex items-center', className)}>
+    <div className={cn('flex items-center bg-card rounded-lg border shadow-sm p-4', className)}>
       <Button
         aria-label="Livro anterior"
         variant="ghost"
         onClick={() => emblaApi?.scrollPrev()}
         disabled={!canPrev}
-        className="z-10 rounded-full p-4"
+        className={cn(
+          "z-10 rounded-full p-3 transition-all duration-200 hover:scale-110",
+          canPrev 
+            ? "hover:bg-primary/10 hover:text-primary" 
+            : "opacity-50 cursor-not-allowed"
+        )}
       >
-        <ArrowLeft />
+        <ArrowLeft className="w-5 h-5" />
       </Button>
 
-      <div ref={emblaRef} className="overflow-hidden" style={{ height: 220 }}>
-        <div className="flex h-full items-center rounded-lg">
-          {books.map((book) => (
+      <div ref={emblaRef} className="overflow-hidden mx-4 flex-1" style={{ height: 220 }}>
+        <div className="flex h-full items-center rounded-lg gap-4">
+          {books.map((book, index) => (
             <div
               key={book.isbn}
-              className="flex-shrink-0"
-              style={{ flex: `0 0 ${100 / dynamicSlides}%` }}
+              className="flex-shrink-0 group"
+              style={{ 
+                flex: `0 0 ${100 / dynamicSlides}%`,
+                animationDelay: `${index * 100}ms`
+              }}
             >
-              <BookCover isbn={book.isbn} width={120} height={180} className="mx-auto" />
+              <div className="mx-auto transition-all duration-300 hover:scale-105 hover:-translate-y-1">
+                <BookCover 
+                  isbn={book.isbn} 
+                  width={120} 
+                  height={180} 
+                  className="shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg" 
+                />
+              </div>
             </div>
           ))}
         </div>
@@ -91,9 +106,14 @@ export default function BookCarousel({
         variant="ghost"
         onClick={() => emblaApi?.scrollNext()}
         disabled={!canNext}
-        className="z-10 rounded-full p-4"
+        className={cn(
+          "z-10 rounded-full p-3 transition-all duration-200 hover:scale-110",
+          canNext 
+            ? "hover:bg-primary/10 hover:text-primary" 
+            : "opacity-50 cursor-not-allowed"
+        )}
       >
-        <ArrowRight />
+        <ArrowRight className="w-5 h-5" />
       </Button>
     </div>
   );

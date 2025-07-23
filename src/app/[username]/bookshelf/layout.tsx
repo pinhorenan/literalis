@@ -1,7 +1,7 @@
 // src/app/[username]/bookshelf/layout.tsx
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-import { PrimarySidebar } from '@/src/components/core/PrimarySidebar';
-import { FeedSuggestions } from '@/src/components/core/FeedSuggestions';
+import { PrimarySidebar } from '@/components/core/PrimarySidebar';
+import { FeedSuggestions } from '@/components/core/FeedSuggestions';
 
 export default function BookshelfLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,7 +15,9 @@ export default function BookshelfLayout({ children }: { children: React.ReactNod
     >
         <PrimarySidebar className="hidden md:flex"/>
 
-        <SidebarInset>{children}</SidebarInset>
+        <SidebarInset className="bg-gradient-to-br from-background via-muted/20 to-background">
+          {children}
+        </SidebarInset>
 
         <FeedSuggestions />
     </SidebarProvider>

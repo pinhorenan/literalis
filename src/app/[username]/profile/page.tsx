@@ -14,7 +14,7 @@ export default async function ProfilePage({
   const { username } = await params;
 
   return (
-    <main className="container mx-auto px-4 py-6 max-w-6xl space-y-8">
+    <main className="container mx-auto px-4 py-2 max-w-6xl space-y-8">
       <Toaster position="bottom-right" />
       
       {/* Profile Header */}

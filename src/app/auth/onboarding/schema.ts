@@ -9,5 +9,8 @@ export const onboardingSchema = z.object({
     .max(32, 'Máximo 32 caracteres')
     .regex(/^[a-z0-9_]+$/i, 'Use apenas letras, números e "_".'),
   name: z.string().trim().min(1).max(60).optional(),
+  selectedBooks: z.array(z.string()).default([]),
+  selectedUsers: z.array(z.string()).default([]),
 });
+
 export type OnboardingInput = z.infer<typeof onboardingSchema>;
