@@ -59,24 +59,24 @@ export function BookshelfStats({ stats, isOwn }: BookshelfStatsProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 animate-in slide-in-from-top duration-500">
+    <div className="animate-in slide-in-from-top grid grid-cols-2 gap-4 duration-500 md:grid-cols-4 lg:grid-cols-5">
       {statItems.map((stat, index) => (
-        <Card 
+        <Card
           key={stat.label}
-          className="hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+          className="transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
           style={{ animationDelay: `${index * 100}ms` }}
         >
           <CardContent className="p-4 text-center">
-            <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg ${stat.bgColor} mb-2 transition-transform duration-300 hover:scale-110`}>
+            <div
+              className={`inline-flex h-10 w-10 items-center justify-center rounded-lg ${stat.bgColor} mb-2 transition-transform duration-300 hover:scale-110`}
+            >
               <stat.icon className={`h-5 w-5 ${stat.color}`} />
             </div>
             <div className="space-y-1">
-              <p className="text-xl font-bold text-foreground">
+              <p className="text-foreground text-xl font-bold">
                 {stat.label === 'Avaliação' ? `${stat.value}★` : stat.value}
               </p>
-              <p className="text-xs text-muted-foreground font-medium">
-                {stat.label}
-              </p>
+              <p className="text-muted-foreground text-xs font-medium">{stat.label}</p>
             </div>
           </CardContent>
         </Card>

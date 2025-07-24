@@ -13,11 +13,11 @@ export default function FeedLayout({ children }: { children: React.ReactNode }) 
         } as React.CSSProperties
       }
     >
-        <PrimarySidebar className="hidden md:flex"/>
+      <PrimarySidebar className="hidden md:flex" />
 
-        <SidebarInset>{children}</SidebarInset>
+      <SidebarInset>{children}</SidebarInset>
 
-        <FeedSuggestions />
+      <FeedSuggestions />
     </SidebarProvider>
   );
 }

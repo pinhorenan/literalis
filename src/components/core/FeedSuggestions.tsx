@@ -18,24 +18,24 @@ export function FeedSuggestions() {
   if (status !== 'authenticated') return null;
 
   return (
-    <div className="ml-0 m-8 animate-in slide-in-from-right-6 duration-700">
+    <div className="animate-in slide-in-from-right-6 m-8 ml-0 duration-700">
       {/* ---- Perfil do viewer ---- */}
-      <div className="bg-card rounded-lg border shadow-sm p-4 mb-6 hover:shadow-md transition-shadow duration-300">
+      <div className="bg-card mb-6 rounded-lg border p-4 shadow-sm transition-shadow duration-300 hover:shadow-md">
         <Link
           href={`/${viewer.username}/profile`}
-          className="hover:bg-muted/50 flex items-center gap-3 rounded-lg p-3 transition-all duration-200 group"
+          className="hover:bg-muted/50 group flex items-center gap-3 rounded-lg p-3 transition-all duration-200"
         >
           <div className="relative">
-            <Avatar className="h-12 w-12 border-2 border-background shadow-sm ring-2 ring-primary/20">
+            <Avatar className="border-background ring-primary/20 h-12 w-12 border-2 shadow-sm ring-2">
               <AvatarImage src={viewer.avatarUrl || undefined} />
-              <AvatarFallback className="bg-gradient-to-br from-primary/20 to-secondary/20 font-semibold">
+              <AvatarFallback className="from-primary/20 to-secondary/20 bg-gradient-to-br font-semibold">
                 {viewer.name?.[0]}
               </AvatarFallback>
             </Avatar>
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background" />
+            <div className="border-background absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 bg-green-500" />
           </div>
           <div className="flex flex-col truncate">
-            <span className="truncate text-md font-semibold group-hover:text-primary transition-colors">
+            <span className="text-md group-hover:text-primary truncate font-semibold transition-colors">
               {viewer.name}
             </span>
             <span className="text-muted-foreground truncate text-sm font-medium">
@@ -46,18 +46,17 @@ export function FeedSuggestions() {
       </div>
 
       {/* ---- Sugestões ---- */}
-      <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
-        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 px-4 py-3 border-b border-border/50">
-          <h3 className="font-semibold text-foreground flex items-center gap-2">
-            <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+      <div className="bg-card overflow-hidden rounded-lg border shadow-sm">
+        <div className="from-primary/5 to-secondary/5 border-border/50 border-b bg-gradient-to-r px-4 py-3">
+          <h3 className="text-foreground flex items-center gap-2 font-semibold">
+            <span className="bg-primary h-2 w-2 animate-pulse rounded-full"></span>
             Perfis recomendados
           </h3>
         </div>
-        
+
         <div className="p-2">
-          {isLoading && Array.from({ length: 5 }).map((_, i) => (
-            <UserRowSkeleton key={i} delay={i * 100} />
-          ))}
+          {isLoading &&
+            Array.from({ length: 5 }).map((_, i) => <UserRowSkeleton key={i} delay={i * 100} />)}
           {isError && (
             <div className="px-4 py-6 text-center">
               <p className="text-destructive text-sm font-medium">
@@ -84,23 +83,26 @@ function SuggestionRow({ user, index = 0 }: { user: MinimalUser; index?: number 
   };
 
   return (
-    <div 
+    <div
       className="animate-in slide-in-from-right-4 duration-300"
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <div className="hover:bg-muted/50 flex items-center gap-3 rounded-lg p-3 transition-all duration-200 group">
-        <Link href={`/${user.username}/profile`} className="flex items-center gap-3 truncate flex-1">
+      <div className="hover:bg-muted/50 group flex items-center gap-3 rounded-lg p-3 transition-all duration-200">
+        <Link
+          href={`/${user.username}/profile`}
+          className="flex flex-1 items-center gap-3 truncate"
+        >
           <div className="relative">
-            <Avatar className="h-10 w-10 border ring-1 ring-border shadow-sm">
+            <Avatar className="ring-border h-10 w-10 border shadow-sm ring-1">
               <AvatarImage src={user.avatarUrl || undefined} />
-              <AvatarFallback className="bg-gradient-to-br from-muted to-muted/60 font-medium text-xs">
+              <AvatarFallback className="from-muted to-muted/60 bg-gradient-to-br text-xs font-medium">
                 {user.name?.[0]}
               </AvatarFallback>
             </Avatar>
-            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border border-background" />
+            <div className="border-background absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border bg-green-500" />
           </div>
           <div className="flex flex-col truncate">
-            <span className="truncate text-sm font-semibold group-hover:text-primary transition-colors">
+            <span className="group-hover:text-primary truncate text-sm font-semibold transition-colors">
               {user.name}
             </span>
             <span className="text-muted-foreground text-xs font-medium">@{user.username}</span>
@@ -112,7 +114,7 @@ function SuggestionRow({ user, index = 0 }: { user: MinimalUser; index?: number 
           variant="outline"
           size="sm"
           showIcon={false}
-          className="ml-auto text-xs px-3 py-1.5 hover:scale-105 transition-transform"
+          className="ml-auto px-3 py-1.5 text-xs transition-transform hover:scale-105"
           onToggle={handleToggleFollow}
         />
       </div>
@@ -122,11 +124,11 @@ function SuggestionRow({ user, index = 0 }: { user: MinimalUser; index?: number 
 
 export function UserRowSkeleton({ delay = 0 }: { delay?: number }) {
   return (
-    <div 
-      className="flex animate-pulse items-center gap-3 p-3 rounded-lg"
+    <div
+      className="flex animate-pulse items-center gap-3 rounded-lg p-3"
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="bg-muted w-10 h-10 rounded-full ring-1 ring-border" />
+      <div className="bg-muted ring-border h-10 w-10 rounded-full ring-1" />
       <div className="flex-1 space-y-2">
         <div className="bg-muted h-3 w-24 rounded" />
         <div className="bg-muted/70 h-2.5 w-16 rounded" />

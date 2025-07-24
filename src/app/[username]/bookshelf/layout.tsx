@@ -13,13 +13,13 @@ export default function BookshelfLayout({ children }: { children: React.ReactNod
         } as React.CSSProperties
       }
     >
-        <PrimarySidebar className="hidden md:flex"/>
+      <PrimarySidebar className="hidden md:flex" />
 
-        <SidebarInset className="bg-gradient-to-br from-background via-muted/20 to-background">
-          {children}
-        </SidebarInset>
+      <SidebarInset className="from-background via-muted/20 to-background bg-gradient-to-br">
+        {children}
+      </SidebarInset>
 
-        <FeedSuggestions />
+      <FeedSuggestions />
     </SidebarProvider>
   );
 }

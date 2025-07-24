@@ -23,18 +23,14 @@ export function SuggestionsPanel() {
   const { status, data } = useSession();
   const viewer = data?.user;
 
-  const {
-    data: suggestions,
-    isLoading,
-    isError,
-  } = useSuggestedUsers(5);
+  const { data: suggestions, isLoading, isError } = useSuggestedUsers(5);
 
   if (status !== 'authenticated' || !viewer) return null;
 
   return (
     <>
       {/* ── Cabeçalho com perfil logado ─────────────────────── */}
-      <SidebarHeader asChild>
+      <SidebarHeader>
         <Link
           href={`/${viewer.username}/profile`}
           className="hover:bg-surface-alt flex items-center gap-3 rounded-md p-2 transition-colors"
@@ -42,18 +38,14 @@ export function SuggestionsPanel() {
           <Avatar className="h-18 w-18 border">
             <AvatarImage
               src={viewer.avatarUrl || undefined}
-              alt={viewer.name ?? viewer.username}
+              alt={viewer.name || viewer.username || 'Avatar'}
             />
             <AvatarFallback>{viewer.name?.[0]}</AvatarFallback>
           </Avatar>
 
           <div className="flex flex-col truncate">
-            <span className="truncate text-lg font-semibold">
-              {viewer.name}
-            </span>
-            <span className="text-muted-foreground truncate text-sm">
-              @{viewer.username}
-            </span>
+            <span className="truncate text-lg font-semibold">{viewer.name}</span>
+            <span className="text-muted-foreground truncate text-sm">@{viewer.username}</span>
           </div>
         </Link>
       </SidebarHeader>
@@ -64,10 +56,7 @@ export function SuggestionsPanel() {
           <SidebarGroupLabel>Perfis recomendados</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {isLoading &&
-                Array.from({ length: 5 }).map((_, i) => (
-                  <UserRowSkeleton key={i} />
-                ))}
+              {isLoading && Array.from({ length: 5 }).map((_, i) => <UserRowSkeleton key={i} />)}
 
               {isError && (
                 <p className="text-destructive px-2 py-4 text-sm">
@@ -93,23 +82,15 @@ function SuggestionRow({ user }: { user: MinimalUser }) {
   return (
     <SidebarMenuItem>
       <div className="hover:bg-surface-alt flex items-center gap-3 rounded-md p-2 transition-colors">
-        <Link
-          href={`/${user.username}/profile`}
-          className="flex items-center gap-2 truncate"
-        >
+        <Link href={`/${user.username}/profile`} className="flex items-center gap-2 truncate">
           <Avatar className="h-10 w-10 border">
-            <AvatarImage
-              src={user.avatarUrl || undefined}
-              alt={user.name ?? user.username}
-            />
+            <AvatarImage src={user.avatarUrl || undefined} alt={user.name ?? user.username} />
             <AvatarFallback>{user.name?.[0]}</AvatarFallback>
           </Avatar>
 
           <div className="flex flex-col truncate">
             <span className="truncate text-sm font-medium">{user.name}</span>
-            <span className="text-muted-foreground truncate text-xs">
-              @{user.username}
-            </span>
+            <span className="text-muted-foreground truncate text-xs">@{user.username}</span>
           </div>
         </Link>
 

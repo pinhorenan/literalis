@@ -26,6 +26,5 @@ export interface UserProfile {
   isMe: boolean;
 }
 
-
 export type FollowersPage = Paginated<MinimalUser>;
 export type FollowingPage = Paginated<MinimalUser>;

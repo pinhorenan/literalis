@@ -16,14 +16,15 @@ export function EmptyBookshelf({ isOwn, username, hasFilters }: EmptyBookshelfPr
   if (hasFilters) {
     return (
       <Card className="col-span-full">
-        <CardContent className="flex flex-col items-center justify-center py-12 text-center space-y-4">
-          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center">
-            <Search className="w-8 h-8 text-muted-foreground" />
+        <CardContent className="flex flex-col items-center justify-center space-y-4 py-12 text-center">
+          <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
+            <Search className="text-muted-foreground h-8 w-8" />
           </div>
           <div className="space-y-2">
             <h3 className="text-lg font-semibold">Nenhum livro encontrado</h3>
-            <p className="text-muted-foreground text-sm max-w-md">
-              Não encontramos livros que correspondam aos seus filtros. Tente ajustar os critérios de busca.
+            <p className="text-muted-foreground max-w-md text-sm">
+              Não encontramos livros que correspondam aos seus filtros. Tente ajustar os critérios
+              de busca.
             </p>
           </div>
         </CardContent>
@@ -34,34 +35,39 @@ export function EmptyBookshelf({ isOwn, username, hasFilters }: EmptyBookshelfPr
   if (isOwn) {
     return (
       <Card className="col-span-full">
-        <CardContent className="flex flex-col items-center justify-center py-16 text-center space-y-6">
-          <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full flex items-center justify-center">
-            <BookOpen className="w-10 h-10 text-primary" />
+        <CardContent className="flex flex-col items-center justify-center space-y-6 py-16 text-center">
+          <div className="from-primary/20 to-secondary/20 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br">
+            <BookOpen className="text-primary h-10 w-10" />
           </div>
-          <div className="space-y-3 max-w-md">
+          <div className="max-w-md space-y-3">
             <h3 className="text-xl font-semibold">Sua estante está vazia</h3>
             <p className="text-muted-foreground">
-              Comece a adicionar livros para organizar sua biblioteca pessoal e acompanhar seu progresso de leitura.
+              Comece a adicionar livros para organizar sua biblioteca pessoal e acompanhar seu
+              progresso de leitura.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Button asChild className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90">
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button
+              asChild
+              className="from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 bg-gradient-to-r"
+            >
               <Link href="/search">
-                <Search className="w-4 h-4 mr-2" />
+                <Search className="mr-2 h-4 w-4" />
                 Buscar livros
               </Link>
             </Button>
             <Button variant="outline" asChild>
               <Link href="/feed">
-                <BookOpen className="w-4 h-4 mr-2" />
+                <BookOpen className="mr-2 h-4 w-4" />
                 Ver recomendações
               </Link>
             </Button>
           </div>
-          <div className="mt-8 p-4 bg-muted/30 rounded-lg max-w-sm">
-            <h4 className="font-medium mb-2 text-sm">💡 Dica</h4>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Você pode adicionar livros diretamente das estantes de outros usuários ou importar sua lista de leitura.
+          <div className="bg-muted/30 mt-8 max-w-sm rounded-lg p-4">
+            <h4 className="mb-2 text-sm font-medium">💡 Dica</h4>
+            <p className="text-muted-foreground text-xs leading-relaxed">
+              Você pode adicionar livros diretamente das estantes de outros usuários ou importar sua
+              lista de leitura.
             </p>
           </div>
         </CardContent>
@@ -71,25 +77,24 @@ export function EmptyBookshelf({ isOwn, username, hasFilters }: EmptyBookshelfPr
 
   return (
     <Card className="col-span-full">
-      <CardContent className="flex flex-col items-center justify-center py-16 text-center space-y-6">
-        <div className="w-20 h-20 bg-gradient-to-br from-muted to-muted/60 rounded-full flex items-center justify-center">
-          <BookOpen className="w-10 h-10 text-muted-foreground" />
+      <CardContent className="flex flex-col items-center justify-center space-y-6 py-16 text-center">
+        <div className="from-muted to-muted/60 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br">
+          <BookOpen className="text-muted-foreground h-10 w-10" />
         </div>
-        <div className="space-y-3 max-w-md">
+        <div className="max-w-md space-y-3">
           <h3 className="text-xl font-semibold">Estante privada</h3>
           <p className="text-muted-foreground">
-            @{username} ainda não adicionou livros públicos à estante ou preferiu manter a biblioteca privada.
+            @{username} ainda não adicionou livros públicos à estante ou preferiu manter a
+            biblioteca privada.
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <Button variant="outline" asChild>
-            <Link href={`/${username}/profile`}>
-              Ver perfil
-            </Link>
+            <Link href={`/${username}/profile`}>Ver perfil</Link>
           </Button>
           <Button variant="outline" asChild>
             <Link href="/search">
-              <Search className="w-4 h-4 mr-2" />
+              <Search className="mr-2 h-4 w-4" />
               Descobrir livros
             </Link>
           </Button>

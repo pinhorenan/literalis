@@ -31,8 +31,10 @@ export default function ProfileHeader({ username }: { username: string }) {
   if (isProfileError) {
     return (
       <div className="bg-card flex flex-col items-center justify-center rounded-lg p-8 text-center">
-        <h2 className="text-xl font-semibold text-destructive">Erro ao carregar perfil</h2>
-        <p className="text-muted-foreground mt-2">Não foi possível carregar as informações do usuário.</p>
+        <h2 className="text-destructive text-xl font-semibold">Erro ao carregar perfil</h2>
+        <p className="text-muted-foreground mt-2">
+          Não foi possível carregar as informações do usuário.
+        </p>
       </div>
     );
   }
@@ -50,22 +52,22 @@ export default function ProfileHeader({ username }: { username: string }) {
   };
 
   return (
-    <div className="bg-card rounded-lg overflow-hidden shadow-lg animate-in slide-in-from-top-4 duration-700">
+    <div className="bg-card animate-in slide-in-from-top-4 overflow-hidden rounded-lg shadow-lg duration-700">
       {/* Header Cover - Enhanced Gradient Background */}
-      <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-32 md:h-40 relative overflow-hidden">
+      <div className="relative h-32 overflow-hidden bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 md:h-40">
         <div className="absolute inset-0 bg-black/20" />
         {/* Decorative elements */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-4 right-4 w-20 h-20 rounded-full bg-white/20 animate-pulse" />
-          <div className="absolute bottom-2 left-8 w-16 h-16 rounded-full bg-white/10 animate-pulse delay-300" />
-          <div className="absolute top-8 left-1/3 w-12 h-12 rounded-full bg-white/15 animate-pulse delay-700" />
+          <div className="absolute right-4 top-4 h-20 w-20 animate-pulse rounded-full bg-white/20" />
+          <div className="absolute bottom-2 left-8 h-16 w-16 animate-pulse rounded-full bg-white/10 delay-300" />
+          <div className="absolute left-1/3 top-8 h-12 w-12 animate-pulse rounded-full bg-white/15 delay-700" />
         </div>
       </div>
-      
+
       {/* Profile Content */}
       <div className="px-6 pb-6">
         {/* Avatar and Actions */}
-        <div className="flex items-end justify-between -mt-16 mb-4">
+        <div className="-mt-16 mb-4 flex items-end justify-between">
           <div className="relative">
             <div className="bg-background rounded-full p-1">
               <Image
@@ -73,15 +75,15 @@ export default function ProfileHeader({ username }: { username: string }) {
                 alt={`${user.username}'s avatar`}
                 width={120}
                 height={120}
-                className="rounded-full border-4 border-background shadow-lg"
+                className="border-background rounded-full border-4 shadow-lg"
               />
             </div>
           </div>
-          
-          <div className="flex gap-2 mb-4">
+
+          <div className="mb-4 flex gap-2">
             {isMe ? (
               <Button variant="outline" size="sm">
-                <Edit3 className="h-4 w-4 mr-2" />
+                <Edit3 className="mr-2 h-4 w-4" />
                 Editar perfil
               </Button>
             ) : (
@@ -102,29 +104,25 @@ export default function ProfileHeader({ username }: { username: string }) {
             <p className="text-muted-foreground">@{user.username}</p>
           </div>
 
-          {user.bio && (
-            <p className="text-sm leading-relaxed">{user.bio}</p>
-          )}
+          {user.bio && <p className="text-sm leading-relaxed">{user.bio}</p>}
 
           {/* Stats */}
           <div className="flex flex-wrap gap-6 text-sm">
-            <Link 
-              href={`/${username}/bookshelf`} 
-              className="flex items-center gap-1 hover:text-primary transition-colors"
+            <Link
+              href={`/${username}/bookshelf`}
+              className="hover:text-primary flex items-center gap-1 transition-colors"
             >
               <BookOpen className="h-4 w-4" />
-              <span className="font-medium">
-                {isBooksCountLoading ? '...' : booksCount}
-              </span>
+              <span className="font-medium">{isBooksCountLoading ? '...' : booksCount}</span>
               <span className="text-muted-foreground">livros</span>
             </Link>
-            
+
             <div className="flex items-center gap-1">
               <Users className="h-4 w-4" />
               <span className="font-medium">{counts.followers}</span>
               <span className="text-muted-foreground">seguidores</span>
             </div>
-            
+
             <div className="flex items-center gap-1">
               <Users className="h-4 w-4" />
               <span className="font-medium">{counts.following}</span>
@@ -146,15 +144,15 @@ export default function ProfileHeader({ username }: { username: string }) {
 
 function ProfileHeaderSkeleton() {
   return (
-    <div className="bg-card rounded-lg overflow-hidden shadow-lg">
+    <div className="bg-card overflow-hidden rounded-lg shadow-lg">
       {/* Header Cover Skeleton */}
       <Skeleton className="h-32 w-full" />
-      
+
       {/* Profile Content Skeleton */}
       <div className="px-6 pb-6">
-        <div className="flex items-end justify-between -mt-16 mb-4">
+        <div className="-mt-16 mb-4 flex items-end justify-between">
           <Skeleton className="h-32 w-32 rounded-full" />
-          <Skeleton className="h-10 w-32 mb-4" />
+          <Skeleton className="mb-4 h-10 w-32" />
         </div>
 
         <div className="space-y-3">
@@ -162,9 +160,9 @@ function ProfileHeaderSkeleton() {
             <Skeleton className="h-8 w-48" />
             <Skeleton className="h-5 w-32" />
           </div>
-          
+
           <Skeleton className="h-12 w-full" />
-          
+
           <div className="flex gap-6">
             <Skeleton className="h-5 w-24" />
             <Skeleton className="h-5 w-24" />

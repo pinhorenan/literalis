@@ -68,33 +68,33 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   const [cursorStack, setCursorStack] = React.useState<(string | undefined)[]>([undefined]);
   const cursor = cursorStack.at(-1);
 
-  const { data: session } = useSession();
-  if (!session?.user?.id) {
-    router.push('/auth/signin');
-    return null;
-  }
-  
-  const userId = session.user.id;
-  const viewerUsername = session.user.username; 
-
-  // Estados para modais - corrigidos para serem null inicialmente
+  // Estados para modais - definidos antes de qualquer return condicional
   const [editingItem, setEditingItem] = React.useState<ShelfItem | null>(null);
   const [deletingItem, setDeletingItem] = React.useState<ShelfItem | null>(null);
 
-  const filters: ShelfFilters = { 
-    query: debouncedQuery || undefined, 
+  const { data: session } = useSession();
+
+  // Hooks de data fetching
+  const filters: ShelfFilters = {
+    query: debouncedQuery || undefined,
     status: status === 'all' ? undefined : status,
     sortBy: sortBy || undefined,
   };
 
   const { data, isLoading, isError } = useUserShelf(username, cursor, PAGE_SIZE, filters);
-  
-  // Hooks de mutação - só instancia quando necessário
+
+  // Hooks de mutação
   const updateShelfItem = useUpdateShelfItem(username, editingItem?.bookIsbn || 'temp');
   const deleteShelfItem = useDeleteShelfItem(username);
-  
-  // Hook para adicionar livros à minha estante (usado quando não é própria estante)
-  const addToMyShelf = useUpsertShelfItem(viewerUsername || '');
+  const addToMyShelf = useUpsertShelfItem(session?.user?.username || '');
+
+  if (!session?.user?.id) {
+    router.push('/auth/signin');
+    return null;
+  }
+
+  const userId = session.user.id;
+  const viewerUsername = session.user.username;
 
   const pageIndex = cursorStack.length;
   const totalPages = data ? Math.max(1, Math.ceil(data.total / PAGE_SIZE)) : undefined;
@@ -143,13 +143,14 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
 
   const handleConfirmDelete = async () => {
     if (!deletingItem) return;
-    
+
     try {
       await deleteShelfItem.mutateAsync(deletingItem.bookIsbn);
       setDeletingItem(null);
       toast.success('Livro removido da estante');
     } catch (error) {
-      console.error('Erro ao deletar item:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+      console.error('Erro ao deletar item:', errorMessage);
       toast.error('Falha ao remover livro da estante');
     }
   };
@@ -157,7 +158,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   // Função para adicionar livro à minha estante
   const handleAddToMyShelf = async (isbn: string) => {
     if (!viewerUsername) return;
-    
+
     try {
       await addToMyShelf.mutateAsync({
         userId: userId!,
@@ -167,7 +168,8 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
       });
       toast.success('Livro adicionado à sua estante');
     } catch (error) {
-      console.error('Erro ao adicionar livro à estante:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+      console.error('Erro ao adicionar livro à estante:', errorMessage);
       toast.error('Falha ao adicionar livro à estante');
     }
   };
@@ -180,16 +182,13 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
     if (mode === 'cover') {
       return (
         <div className="group relative">
-          <div 
+          <div
             className="cursor-pointer transition-all ease-in-out hover:scale-105 hover:shadow-lg"
             onClick={!isOwn ? () => handleAddToMyShelf(item.bookIsbn) : undefined}
           >
-            <BookCover
-              isbn={item.bookIsbn}
-              className="transition-all ease-in-out"
-            />
+            <BookCover isbn={item.bookIsbn} className="transition-all ease-in-out" />
           </div>
-          
+
           {/* Barra de progresso para modo cover */}
           {item.status === 'READING' && progress > 0 && (
             <div className="absolute bottom-1 left-1 right-1">
@@ -199,7 +198,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
 
           {/* Menu de ações */}
           {isOwn ? (
-            <div className="absolute right-1 top-1 opacity-0 transition-opacity group-hover:opacity-100 hover:scale-105">
+            <div className="absolute right-1 top-1 opacity-0 transition-opacity hover:scale-105 group-hover:opacity-100">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="secondary" size="sm" className="h-6 w-6 p-0">
@@ -211,7 +210,10 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
                     <Edit className="mr-2 h-4 w-4" />
                     Editar progresso
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleDeleteItem(item)} className="text-destructive">
+                  <DropdownMenuItem
+                    onClick={() => handleDeleteItem(item)}
+                    className="text-destructive"
+                  >
                     <Trash2 className="mr-2 h-4 w-4" />
                     Remover da estante
                   </DropdownMenuItem>
@@ -241,38 +243,40 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
 
     if (mode === 'compact') {
       return (
-        <div 
+        <div
           className={clsx(
-            "flex gap-3 p-2 rounded-lg transition-colors",
-            isOwn ? "hover:bg-muted/30" : "hover:bg-muted/30 cursor-pointer"
+            'flex gap-3 rounded-lg p-2 transition-colors',
+            isOwn ? 'hover:bg-muted/30' : 'hover:bg-muted/30 cursor-pointer',
           )}
           onClick={!isOwn ? () => handleAddToMyShelf(item.bookIsbn) : undefined}
         >
           <BookCover isbn={item.bookIsbn} width={48} height={72} />
           <div className="flex-1 space-y-1">
-            <h4 className="font-medium text-sm line-clamp-1">{book?.title}</h4>
-            <p className="text-xs text-muted-foreground line-clamp-1">{book?.authors?.[0]?.name}</p>
-            
+            <h4 className="line-clamp-1 text-sm font-medium">{book?.title}</h4>
+            <p className="text-muted-foreground line-clamp-1 text-xs">{book?.authors?.[0]?.name}</p>
+
             {/* Status e progresso */}
             <div className="space-y-1">
               <p className="text-xs capitalize">
-                {item.status === 'TO_READ' ? 'Para ler' : 
-                 item.status === 'READING' ? 'Lendo' :
-                 item.status === 'READ' ? 'Lido' : 'Abandonado'}
+                {item.status === 'TO_READ'
+                  ? 'Para ler'
+                  : item.status === 'READING'
+                    ? 'Lendo'
+                    : item.status === 'READ'
+                      ? 'Lido'
+                      : 'Abandonado'}
               </p>
-              
+
               {item.status === 'READING' && book?.totalPages && (
                 <div className="space-y-1">
                   <Progress value={progress} className="h-1.5" />
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     {item.currentPage || 0} / {book.totalPages} páginas ({Math.round(progress)}%)
                   </p>
                 </div>
               )}
-              
-              {item.rating && (
-                <p className="text-xs">★ {item.rating}/5</p>
-              )}
+
+              {item.rating && <p className="text-xs">★ {item.rating}/5</p>}
             </div>
           </div>
 
@@ -290,7 +294,10 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
                     <Edit className="mr-2 h-4 w-4" />
                     Editar progresso
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleDeleteItem(item)} className="text-destructive">
+                  <DropdownMenuItem
+                    onClick={() => handleDeleteItem(item)}
+                    className="text-destructive"
+                  >
                     <Trash2 className="mr-2 h-4 w-4" />
                     Remover da estante
                   </DropdownMenuItem>
@@ -322,102 +329,103 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   };
 
   /* ---------------------------- UI ------------------------------------ */
-  if (isLoading) return (
-    <main className="m-4 flex flex-col gap-6">
-      {/* ---------- toolbar de busca / filtros / modo ---------- */}
-      <div className="bg-card flex flex-wrap items-center gap-4 rounded-lg p-4">
-        {/* pesquisa */}
-        <Input
-          placeholder="Buscar título ou autor…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full sm:max-w-xs"
-        />
+  if (isLoading)
+    return (
+      <main className="m-4 flex flex-col gap-6">
+        {/* ---------- toolbar de busca / filtros / modo ---------- */}
+        <div className="bg-card flex flex-wrap items-center gap-4 rounded-lg p-4">
+          {/* pesquisa */}
+          <Input
+            placeholder="Buscar título ou autor…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full sm:max-w-xs"
+          />
 
-        {/* status */}
-        <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todos</SelectItem>
-            <SelectItem value="TO_READ">Para ler</SelectItem>
-            <SelectItem value="READING">Lendo</SelectItem>
-            <SelectItem value="READ">Lidos</SelectItem>
-            <SelectItem value="ABANDONED">Abandonados</SelectItem>
-          </SelectContent>
-        </Select>
+          {/* status */}
+          <Select value={status} onValueChange={setStatus}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos</SelectItem>
+              <SelectItem value="TO_READ">Para ler</SelectItem>
+              <SelectItem value="READING">Lendo</SelectItem>
+              <SelectItem value="READ">Lidos</SelectItem>
+              <SelectItem value="ABANDONED">Abandonados</SelectItem>
+            </SelectContent>
+          </Select>
 
-        {/* ordenação */}
-        <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="w-44">
-            <SelectValue placeholder="Ordenar por" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="addedAt">Data de adição</SelectItem>
-            <SelectItem value="title">Título</SelectItem>
-            <SelectItem value="author">Autor</SelectItem>
-            <SelectItem value="rating">Avaliação</SelectItem>
-            <SelectItem value="progress">Progresso</SelectItem>
-          </SelectContent>
-        </Select>
+          {/* ordenação */}
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-44">
+              <SelectValue placeholder="Ordenar por" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="addedAt">Data de adição</SelectItem>
+              <SelectItem value="title">Título</SelectItem>
+              <SelectItem value="author">Autor</SelectItem>
+              <SelectItem value="rating">Avaliação</SelectItem>
+              <SelectItem value="progress">Progresso</SelectItem>
+            </SelectContent>
+          </Select>
 
-        {/* modo de exibição */}
-        <ToggleGroup
-          type="single"
-          value={mode}
-          onValueChange={(v) => v && setMode(v as ViewMode)}
-          className="ml-auto border"
-        >
-          <ToggleGroupItem value="compact" aria-label="Modo compacto">
-            <Grid3x3 className="h-4 w-4" />
-          </ToggleGroupItem>
-          <ToggleGroupItem value="cover" aria-label="Somente capas">
-            <ImageIcon className="h-4 w-4" />
-          </ToggleGroupItem>
-        </ToggleGroup>
-      </div>
-
-      {/* ---------------- grade/lista de livros (skeleton) ---------------- */}
-      <div
-        className={clsx(
-          mode === 'compact' &&
-            'bg-card grid grid-cols-2 gap-4 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
-          mode === 'cover' &&
-            'bg-card grid grid-cols-2 gap-3 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7',
-        )}
-      >
-        {Array.from({ length: 12 }).map((_, index) => (
-          <div key={index}>
-            {mode === 'cover' && (
-              <div className="group cursor-pointer">
-                <div className="aspect-[2/3] animate-pulse rounded-md bg-muted shadow-sm transition-all duration-200" />
-              </div>
-            )}
-            {mode === 'compact' && (
-              <div className="flex gap-3 p-2 rounded-lg hover:bg-muted/30 transition-colors">
-                <div className="h-16 w-12 flex-shrink-0 animate-pulse rounded bg-muted shadow-sm" />
-                <div className="flex-1 space-y-2 py-1">
-                  <div className="h-4 animate-pulse rounded bg-muted" />
-                  <div className="h-3 w-3/4 animate-pulse rounded bg-muted/70" />
-                  <div className="h-3 w-1/2 animate-pulse rounded bg-muted/50" />
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* skeleton da paginação */}
-      <div className="flex justify-center">
-        <div className="flex items-center space-x-2">
-          <div className="h-10 w-20 animate-pulse rounded bg-muted" />
-          <div className="h-10 w-16 animate-pulse rounded bg-muted" />
-          <div className="h-10 w-20 animate-pulse rounded bg-muted" />
+          {/* modo de exibição */}
+          <ToggleGroup
+            type="single"
+            value={mode}
+            onValueChange={(v) => v && setMode(v as ViewMode)}
+            className="ml-auto border"
+          >
+            <ToggleGroupItem value="compact" aria-label="Modo compacto">
+              <Grid3x3 className="h-4 w-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="cover" aria-label="Somente capas">
+              <ImageIcon className="h-4 w-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
-      </div>
-    </main>
-  );
+
+        {/* ---------------- grade/lista de livros (skeleton) ---------------- */}
+        <div
+          className={clsx(
+            mode === 'compact' &&
+              'bg-card grid grid-cols-2 gap-4 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
+            mode === 'cover' &&
+              'bg-card grid grid-cols-2 gap-3 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7',
+          )}
+        >
+          {Array.from({ length: 12 }).map((_, index) => (
+            <div key={index}>
+              {mode === 'cover' && (
+                <div className="group cursor-pointer">
+                  <div className="bg-muted aspect-[2/3] animate-pulse rounded-md shadow-sm transition-all duration-200" />
+                </div>
+              )}
+              {mode === 'compact' && (
+                <div className="hover:bg-muted/30 flex gap-3 rounded-lg p-2 transition-colors">
+                  <div className="bg-muted h-16 w-12 flex-shrink-0 animate-pulse rounded shadow-sm" />
+                  <div className="flex-1 space-y-2 py-1">
+                    <div className="bg-muted h-4 animate-pulse rounded" />
+                    <div className="bg-muted/70 h-3 w-3/4 animate-pulse rounded" />
+                    <div className="bg-muted/50 h-3 w-1/2 animate-pulse rounded" />
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* skeleton da paginação */}
+        <div className="flex justify-center">
+          <div className="flex items-center space-x-2">
+            <div className="bg-muted h-10 w-20 animate-pulse rounded" />
+            <div className="bg-muted h-10 w-16 animate-pulse rounded" />
+            <div className="bg-muted h-10 w-20 animate-pulse rounded" />
+          </div>
+        </div>
+      </main>
+    );
 
   if (isError || !data) return <p>Erro ao carregar estante.</p>;
 
@@ -581,16 +589,17 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
           <DialogHeader>
             <DialogTitle>Remover da estante</DialogTitle>
             <DialogDescription>
-              Tem certeza de que deseja remover este livro da sua estante? Esta ação não pode ser desfeita.
+              Tem certeza de que deseja remover este livro da sua estante? Esta ação não pode ser
+              desfeita.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => setDeletingItem(null)}>
               Cancelar
             </Button>
-            <Button 
-              type="button" 
-              variant="destructive" 
+            <Button
+              type="button"
+              variant="destructive"
               onClick={handleConfirmDelete}
               disabled={deleteShelfItem.isPending}
             >

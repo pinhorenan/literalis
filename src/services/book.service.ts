@@ -14,7 +14,7 @@ export async function getBookByIsbn(isbn: string): Promise<Book | null> {
 
 export async function searchBookByTitle(title: string, limit = 20): Promise<MinimalBook[]> {
   const rows = await prisma.book.findMany({
-    where: { title: { contains: title, mode: 'insensitive' } },
+    where: { title: { contains: title } },
     select: MINIMAL_BOOK_SELECT,
     take: limit,
   });

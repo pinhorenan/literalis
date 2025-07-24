@@ -29,7 +29,7 @@ export function FollowButton({
 }: FollowButtonProps) {
   const { data: session } = useSession();
   const viewerUsername = session?.user?.username;
-  
+
   const { data: profile, isLoading: profileLoading } = useUserProfile(username);
   const toggleFollow = useToggleFollow(username);
 
@@ -58,7 +58,7 @@ export function FollowButton({
 
   const handleToggleFollow = async () => {
     const wasFollowing = isFollowing;
-    
+
     try {
       await toggleFollow.mutateAsync();
       onToggle?.(wasFollowing, username);
@@ -88,7 +88,7 @@ export function FollowButton({
         'transition-colors duration-200',
         fullWidth && 'w-full',
         isFollowing && 'border-primary text-primary hover:bg-primary hover:text-primary-foreground',
-        className
+        className,
       )}
     >
       {showIcon && getButtonIcon()}

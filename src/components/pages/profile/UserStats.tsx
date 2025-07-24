@@ -28,49 +28,51 @@ export function UserStats({ username }: UserStatsProps) {
       value: booksCount?.books ?? 0,
       icon: BookOpen,
       description: 'Na estante',
-      color: 'text-blue-600'
+      color: 'text-blue-600',
     },
     {
       title: 'Seguidores',
       value: profile.counts.followers,
       icon: Users,
       description: 'Te seguem',
-      color: 'text-green-600'
+      color: 'text-green-600',
     },
     {
       title: 'Seguindo',
       value: profile.counts.following,
       icon: TrendingUp,
       description: 'Você segue',
-      color: 'text-purple-600'
+      color: 'text-purple-600',
     },
     {
       title: 'Posts',
       value: profile.counts.posts ?? 0,
       icon: Heart,
       description: 'Publicados',
-      color: 'text-pink-600'
-    }
+      color: 'text-pink-600',
+    },
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-in slide-in-from-bottom-4 duration-700 delay-200">
+    <div className="animate-in slide-in-from-bottom-4 grid grid-cols-2 gap-4 delay-200 duration-700 md:grid-cols-4">
       {stats.map((stat, index) => {
         const Icon = stat.icon;
         return (
-          <Card 
-            key={stat.title} 
-            className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border/50"
+          <Card
+            key={stat.title}
+            className="border-border/50 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <CardHeader className="pb-2">
-              <div className={`mx-auto p-2 rounded-full bg-muted ${stat.color} transition-transform duration-300 hover:scale-110`}>
+              <div
+                className={`bg-muted mx-auto rounded-full p-2 ${stat.color} transition-transform duration-300 hover:scale-110`}
+              >
                 <Icon className="h-4 w-4" />
               </div>
             </CardHeader>
             <CardContent className="pb-4">
               <div className="text-2xl font-bold">{stat.value.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground font-medium">{stat.description}</div>
+              <div className="text-muted-foreground text-sm font-medium">{stat.description}</div>
             </CardContent>
           </Card>
         );
@@ -81,15 +83,15 @@ export function UserStats({ username }: UserStatsProps) {
 
 function UserStatsSkeleton() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
       {Array.from({ length: 4 }).map((_, i) => (
         <Card key={i} className="text-center">
           <CardHeader className="pb-2">
-            <Skeleton className="h-8 w-8 rounded-full mx-auto" />
+            <Skeleton className="mx-auto h-8 w-8 rounded-full" />
           </CardHeader>
           <CardContent className="pb-4">
-            <Skeleton className="h-8 w-16 mx-auto mb-2" />
-            <Skeleton className="h-4 w-20 mx-auto" />
+            <Skeleton className="mx-auto mb-2 h-8 w-16" />
+            <Skeleton className="mx-auto h-4 w-20" />
           </CardContent>
         </Card>
       ))}

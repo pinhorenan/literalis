@@ -81,7 +81,7 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 flex items-center justify-center p-4">
+    <div className="from-primary/5 via-background to-secondary/5 flex min-h-screen items-center justify-center bg-gradient-to-br p-4">
       <div className="w-full max-w-4xl">
         {/* Progress Steps */}
         <div className="mb-8">
@@ -89,31 +89,30 @@ export default function OnboardingPage() {
             {steps.map((step, index) => (
               <div key={step.number} className="flex items-center">
                 <div className="flex flex-col items-center space-y-2">
-                  <div className={`
-                    w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-300
-                    ${currentStep >= step.number 
-                      ? 'bg-primary border-primary text-primary-foreground' 
-                      : 'border-muted-foreground/30 text-muted-foreground'
-                    }
-                  `}>
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                      currentStep >= step.number
+                        ? 'bg-primary border-primary text-primary-foreground'
+                        : 'border-muted-foreground/30 text-muted-foreground'
+                    } `}
+                  >
                     {currentStep > step.number ? (
-                      <Check className="w-6 h-6" />
+                      <Check className="h-6 w-6" />
                     ) : (
-                      <step.icon className="w-6 h-6" />
+                      <step.icon className="h-6 w-6" />
                     )}
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-medium">{step.title}</p>
-                    <p className="text-xs text-muted-foreground hidden sm:block">
+                    <p className="text-muted-foreground hidden text-xs sm:block">
                       {step.description}
                     </p>
                   </div>
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`
-                    w-16 h-0.5 mx-4 transition-colors duration-300
-                    ${currentStep > step.number ? 'bg-primary' : 'bg-muted-foreground/30'}
-                  `} />
+                  <div
+                    className={`mx-4 h-0.5 w-16 transition-colors duration-300 ${currentStep > step.number ? 'bg-primary' : 'bg-muted-foreground/30'} `}
+                  />
                 )}
               </div>
             ))}
@@ -122,28 +121,22 @@ export default function OnboardingPage() {
 
         {/* Main Content */}
         <form onSubmit={handleSubmit}>
-          <Card className="shadow-xl border-border/50">
-            <CardHeader className="text-center pb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="w-8 h-8 text-white" />
+          <Card className="border-border/50 shadow-xl">
+            <CardHeader className="pb-6 text-center">
+              <div className="from-primary to-secondary mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br">
+                <BookOpen className="h-8 w-8 text-white" />
               </div>
-              <CardTitle className="text-2xl">
-                {steps[currentStep - 1].title}
-              </CardTitle>
-              <p className="text-muted-foreground">
-                {steps[currentStep - 1].description}
-              </p>
+              <CardTitle className="text-2xl">{steps[currentStep - 1].title}</CardTitle>
+              <p className="text-muted-foreground">{steps[currentStep - 1].description}</p>
             </CardHeader>
 
             <CardContent className="space-y-6">
               {/* Step 1: Profile */}
               {currentStep === 1 && (
-                <div className="space-y-6 animate-in slide-in-from-right duration-500">
-                  <div className="space-y-4 max-w-md mx-auto">
+                <div className="animate-in slide-in-from-right space-y-6 duration-500">
+                  <div className="mx-auto max-w-md space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">
-                        Nome de usuário *
-                      </label>
+                      <label className="mb-2 block text-sm font-medium">Nome de usuário *</label>
                       <Input
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -151,13 +144,13 @@ export default function OnboardingPage() {
                         className="text-center"
                         required
                       />
-                      <p className="text-xs text-muted-foreground mt-1 text-center">
+                      <p className="text-muted-foreground mt-1 text-center text-xs">
                         Use apenas letras, números e "_". Mínimo 3 caracteres.
                       </p>
                     </div>
-                    
+
                     <div>
-                      <label className="block text-sm font-medium mb-2">
+                      <label className="mb-2 block text-sm font-medium">
                         Nome de exibição (opcional)
                       </label>
                       <Input
@@ -166,7 +159,7 @@ export default function OnboardingPage() {
                         placeholder="ex: Fiódor Dostoiévski"
                         className="text-center"
                       />
-                      <p className="text-xs text-muted-foreground mt-1 text-center">
+                      <p className="text-muted-foreground mt-1 text-center text-xs">
                         Como você gostaria de aparecer para outros usuários.
                       </p>
                     </div>
@@ -177,10 +170,7 @@ export default function OnboardingPage() {
               {/* Step 2: Books */}
               {currentStep === 2 && (
                 <div className="animate-in slide-in-from-right duration-500">
-                  <PopularBooks
-                    selectedBooks={selectedBooks}
-                    onBooksSelected={setSelectedBooks}
-                  />
+                  <PopularBooks selectedBooks={selectedBooks} onBooksSelected={setSelectedBooks} />
                 </div>
               )}
 
@@ -197,14 +187,14 @@ export default function OnboardingPage() {
               {/* Error Message */}
               {state.error && (
                 <div className="text-center">
-                  <p className="text-destructive text-sm bg-destructive/10 px-4 py-2 rounded-lg">
+                  <p className="text-destructive bg-destructive/10 rounded-lg px-4 py-2 text-sm">
                     {state.error}
                   </p>
                 </div>
               )}
 
               {/* Navigation */}
-              <div className="flex justify-between items-center pt-6">
+              <div className="flex items-center justify-between pt-6">
                 <Button
                   type="button"
                   variant="outline"
@@ -212,12 +202,12 @@ export default function OnboardingPage() {
                   disabled={currentStep === 1}
                   className="flex items-center gap-2"
                 >
-                  <ArrowLeft className="w-4 h-4" />
+                  <ArrowLeft className="h-4 w-4" />
                   Anterior
                 </Button>
 
                 <div className="text-center">
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-muted-foreground text-sm">
                     {currentStep} de {steps.length}
                   </p>
                 </div>
@@ -230,14 +220,14 @@ export default function OnboardingPage() {
                     className="flex items-center gap-2"
                   >
                     Próximo
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="h-4 w-4" />
                   </Button>
                 ) : (
                   <Button
                     type="submit"
-                    className="flex items-center gap-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+                    className="from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 flex items-center gap-2 bg-gradient-to-r"
                   >
-                    <Check className="w-4 h-4" />
+                    <Check className="h-4 w-4" />
                     Finalizar
                   </Button>
                 )}
@@ -248,7 +238,7 @@ export default function OnboardingPage() {
 
         {/* Skip Option */}
         {currentStep > 1 && (
-          <div className="text-center mt-4">
+          <div className="mt-4 text-center">
             <Button
               variant="ghost"
               size="sm"

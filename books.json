@@ -2,19 +2,13 @@
   {
     "title": "Dom Casmurro",
     "isbn13": "9788582850350",
-    "authors": [
-      "Joaquim Maria Machado de Assis"
-    ],
+    "authors": ["Joaquim Maria Machado de Assis"],
     "pages": 400,
     "language": "Portuguese",
     "publicationYear": 2016,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/dom-casmurro.jpg",
-    "genres": [
-      "Romance",
-      "Realismo brasileiro",
-      "Ficção psicológica"
-    ],
+    "genres": ["Romance", "Realismo brasileiro", "Ficção psicológica"],
     "comments": [
       "Machado de Assis nos brinda com uma narrativa sutil sobre ciúme e traição. A dúvida que permeia Bento e Capitu torna a leitura fascinante e cheia de ambiguidades.",
       "Um clássico indispensável da literatura brasileira – li e recomendo a todos!",
@@ -26,19 +20,13 @@
   {
     "title": "Memórias Póstumas de Brás Cubas",
     "isbn13": "9788582850015",
-    "authors": [
-      "Joaquim Maria Machado de Assis"
-    ],
+    "authors": ["Joaquim Maria Machado de Assis"],
     "pages": 368,
     "language": "Portuguese",
     "publicationYear": 2014,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/memorias-postumas-de-bras-cubas.jpg",
-    "genres": [
-      "Romance",
-      "Realismo fantástico",
-      "Sátira"
-    ],
+    "genres": ["Romance", "Realismo fantástico", "Sátira"],
     "comments": [
       "Narrado pelo defunto Brás Cubas, este livro é inovador e divertido em sua ironia fina.",
       "Machado de Assis faz críticas sociais brilhantes através do humor e pessimismo do narrador defunto.",
@@ -50,19 +38,13 @@
   {
     "title": "O Ateneu",
     "isbn13": "9788563560629",
-    "authors": [
-      "Raul Pompeia"
-    ],
+    "authors": ["Raul Pompeia"],
     "pages": 312,
     "language": "Portuguese",
     "publicationYear": 2013,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/o-ateneu.jpg",
-    "genres": [
-      "Romance",
-      "Literatura brasileira",
-      "Bildungsroman"
-    ],
+    "genres": ["Romance", "Literatura brasileira", "Bildungsroman"],
     "comments": [
       "Retrato memorável da vida escolar e dos jogos de poder num internato do século XIX. Denso e poético.",
       "Raul Pompeia descreve de forma brilhante a atmosfera opressiva do internato e a formação moral do protagonista Sérgio.",
@@ -74,19 +56,13 @@
   {
     "title": "Orgulho e Preconceito",
     "isbn13": "9788563560155",
-    "authors": [
-      "Jane Austen"
-    ],
+    "authors": ["Jane Austen"],
     "pages": 576,
     "language": "Portuguese",
     "publicationYear": 2011,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/orgulho-e-preconceito.jpg",
-    "genres": [
-      "Romance de costumes",
-      "Literatura inglesa",
-      "Romance"
-    ],
+    "genres": ["Romance de costumes", "Literatura inglesa", "Romance"],
     "comments": [
       "Um dos meus romances favoritos! Elizabeth Bennet e Sr. Darcy são personagens inesquecíveis.",
       "Jane Austen satiriza com elegância a sociedade de sua época – diálogos afiados e muito charme.",
@@ -98,19 +74,13 @@
   {
     "title": "Razão e Sensibilidade",
     "isbn13": "9786555520712",
-    "authors": [
-      "Jane Austen"
-    ],
+    "authors": ["Jane Austen"],
     "pages": 496,
     "language": "Portuguese",
     "publicationYear": 2020,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/razao-e-sensibilidade.jpg",
-    "genres": [
-      "Romance de costumes",
-      "Literatura inglesa",
-      "Romance"
-    ],
+    "genres": ["Romance de costumes", "Literatura inglesa", "Romance"],
     "comments": [
       "As irmãs Elinor e Marianne representam perfeitamente o conflito entre a razão e a emoção. Adorei acompanhar suas jornadas!",
       "Romance clássico que nos envolve nos dramas familiares e amorosos com muita delicadeza.",
@@ -122,19 +92,13 @@
   {
     "title": "Jane Eyre",
     "isbn13": "9786555524406",
-    "authors": [
-      "Charlotte Brontë"
-    ],
+    "authors": ["Charlotte Brontë"],
     "pages": 576,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/jane-eyre.jpg",
-    "genres": [
-      "Romance gótico",
-      "Literatura inglesa",
-      "Ficção vitoriana"
-    ],
+    "genres": ["Romance gótico", "Literatura inglesa", "Ficção vitoriana"],
     "comments": [
       "Uma heroína forte e independente – Jane Eyre conquistou meu respeito e admiração.",
       "A atmosfera gótica e misteriosa de Thornfield Hall me prendeu completamente.",
@@ -146,19 +110,13 @@
   {
     "title": "O Morro dos Ventos Uivantes",
     "isbn13": "9788594318237",
-    "authors": [
-      "Emily Brontë"
-    ],
+    "authors": ["Emily Brontë"],
     "pages": 368,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-morro-dos-ventos-uivantes.jpg",
-    "genres": [
-      "Romance gótico",
-      "Literatura inglesa",
-      "Drama romântico"
-    ],
+    "genres": ["Romance gótico", "Literatura inglesa", "Drama romântico"],
     "comments": [
       "Um romance intenso e sombrio. Heathcliff e Catherine formam um casal trágico que não dá para esquecer.",
       "A escrita de Emily Brontë é poética e a ambientação nos ermos de Yorkshire é envolvente.",
@@ -170,19 +128,13 @@
   {
     "title": "Grandes Esperanças",
     "isbn13": "9788563560476",
-    "authors": [
-      "Charles Dickens"
-    ],
+    "authors": ["Charles Dickens"],
     "pages": 702,
     "language": "Portuguese",
     "publicationYear": 2012,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/grandes-esperancas.jpg",
-    "genres": [
-      "Romance",
-      "Literatura inglesa",
-      "Bildungsroman"
-    ],
+    "genres": ["Romance", "Literatura inglesa", "Bildungsroman"],
     "comments": [
       "Dickens nos guia pelo crescimento de Pip, com suas ambições e desilusões – tocante e brilhantemente escrito.",
       "Adorei a forma como a trama se desenrola e como os destinos dos personagens se cruzam inesperadamente.",
@@ -194,18 +146,13 @@
   {
     "title": "Um Conto de Duas Cidades",
     "isbn13": "9786550970383",
-    "authors": [
-      "Charles Dickens"
-    ],
+    "authors": ["Charles Dickens"],
     "pages": 400,
     "language": "Portuguese",
     "publicationYear": 2022,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/um-conto-de-duas-cidades.jpg",
-    "genres": [
-      "Romance histórico",
-      "Literatura inglesa"
-    ],
+    "genres": ["Romance histórico", "Literatura inglesa"],
     "comments": [
       "Uma história emocionante ambientada na Revolução Francesa – o início é um dos mais famosos da literatura!",
       "Dickens cria paralelos fantásticos entre Londres e Paris. Os sacrifícios finais me fizeram chorar.",
@@ -217,19 +164,13 @@
   {
     "title": "Moby Dick, ou A Baleia",
     "isbn13": "9788573267389",
-    "authors": [
-      "Herman Melville"
-    ],
+    "authors": ["Herman Melville"],
     "pages": 648,
     "language": "Portuguese",
     "publicationYear": 2019,
     "publisher": "Editora 34",
     "coverUrl": "/uploads/covers/moby-dick-ou-a-baleia.jpg",
-    "genres": [
-      "Aventura",
-      "Literatura americana",
-      "Romance marítimo"
-    ],
+    "genres": ["Aventura", "Literatura americana", "Romance marítimo"],
     "comments": [
       "Um épico do mar – a perseguição obsessiva à grande baleia branca é simplesmente hipnotizante.",
       "Admito que alguns capítulos técnicos são desafiadores, mas o simbolismo e a aventura compensam demais.",
@@ -241,18 +182,13 @@
   {
     "title": "As Aventuras de Huckleberry Finn",
     "isbn13": "9788594318749",
-    "authors": [
-      "Mark Twain"
-    ],
+    "authors": ["Mark Twain"],
     "pages": 304,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/as-aventuras-de-huckleberry-finn.jpg",
-    "genres": [
-      "Aventura",
-      "Literatura americana"
-    ],
+    "genres": ["Aventura", "Literatura americana"],
     "comments": [
       "Um livro divertido e aventuroso – Huck Finn é um protagonista cativante com sua visão inocente do mundo.",
       "Mark Twain aborda temas sérios como escravidão e liberdade com humor e sensibilidade. Excelente leitura.",
@@ -264,19 +200,13 @@
   {
     "title": "Mulherzinhas",
     "isbn13": "9786550970000",
-    "authors": [
-      "Louisa May Alcott"
-    ],
+    "authors": ["Louisa May Alcott"],
     "pages": 352,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/mulherzinhas.jpg",
-    "genres": [
-      "Romance",
-      "Literatura americana",
-      "Juvenil"
-    ],
+    "genres": ["Romance", "Literatura americana", "Juvenil"],
     "comments": [
       "Acompanhar as irmãs March em seus desafios cotidianos é inspirador e emocionante.",
       "Um livro doce e moral, que mostra valores familiares e crescimento pessoal de forma linda.",
@@ -288,19 +218,13 @@
   {
     "title": "Frankenstein",
     "isbn13": "9788594318114",
-    "authors": [
-      "Mary Shelley"
-    ],
+    "authors": ["Mary Shelley"],
     "pages": 208,
     "language": "Portuguese",
     "publicationYear": 2018,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/frankenstein.jpg",
-    "genres": [
-      "Horror",
-      "Ficção gótica",
-      "Ficção científica"
-    ],
+    "genres": ["Horror", "Ficção gótica", "Ficção científica"],
     "comments": [
       "Um clássico que levanta questões profundas sobre criação e responsabilidade. O monstro provoca tanta pena quanto medo.",
       "Mary Shelley escreveu uma história à frente de seu tempo. É sombrio e filosófico ao mesmo tempo.",
@@ -312,18 +236,13 @@
   {
     "title": "Drácula",
     "isbn13": "9788525408418",
-    "authors": [
-      "Bram Stoker"
-    ],
+    "authors": ["Bram Stoker"],
     "pages": 587,
     "language": "Portuguese",
     "publicationYear": 2002,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/dracula.jpg",
-    "genres": [
-      "Horror",
-      "Romance gótico"
-    ],
+    "genres": ["Horror", "Romance gótico"],
     "comments": [
       "Um livro que mesmo mais de um século depois ainda arrepia. A atmosfera sombria da Transilvânia é perfeita.",
       "Gostei dos diários e cartas formando a narrativa – deixou tudo mais misterioso e imersivo.",
@@ -335,19 +254,13 @@
   {
     "title": "O Retrato de Dorian Gray",
     "isbn13": "9788525411259",
-    "authors": [
-      "Oscar Wilde"
-    ],
+    "authors": ["Oscar Wilde"],
     "pages": 240,
     "language": "Portuguese",
     "publicationYear": 2001,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/o-retrato-de-dorian-gray.jpg",
-    "genres": [
-      "Ficção gótica",
-      "Filosofia",
-      "Literatura irlandesa"
-    ],
+    "genres": ["Ficção gótica", "Filosofia", "Literatura irlandesa"],
     "comments": [
       "Uma trama fascinante sobre beleza e decadência moral. Oscar Wilde escreve de forma elegante e afiada.",
       "A ideia do retrato que envelhece no lugar de Dorian é genial e perturbadora ao mesmo tempo.",
@@ -359,18 +272,13 @@
   {
     "title": "Crime e Castigo",
     "isbn13": "9788588808836",
-    "authors": [
-      "Fiódor Dostoiévski"
-    ],
+    "authors": ["Fiódor Dostoiévski"],
     "pages": 608,
     "language": "Portuguese",
     "publicationYear": 2019,
     "publisher": "Editora Todavia",
     "coverUrl": "/uploads/covers/crime-e-castigo.jpg",
-    "genres": [
-      "Romance psicológico",
-      "Literatura russa"
-    ],
+    "genres": ["Romance psicológico", "Literatura russa"],
     "comments": [
       "Intenso e profundo. Acompanhar a tortura psicológica de Raskólnikov após o crime foi angustiante e fascinante.",
       "Dostoiévski explora a culpa e a redenção como ninguém. Livro denso, porém recompensador.",
@@ -382,19 +290,13 @@
   {
     "title": "Os Irmãos Karamázov",
     "isbn13": "9788573264098",
-    "authors": [
-      "Fiódor Dostoiévski"
-    ],
+    "authors": ["Fiódor Dostoiévski"],
     "pages": 1040,
     "language": "Portuguese",
     "publicationYear": 2012,
     "publisher": "Editora 34",
     "coverUrl": "/uploads/covers/os-irmaos-karamazov.jpg",
-    "genres": [
-      "Romance filosófico",
-      "Literatura russa",
-      "Drama familiar"
-    ],
+    "genres": ["Romance filosófico", "Literatura russa", "Drama familiar"],
     "comments": [
       "Obra colossal – envolve crime, fé, dúvida e os conflitos de uma família disfuncional. Profundo e genial.",
       "A relação entre os irmãos e o pai é retratada com um realismo impressionante. Li devagar para absorver tudo.",
@@ -406,19 +308,13 @@
   {
     "title": "Guerra e Paz",
     "isbn13": "9788535930047",
-    "authors": [
-      "Liev Tolstói"
-    ],
+    "authors": ["Liev Tolstói"],
     "pages": 1504,
     "language": "Portuguese",
     "publicationYear": 2017,
     "publisher": "Companhia das Letras",
     "coverUrl": "/uploads/covers/guerra-e-paz.jpg",
-    "genres": [
-      "Romance histórico",
-      "Literatura russa",
-      "Épico"
-    ],
+    "genres": ["Romance histórico", "Literatura russa", "Épico"],
     "comments": [
       "Um panorama grandioso das guerras napoleônicas – personagens cativantes e profundas reflexões sobre a vida.",
       "Tolstói alterna cenas de batalha épicas com momentos íntimos da família Rostóv e Bolkónski. É imersivo e magnífico.",
@@ -430,18 +326,13 @@
   {
     "title": "Anna Kariênina",
     "isbn13": "9788535929225",
-    "authors": [
-      "Liev Tolstói"
-    ],
+    "authors": ["Liev Tolstói"],
     "pages": 808,
     "language": "Portuguese",
     "publicationYear": 2017,
     "publisher": "Companhia das Letras",
     "coverUrl": "/uploads/covers/anna-karienina.jpg",
-    "genres": [
-      "Romance realista",
-      "Literatura russa"
-    ],
+    "genres": ["Romance realista", "Literatura russa"],
     "comments": [
       "Um romance trágico e envolvente. Anna é uma personagem complexa e sua história me comoveu profundamente.",
       "Tolstói tece diversas tramas – não é só Anna e Vronski, mas também a jornada de Liévin buscando sentido na vida.",
@@ -453,19 +344,13 @@
   {
     "title": "Os Miseráveis",
     "isbn13": "9788582850480",
-    "authors": [
-      "Victor Hugo"
-    ],
+    "authors": ["Victor Hugo"],
     "pages": 1500,
     "language": "Portuguese",
     "publicationYear": 2016,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/os-miseraveis.jpg",
-    "genres": [
-      "Romance histórico",
-      "Literatura francesa",
-      "Drama social"
-    ],
+    "genres": ["Romance histórico", "Literatura francesa", "Drama social"],
     "comments": [
       "Obra monumental sobre justiça, redenção e amor ao próximo. Jean Valjean é um personagem inspirador.",
       "Victor Hugo detalha Paris e a condição humana de forma magistral – chorei em várias partes.",
@@ -477,19 +362,13 @@
   {
     "title": "O Corcunda de Notre-Dame",
     "isbn13": "9788537813584",
-    "authors": [
-      "Victor Hugo"
-    ],
+    "authors": ["Victor Hugo"],
     "pages": 624,
     "language": "Portuguese",
     "publicationYear": 2015,
     "publisher": "Zahar",
     "coverUrl": "/uploads/covers/o-corcunda-de-notre-dame.jpg",
-    "genres": [
-      "Romance histórico",
-      "Literatura francesa",
-      "Romance gótico"
-    ],
+    "genres": ["Romance histórico", "Literatura francesa", "Romance gótico"],
     "comments": [
       "Trágico e belo. Quasímodo e Esmeralda protagonizam uma história comovente sobre amor e preconceito.",
       "A ambientação na catedral de Notre-Dame é rica em detalhes – quase dá para sentir os sinos tocando.",
@@ -501,19 +380,13 @@
   {
     "title": "O Conde de Monte Cristo",
     "isbn13": "9788537812822",
-    "authors": [
-      "Alexandre Dumas"
-    ],
+    "authors": ["Alexandre Dumas"],
     "pages": 1600,
     "language": "Portuguese",
     "publicationYear": 2016,
     "publisher": "Zahar",
     "coverUrl": "/uploads/covers/o-conde-de-monte-cristo.jpg",
-    "genres": [
-      "Aventura",
-      "Romance histórico",
-      "Literatura francesa"
-    ],
+    "genres": ["Aventura", "Romance histórico", "Literatura francesa"],
     "comments": [
       "Uma aventura de vingança espetacular! Cada reviravolta do Conde de Monte Cristo me deixou boquiaberto.",
       "Apesar do tamanho, a história prende muito. O plano elaborado de Edmond Dantès para punir seus inimigos é genial.",
@@ -525,19 +398,13 @@
   {
     "title": "Os Três Mosqueteiros",
     "isbn13": "9788537812600",
-    "authors": [
-      "Alexandre Dumas"
-    ],
+    "authors": ["Alexandre Dumas"],
     "pages": 800,
     "language": "Portuguese",
     "publicationYear": 2014,
     "publisher": "Zahar",
     "coverUrl": "/uploads/covers/os-tres-mosqueteiros.jpg",
-    "genres": [
-      "Aventura",
-      "Capa e espada",
-      "Literatura francesa"
-    ],
+    "genres": ["Aventura", "Capa e espada", "Literatura francesa"],
     "comments": [
       "Diversão do início ao fim! D’Artagnan e os mosqueteiros vivem aventuras incríveis cheias de duelos e intrigas.",
       "Alexandre Dumas cria personagens carismáticos – impossível não gostar do lema 'Um por todos e todos por um!'",
@@ -549,18 +416,13 @@
   {
     "title": "Madame Bovary",
     "isbn13": "9788563560315",
-    "authors": [
-      "Gustave Flaubert"
-    ],
+    "authors": ["Gustave Flaubert"],
     "pages": 384,
     "language": "Portuguese",
     "publicationYear": 2011,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/madame-bovary.jpg",
-    "genres": [
-      "Romance realista",
-      "Literatura francesa"
-    ],
+    "genres": ["Romance realista", "Literatura francesa"],
     "comments": [
       "Retrato contundente do tédio provincial e das ilusões românticas. Emma Bovary é uma personagem trágica e marcante.",
       "Flaubert escreve com perfeição – cada frase parece lapidada. A crítica à sociedade da época é feroz.",
@@ -572,18 +434,13 @@
   {
     "title": "O Vermelho e o Negro",
     "isbn13": "9788544003415",
-    "authors": [
-      "Stendhal"
-    ],
+    "authors": ["Stendhal"],
     "pages": 480,
     "language": "Portuguese",
     "publicationYear": 2015,
     "publisher": "Martin Claret",
     "coverUrl": "/uploads/covers/o-vermelho-e-o-negro.jpg",
-    "genres": [
-      "Romance realista",
-      "Literatura francesa"
-    ],
+    "genres": ["Romance realista", "Literatura francesa"],
     "comments": [
       "Julien Sorel é um dos personagens mais intrigantes – ambicioso, dividido entre a carreira religiosa e militar.",
       "Stendhal retrata com maestria a hipocrisia social da França pós-napoleônica. Adorei o cinismo sutil do texto.",
@@ -595,19 +452,13 @@
   {
     "title": "Fausto",
     "isbn13": "9788525412027",
-    "authors": [
-      "Johann Wolfgang von Goethe"
-    ],
+    "authors": ["Johann Wolfgang von Goethe"],
     "pages": 320,
     "language": "Portuguese",
     "publicationYear": 2000,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/fausto.jpg",
-    "genres": [
-      "Tragédia",
-      "Literatura alemã",
-      "Poesia dramática"
-    ],
+    "genres": ["Tragédia", "Literatura alemã", "Poesia dramática"],
     "comments": [
       "Um poema dramático de tirar o fôlego. A jornada de Fausto em busca de conhecimento e prazer é atemporal.",
       "As reflexões sobre o sentido da vida e os diálogos entre Fausto e Mefistófeles são brilhantes.",
@@ -619,19 +470,13 @@
   {
     "title": "O Coração das Trevas",
     "isbn13": "9788594318337",
-    "authors": [
-      "Joseph Conrad"
-    ],
+    "authors": ["Joseph Conrad"],
     "pages": 128,
     "language": "Portuguese",
     "publicationYear": 2019,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-coracao-das-trevas.jpg",
-    "genres": [
-      "Novela",
-      "Literatura inglesa",
-      "Aventura"
-    ],
+    "genres": ["Novela", "Literatura inglesa", "Aventura"],
     "comments": [
       "Viagem perturbadora pelo Congo. A descida de Marlow ao coração da selva e da escuridão humana é impactante.",
       "Conrad escreve de forma atmosférica e intensa. O encontro com Kurtz não decepciona – marcante e inquietante.",
@@ -643,18 +488,13 @@
   {
     "title": "O Médico e o Monstro",
     "isbn13": "9788525406170",
-    "authors": [
-      "Robert Louis Stevenson"
-    ],
+    "authors": ["Robert Louis Stevenson"],
     "pages": 128,
     "language": "Portuguese",
     "publicationYear": 2002,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/o-medico-e-o-monstro.jpg",
-    "genres": [
-      "Novela gótica",
-      "Horror"
-    ],
+    "genres": ["Novela gótica", "Horror"],
     "comments": [
       "Clássico do duplo: a luta entre o bem e o mal dentro de uma mesma pessoa. Simplesmente genial a premissa!",
       "Stevenson constrói muito suspense. Mesmo já conhecendo o enredo, fiquei preso na leitura do começo ao fim.",
@@ -666,19 +506,13 @@
   {
     "title": "A Ilha do Tesouro",
     "isbn13": "9788525409026",
-    "authors": [
-      "Robert Louis Stevenson"
-    ],
+    "authors": ["Robert Louis Stevenson"],
     "pages": 208,
     "language": "Portuguese",
     "publicationYear": 2003,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/a-ilha-do-tesouro.jpg",
-    "genres": [
-      "Aventura",
-      "Literatura juvenil",
-      "Piratas"
-    ],
+    "genres": ["Aventura", "Literatura juvenil", "Piratas"],
     "comments": [
       "Um livro de piratas que é pura aventura! Jim Hawkins e Long John Silver são personagens fantásticos.",
       "Li na adolescência e reli agora – continua tão divertido e empolgante quanto eu lembrava.",
@@ -690,19 +524,13 @@
   {
     "title": "20.000 Léguas Submarinas",
     "isbn13": "9788525432475",
-    "authors": [
-      "Jules Verne"
-    ],
+    "authors": ["Jules Verne"],
     "pages": 264,
     "language": "Portuguese",
     "publicationYear": 2001,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/20-000-leguas-submarinas.jpg",
-    "genres": [
-      "Aventura",
-      "Ficção científica",
-      "Literatura francesa"
-    ],
+    "genres": ["Aventura", "Ficção científica", "Literatura francesa"],
     "comments": [
       "Capitão Nemo e seu submarino Nautilus me fascinaram completamente. Uma aventura subaquática inovadora para a época.",
       "Jules Verne mistura ciência e imaginação de um jeito fantástico. As descrições do fundo do mar são lindas.",
@@ -714,18 +542,13 @@
   {
     "title": "A Volta ao Mundo em 80 Dias",
     "isbn13": "9788525432581",
-    "authors": [
-      "Jules Verne"
-    ],
+    "authors": ["Jules Verne"],
     "pages": 192,
     "language": "Portuguese",
     "publicationYear": 2000,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/a-volta-ao-mundo-em-80-dias.jpg",
-    "genres": [
-      "Aventura",
-      "Literatura francesa"
-    ],
+    "genres": ["Aventura", "Literatura francesa"],
     "comments": [
       "Uma viagem frenética! Phileas Fogg apostando que circunavega o globo em 80 dias rende situações muito divertidas.",
       "História leve e criativa – cada capítulo em um canto do mundo diferente, adorei essa diversidade de cenários.",
@@ -737,18 +560,13 @@
   {
     "title": "A Máquina do Tempo",
     "isbn13": "9788525421882",
-    "authors": [
-      "H.G. Wells"
-    ],
+    "authors": ["H.G. Wells"],
     "pages": 144,
     "language": "Portuguese",
     "publicationYear": 2004,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/a-maquina-do-tempo.jpg",
-    "genres": [
-      "Ficção científica",
-      "Literatura inglesa"
-    ],
+    "genres": ["Ficção científica", "Literatura inglesa"],
     "comments": [
       "Primeiro romance sobre viagem no tempo – simplesmente brilhante. Os Eloi e Morlocks são alegorias sociais fascinantes.",
       "H.G. Wells escreve de forma clara e envolvente. A visão de um futuro distante decadente me deixou reflexivo.",
@@ -760,18 +578,13 @@
   {
     "title": "A Guerra dos Mundos",
     "isbn13": "9788525426283",
-    "authors": [
-      "H.G. Wells"
-    ],
+    "authors": ["H.G. Wells"],
     "pages": 192,
     "language": "Portuguese",
     "publicationYear": 2005,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/a-guerra-dos-mundos.jpg",
-    "genres": [
-      "Ficção científica",
-      "Literatura inglesa"
-    ],
+    "genres": ["Ficção científica", "Literatura inglesa"],
     "comments": [
       "Invasão alienígena pioneira na literatura – li rapidamente, super tenso com os marcianos e seus tripods!",
       "Wells retrata o pânico e o caos de forma realista. Consegui imaginar perfeitamente Londres sendo atacada.",
@@ -783,19 +596,13 @@
   {
     "title": "Alice no País das Maravilhas",
     "isbn13": "9786555523287",
-    "authors": [
-      "Lewis Carroll"
-    ],
+    "authors": ["Lewis Carroll"],
     "pages": 160,
     "language": "Portuguese",
     "publicationYear": 2020,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/alice-no-pais-das-maravilhas.jpg",
-    "genres": [
-      "Fantasia",
-      "Literatura infantil",
-      "Alegoria"
-    ],
+    "genres": ["Fantasia", "Literatura infantil", "Alegoria"],
     "comments": [
       "Uma viagem delirante por um mundo de nonsense e imaginação. Alice é uma protagonista curiosa e cativante.",
       "Os jogos de palavras e absurdos lógicos de Lewis Carroll são geniais – ri e me maravilhei em igual medida.",
@@ -807,18 +614,13 @@
   {
     "title": "A Cabana do Pai Tomás",
     "isbn13": "9788572326247",
-    "authors": [
-      "Harriet Beecher Stowe"
-    ],
+    "authors": ["Harriet Beecher Stowe"],
     "pages": 320,
     "language": "Portuguese",
     "publicationYear": 2010,
     "publisher": "Martin Claret",
     "coverUrl": "/uploads/covers/a-cabana-do-pai-tomas.jpg",
-    "genres": [
-      "Romance abolicionista",
-      "Literatura americana"
-    ],
+    "genres": ["Romance abolicionista", "Literatura americana"],
     "comments": [
       "Importante pelo contexto histórico – mostra de forma emotiva a crueldade da escravidão nos EUA do século XIX.",
       "Algumas passagens são bem melodramáticas, mas é difícil não se emocionar com o sofrimento do Tio Tom e dos escravos.",
@@ -830,18 +632,13 @@
   {
     "title": "A Letra Escarlate",
     "isbn13": "9788572325899",
-    "authors": [
-      "Nathaniel Hawthorne"
-    ],
+    "authors": ["Nathaniel Hawthorne"],
     "pages": 272,
     "language": "Portuguese",
     "publicationYear": 2011,
     "publisher": "Martin Claret",
     "coverUrl": "/uploads/covers/a-letra-escarlate.jpg",
-    "genres": [
-      "Romance histórico",
-      "Literatura americana"
-    ],
+    "genres": ["Romance histórico", "Literatura americana"],
     "comments": [
       "A história de Hester Prynne, obrigada a usar a letra A de adúltera, é muito forte e à frente de seu tempo.",
       "Hawthorne descreve a moral puritana de forma crítica. A atmosfera é pesada, mas a escrita é belíssima.",
@@ -853,19 +650,13 @@
   {
     "title": "Ulisses",
     "isbn13": "9786559212637",
-    "authors": [
-      "James Joyce"
-    ],
+    "authors": ["James Joyce"],
     "pages": 848,
     "language": "Portuguese",
     "publicationYear": 2022,
     "publisher": "Companhia das Letras",
     "coverUrl": "/uploads/covers/ulisses.jpg",
-    "genres": [
-      "Romance modernista",
-      "Literatura irlandesa",
-      "Fluxo de consciência"
-    ],
+    "genres": ["Romance modernista", "Literatura irlandesa", "Fluxo de consciência"],
     "comments": [
       "Experiência literária única. Acompanhar um dia na vida de Leopold Bloom em Dublin foi desafiador e genial.",
       "Joyce brinca com a linguagem e a forma como ninguém. Alguns capítulos são difíceis, mas outros são surpreendentemente divertidos.",
@@ -877,19 +668,13 @@
   {
     "title": "Mrs. Dalloway",
     "isbn13": "9788582850572",
-    "authors": [
-      "Virginia Woolf"
-    ],
+    "authors": ["Virginia Woolf"],
     "pages": 270,
     "language": "Portuguese",
     "publicationYear": 2017,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/mrs-dalloway.jpg",
-    "genres": [
-      "Romance modernista",
-      "Literatura inglesa",
-      "Fluxo de consciência"
-    ],
+    "genres": ["Romance modernista", "Literatura inglesa", "Fluxo de consciência"],
     "comments": [
       "Um dia na vida de Clarissa Dalloway. Virginia Woolf transforma o cotidiano em poesia – sublime e melancólico.",
       "A técnica de fluxo de consciência nos faz mergulhar nas mentes dos personagens de forma profunda e tocante.",
@@ -901,19 +686,13 @@
   {
     "title": "O Grande Gatsby",
     "isbn13": "9786555520101",
-    "authors": [
-      "F. Scott Fitzgerald"
-    ],
+    "authors": ["F. Scott Fitzgerald"],
     "pages": 208,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-grande-gatsby.jpg",
-    "genres": [
-      "Romance",
-      "Literatura americana",
-      "Jazz Age"
-    ],
+    "genres": ["Romance", "Literatura americana", "Jazz Age"],
     "comments": [
       "Um livro relativamente curto, mas que capta perfeitamente o espírito dos anos 20 – glamour e vazio existencial.",
       "Jay Gatsby é um personagem trágico e fascinante. Sua busca pelo amor de Daisy é tão bela quanto desesperada.",
@@ -925,19 +704,13 @@
   {
     "title": "A Metamorfose",
     "isbn13": "9786555520095",
-    "authors": [
-      "Franz Kafka"
-    ],
+    "authors": ["Franz Kafka"],
     "pages": 96,
     "language": "Portuguese",
     "publicationYear": 2020,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/a-metamorfose.jpg",
-    "genres": [
-      "Novela",
-      "Literatura alemã",
-      "Existencialismo"
-    ],
+    "genres": ["Novela", "Literatura alemã", "Existencialismo"],
     "comments": [
       "Angustiante e brilhante. Gregor Samsa acordar transformado em inseto é uma metáfora poderosa sobre desumanização.",
       "Kafka consegue misturar o absurdo e o cotidiano de forma única. Senti pena e agonia junto com Gregor.",
@@ -949,19 +722,13 @@
   {
     "title": "O Processo",
     "isbn13": "9786555520088",
-    "authors": [
-      "Franz Kafka"
-    ],
+    "authors": ["Franz Kafka"],
     "pages": 208,
     "language": "Portuguese",
     "publicationYear": 2020,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-processo.jpg",
-    "genres": [
-      "Romance inacabado",
-      "Literatura alemã",
-      "Surrealismo"
-    ],
+    "genres": ["Romance inacabado", "Literatura alemã", "Surrealismo"],
     "comments": [
       "José K. sendo preso sem saber o motivo é a personificação do pesadelo burocrático. Angustiante e genial.",
       "Kafka cria um clima claustrofóbico e absurdo. Em muitos momentos me senti perdido junto com o protagonista.",
@@ -973,18 +740,13 @@
   {
     "title": "O Cortiço",
     "isbn13": "9788525405554",
-    "authors": [
-      "Aluísio Azevedo"
-    ],
+    "authors": ["Aluísio Azevedo"],
     "pages": 208,
     "language": "Portuguese",
     "publicationYear": 2006,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/o-cortico.jpg",
-    "genres": [
-      "Romance naturalista",
-      "Literatura brasileira"
-    ],
+    "genres": ["Romance naturalista", "Literatura brasileira"],
     "comments": [
       "Retrato vívido da vida num cortiço do Rio de Janeiro no século XIX. Aluísio Azevedo não poupa detalhes – é cru e realista.",
       "Uma leitura que mostra a realidade das classes populares e os preconceitos da época. Bastante contundente.",
@@ -996,18 +758,13 @@
   {
     "title": "Triste Fim de Policarpo Quaresma",
     "isbn13": "9788563560179",
-    "authors": [
-      "Lima Barreto"
-    ],
+    "authors": ["Lima Barreto"],
     "pages": 256,
     "language": "Portuguese",
     "publicationYear": 2011,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/triste-fim-de-policarpo-quaresma.jpg",
-    "genres": [
-      "Romance satírico",
-      "Literatura brasileira"
-    ],
+    "genres": ["Romance satírico", "Literatura brasileira"],
     "comments": [
       "Policarpo Quaresma é um patriota ingênuo e sua queda é simultaneamente cômica e trágica. Lima Barreto foi genial nessa crítica ao nacionalismo cego.",
       "A linguagem é acessível e o livro, apesar do tom satírico, me deixou reflexivo e até triste com o desfecho.",
@@ -1019,19 +776,13 @@
   {
     "title": "Os Sertões",
     "isbn13": "9788582850879",
-    "authors": [
-      "Euclides da Cunha"
-    ],
+    "authors": ["Euclides da Cunha"],
     "pages": 544,
     "language": "Portuguese",
     "publicationYear": 2019,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/os-sertoes.jpg",
-    "genres": [
-      "Não-ficção",
-      "Ensaio histórico",
-      "Literatura brasileira"
-    ],
+    "genres": ["Não-ficção", "Ensaio histórico", "Literatura brasileira"],
     "comments": [
       "Livro fundamental sobre a Guerra de Canudos. A parte inicial descrevendo a terra e o homem sertanejo é quase poética.",
       "Euclides mistura ciência, jornalismo e literatura. Não é fácil, mas aprendi muito sobre esse evento histórico.",
@@ -1043,18 +794,13 @@
   {
     "title": "Iracema",
     "isbn13": "9788538079064",
-    "authors": [
-      "José de Alencar"
-    ],
+    "authors": ["José de Alencar"],
     "pages": 128,
     "language": "Portuguese",
     "publicationYear": 2018,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/iracema.jpg",
-    "genres": [
-      "Romance indianista",
-      "Literatura brasileira"
-    ],
+    "genres": ["Romance indianista", "Literatura brasileira"],
     "comments": [
       "Prosa poética lindíssima. A lenda de Iracema e Martim me tocou – símbolos do nascimento do Ceará e do Brasil mestiço.",
       "José de Alencar escreve com muita fluidez, as descrições da natureza brasileira são belíssimas.",
@@ -1066,18 +812,13 @@
   {
     "title": "Senhora",
     "isbn13": "9788594318664",
-    "authors": [
-      "José de Alencar"
-    ],
+    "authors": ["José de Alencar"],
     "pages": 224,
     "language": "Portuguese",
     "publicationYear": 2020,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/senhora.jpg",
-    "genres": [
-      "Romance urbano",
-      "Literatura brasileira"
-    ],
+    "genres": ["Romance urbano", "Literatura brasileira"],
     "comments": [
       "A história de Aurélia Camargo, que compra o marido por dote, é uma inversão interessante dos papéis sociais da época.",
       "Gostei do tom crítico de Alencar sobre a sociedade do Segundo Reinado. Aurélia é uma protagonista forte e sarcástica.",
@@ -1089,19 +830,13 @@
   {
     "title": "O Guarani",
     "isbn13": "9788594318671",
-    "authors": [
-      "José de Alencar"
-    ],
+    "authors": ["José de Alencar"],
     "pages": 320,
     "language": "Portuguese",
     "publicationYear": 2020,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-guarani.jpg",
-    "genres": [
-      "Romance indianista",
-      "Literatura brasileira",
-      "Aventura"
-    ],
+    "genres": ["Romance indianista", "Literatura brasileira", "Aventura"],
     "comments": [
       "Peri e Ceci formam um casal icônico da nossa literatura. A devoção heroica de Peri é épica.",
       "Narrativa de aventura bem ao estilo folhetim – cheia de perigos, salvamentos e emoções fortes.",
@@ -1113,19 +848,13 @@
   {
     "title": "Os Maias",
     "isbn13": "9789727471164",
-    "authors": [
-      "Eça de Queirós"
-    ],
+    "authors": ["Eça de Queirós"],
     "pages": 704,
     "language": "Portuguese",
     "publicationYear": 2003,
     "publisher": "Livros do Brasil",
     "coverUrl": "/uploads/covers/os-maias.jpg",
-    "genres": [
-      "Romance realista",
-      "Literatura portuguesa",
-      "Sátira social"
-    ],
+    "genres": ["Romance realista", "Literatura portuguesa", "Sátira social"],
     "comments": [
       "Que romance incrível! Retrato completo da alta sociedade lisboeta do século XIX, com humor e tragédia equilibrados.",
       "A prosa de Eça de Queirós é magnífica. A história da família Maia me prendeu até a última página – e que final chocante!",
@@ -1137,19 +866,13 @@
   {
     "title": "Amor de Perdição",
     "isbn13": "9788563560025",
-    "authors": [
-      "Camilo Castelo Branco"
-    ],
+    "authors": ["Camilo Castelo Branco"],
     "pages": 160,
     "language": "Portuguese",
     "publicationYear": 2013,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/amor-de-perdicao.jpg",
-    "genres": [
-      "Romance ultrarromântico",
-      "Literatura portuguesa",
-      "Tragédia"
-    ],
+    "genres": ["Romance ultrarromântico", "Literatura portuguesa", "Tragédia"],
     "comments": [
       "Um Romeu e Julieta português – Simão Botelho e Teresa Albuquerque vivem um amor impossível e trágico.",
       "A escrita de Camilo é intensa e melodramática. Chorei no final, mesmo já esperando um desfecho triste.",
@@ -1161,19 +884,13 @@
   {
     "title": "Macunaíma",
     "isbn13": "9788525411340",
-    "authors": [
-      "Mário de Andrade"
-    ],
+    "authors": ["Mário de Andrade"],
     "pages": 128,
     "language": "Portuguese",
     "publicationYear": 2016,
     "publisher": "Globo",
     "coverUrl": "/uploads/covers/macunaima.jpg",
-    "genres": [
-      "Romance modernista",
-      "Literatura brasileira",
-      "Mitologia brasileira"
-    ],
+    "genres": ["Romance modernista", "Literatura brasileira", "Mitologia brasileira"],
     "comments": [
       "“Ai, que preguiça!” – Macunaíma é um anti-herói divertidíssimo e símbolo da identidade brasileira em formação.",
       "Narrativa irreverente e experimental. Mistura lendas indígenas, humor e crítica social num texto único.",
@@ -1185,19 +902,13 @@
   {
     "title": "Vidas Secas",
     "isbn13": "9788535923529",
-    "authors": [
-      "Graciliano Ramos"
-    ],
+    "authors": ["Graciliano Ramos"],
     "pages": 176,
     "language": "Portuguese",
     "publicationYear": 2013,
     "publisher": "Companhia das Letras",
     "coverUrl": "/uploads/covers/vidas-secas.jpg",
-    "genres": [
-      "Romance regionalista",
-      "Literatura brasileira",
-      "Drama social"
-    ],
+    "genres": ["Romance regionalista", "Literatura brasileira", "Drama social"],
     "comments": [
       "Narrativa seca sobre a seca. Fabiano, Sinhá Vitória e os meninos – e até a cachorra Baleia – me emocionaram muito.",
       "Graciliano escreve de forma enxuta, porém consegue transmitir toda a dureza e a dignidade da vida no sertão.",
@@ -1209,19 +920,13 @@
   {
     "title": "Paraíso Perdido",
     "isbn13": "9789722129138",
-    "authors": [
-      "John Milton"
-    ],
+    "authors": ["John Milton"],
     "pages": 400,
     "language": "Portuguese",
     "publicationYear": 2004,
     "publisher": "Relógio D'Água",
     "coverUrl": "/uploads/covers/paraiso-perdido.jpg",
-    "genres": [
-      "Épico",
-      "Poesia religiosa",
-      "Literatura inglesa"
-    ],
+    "genres": ["Épico", "Poesia religiosa", "Literatura inglesa"],
     "comments": [
       "Um épico em verso sobre a queda de Lúcifer e a expulsão do Paraíso – sublime e de linguagem grandiosa.",
       "John Milton cria passagens de beleza impressionante. Apesar do tema religioso, a poesia transcende e emociona.",
@@ -1233,18 +938,13 @@
   {
     "title": "Oliver Twist",
     "isbn13": "9788525408678",
-    "authors": [
-      "Charles Dickens"
-    ],
+    "authors": ["Charles Dickens"],
     "pages": 400,
     "language": "Portuguese",
     "publicationYear": 2006,
     "publisher": "L&PM Editores",
     "coverUrl": "/uploads/covers/oliver-twist.jpg",
-    "genres": [
-      "Romance social",
-      "Literatura inglesa"
-    ],
+    "genres": ["Romance social", "Literatura inglesa"],
     "comments": [
       "Uma história comovente sobre um órfão passando por inúmeras provações na Londres vitoriana. Dickens sabia despertar a compaixão do leitor.",
       "Pedi mais! As aventuras de Oliver entre ladrões e gente de bom coração prendem a atenção o tempo todo.",
@@ -1256,19 +956,13 @@
   {
     "title": "O Cão dos Baskervilles",
     "isbn13": "9788594318695",
-    "authors": [
-      "Arthur Conan Doyle"
-    ],
+    "authors": ["Arthur Conan Doyle"],
     "pages": 160,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-cao-dos-baskervilles.jpg",
-    "genres": [
-      "Mistério",
-      "Romance policial",
-      "Literatura inglesa"
-    ],
+    "genres": ["Mistério", "Romance policial", "Literatura inglesa"],
     "comments": [
       "Sherlock Holmes investigando uma lenda de cachorro fantasma nos pântanos – simplesmente icônico!",
       "Clima gótico e investigação afiada. Este é um dos melhores casos de Holmes e Watson, na minha opinião.",
@@ -1280,19 +974,13 @@
   {
     "title": "1984",
     "isbn13": "9786559214709",
-    "authors": [
-      "George Orwell"
-    ],
+    "authors": ["George Orwell"],
     "pages": 416,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Companhia das Letras",
     "coverUrl": "/uploads/covers/1984.jpg",
-    "genres": [
-      "Distopia",
-      "Ficção política",
-      "Literatura inglesa"
-    ],
+    "genres": ["Distopia", "Ficção política", "Literatura inglesa"],
     "comments": [
       "Perturbador e profético. A visão de Orwell de um regime totalitário onipresente me deixou desconfortável – e impressionado pela atualidade.",
       "Big Brother, pensamento duplo, Novafala... tantos conceitos criados aqui que viraram parte do vocabulário cultural.",
@@ -1304,19 +992,13 @@
   {
     "title": "Anne de Green Gables",
     "isbn13": "9788551306000",
-    "authors": [
-      "Lucy Maud Montgomery"
-    ],
+    "authors": ["Lucy Maud Montgomery"],
     "pages": 320,
     "language": "Portuguese",
     "publicationYear": 2018,
     "publisher": "Autêntica",
     "coverUrl": "/uploads/covers/anne-de-green-gables.jpg",
-    "genres": [
-      "Literatura juvenil",
-      "Formação (coming of age)",
-      "Clássico canadense"
-    ],
+    "genres": ["Literatura juvenil", "Formação (coming of age)", "Clássico canadense"],
     "comments": [
       "Anne Shirley é absolutamente adorável! Sua imaginação e entusiasmo deram vida à história de uma forma mágica.",
       "Um livro cheio de ternura e lições de vida simples. Impossível não se apegar à Anne e torcer por ela na nova família.",
@@ -1328,19 +1010,13 @@
   {
     "title": "Pollyanna",
     "isbn13": "9788551303917",
-    "authors": [
-      "Eleanor H. Porter"
-    ],
+    "authors": ["Eleanor H. Porter"],
     "pages": 192,
     "language": "Portuguese",
     "publicationYear": 2019,
     "publisher": "Autêntica",
     "coverUrl": "/uploads/covers/pollyanna.jpg",
-    "genres": [
-      "Literatura juvenil",
-      "Motivacional",
-      "Clássico americano"
-    ],
+    "genres": ["Literatura juvenil", "Motivacional", "Clássico americano"],
     "comments": [
       "Uma leitura leve e inspiradora. O 'jogo do contente' de Pollyanna me fez sorrir e pensar em ser mais grato.",
       "Pode parecer ingênuo para alguns, mas a mensagem otimista é muito bonita e atemporal.",
@@ -1352,19 +1028,13 @@
   {
     "title": "Germinal",
     "isbn13": "9788544002227",
-    "authors": [
-      "Émile Zola"
-    ],
+    "authors": ["Émile Zola"],
     "pages": 480,
     "language": "Portuguese",
     "publicationYear": 2015,
     "publisher": "Martin Claret",
     "coverUrl": "/uploads/covers/germinal.jpg",
-    "genres": [
-      "Romance naturalista",
-      "Literatura francesa",
-      "Política"
-    ],
+    "genres": ["Romance naturalista", "Literatura francesa", "Política"],
     "comments": [
       "Retrato forte da exploração dos mineiros no século XIX. As descrições da mina e da miséria são chocantes e realistas.",
       "Zola não poupa detalhes – senti a fome, o frio e a injustiça na pele lendo este livro. Impressionante e doloroso.",
@@ -1376,19 +1046,13 @@
   {
     "title": "O Chamado da Floresta",
     "isbn13": "9786555520999",
-    "authors": [
-      "Jack London"
-    ],
+    "authors": ["Jack London"],
     "pages": 112,
     "language": "Portuguese",
     "publicationYear": 2020,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-chamado-da-floresta.jpg",
-    "genres": [
-      "Aventura",
-      "Literatura americana",
-      "Natureza"
-    ],
+    "genres": ["Aventura", "Literatura americana", "Natureza"],
     "comments": [
       "História emocionante sobre o cão Buck e seu retorno às origens selvagens. Jack London escreve com muita alma.",
       "Me apeguei demais ao Buck. A narrativa é curta e intensa, mostrando a dureza e beleza da vida no Alasca.",
@@ -1400,19 +1064,13 @@
   {
     "title": "Pais e Filhos",
     "isbn13": "9788573263503",
-    "authors": [
-      "Ivan Turguêniev"
-    ],
+    "authors": ["Ivan Turguêniev"],
     "pages": 272,
     "language": "Portuguese",
     "publicationYear": 2006,
     "publisher": "Editora 34",
     "coverUrl": "/uploads/covers/pais-e-filhos.jpg",
-    "genres": [
-      "Romance realista",
-      "Literatura russa",
-      "Geracional"
-    ],
+    "genres": ["Romance realista", "Literatura russa", "Geracional"],
     "comments": [
       "Retrato sensível do conflito geracional e das novas ideias (niilismo) surgindo na Rússia do século XIX. Muito interessante.",
       "Bazárov é um personagem marcante – cético, revolucionário, mas com um lado humano que surpreende.",
@@ -1424,19 +1082,13 @@
   {
     "title": "Casa de Bonecas",
     "isbn13": "9788544001053",
-    "authors": [
-      "Henrik Ibsen"
-    ],
+    "authors": ["Henrik Ibsen"],
     "pages": 128,
     "language": "Portuguese",
     "publicationYear": 2014,
     "publisher": "Martin Claret",
     "coverUrl": "/uploads/covers/casa-de-bonecas.jpg",
-    "genres": [
-      "Teatro",
-      "Drama social",
-      "Literatura norueguesa"
-    ],
+    "genres": ["Teatro", "Drama social", "Literatura norueguesa"],
     "comments": [
       "Peça revolucionária para a época. Nora abandonando tudo no final ainda me causa admiração e choque.",
       "Ibsen levanta temas de emancipação feminina e honestidade conjugal de forma direta e corajosa. Adorei ler essa peça.",
@@ -1448,19 +1100,13 @@
   {
     "title": "Romeu e Julieta",
     "isbn13": "9786555520630",
-    "authors": [
-      "William Shakespeare"
-    ],
+    "authors": ["William Shakespeare"],
     "pages": 160,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/romeu-e-julieta.jpg",
-    "genres": [
-      "Teatro",
-      "Tragédia",
-      "Literatura inglesa"
-    ],
+    "genres": ["Teatro", "Tragédia", "Literatura inglesa"],
     "comments": [
       "A história de amor mais famosa de todos os tempos. Shakespeare consegue emocionar mesmo quem já conhece o enredo de cor.",
       "Os diálogos poéticos (como a cena da sacada) são lindíssimos. Difícil não recitar junto mentalmente enquanto lia.",
@@ -1472,19 +1118,13 @@
   {
     "title": "Peter Pan",
     "isbn13": "9786555520456",
-    "authors": [
-      "J.M. Barrie"
-    ],
+    "authors": ["J.M. Barrie"],
     "pages": 160,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/peter-pan.jpg",
-    "genres": [
-      "Fantasia",
-      "Literatura infantil",
-      "Clássico inglês"
-    ],
+    "genres": ["Fantasia", "Literatura infantil", "Clássico inglês"],
     "comments": [
       "Um conto encantador sobre nunca crescer. A Terra do Nunca, com seus meninos perdidos, fadas e piratas, é pura magia infantil.",
       "Peter Pan é travesso e cativante, mas foi o Capitão Gancho que mais me divertiu – vilão carismático!",
@@ -1496,19 +1136,13 @@
   {
     "title": "O Mágico de Oz",
     "isbn13": "9788594318411",
-    "authors": [
-      "L. Frank Baum"
-    ],
+    "authors": ["L. Frank Baum"],
     "pages": 160,
     "language": "Portuguese",
     "publicationYear": 2020,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-magico-de-oz.jpg",
-    "genres": [
-      "Fantasia",
-      "Literatura infantil",
-      "Aventura"
-    ],
+    "genres": ["Fantasia", "Literatura infantil", "Aventura"],
     "comments": [
       "Dorothy, Totó e seus amigos Espantalho, Homem de Lata e Leão Covarde fazem uma jornada deliciosa pela estrada de tijolos amarelos.",
       "Uma fábula sobre descobrir que muitas vezes já possuímos aquilo que achamos que nos falta. Simples e bonito.",
@@ -1520,19 +1154,13 @@
   {
     "title": "O Último dos Moicanos",
     "isbn13": "9786555520685",
-    "authors": [
-      "James Fenimore Cooper"
-    ],
+    "authors": ["James Fenimore Cooper"],
     "pages": 384,
     "language": "Portuguese",
     "publicationYear": 2022,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-ultimo-dos-moicanos.jpg",
-    "genres": [
-      "Romance histórico",
-      "Aventura",
-      "Literatura americana"
-    ],
+    "genres": ["Romance histórico", "Aventura", "Literatura americana"],
     "comments": [
       "Um clássico da aventura americana colonial. As perseguições e combates na floresta são eletrizantes.",
       "Achei a linguagem um pouco antiquada, mas a história de amizade entre Hawkeye e Chingachgook é emocionante.",
@@ -1544,19 +1172,13 @@
   {
     "title": "Ben-Hur",
     "isbn13": "9788594318725",
-    "authors": [
-      "Lew Wallace"
-    ],
+    "authors": ["Lew Wallace"],
     "pages": 368,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/ben-hur.jpg",
-    "genres": [
-      "Romance histórico",
-      "Ficção bíblica",
-      "Literatura americana"
-    ],
+    "genres": ["Romance histórico", "Ficção bíblica", "Literatura americana"],
     "comments": [
       "Uma saga épica ambientada na época de Cristo. A famosa corrida de bigas é descrita de forma eletrizante.",
       "Trama envolvente sobre vingança e redenção. Ben-Hur é um herói cativante e torci muito por ele.",
@@ -1568,19 +1190,13 @@
   {
     "title": "Feira das Vaidades",
     "isbn13": "9786555520708",
-    "authors": [
-      "William M. Thackeray"
-    ],
+    "authors": ["William M. Thackeray"],
     "pages": 640,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/feira-das-vaidades.jpg",
-    "genres": [
-      "Romance realista",
-      "Sátira social",
-      "Literatura inglesa"
-    ],
+    "genres": ["Romance realista", "Sátira social", "Literatura inglesa"],
     "comments": [
       "Becky Sharp é uma das anti-heroínas mais interessantes que já li – ambiciosa, astuta e totalmente cativante de acompanhar.",
       "Thackeray satiriza sem piedade a alta sociedade britânica do século XIX. Ri e refleti bastante durante a leitura.",
@@ -1592,19 +1208,13 @@
   {
     "title": "Middlemarch",
     "isbn13": "9786559851433",
-    "authors": [
-      "George Eliot"
-    ],
+    "authors": ["George Eliot"],
     "pages": 912,
     "language": "Portuguese",
     "publicationYear": 2022,
     "publisher": "Nova Fronteira",
     "coverUrl": "/uploads/covers/middlemarch.jpg",
-    "genres": [
-      "Romance realista",
-      "Literatura inglesa",
-      "Crítica social"
-    ],
+    "genres": ["Romance realista", "Literatura inglesa", "Crítica social"],
     "comments": [
       "Panorama impressionante de uma comunidade provinciana. Cada personagem em Middlemarch é tão real que parecia conhecer pessoas assim.",
       "George Eliot (Mary Anne Evans) escreve com uma profundidade psicológica notável. Dorothea Brooke e Tertius Lydgate me marcaram muito.",
@@ -1616,18 +1226,13 @@
   {
     "title": "Retrato de uma Senhora",
     "isbn13": "9788520935407",
-    "authors": [
-      "Henry James"
-    ],
+    "authors": ["Henry James"],
     "pages": 592,
     "language": "Portuguese",
     "publicationYear": 1996,
     "publisher": "Ediouro",
     "coverUrl": "/uploads/covers/retrato-de-uma-senhora.jpg",
-    "genres": [
-      "Romance psicológico",
-      "Literatura americana/inglesa"
-    ],
+    "genres": ["Romance psicológico", "Literatura americana/inglesa"],
     "comments": [
       "Isabel Archer é uma personagem admirável – ver sua independência ser testada pelas circunstâncias deu um aperto no coração.",
       "Henry James constrói o romance de forma lenta e minuciosa. Foi uma leitura que exigiu paciência, mas valeu pela riqueza psicológica.",
@@ -1639,19 +1244,13 @@
   {
     "title": "A Volta do Parafuso",
     "isbn13": "9786555520722",
-    "authors": [
-      "Henry James"
-    ],
+    "authors": ["Henry James"],
     "pages": 104,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/a-volta-do-parafuso.jpg",
-    "genres": [
-      "Novela gótica",
-      "Horror psicológico",
-      "Literatura inglesa"
-    ],
+    "genres": ["Novela gótica", "Horror psicológico", "Literatura inglesa"],
     "comments": [
       "Que história de fantasmas inquietante! A governanta narrando os eventos na mansão Bly me deixou arrepiado.",
       "O final ambíguo é brilhante – fiquei me perguntando se havia fantasmas mesmo ou se era tudo imaginação. Henry James foi mestre nessa dúvida.",
@@ -1663,19 +1262,13 @@
   {
     "title": "A Escrava Isaura",
     "isbn13": "9786555520746",
-    "authors": [
-      "Bernardo Guimarães"
-    ],
+    "authors": ["Bernardo Guimarães"],
     "pages": 160,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/a-escrava-isaura.jpg",
-    "genres": [
-      "Romance abolicionista",
-      "Literatura brasileira",
-      "Romance romântico"
-    ],
+    "genres": ["Romance abolicionista", "Literatura brasileira", "Romance romântico"],
     "comments": [
       "História marcante do movimento abolicionista brasileiro. Isaura, a escrava branca, é usada como símbolo contra a escravidão.",
       "Tem uma linguagem simples e uma trama folhetinesca, mas cumpre o papel de denunciar as injustiças da escravidão.",
@@ -1687,19 +1280,13 @@
   {
     "title": "Tess d'Urberville",
     "isbn13": "9786555521231",
-    "authors": [
-      "Thomas Hardy"
-    ],
+    "authors": ["Thomas Hardy"],
     "pages": 400,
     "language": "Portuguese",
     "publicationYear": 2022,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/tess-d-urberville.jpg",
-    "genres": [
-      "Romance realista",
-      "Literatura inglesa",
-      "Tragédia"
-    ],
+    "genres": ["Romance realista", "Literatura inglesa", "Tragédia"],
     "comments": [
       "Um livro comovente e revoltante. Tess é vítima das circunstâncias e da hipocrisia vitoriana – sofrida do início ao fim.",
       "Thomas Hardy escreve com beleza sobre a natureza e crueldade sobre o destino de Tess. Fiquei indignado com a injustiça que ela sofre.",
@@ -1711,19 +1298,13 @@
   {
     "title": "As Mil e Uma Noites",
     "isbn13": "9786555521392",
-    "authors": [
-      "Anônimo"
-    ],
+    "authors": ["Anônimo"],
     "pages": 320,
     "language": "Portuguese",
     "publicationYear": 2022,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/as-mil-e-uma-noites.jpg",
-    "genres": [
-      "Contos populares",
-      "Literatura árabe",
-      "Fantasia"
-    ],
+    "genres": ["Contos populares", "Literatura árabe", "Fantasia"],
     "comments": [
       "Uma coletânea de histórias fascinantes. Sherazade conquistando sua sobrevivência contando contos é por si só uma grande história!",
       "Alguns contos são bem conhecidos (Aladim, Ali Babá, Simbad), mas ler no contexto original, encadeados, deu um sabor especial.",
@@ -1735,19 +1316,13 @@
   {
     "title": "A Revolução dos Bichos",
     "isbn13": "9786555521262",
-    "authors": [
-      "George Orwell"
-    ],
+    "authors": ["George Orwell"],
     "pages": 112,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/a-revolucao-dos-bichos.jpg",
-    "genres": [
-      "Fábula política",
-      "Distopia",
-      "Sátira"
-    ],
+    "genres": ["Fábula política", "Distopia", "Sátira"],
     "comments": [
       "Uma fábula genial sobre poder corruptor. Impressionante como Orwell resume a traição de uma revolução em tão poucas páginas.",
       "Os porcos governantes, o lema 'Todos os animais são iguais, mas alguns são mais iguais que os outros' – simplesmente brilhante e assustador.",
@@ -1759,19 +1334,13 @@
   {
     "title": "Admirável Mundo Novo",
     "isbn13": "9788525056008",
-    "authors": [
-      "Aldous Huxley"
-    ],
+    "authors": ["Aldous Huxley"],
     "pages": 312,
     "language": "Portuguese",
     "publicationYear": 2017,
     "publisher": "Biblioteca Azul",
     "coverUrl": "/uploads/covers/admiravel-mundo-novo.jpg",
-    "genres": [
-      "Distopia",
-      "Ficção científica",
-      "Literatura inglesa"
-    ],
+    "genres": ["Distopia", "Ficção científica", "Literatura inglesa"],
     "comments": [
       "Uma visão de futuro totalmente hedonista e condicionada. Me perturbou de um jeito diferente de 1984 – aqui todos estão felizes, e isso é assustador!",
       "Huxley antecipa discussões sobre biotecnologia, controle social via prazer e consumismo. Livro impressionante e incômodo.",
@@ -1783,19 +1352,13 @@
   {
     "title": "O Homem Invisível",
     "isbn13": "9788594318114",
-    "authors": [
-      "H.G. Wells"
-    ],
+    "authors": ["H.G. Wells"],
     "pages": 160,
     "language": "Portuguese",
     "publicationYear": 2018,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-homem-invisivel.jpg",
-    "genres": [
-      "Ficção científica",
-      "Horror",
-      "Literatura inglesa"
-    ],
+    "genres": ["Ficção científica", "Horror", "Literatura inglesa"],
     "comments": [
       "Uma história intrigante e também trágica. O cientista que se torna invisível acaba se tornando um monstro pela solidão e paranoia.",
       "Wells novamente mostrando porque é um dos pais da ficção científica. A ideia do homem invisível é explorada de forma brilhante aqui.",
@@ -1807,19 +1370,13 @@
   {
     "title": "Ivanhoe",
     "isbn13": "9786555521316",
-    "authors": [
-      "Walter Scott"
-    ],
+    "authors": ["Walter Scott"],
     "pages": 480,
     "language": "Portuguese",
     "publicationYear": 2022,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/ivanhoe.jpg",
-    "genres": [
-      "Romance histórico",
-      "Literatura escocesa",
-      "Cavaleiros"
-    ],
+    "genres": ["Romance histórico", "Literatura escocesa", "Cavaleiros"],
     "comments": [
       "Uma aventura medieval clássica, com cavaleiros, justas e disputas entre saxões e normandos. Bem cativante!",
       "Gostei de conhecer esse clássico que originou tantos clichês de literatura de cavaleiros. Personagens como Ivanhoe e Robin Hood dão vida à trama.",
@@ -1831,19 +1388,13 @@
   {
     "title": "O Fantasma da Ópera",
     "isbn13": "9786555520950",
-    "authors": [
-      "Gaston Leroux"
-    ],
+    "authors": ["Gaston Leroux"],
     "pages": 256,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-fantasma-da-opera.jpg",
-    "genres": [
-      "Suspense",
-      "Romance gótico",
-      "Literatura francesa"
-    ],
+    "genres": ["Suspense", "Romance gótico", "Literatura francesa"],
     "comments": [
       "Atmosfera sombria nos bastidores da Ópera de Paris. O Fantasma é ao mesmo tempo assustador e trágico.",
       "Achei o romance envolvente – combina mistério, terror e paixão de um jeito único. Amei conhecer a história original por trás do musical famoso.",
@@ -1855,19 +1406,13 @@
   {
     "title": "Emma",
     "isbn13": "9786555520479",
-    "authors": [
-      "Jane Austen"
-    ],
+    "authors": ["Jane Austen"],
     "pages": 368,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/emma.jpg",
-    "genres": [
-      "Romance de costumes",
-      "Literatura inglesa",
-      "Comédia romântica"
-    ],
+    "genres": ["Romance de costumes", "Literatura inglesa", "Comédia romântica"],
     "comments": [
       "Emma Woodhouse é intrometida e adorável em suas trapalhadas como casamenteira. Ri muito das confusões que ela arma.",
       "Jane Austen descreve de forma afetuosa e irônica uma pequena comunidade rural e suas fofocas. Deliciosa leitura.",
@@ -1879,19 +1424,13 @@
   {
     "title": "O Príncipe",
     "isbn13": "9788563560032",
-    "authors": [
-      "Nicolau Maquiavel"
-    ],
+    "authors": ["Nicolau Maquiavel"],
     "pages": 160,
     "language": "Portuguese",
     "publicationYear": 2010,
     "publisher": "Penguin-Companhia das Letras",
     "coverUrl": "/uploads/covers/o-principe.jpg",
-    "genres": [
-      "Filosofia política",
-      "Tratado",
-      "Renascimento"
-    ],
+    "genres": ["Filosofia política", "Tratado", "Renascimento"],
     "comments": [
       "Surpreendentemente atual em vários aspectos. Maquiavel fala sem rodeios sobre poder – um pouco assustador, porém esclarecedor.",
       "Leitura essencial para quem se interessa por política e história. É curto e direto; aprendi muito sobre estratégia e natureza humana.",
@@ -1903,19 +1442,13 @@
   {
     "title": "Ilusões Perdidas",
     "isbn13": "9786555521483",
-    "authors": [
-      "Honoré de Balzac"
-    ],
+    "authors": ["Honoré de Balzac"],
     "pages": 512,
     "language": "Portuguese",
     "publicationYear": 2022,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/ilusoes-perdidas.jpg",
-    "genres": [
-      "Romance realista",
-      "Literatura francesa",
-      "Crítica social"
-    ],
+    "genres": ["Romance realista", "Literatura francesa", "Crítica social"],
     "comments": [
       "Balzac disseca a sociedade francesa e o mundo do jornalismo e da literatura com olhar afiado. Lucien de Rubempré passa por cada perrengue!",
       "Um livro grande e rico em detalhes. Mostra as corrupções e vaidades do meio literário de Paris – atual para além do século XIX.",
@@ -1927,19 +1460,13 @@
   {
     "title": "Reinações de Narizinho",
     "isbn13": "9788525439474",
-    "authors": [
-      "Monteiro Lobato"
-    ],
+    "authors": ["Monteiro Lobato"],
     "pages": 192,
     "language": "Portuguese",
     "publicationYear": 2018,
     "publisher": "Globo (Biblioteca Azul)",
     "coverUrl": "/uploads/covers/reinacoes-de-narizinho.jpg",
-    "genres": [
-      "Literatura infantil",
-      "Fantasia",
-      "Clássico brasileiro"
-    ],
+    "genres": ["Literatura infantil", "Fantasia", "Clássico brasileiro"],
     "comments": [
       "Encantador! Monteiro Lobato cria um mundo mágico no Sítio do Picapau Amarelo – infância pura em forma de livro.",
       "Narizinho, Emília e Visconde de Sabugosa me levaram de volta à minha própria infância. Diversão e imaginação sem limites.",
@@ -1951,19 +1478,13 @@
   {
     "title": "A Dama das Camélias",
     "isbn13": "9786555520491",
-    "authors": [
-      "Alexandre Dumas Filho"
-    ],
+    "authors": ["Alexandre Dumas Filho"],
     "pages": 256,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/a-dama-das-camelias.jpg",
-    "genres": [
-      "Romance",
-      "Literatura francesa",
-      "Tragédia romântica"
-    ],
+    "genres": ["Romance", "Literatura francesa", "Tragédia romântica"],
     "comments": [
       "Tragédia romântica que inspirou La Traviata. Marguerite Gautier, a cortesã com coração nobre, é uma personagem comovente.",
       "A história de amor impossível entre Marguerite e Armand é linda e triste. Prepare os lenços para o final!",
@@ -1975,19 +1496,13 @@
   {
     "title": "Édipo Rei",
     "isbn13": "9786555520170",
-    "authors": [
-      "Sófocles"
-    ],
+    "authors": ["Sófocles"],
     "pages": 80,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/edipo-rei.jpg",
-    "genres": [
-      "Tragédia grega",
-      "Teatro",
-      "Mitologia"
-    ],
+    "genres": ["Tragédia grega", "Teatro", "Mitologia"],
     "comments": [
       "A tragédia grega por excelência. Mesmo já sabendo do destino de Édipo, a tensão construída é sensacional.",
       "Sófocles explora o tema do destino inevitável de forma magistral. O momento do reconhecimento é de arrepiar.",
@@ -1999,19 +1514,13 @@
   {
     "title": "Arsène Lupin, Ladrão de Casaca",
     "isbn13": "9786555521504",
-    "authors": [
-      "Maurice Leblanc"
-    ],
+    "authors": ["Maurice Leblanc"],
     "pages": 224,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/arsene-lupin-ladrao-de-casaca.jpg",
-    "genres": [
-      "Contos policiais",
-      "Aventura",
-      "Literatura francesa"
-    ],
+    "genres": ["Contos policiais", "Aventura", "Literatura francesa"],
     "comments": [
       "Charmoso e sagaz, Arsène Lupin é o ladrão cavalheiro que conquista o leitor. As histórias são cheias de reviravoltas engenhosas.",
       "Pra quem curte Sherlock Holmes, Lupin é um contraponto divertido – torcemos pelo ladrão em vez do detetive!",
@@ -2023,19 +1532,13 @@
   {
     "title": "A Pedra da Lua",
     "isbn13": "9786555521511",
-    "authors": [
-      "Wilkie Collins"
-    ],
+    "authors": ["Wilkie Collins"],
     "pages": 320,
     "language": "Portuguese",
     "publicationYear": 2022,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/a-pedra-da-lua.jpg",
-    "genres": [
-      "Romance policial",
-      "Mistério vitoriano",
-      "Literatura inglesa"
-    ],
+    "genres": ["Romance policial", "Mistério vitoriano", "Literatura inglesa"],
     "comments": [
       "Considerado o primeiro romance policial da língua inglesa. O mistério do diamante roubado é envolvente do começo ao fim.",
       "Interessante como a narrativa é dividida entre vários narradores (cartas, depoimentos) – deixa a trama bem dinâmica.",
@@ -2047,19 +1550,13 @@
   {
     "title": "O Livro da Selva",
     "isbn13": "9786555520910",
-    "authors": [
-      "Rudyard Kipling"
-    ],
+    "authors": ["Rudyard Kipling"],
     "pages": 224,
     "language": "Portuguese",
     "publicationYear": 2021,
     "publisher": "Principis",
     "coverUrl": "/uploads/covers/o-livro-da-selva.jpg",
-    "genres": [
-      "Contos",
-      "Literatura inglesa",
-      "Animais"
-    ],
+    "genres": ["Contos", "Literatura inglesa", "Animais"],
     "comments": [
       "Mogli e seus amigos animais marcaram minha infância. Os contos do Livro da Selva são cheios de aventura e sabedoria.",
       "Kipling escreve de forma encantadora sobre a vida selvagem. Baloo, Bagheera e Shere Khan são personagens memoráveis.",
