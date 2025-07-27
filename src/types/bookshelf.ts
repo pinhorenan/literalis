@@ -1,5 +1,5 @@
 // src/types/bookshelf.ts
-import type { ReadingStatus, Book } from '@/types/index';
+import type { ReadingStatus } from '@/types/index';
 
 export interface ShelfItem {
   userId: string;

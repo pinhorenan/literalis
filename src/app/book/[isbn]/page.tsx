@@ -1,13 +1,13 @@
 // src/app/book/[isbn]/page.tsx
 import { notFound } from 'next/navigation';
 import { Toaster } from '@/components/ui/sonner';
-import { BookCover, BookInfo } from '@/components/core/Book';
+import { BookCover } from '@/components/core/Book';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getBookByIsbn } from '@/services/book.service';
 import { auth } from '@/lib/auth';
-import { BookOpen, Users, Calendar, Building2 } from 'lucide-react';
+import { BookOpen, Users, Building2 } from 'lucide-react';
 import Link from 'next/link';
 
 interface BookPageProps {

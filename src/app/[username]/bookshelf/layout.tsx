@@ -15,9 +15,7 @@ export default function BookshelfLayout({ children }: { children: React.ReactNod
     >
       <PrimarySidebar className="hidden md:flex" />
 
-      <SidebarInset className="from-background via-muted/20 to-background bg-gradient-to-br">
-        {children}
-      </SidebarInset>
+      <SidebarInset>{children}</SidebarInset>
 
       <FeedSuggestions />
     </SidebarProvider>

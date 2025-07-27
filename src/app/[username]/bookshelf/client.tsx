@@ -3,6 +3,8 @@
 'use client';
 import React from 'react';
 import clsx from 'clsx';
+import type { ReadingStatus } from '@/types/index';
+
 import { Grid3x3, Image as ImageIcon, MoreVertical, Trash2, Edit, Plus } from 'lucide-react';
 import {
   Pagination,
@@ -129,7 +131,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
     try {
       await updateShelfItem.mutateAsync({
         currentPage,
-        status: status as any,
+        status: status as ReadingStatus,
         rating,
         isPrivate: editingItem.isPrivate,
       });
@@ -198,7 +200,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
 
           {/* Menu de ações */}
           {isOwn ? (
-            <div className="absolute right-1 top-1 opacity-0 transition-opacity hover:scale-105 group-hover:opacity-100">
+            <div className="absolute right-1 top-1">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="secondary" size="sm" className="h-6 w-6 p-0">
@@ -221,7 +223,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
               </DropdownMenu>
             </div>
           ) : (
-            <div className="absolute right-1 top-1 opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="absolute right-1 top-1">
               <Button
                 variant="secondary"
                 size="sm"
@@ -246,7 +248,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
         <div
           className={clsx(
             'flex gap-3 rounded-lg p-2 transition-colors',
-            isOwn ? 'hover:bg-muted/30' : 'hover:bg-muted/30 cursor-pointer',
+            isOwn ? 'hover:bg-muted/70' : 'hover:bg-muted/70 cursor-pointer',
           )}
           onClick={!isOwn ? () => handleAddToMyShelf(item.bookIsbn) : undefined}
         >
@@ -331,9 +333,10 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   /* ---------------------------- UI ------------------------------------ */
   if (isLoading)
     return (
-      <main className="m-4 flex flex-col gap-6">
+      <main className="mx-4 my-2 flex flex-col gap-6">
+        <Toaster position="bottom-right" />
         {/* ---------- toolbar de busca / filtros / modo ---------- */}
-        <div className="bg-card flex flex-wrap items-center gap-4 rounded-lg p-4">
+        <div className="bg-card flex items-center gap-4 rounded-lg p-4">
           {/* pesquisa */}
           <Input
             placeholder="Buscar título ou autor…"
@@ -430,8 +433,9 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   if (isError || !data) return <p>Erro ao carregar estante.</p>;
 
   return (
-    <main className="m-4 flex flex-col gap-6">
+    <main className="mx-4 my-2 flex flex-col gap-6">
       <Toaster position="bottom-right" />
+
       {/* ---------- toolbar de busca / filtros / modo ---------- */}
       <div className="bg-card flex flex-wrap items-center gap-4 rounded-lg p-4">
         {/* pesquisa */}

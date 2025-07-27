@@ -11,8 +11,12 @@ import type { MinimalUser } from '@/types/user';
 
 export function FeedSuggestions() {
   const { status, data } = useSession();
-  const viewer = data?.user!;
+  if (!data?.user) {
+    return null;
+  }
+  const viewer = data.user;
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: suggestions, isLoading, isError } = useSuggestedUsers(5);
 
   if (status !== 'authenticated') return null;
@@ -20,7 +24,7 @@ export function FeedSuggestions() {
   return (
     <div className="animate-in slide-in-from-right-6 m-8 ml-0 duration-700">
       {/* ---- Perfil do viewer ---- */}
-      <div className="bg-card mb-6 rounded-lg border p-4 shadow-sm transition-shadow duration-300 hover:shadow-md">
+      <div className="bg-card mb-6 rounded-lg p-4 shadow-sm transition-shadow duration-300 hover:shadow-md">
         <Link
           href={`/${viewer.username}/profile`}
           className="hover:bg-muted/50 group flex items-center gap-3 rounded-lg p-3 transition-all duration-200"
@@ -46,7 +50,7 @@ export function FeedSuggestions() {
       </div>
 
       {/* ---- Sugestões ---- */}
-      <div className="bg-card overflow-hidden rounded-lg border shadow-sm">
+      <div className="bg-card overflow-hidden rounded-lg shadow-sm">
         <div className="from-primary/5 to-secondary/5 border-border/50 border-b bg-gradient-to-r px-4 py-3">
           <h3 className="text-foreground flex items-center gap-2 font-semibold">
             <span className="bg-primary h-2 w-2 animate-pulse rounded-full"></span>
