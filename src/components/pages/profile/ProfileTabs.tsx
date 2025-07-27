@@ -31,31 +31,31 @@ export function ProfileTabs({ username }: ProfileTabsProps) {
           <span className="hidden sm:inline">Lendo</span>
         </TabsTrigger>
       </TabsList>
-      
+
       <TabsContent value="posts" className="mt-6">
         <UserPosts username={username} />
       </TabsContent>
-      
+
       <TabsContent value="reviews" className="mt-6">
         <div className="bg-card rounded-lg p-8 text-center">
-          <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-lg font-semibold mb-2">Resenhas em breve</h3>
+          <BookOpen className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+          <h3 className="mb-2 text-lg font-semibold">Resenhas em breve</h3>
           <p className="text-muted-foreground">Esta funcionalidade será implementada em breve.</p>
         </div>
       </TabsContent>
-      
+
       <TabsContent value="activity" className="mt-6">
         <div className="bg-card rounded-lg p-8 text-center">
-          <Heart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-lg font-semibold mb-2">Atividade em breve</h3>
+          <Heart className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+          <h3 className="mb-2 text-lg font-semibold">Atividade em breve</h3>
           <p className="text-muted-foreground">Esta funcionalidade será implementada em breve.</p>
         </div>
       </TabsContent>
-      
+
       <TabsContent value="reading" className="mt-6">
         <div className="bg-card rounded-lg p-8 text-center">
-          <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <h3 className="text-lg font-semibold mb-2">Histórico de leitura em breve</h3>
+          <Calendar className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+          <h3 className="mb-2 text-lg font-semibold">Histórico de leitura em breve</h3>
           <p className="text-muted-foreground">Esta funcionalidade será implementada em breve.</p>
         </div>
       </TabsContent>

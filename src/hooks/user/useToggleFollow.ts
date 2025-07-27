@@ -6,10 +6,10 @@ import { postToggleFollow } from '@/api/users';
 
 export function useToggleFollow(username: string) {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: () => postToggleFollow(username),
-    
+
     onSuccess: () => {
       // Invalidar todas as queries relacionadas ao usuário para sincronizar estado
       queryClient.invalidateQueries({ queryKey: ['user', username] });

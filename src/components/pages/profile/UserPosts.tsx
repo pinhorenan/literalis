@@ -15,15 +15,9 @@ interface UserPostsProps {
 
 export function UserPosts({ username }: UserPostsProps) {
   const [activeTab, setActiveTab] = useState<'posts' | 'reviews' | 'activity'>('posts');
-  
-  const { 
-    data, 
-    isLoading, 
-    isError, 
-    fetchNextPage, 
-    hasNextPage, 
-    isFetchingNextPage 
-  } = useUserPosts(username);
+
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useUserPosts(username);
 
   const { ref } = useInView({
     threshold: 0,
@@ -37,25 +31,25 @@ export function UserPosts({ username }: UserPostsProps) {
   if (isError) {
     return (
       <div className="bg-card rounded-lg p-8 text-center">
-        <h3 className="text-lg font-semibold text-destructive mb-2">Erro ao carregar posts</h3>
+        <h3 className="text-destructive mb-2 text-lg font-semibold">Erro ao carregar posts</h3>
         <p className="text-muted-foreground">Não foi possível carregar os posts do usuário.</p>
       </div>
     );
   }
 
-  const posts = data?.pages.flatMap(page => page.items) ?? [];
+  const posts = data?.pages.flatMap((page) => page.items) ?? [];
 
   return (
     <div className="space-y-6">
       {/* Tabs */}
-      <div className="bg-card rounded-lg p-1 flex">
+      <div className="bg-card flex rounded-lg p-1">
         <Button
           variant={activeTab === 'posts' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => setActiveTab('posts')}
           className="flex-1"
         >
-          <MessageSquare className="h-4 w-4 mr-2" />
+          <MessageSquare className="mr-2 h-4 w-4" />
           Posts
         </Button>
         <Button
@@ -64,7 +58,7 @@ export function UserPosts({ username }: UserPostsProps) {
           onClick={() => setActiveTab('reviews')}
           className="flex-1"
         >
-          <BookOpen className="h-4 w-4 mr-2" />
+          <BookOpen className="mr-2 h-4 w-4" />
           Resenhas
         </Button>
         <Button
@@ -73,7 +67,7 @@ export function UserPosts({ username }: UserPostsProps) {
           onClick={() => setActiveTab('activity')}
           className="flex-1"
         >
-          <Heart className="h-4 w-4 mr-2" />
+          <Heart className="mr-2 h-4 w-4" />
           Atividade
         </Button>
       </div>
@@ -87,10 +81,10 @@ export function UserPosts({ username }: UserPostsProps) {
             {posts.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
-            
+
             {/* Infinite scroll sentinel */}
             <div ref={ref} />
-            
+
             {isFetchingNextPage && <UserPostsSkeleton rows={3} />}
           </>
         )}
@@ -106,25 +100,25 @@ function EmptyState({ activeTab, username }: { activeTab: string; username: stri
         return {
           title: 'Nenhum post ainda',
           description: `${username} ainda não publicou nenhum post.`,
-          icon: MessageSquare
+          icon: MessageSquare,
         };
       case 'reviews':
         return {
           title: 'Nenhuma resenha ainda',
           description: `${username} ainda não escreveu nenhuma resenha.`,
-          icon: BookOpen
+          icon: BookOpen,
         };
       case 'activity':
         return {
           title: 'Nenhuma atividade ainda',
           description: `${username} ainda não tem atividades públicas.`,
-          icon: Heart
+          icon: Heart,
         };
       default:
         return {
           title: 'Nenhum conteúdo',
           description: 'Não há conteúdo para exibir.',
-          icon: MessageSquare
+          icon: MessageSquare,
         };
     }
   };
@@ -133,8 +127,8 @@ function EmptyState({ activeTab, username }: { activeTab: string; username: stri
 
   return (
     <div className="bg-card rounded-lg p-12 text-center">
-      <Icon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      <Icon className="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+      <h3 className="mb-2 text-lg font-semibold">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
     </div>
   );

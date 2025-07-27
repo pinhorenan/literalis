@@ -27,9 +27,9 @@ export async function completeOnboarding(
     // Atualizar usuário com username e nome
     await prisma.user.update({
       where: { id: session.user.id },
-      data: { 
+      data: {
         username,
-        name: name || session.user.name 
+        name: name || session.user.name,
       },
     });
 
@@ -37,7 +37,7 @@ export async function completeOnboarding(
     if (selectedBooks) {
       const bookIsbns = JSON.parse(selectedBooks) as string[];
       if (bookIsbns.length > 0) {
-        const shelfItems = bookIsbns.map(isbn => ({
+        const shelfItems = bookIsbns.map((isbn) => ({
           userId: session.user.id!,
           bookIsbn: isbn,
           status: 'TO_READ' as const,
@@ -58,11 +58,11 @@ export async function completeOnboarding(
         // Buscar IDs dos usuários pelos usernames
         const usersToFollow = await prisma.user.findMany({
           where: { username: { in: usernames } },
-          select: { id: true }
+          select: { id: true },
         });
 
         if (usersToFollow.length > 0) {
-          const follows = usersToFollow.map(user => ({
+          const follows = usersToFollow.map((user) => ({
             followerId: session.user.id!,
             followedId: user.id,
             createdAt: new Date(),

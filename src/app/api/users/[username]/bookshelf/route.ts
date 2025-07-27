@@ -19,7 +19,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ user
   const target = await getUserByUsername(username);
   if (!target) return NextResponse.json({ message: 'Usuário não encontrado.' }, { status: 404 });
 
-  const shelf = await getUserShelf(target.id, take, cursor, viewer?.user?.id === target.id, { query, status, sortBy });
+  const shelf = await getUserShelf(target.id, take, cursor, viewer?.user?.id === target.id, {
+    query,
+    status,
+    sortBy,
+  });
   return NextResponse.json(shelf);
 }
 

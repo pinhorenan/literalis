@@ -61,39 +61,37 @@ export default function BookCarousel({
   const dynamicSlides = typeof window === 'undefined' ? slidesToShow : getSlidesForWidth();
 
   return (
-    <div className={cn('flex items-center bg-card rounded-lg border shadow-sm p-4', className)}>
+    <div className={cn('bg-card flex items-center rounded-lg border p-4 shadow-sm', className)}>
       <Button
         aria-label="Livro anterior"
         variant="ghost"
         onClick={() => emblaApi?.scrollPrev()}
         disabled={!canPrev}
         className={cn(
-          "z-10 rounded-full p-3 transition-all duration-200 hover:scale-110",
-          canPrev 
-            ? "hover:bg-primary/10 hover:text-primary" 
-            : "opacity-50 cursor-not-allowed"
+          'z-10 rounded-full p-3 transition-all duration-200 hover:scale-110',
+          canPrev ? 'hover:bg-primary/10 hover:text-primary' : 'cursor-not-allowed opacity-50',
         )}
       >
-        <ArrowLeft className="w-5 h-5" />
+        <ArrowLeft className="h-5 w-5" />
       </Button>
 
-      <div ref={emblaRef} className="overflow-hidden mx-4 flex-1" style={{ height: 220 }}>
-        <div className="flex h-full items-center rounded-lg gap-4">
+      <div ref={emblaRef} className="mx-4 flex-1 overflow-hidden" style={{ height: 220 }}>
+        <div className="flex h-full items-center gap-4 rounded-lg">
           {books.map((book, index) => (
             <div
               key={book.isbn}
-              className="flex-shrink-0 group"
-              style={{ 
+              className="group flex-shrink-0"
+              style={{
                 flex: `0 0 ${100 / dynamicSlides}%`,
-                animationDelay: `${index * 100}ms`
+                animationDelay: `${index * 100}ms`,
               }}
             >
-              <div className="mx-auto transition-all duration-300 hover:scale-105 hover:-translate-y-1">
-                <BookCover 
-                  isbn={book.isbn} 
-                  width={120} 
-                  height={180} 
-                  className="shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg" 
+              <div className="mx-auto transition-all duration-300 hover:-translate-y-1 hover:scale-105">
+                <BookCover
+                  isbn={book.isbn}
+                  width={120}
+                  height={180}
+                  className="rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl"
                 />
               </div>
             </div>
@@ -107,13 +105,11 @@ export default function BookCarousel({
         onClick={() => emblaApi?.scrollNext()}
         disabled={!canNext}
         className={cn(
-          "z-10 rounded-full p-3 transition-all duration-200 hover:scale-110",
-          canNext 
-            ? "hover:bg-primary/10 hover:text-primary" 
-            : "opacity-50 cursor-not-allowed"
+          'z-10 rounded-full p-3 transition-all duration-200 hover:scale-110',
+          canNext ? 'hover:bg-primary/10 hover:text-primary' : 'cursor-not-allowed opacity-50',
         )}
       >
-        <ArrowRight className="w-5 h-5" />
+        <ArrowRight className="h-5 w-5" />
       </Button>
     </div>
   );

@@ -73,10 +73,14 @@ export async function listFollowers(
     orderBy: [{ createdAt: 'desc' }, { followerId: 'asc' }],
   });
 
+  const total = await prisma.follow.count({
+    where: { followedId: userId },
+  });
+
   const items = followers.slice(0, pageSize).map((f) => mapMinimal(f.follower));
   const nextCursor = followers.length > pageSize ? followers[pageSize].follower.id : null;
 
-  return { items, nextCursor };
+  return { items, nextCursor, total };
 }
 
 export async function countBooksInShelf(userId: string) {

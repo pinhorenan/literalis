@@ -3,14 +3,15 @@
 
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
 import { Users } from 'lucide-react';
+import { SuggestionsPanel } from './SuggestionsPanel';
 
 export function SuggestionsDrawer() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button 
+        <button
           aria-label="Sugestões"
-          className="fixed bottom-4 right-4 z-50 rounded-full bg-primary p-3 text-primary-foreground shadow xl:hidden"
+          className="bg-primary text-primary-foreground fixed bottom-4 right-4 z-50 rounded-full p-3 shadow xl:hidden"
         >
           <Users className="size-6" />
         </button>
@@ -18,6 +19,7 @@ export function SuggestionsDrawer() {
 
       <SheetContent side="right" className="w-80 p-0">
         <SuggestionsPanel />
+      </SheetContent>
     </Sheet>
   );
 }

@@ -32,7 +32,7 @@ function LandingHero() {
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
-        className="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-card text-foreground mt-2 text-sm font-medium"
+        className="bg-card text-foreground mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium"
       >
         <Sparkles size={16} />
         Nova rede social literária
@@ -51,10 +51,7 @@ function LandingHero() {
             initial={{ backgroundSize: '0% 100%' }}
             animate={{ backgroundSize: '100% 100%' }}
             transition={{ delay: 0.9, duration: 0.8, ease: 'easeOut' }}
-            className="
-            relative z-10 px-2 -left-2 
-            bg-[linear-gradient(120deg,var(--theme-color-surface-alt)_0%,var(--theme-color-surface-alt)_100%)] 
-            bg-[length:0%_0.25rem] bg-left-bottom bg-no-repeat"
+            className="relative -left-2 z-10 bg-[linear-gradient(120deg,var(--theme-color-surface-alt)_0%,var(--theme-color-surface-alt)_100%)] bg-[length:0%_0.25rem] bg-left-bottom bg-no-repeat px-2"
           >
             Compartilhe histórias.
           </motion.span>
@@ -77,11 +74,7 @@ function LandingHero() {
         transition={{ delay: 1.5, duration: 0.6 }}
       >
         <Link href={session ? `/feed` : `/auth/signin`} className="w-full sm:w-auto">
-          <Button
-            variant="outline"
-            className="w-full sm:w-auto"
-            size="lg"
-          >
+          <Button variant="outline" className="w-full sm:w-auto" size="lg">
             {session ? null : <UserRoundPlusIcon className="h-5 w-5" />}
             {session ? 'Feed' : 'Faça parte da comunidade'}
           </Button>
@@ -97,9 +90,7 @@ export default function LandingContent() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="
-        min-w-screen relative isolate flex min-h-screen flex-col-reverse items-center justify-evenly gap-12 overflow-hidden from-surface to-surface-alt bg-gradient-to-b px-6 py-16 lg:flex-row lg:px-24'
-      "
+      className="min-w-screen from-surface to-surface-alt lg:px-24' relative isolate flex min-h-screen flex-col-reverse items-center justify-evenly gap-12 overflow-hidden bg-gradient-to-b px-6 py-16 lg:flex-row"
     >
       {/* Toggle de tema */}
       <div className="absolute right-6 top-6 z-20">

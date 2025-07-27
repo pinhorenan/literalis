@@ -14,19 +14,19 @@ export default async function ProfilePage({
   const { username } = await params;
 
   return (
-    <main className="container mx-auto px-4 py-2 max-w-6xl space-y-8">
+    <main className="container mx-auto max-w-6xl space-y-8 px-4 py-2">
       <Toaster position="bottom-right" />
-      
+
       {/* Profile Header */}
       <div className="profile-enter">
         <ProfileHeader username={username} />
       </div>
-      
+
       {/* User Statistics */}
       <div className="stats-enter">
         <UserStats username={username} />
       </div>
-      
+
       {/* User Posts */}
       <div className="posts-enter">
         <UserPosts username={username} />
