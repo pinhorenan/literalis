@@ -14,7 +14,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="pt-BR" className="antialiased" suppressHydrationWarning>
       <head />
-      <body className="relative h-screen w-full">
+      <body className="relative min-h-screen w-full">
         <Providers session={session}>{children}</Providers>
       </body>
     </html>

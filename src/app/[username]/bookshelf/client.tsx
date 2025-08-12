@@ -45,12 +45,10 @@ import { useUserShelf, type ShelfFilters } from '@/hooks/bookshelf/useUserShelf'
 import { useUpdateShelfItem } from '@/hooks/bookshelf/useUpdateShelfItem';
 import { useDeleteShelfItem } from '@/hooks/bookshelf/useDeleteShelfItem';
 import { useUpsertShelfItem } from '@/hooks/bookshelf/useUpsertShelfItem';
-import { useBook } from '@/hooks/book/useBook';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import type { ShelfItem } from '@/types/index';
-import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 
 const PAGE_SIZE = 20;
@@ -178,7 +176,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
 
   // Componente para item da estante com controles
   const BookShelfItem = ({ item }: { item: ShelfItem }) => {
-    const { data: book } = useBook(item.bookIsbn);
+    const book = item.book;
     const progress = calculateProgress(item, book?.totalPages);
 
     if (mode === 'cover') {
@@ -188,7 +186,13 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
             className="cursor-pointer transition-all ease-in-out hover:scale-105 hover:shadow-lg"
             onClick={!isOwn ? () => handleAddToMyShelf(item.bookIsbn) : undefined}
           >
-            <BookCover isbn={item.bookIsbn} className="transition-all ease-in-out" />
+            <BookCover
+              isbn={item.bookIsbn}
+              className="transition-all ease-in-out"
+              book={
+                book ? { isbn: book.isbn, coverUrl: book.coverUrl, title: book.title } : undefined
+              }
+            />
           </div>
 
           {/* Barra de progresso para modo cover */}
@@ -252,7 +256,14 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
           )}
           onClick={!isOwn ? () => handleAddToMyShelf(item.bookIsbn) : undefined}
         >
-          <BookCover isbn={item.bookIsbn} width={48} height={72} />
+          <BookCover
+            isbn={item.bookIsbn}
+            width={48}
+            height={72}
+            book={
+              book ? { isbn: book.isbn, coverUrl: book.coverUrl, title: book.title } : undefined
+            }
+          />
           <div className="flex-1 space-y-1">
             <h4 className="line-clamp-1 text-sm font-medium">{book?.title}</h4>
             <p className="text-muted-foreground line-clamp-1 text-xs">{book?.authors?.[0]?.name}</p>
@@ -333,8 +344,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   /* ---------------------------- UI ------------------------------------ */
   if (isLoading)
     return (
-      <main className="mx-4 my-2 flex flex-col gap-6">
-        <Toaster position="bottom-right" />
+      <main className="app-container flex max-w-5xl flex-col gap-6 py-2">
         {/* ---------- toolbar de busca / filtros / modo ---------- */}
         <div className="bg-card flex items-center gap-4 rounded-lg p-4">
           {/* pesquisa */}
@@ -393,9 +403,9 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
         <div
           className={clsx(
             mode === 'compact' &&
-              'bg-card grid grid-cols-2 gap-4 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
+              'card-surface grid grid-cols-2 gap-4 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
             mode === 'cover' &&
-              'bg-card grid grid-cols-2 gap-3 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7',
+              'card-surface grid grid-cols-2 gap-3 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7',
           )}
         >
           {Array.from({ length: 12 }).map((_, index) => (
@@ -433,9 +443,7 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
   if (isError || !data) return <p>Erro ao carregar estante.</p>;
 
   return (
-    <main className="mx-4 my-2 flex flex-col gap-6">
-      <Toaster position="bottom-right" />
-
+    <main className="app-container flex max-w-5xl flex-col gap-6 py-2">
       {/* ---------- toolbar de busca / filtros / modo ---------- */}
       <div className="bg-card flex flex-wrap items-center gap-4 rounded-lg p-4">
         {/* pesquisa */}
@@ -494,9 +502,9 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
       <div
         className={clsx(
           mode === 'compact' &&
-            'bg-card grid grid-cols-2 gap-4 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
+            'card-surface grid grid-cols-2 gap-4 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6',
           mode === 'cover' &&
-            'bg-card grid grid-cols-2 gap-3 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7',
+            'card-surface grid grid-cols-2 gap-3 rounded-lg p-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7',
         )}
       >
         {data.items.map((item: ShelfItem) => (
@@ -579,7 +587,14 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
                   Cancelar
                 </Button>
                 <Button type="submit" disabled={updateShelfItem.isPending}>
-                  {updateShelfItem.isPending ? 'Salvando...' : 'Salvar'}
+                  {updateShelfItem.isPending ? (
+                    <span className="inline-flex items-center gap-2">
+                      <span className="inline-block size-4 animate-spin rounded-full border-2 border-transparent border-t-current" />
+                      Salvando...
+                    </span>
+                  ) : (
+                    'Salvar'
+                  )}
                 </Button>
               </DialogFooter>
             </form>
@@ -607,7 +622,14 @@ export default function BookshelfClient({ username, isOwn }: { username: string;
               onClick={handleConfirmDelete}
               disabled={deleteShelfItem.isPending}
             >
-              {deleteShelfItem.isPending ? 'Removendo...' : 'Remover'}
+              {deleteShelfItem.isPending ? (
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-block size-4 animate-spin rounded-full border-2 border-transparent border-t-current" />
+                  Removendo...
+                </span>
+              ) : (
+                'Remover'
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

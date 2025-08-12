@@ -13,12 +13,16 @@ function Progress({
   return (
     <ProgressPrimitive.Root
       data-slot="progress"
-      className={cn('bg-foreground relative h-2 w-full overflow-hidden rounded-full', className)}
+      className={cn(
+        'relative h-2 w-full overflow-hidden rounded-full',
+        'bg-[color-mix(in_oklab,var(--theme-color-surface-alt)_70%,var(--theme-color-border))]',
+        className,
+      )}
       {...props}
     >
       <ProgressPrimitive.Indicator
         data-slot="progress-indicator"
-        className="bg-accent h-full w-full flex-1 transition-all"
+        className="h-full w-full flex-1 transition-all"
         style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
       />
     </ProgressPrimitive.Root>

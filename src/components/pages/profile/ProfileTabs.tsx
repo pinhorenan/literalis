@@ -1,7 +1,6 @@
 // src/components/pages/profile/ProfileTabs.tsx
 'use client';
 
-import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { UserPosts } from './UserPosts';
 import { BookOpen, MessageSquare, Heart, Calendar } from 'lucide-react';

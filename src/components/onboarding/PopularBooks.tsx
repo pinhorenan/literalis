@@ -1,9 +1,7 @@
 // src/components/onboarding/PopularBooks.tsx
 'use client';
 
-import { useState } from 'react';
 import { Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { BookCover } from '@/components/core/Book';
 import { useAllBooks } from '@/hooks/book';

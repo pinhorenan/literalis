@@ -11,7 +11,7 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import clsx from 'clsx';
+//
 
 function LandingHero() {
   const { data: session } = useSession();
@@ -89,42 +89,37 @@ export default function LandingContent() {
     <motion.section
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="min-w-screen from-surface to-surface-alt lg:px-24' relative isolate flex min-h-screen flex-col-reverse items-center justify-evenly gap-12 overflow-hidden bg-gradient-to-b px-6 py-16 lg:flex-row"
+      transition={{ duration: 0.5 }}
+      className="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-16"
     >
       {/* Toggle de tema */}
       <div className="absolute right-6 top-6 z-20">
         <ModeToggle />
       </div>
 
-      {/* Background texture */}
-      <Image
-        src="/images/paper-texture.png"
-        alt=""
-        fill
-        className="pointer-events-none absolute inset-0 z-0 object-cover opacity-40"
-      />
+      {/* Círculos decorativos sutis */}
+      <CircleVector className="absolute -bottom-32 -left-32 z-10 h-[280px] w-[280px] opacity-50 md:h-[380px] md:w-[380px] lg:h-[460px] lg:w-[460px]" />
+      <CircleVector className="absolute -top-32 right-0 z-10 h-[220px] w-[220px] opacity-50 md:h-[300px] md:w-[300px] lg:h-[420px] lg:w-[420px]" />
 
-      {/* Círculos decorativos */}
-      <CircleVector className="absolute -bottom-32 -left-32 z-10 h-[300px] w-[300px] md:h-[400px] md:w-[400px] lg:h-[500px] lg:w-[500px]" />
-      <CircleVector className="absolute -top-32 right-0 z-10 h-[240px] w-[240px] md:h-[320px] md:w-[320px] lg:h-[480px] lg:w-[480px]" />
+      <div className="app-container grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <LandingHero />
 
-      <LandingHero />
-
-      <motion.div
-        className="border-border z-10 hidden aspect-square w-full max-w-sm overflow-hidden rounded-full border shadow-md lg:block"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.0, duration: 0.6 }}
-      >
-        <Image
-          src="/images/reading_circle.png"
-          alt="Ilustração de boas-vindas"
-          width={400}
-          height={400}
-          className="h-full w-full object-cover"
-        />
-      </motion.div>
+        <motion.div
+          className="border-border z-10 hidden aspect-square w-full max-w-sm overflow-hidden rounded-full border shadow-sm lg:block"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          <Image
+            src="/images/reading_circle.png"
+            alt="Ilustração de boas-vindas"
+            width={400}
+            height={400}
+            className="h-full w-full object-cover"
+            priority
+          />
+        </motion.div>
+      </div>
     </motion.section>
   );
 }

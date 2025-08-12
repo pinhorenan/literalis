@@ -1,7 +1,6 @@
 // src/components/onboarding/SuggestedUsers.tsx
 'use client';
 
-import { useState } from 'react';
 import { UserPlus, Check } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';

@@ -81,8 +81,8 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="from-primary/5 via-background to-secondary/5 flex min-h-screen items-center justify-center bg-gradient-to-br p-4">
-      <div className="w-full max-w-4xl">
+    <main className="app-container py-10">
+      <div className="mx-auto w-full max-w-4xl">
         {/* Progress Steps */}
         <div className="mb-8">
           <div className="flex items-center justify-center space-x-8">
@@ -90,16 +90,16 @@ export default function OnboardingPage() {
               <div key={step.number} className="flex items-center">
                 <div className="flex flex-col items-center space-y-2">
                   <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${
                       currentStep >= step.number
                         ? 'bg-primary border-primary text-primary-foreground'
                         : 'border-muted-foreground/30 text-muted-foreground'
                     } `}
                   >
                     {currentStep > step.number ? (
-                      <Check className="h-6 w-6" />
+                      <Check className="h-5 w-5" />
                     ) : (
-                      <step.icon className="h-6 w-6" />
+                      <step.icon className="h-5 w-5" />
                     )}
                   </div>
                   <div className="text-center">
@@ -111,7 +111,7 @@ export default function OnboardingPage() {
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`mx-4 h-0.5 w-16 transition-colors duration-300 ${currentStep > step.number ? 'bg-primary' : 'bg-muted-foreground/30'} `}
+                    className={`mx-4 h-0.5 w-16 ${currentStep > step.number ? 'bg-primary' : 'bg-muted-foreground/30'} `}
                   />
                 )}
               </div>
@@ -121,19 +121,19 @@ export default function OnboardingPage() {
 
         {/* Main Content */}
         <form onSubmit={handleSubmit}>
-          <Card className="border-border/50 shadow-xl">
+          <Card className="card-surface">
             <CardHeader className="pb-6 text-center">
-              <div className="from-primary to-secondary mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br">
-                <BookOpen className="h-8 w-8 text-white" />
+              <div className="bg-primary text-primary-foreground mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full">
+                <BookOpen className="h-6 w-6" />
               </div>
-              <CardTitle className="text-2xl">{steps[currentStep - 1].title}</CardTitle>
-              <p className="text-muted-foreground">{steps[currentStep - 1].description}</p>
+              <CardTitle className="text-xl">{steps[currentStep - 1].title}</CardTitle>
+              <p className="text-muted-foreground text-sm">{steps[currentStep - 1].description}</p>
             </CardHeader>
 
             <CardContent className="space-y-6">
               {/* Step 1: Profile */}
               {currentStep === 1 && (
-                <div className="animate-in slide-in-from-right space-y-6 duration-500">
+                <div className="space-y-6">
                   <div className="mx-auto max-w-md space-y-4">
                     <div>
                       <label className="mb-2 block text-sm font-medium">Nome de usuário *</label>
@@ -145,7 +145,7 @@ export default function OnboardingPage() {
                         required
                       />
                       <p className="text-muted-foreground mt-1 text-center text-xs">
-                        Use apenas letras, números e "_". Mínimo 3 caracteres.
+                        Use apenas letras, números e &quot;_&quot;. Mínimo 3 caracteres.
                       </p>
                     </div>
 
@@ -169,14 +169,14 @@ export default function OnboardingPage() {
 
               {/* Step 2: Books */}
               {currentStep === 2 && (
-                <div className="animate-in slide-in-from-right duration-500">
+                <div>
                   <PopularBooks selectedBooks={selectedBooks} onBooksSelected={setSelectedBooks} />
                 </div>
               )}
 
               {/* Step 3: Users */}
               {currentStep === 3 && (
-                <div className="animate-in slide-in-from-right duration-500">
+                <div>
                   <SuggestedUsers
                     selectedUsers={selectedUsers}
                     onUsersSelected={setSelectedUsers}
@@ -223,10 +223,7 @@ export default function OnboardingPage() {
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 ) : (
-                  <Button
-                    type="submit"
-                    className="from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 flex items-center gap-2 bg-gradient-to-r"
-                  >
+                  <Button type="submit" className="flex items-center gap-2">
                     <Check className="h-4 w-4" />
                     Finalizar
                   </Button>
@@ -247,7 +244,9 @@ export default function OnboardingPage() {
                   setSelectedBooks([]);
                   setCurrentStep(3);
                 } else if (currentStep === 3) {
-                  handleSubmit({ preventDefault: () => {} } as any);
+                  // Submit without synthetic event
+                  const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
+                  handleSubmit(fakeEvent);
                 }
               }}
               className="text-muted-foreground hover:text-foreground"
@@ -257,6 +256,6 @@ export default function OnboardingPage() {
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 }

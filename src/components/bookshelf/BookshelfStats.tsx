@@ -12,10 +12,9 @@ interface BookshelfStatsProps {
     toRead: number;
     avgRating: number;
   };
-  isOwn: boolean;
 }
 
-export function BookshelfStats({ stats, isOwn }: BookshelfStatsProps) {
+export function BookshelfStats({ stats }: BookshelfStatsProps) {
   const statItems = [
     {
       label: 'Total',

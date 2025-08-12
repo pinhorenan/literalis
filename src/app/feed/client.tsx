@@ -1,16 +1,16 @@
 // src/app/feed/client.tsx
 'use client';
 
-import { Session } from 'next-auth';
 import { useInView } from 'react-intersection-observer';
 import { useAllBooks } from '@/hooks/book';
 import { useFeedPosts } from '@/hooks/post';
-import BookCarousel from '@/components/core/BookCarousel';
+import BookCarousel, { BookCarouselSkeleton } from '@/components/core/BookCarousel';
+import FeedFilters from '../../components/core/FeedFilters';
 import ErrorState from '@/components/core/ErrorState';
 import PostCard from '@/components/core/PostCard';
 
-export default function FeedClient({ session }: { session: Session }) {
-  const username = session.user.username ?? 'leitor';
+export default function FeedClient() {
+  // Username can be used for future personalization; removed to keep file lint-clean
 
   const { data: books = [] } = useAllBooks();
 
@@ -22,46 +22,40 @@ export default function FeedClient({ session }: { session: Session }) {
     onChange: (inView) => inView && hasNextPage && fetchNextPage(),
   });
 
-  if (isLoading) return <FeedSkeleton rows={3} />;
+  if (isLoading) return <FullFeedSkeleton rows={3} />;
   if (isError) return <ErrorState />;
 
   return (
-    <main className="animate-in fade-in mx-auto flex h-full flex-col duration-700">
-      {/* ---- Book Carousel ---- */}
-      <section className="flex w-full flex-col items-center px-4 py-6">
-        <div className="w-full max-w-4xl">
-          <div className="mb-4 text-center">
-            <h2 className="text-foreground mb-2 text-xl font-semibold">Livros em Destaque</h2>
-            <p className="text-muted-foreground text-sm">
-              Explore nossa seleção de livros populares
-            </p>
-          </div>
+    <main className="mx-auto flex h-full min-h-screen flex-col">
+      {/* Book Carousel Section */}
+      <section className="w-full py-3 md:py-5">
+        <div className="app-container max-w-6xl">
           <BookCarousel
             aria-label="Livros em destaque"
             books={books}
-            slidesToShow={4}
-            responsive={{ 1024: 4, 640: 2, 0: 1 }}
-            className="animate-in slide-in-from-top-6 delay-200 duration-500"
+            slidesToShow={2}
+            responsive={{ 1024: 5, 768: 4, 640: 3, 0: 2 }}
+            className="mx-auto max-w-5xl"
           />
         </div>
       </section>
 
-      {/* ---- Feed Posts ---- */}
-      <section className="mt-6 flex flex-1 flex-col items-center overflow-y-auto px-4 pb-8">
-        <div className="flex w-full max-w-2xl flex-col gap-6">
-          <div className="animate-in slide-in-from-bottom-4 space-y-2 text-center delay-300 duration-500">
-            <h1 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent">
-              Olá {username}!
-            </h1>
-            <p className="text-muted-foreground">Aqui está o seu feed personalizado.</p>
-          </div>
+      {/* Minimal filter chips */}
+      <section className="w-full">
+        <div className="app-container max-w-2xl">
+          <FeedFilters />
+        </div>
+      </section>
 
-          <div className="space-y-4">
+      {/* Feed Posts Section */}
+      <section className="flex flex-1 flex-col pb-8">
+        <div className="app-container w-full max-w-2xl">
+          <div className="space-y-6">
             {data?.pages.flatMap((p, pageIndex) =>
               p.items.map((post, postIndex) => (
                 <div
                   key={post.id}
-                  className="animate-in slide-in-from-bottom-4 duration-500"
+                  className="animate-in fade-in slide-in-from-bottom-4 duration-500"
                   style={{ animationDelay: `${(pageIndex * 3 + postIndex) * 100}ms` }}
                 >
                   <PostCard post={post} />
@@ -70,10 +64,10 @@ export default function FeedClient({ session }: { session: Session }) {
             )}
           </div>
 
-          {/* sentinel */}
-          <div ref={ref} />
+          {/* Loading sentinel */}
+          <div ref={ref} className="py-4" />
 
-          {isFetchingNextPage && <FeedSkeleton rows={3} />}
+          {isFetchingNextPage && <FeedSkeleton rows={2} />}
 
           {!hasNextPage && data?.pages?.[0]?.items && data.pages[0].items.length > 0 && (
             <div className="animate-in fade-in py-8 text-center duration-500">
@@ -88,16 +82,16 @@ export default function FeedClient({ session }: { session: Session }) {
 
 function FeedSkeleton({ rows = 3 }: { rows?: number }) {
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col gap-4">
+    <div className="w-full space-y-6">
       {Array.from({ length: rows }).map((_, i) => (
         <div
           key={i}
-          className="bg-card animate-pulse overflow-hidden rounded-lg border shadow-sm"
+          className="bg-card animate-pulse overflow-hidden rounded-2xl border border-[#2c2823] shadow-sm"
           style={{ animationDelay: `${i * 100}ms` }}
         >
           {/* Header skeleton */}
-          <div className="border-border/50 flex items-center gap-3 border-b p-4">
-            <div className="bg-muted h-10 w-10 rounded-full" />
+          <div className="flex items-center gap-3 p-4 sm:p-6">
+            <div className="bg-muted h-12 w-12 rounded-full" />
             <div className="flex-1 space-y-2">
               <div className="bg-muted h-4 w-32 rounded" />
               <div className="bg-muted/70 h-3 w-20 rounded" />
@@ -105,12 +99,12 @@ function FeedSkeleton({ rows = 3 }: { rows?: number }) {
           </div>
 
           {/* Content skeleton */}
-          <div className="flex gap-4 p-4">
-            <div className="bg-muted h-28 w-20 flex-shrink-0 rounded-lg" />
+          <div className="flex flex-col gap-4 p-4 sm:flex-row sm:gap-6 sm:p-6">
+            <div className="bg-muted mx-auto h-36 w-24 flex-shrink-0 rounded-xl sm:mx-0 sm:h-44 sm:w-28" />
             <div className="flex-1 space-y-3">
-              <div className="space-y-2">
-                <div className="bg-muted h-4 w-3/4 rounded" />
-                <div className="bg-muted/70 h-3 w-1/2 rounded" />
+              <div className="space-y-2 text-center sm:text-left">
+                <div className="bg-muted mx-auto h-6 w-3/4 rounded sm:mx-0" />
+                <div className="bg-muted/70 mx-auto h-4 w-1/2 rounded sm:mx-0" />
               </div>
               <div className="bg-muted/50 h-2 w-full rounded-full" />
               <div className="space-y-2">
@@ -121,15 +115,34 @@ function FeedSkeleton({ rows = 3 }: { rows?: number }) {
           </div>
 
           {/* Actions skeleton */}
-          <div className="border-border/50 flex items-center gap-4 border-t p-4">
-            <div className="flex gap-2">
-              <div className="bg-muted h-8 w-16 rounded" />
-              <div className="bg-muted h-8 w-16 rounded" />
-            </div>
-            <div className="bg-muted ml-4 h-8 flex-1 rounded" />
+          <div className="flex items-center gap-4 border-t border-[#2c2823] p-4 sm:p-6">
+            <div className="bg-muted h-8 w-16 rounded" />
+            <div className="bg-muted h-8 w-20 rounded" />
           </div>
         </div>
       ))}
     </div>
+  );
+}
+
+// Full page skeleton including header + carousel placeholder to prevent layout shift
+function FullFeedSkeleton({ rows = 3 }: { rows?: number }) {
+  return (
+    <main className="mx-auto flex h-full min-h-screen flex-col">
+      {/* Carousel section placeholder */}
+      <section className="w-full py-3 md:py-5">
+        <div className="app-container max-w-6xl">
+          <BookCarouselSkeleton slides={4} />
+        </div>
+      </section>
+
+      {/* Feed posts skeleton */}
+      <section className="flex flex-1 flex-col pb-8">
+        <div className="app-container w-full max-w-2xl">
+          <div className="skeleton mb-4 h-8 w-40 rounded" />
+          <FeedSkeleton rows={rows} />
+        </div>
+      </section>
+    </main>
   );
 }

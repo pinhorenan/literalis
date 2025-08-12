@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/providers/ThemeProvider';
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode, useState } from 'react';
 import type { Session } from 'next-auth';
+import { Toaster } from '@/components/ui/sonner';
 
 interface ProvidersProps {
   session: Session | null;
@@ -26,6 +27,8 @@ export default function Providers({ session, children }: ProvidersProps) {
           disableTransitionOnChange
         >
           {children}
+          {/* Global toaster */}
+          <Toaster position="bottom-right" richColors expand={false} />
           <ReactQueryDevtools initialIsOpen={false} />
         </ThemeProvider>
       </QueryClientProvider>

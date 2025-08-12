@@ -4,7 +4,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { Calendar, MapPin, Link as LinkIcon, Users, BookOpen, Edit3 } from 'lucide-react';
+import { Users, BookOpen, Edit3 } from 'lucide-react';
 import { useBooksCount, useUserProfile } from '@/hooks/user';
 import { FollowButton } from '@/components/layout/buttons/FollowButton';
 import { Button } from '@/components/ui/button';
@@ -52,35 +52,29 @@ export default function ProfileHeader({ username }: { username: string }) {
   };
 
   return (
-    <div className="bg-card animate-in slide-in-from-top-4 overflow-hidden rounded-lg shadow-lg duration-700">
-      {/* Header Cover - Enhanced Gradient Background */}
-      <div className="relative h-32 overflow-hidden bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 md:h-40">
-        <div className="absolute inset-0 bg-black/20" />
-        {/* Decorative elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute right-4 top-4 h-20 w-20 animate-pulse rounded-full bg-white/20" />
-          <div className="absolute bottom-2 left-8 h-16 w-16 animate-pulse rounded-full bg-white/10 delay-300" />
-          <div className="absolute left-1/3 top-8 h-12 w-12 animate-pulse rounded-full bg-white/15 delay-700" />
-        </div>
+    <div className="card-surface overflow-hidden">
+      {/* Header Cover - subtle gradient */}
+      <div className="from-primary/20 to-secondary/20 relative h-28 overflow-hidden bg-gradient-to-r md:h-32">
+        <div className="absolute inset-0 bg-black/0" />
       </div>
 
       {/* Profile Content */}
-      <div className="px-6 pb-6">
+      <div className="px-5 pb-5">
         {/* Avatar and Actions */}
-        <div className="-mt-16 mb-4 flex items-end justify-between">
+        <div className="-mt-14 mb-3 flex items-end justify-between">
           <div className="relative">
             <div className="bg-background rounded-full p-1">
               <Image
                 src={user.avatarUrl || '/default-avatar.png'}
                 alt={`${user.username}'s avatar`}
-                width={120}
-                height={120}
-                className="border-background rounded-full border-4 shadow-lg"
+                width={96}
+                height={96}
+                className="border-background rounded-full border-4 shadow-sm"
               />
             </div>
           </div>
 
-          <div className="mb-4 flex gap-2">
+          <div className="mb-3 flex gap-2">
             {isMe ? (
               <Button variant="outline" size="sm">
                 <Edit3 className="mr-2 h-4 w-4" />
@@ -100,7 +94,7 @@ export default function ProfileHeader({ username }: { username: string }) {
         {/* User Info */}
         <div className="space-y-3">
           <div>
-            <h1 className="text-2xl font-bold">{user.name}</h1>
+            <h1 className="text-xl font-bold">{user.name}</h1>
             <p className="text-muted-foreground">@{user.username}</p>
           </div>
 
@@ -144,14 +138,14 @@ export default function ProfileHeader({ username }: { username: string }) {
 
 function ProfileHeaderSkeleton() {
   return (
-    <div className="bg-card overflow-hidden rounded-lg shadow-lg">
+    <div className="card-surface overflow-hidden">
       {/* Header Cover Skeleton */}
-      <Skeleton className="h-32 w-full" />
+      <Skeleton className="h-28 w-full" />
 
       {/* Profile Content Skeleton */}
       <div className="px-6 pb-6">
-        <div className="-mt-16 mb-4 flex items-end justify-between">
-          <Skeleton className="h-32 w-32 rounded-full" />
+        <div className="-mt-14 mb-3 flex items-end justify-between">
+          <Skeleton className="h-24 w-24 rounded-full" />
           <Skeleton className="mb-4 h-10 w-32" />
         </div>
 

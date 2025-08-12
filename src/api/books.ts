@@ -9,8 +9,10 @@ export async function fetchBookData(isbn: string): Promise<Book> {
 }
 
 // * GET app/api/books
-export async function fetchAllBooks(): Promise<MinimalBook[]> {
-  const res = await fetch('/api/books');
+export async function fetchAllBooks(take?: number): Promise<MinimalBook[]> {
+  const url = new URL('/api/books', window.location.origin);
+  if (take && take > 0) url.searchParams.set('take', String(take));
+  const res = await fetch(url.toString());
   if (!res.ok) throw new Error('Erro ao buscar lista de livros');
 
   const data = await res.json();

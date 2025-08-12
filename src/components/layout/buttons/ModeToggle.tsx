@@ -24,7 +24,8 @@ export function ModeToggle({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
-          className={`hover:bg-card flex cursor-pointer items-center gap-2 rounded-lg p-2 ${className}`}
+          className={`hover:bg-card inline-flex cursor-pointer items-center gap-2 rounded-lg p-2 ${className}`}
+          style={{ width: 'fit-content' }}
         >
           <Sun
             size={30}
@@ -32,7 +33,7 @@ export function ModeToggle({
           />
           <Moon
             size={30}
-            className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+            className="rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
           />
           {verbose ? (
             <h2 className="text-lg font-semibold">
@@ -46,7 +47,7 @@ export function ModeToggle({
           <span className="sr-only">Toggle theme</span>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" sideOffset={8}>
         <DropdownMenuItem onClick={() => setTheme('light')}>Claro</DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>Escuro</DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>Sistema</DropdownMenuItem>

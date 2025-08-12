@@ -6,8 +6,6 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { BookCover } from '@/components/core/Book';
-import { Toaster } from '@/components/ui/sonner';
 import { Search, BookOpen, Users } from 'lucide-react';
 import Link from 'next/link';
 
@@ -17,9 +15,7 @@ export default function SearchPage() {
   const debouncedQuery = useDebounce(query, 300);
 
   return (
-    <main className="container mx-auto max-w-4xl px-4 py-8">
-      <Toaster position="bottom-right" />
-
+    <main className="app-container max-w-4xl py-6">
       <div className="space-y-6">
         <div className="space-y-4 text-center">
           <h1 className="text-3xl font-bold">Buscar</h1>
@@ -27,8 +23,6 @@ export default function SearchPage() {
             Encontre livros e usuários na comunidade Literalis
           </p>
         </div>
-
-        {/* Search Input */}
         <div className="relative mx-auto max-w-lg">
           <Search className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
           <Input
@@ -120,7 +114,7 @@ function SearchResults({ query, activeTab }: { query: string; activeTab: 'books'
               Funcionalidade de busca será implementada em breve.
             </p>
             <p className="text-muted-foreground mt-2 text-sm">
-              Buscando por: "{query}" em {activeTab === 'books' ? 'livros' : 'usuários'}
+              Buscando por: &quot;{query}&quot; em {activeTab === 'books' ? 'livros' : 'usuários'}
             </p>
           </div>
           <div className="pt-4">

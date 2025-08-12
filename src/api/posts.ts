@@ -24,9 +24,9 @@ export function fetchPost(id: string) {
   return request<Post>(`/api/posts/${id}`);
 }
 
-/** GET /api/posts/user/[username]cursor=<id> */
+/** GET /api/users/[username]/posts?cursor=<id>&take=<n> */
 export function fetchUserPosts(username: string, cursor?: string, take = 20) {
-  const url = new URL(`/api/user/${username}/posts`, window.location.origin);
+  const url = new URL(`/api/users/${username}/posts`, window.location.origin);
   url.searchParams.set('take', String(take));
   if (cursor) url.searchParams.set('cursor', cursor);
   return request<Paginated<Post>>(url.toString());

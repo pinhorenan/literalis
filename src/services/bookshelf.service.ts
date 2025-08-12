@@ -1,5 +1,5 @@
 // src/services/bookshelf.service.ts
-import { BookshelfItem as PrismaShelfItem } from '@prisma/client';
+import type { Prisma, BookshelfItem as PrismaShelfItem, ReadingStatus } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import type { Paginated, ShelfItem } from '@/types/index';
 import { ShelfItemInputSchema, type ShelfItemInput } from '@/lib/validators/bookshelf';
@@ -20,31 +20,32 @@ export async function getUserShelf(
   isOwner = false,
   filters: { query?: string; status?: string; sortBy?: string } = {},
 ): Promise<Paginated<ShelfItem>> {
-  const where: any = {
+  const where: Prisma.BookshelfItemWhereInput = {
     userId,
     removedAt: null,
     ...(isOwner ? {} : { isPrivate: false }),
   };
 
   // Filtro por status
-  if (filters.status) {
-    where.status = filters.status;
-  }
+  if (filters.status) where.status = filters.status as ReadingStatus;
 
   // Filtro por busca textual (título ou autor) - precisa usar relacionamento
   if (filters.query) {
     where.book = {
       OR: [
-        { title: { contains: filters.query, mode: 'insensitive' } },
-        { authors: { some: { name: { contains: filters.query, mode: 'insensitive' } } } },
+        { title: { contains: filters.query } },
+        { authors: { some: { author: { name: { contains: filters.query } } } } },
       ],
-    };
+    } satisfies Prisma.BookWhereInput; // nested author name filter
   }
 
   const countPromise = prisma.bookshelfItem.count({ where });
 
   // Configurar ordenação baseada no filtro
-  let orderBy: any = [{ addedAt: 'desc' }, { bookIsbn: 'asc' }]; // padrão
+  let orderBy: Prisma.BookshelfItemOrderByWithRelationInput[] = [
+    { addedAt: 'desc' },
+    { bookIsbn: 'asc' },
+  ]; // padrão
 
   if (filters.sortBy) {
     switch (filters.sortBy) {
@@ -68,23 +69,43 @@ export async function getUserShelf(
     }
   }
 
-  const findManyArgs: any = {
+  const findPromise = prisma.bookshelfItem.findMany({
     where,
     take: pageSize + 1,
     orderBy,
-    include: { book: { include: { authors: true } } }, // Sempre incluir para funcionar a busca
-  };
-
-  if (cursor) {
-    findManyArgs.cursor = { userId_bookIsbn: { userId, bookIsbn: cursor } };
-    findManyArgs.skip = 1;
-  }
-
-  const findPromise = prisma.bookshelfItem.findMany(findManyArgs);
+    include: {
+      book: {
+        select: {
+          isbn: true,
+          title: true,
+          pages: true,
+          coverUrl: true,
+          authors: { select: { author: { select: { id: true, name: true } } } },
+        },
+      },
+    },
+    ...(cursor ? { cursor: { userId_bookIsbn: { userId, bookIsbn: cursor } }, skip: 1 } : {}),
+  });
 
   const [total, rows] = await prisma.$transaction([countPromise, findPromise]);
 
-  const items = rows.slice(0, pageSize).map(normalize);
+  const items = rows.slice(0, pageSize).map((r) => {
+    const item = normalize(r as PrismaShelfItem);
+    const b = r.book;
+    return {
+      ...item,
+      // aninha dados mínimos do livro para renderização
+      book: b
+        ? {
+            isbn: b.isbn,
+            title: b.title,
+            totalPages: b.pages,
+            coverUrl: b.coverUrl,
+            authors: (b.authors || []).map((a) => a.author),
+          }
+        : undefined,
+    } as ShelfItem;
+  });
   const nextCursor = rows.length > pageSize ? rows[pageSize].bookIsbn : null;
 
   return { items, nextCursor, total };

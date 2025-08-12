@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getBookByIsbn } from '@/services/book.service';
 
-export async function GET(_req: NextRequest, { params }: { params: Promise<{ isbn: string }> }) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ isbn: string }> }) {
   const { isbn } = await params;
 
   try {
@@ -11,7 +11,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ isb
       return NextResponse.json({ error: 'Livro não encontrado' }, { status: 404 });
     }
     return NextResponse.json(book);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Erro ao buscar livro' }, { status: 500 });
   }
 }

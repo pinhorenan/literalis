@@ -2,7 +2,6 @@
 import ProfileHeader from '@/components/pages/profile/ProfileHeader';
 import { UserStats } from '@/components/pages/profile/UserStats';
 import { UserPosts } from '@/components/pages/profile/UserPosts';
-import { Toaster } from '@/components/ui/sonner';
 import { ReactNode } from 'react';
 import './profile.css';
 
@@ -14,9 +13,7 @@ export default async function ProfilePage({
   const { username } = await params;
 
   return (
-    <main className="container mx-auto max-w-6xl space-y-8 px-4 py-2">
-      <Toaster position="bottom-right" />
-
+    <main className="app-container max-w-4xl space-y-6 py-2">
       {/* Profile Header */}
       <div className="profile-enter">
         <ProfileHeader username={username} />
@@ -28,7 +25,7 @@ export default async function ProfilePage({
       </div>
 
       {/* User Posts */}
-      <div className="posts-enter">
+      <div>
         <UserPosts username={username} />
       </div>
     </main>

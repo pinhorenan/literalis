@@ -32,7 +32,7 @@ export default async function FeedPage() {
 
   return (
     <Hydrate state={dehydratedState}>
-      <FeedClient session={session} />
+      <FeedClient />
     </Hydrate>
   );
 }

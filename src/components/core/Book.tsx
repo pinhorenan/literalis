@@ -2,6 +2,7 @@
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useBook } from '@/hooks/book/useBook';
+import type { Book, MinimalBook } from '@/types/book';
 
 interface BookCoverProps {
   isbn: string;
@@ -9,25 +10,43 @@ interface BookCoverProps {
   height?: number;
   inShelf?: boolean;
   className?: string;
+  // When true, the cover scales fluidly to its container using aspect ratio
+  fluid?: boolean;
+  // Opcional: dados já carregados para evitar fetch extra
+  book?: Pick<MinimalBook, 'isbn' | 'coverUrl'> & { title?: string };
 }
 
-export function BookCover({ isbn, width = 120, height = 180, className = '' }: BookCoverProps) {
-  const { data: book, isLoading } = useBook(isbn);
+export function BookCover({
+  isbn,
+  width = 120,
+  height = 180,
+  className = '',
+  fluid = false,
+  book: preloaded,
+}: BookCoverProps) {
+  const { data: fetchedBook, isLoading } = useBook(isbn, { enabled: !preloaded });
+  const cover = fetchedBook ?? preloaded;
 
   return (
     <div
-      className={`relative overflow-hidden shadow-sm transition-shadow duration-300 hover:shadow-md ${className}`}
-      style={{ width, height }}
+      className={`relative overflow-hidden shadow-sm transition-shadow duration-300 hover:shadow-md ${className} ${
+        fluid ? 'aspect-[2/3] w-full' : ''
+      }`}
+      style={fluid ? undefined : { width, height }}
     >
-      {isLoading || !book ? (
-        <div className="skeleton-shimmer from-muted via-muted/80 to-muted absolute inset-0 animate-pulse rounded-lg border bg-gradient-to-br" />
+      {!preloaded && (isLoading || !cover) ? (
+        <div className="skeleton absolute inset-0 rounded-lg border" />
       ) : (
         <div className="group relative aspect-[2/3] overflow-hidden rounded-lg border">
           <Image
-            src={book.coverUrl}
-            alt={`Capa do livro ${book.title}`}
+            src={cover!.coverUrl}
+            alt={`Capa do livro ${fetchedBook?.title ?? preloaded?.title ?? 'Livro'}`}
             fill
-            sizes="120px"
+            sizes={
+              fluid
+                ? '(min-width: 1536px) 10vw, (min-width: 1280px) 12vw, (min-width: 1024px) 14vw, (min-width: 640px) 18vw, 40vw'
+                : '120px'
+            }
             className="rounded-lg border object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
@@ -38,8 +57,17 @@ export function BookCover({ isbn, width = 120, height = 180, className = '' }: B
   );
 }
 
-export function BookInfo({ isbn, className }: { isbn: string; className?: string }) {
-  const { data: book } = useBook(isbn);
+export function BookInfo({
+  isbn,
+  className,
+  book: preloaded,
+}: {
+  isbn: string;
+  className?: string;
+  book?: Book;
+}) {
+  const { data: fetchedBook } = useBook(isbn, { enabled: !preloaded });
+  const book = preloaded ?? fetchedBook;
   if (!book) return null;
 
   return (
@@ -48,9 +76,6 @@ export function BookInfo({ isbn, className }: { isbn: string; className?: string
         {book.title}
       </h3>
       <p className="text-muted-foreground text-sm font-medium">por {book.authors[0].name}</p>
-
-      {book.publisher && <p className="text-muted-foreground text-xs">{book.publisher.name}</p>}
-
       {(book.totalPages || book.language) && (
         <p className="text-muted-foreground flex items-center gap-1 text-xs">
           {book.totalPages && (
@@ -66,7 +91,6 @@ export function BookInfo({ isbn, className }: { isbn: string; className?: string
           )}
         </p>
       )}
-
       <p className="text-muted-foreground bg-muted/50 rounded px-2 py-1 font-mono text-xs">
         ISBN: {book.isbn}
       </p>

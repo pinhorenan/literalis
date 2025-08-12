@@ -1,4 +1,4 @@
-// app/api/posts/user/[username]/route.ts
+// src/app/api/users/[username]/posts/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { listUserPosts } from '@/services/post.service';
 import { getUserByUsername } from '@/services/user.service';

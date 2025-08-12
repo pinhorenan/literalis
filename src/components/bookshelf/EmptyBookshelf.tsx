@@ -1,7 +1,7 @@
 // src/components/bookshelf/EmptyBookshelf.tsx
 'use client';
 
-import { BookOpen, Search, Plus } from 'lucide-react';
+import { BookOpen, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
@@ -36,8 +36,8 @@ export function EmptyBookshelf({ isOwn, username, hasFilters }: EmptyBookshelfPr
     return (
       <Card className="col-span-full">
         <CardContent className="flex flex-col items-center justify-center space-y-6 py-16 text-center">
-          <div className="from-primary/20 to-secondary/20 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br">
-            <BookOpen className="text-primary h-10 w-10" />
+          <div className="bg-muted flex h-20 w-20 items-center justify-center rounded-full">
+            <BookOpen className="h-10 w-10" />
           </div>
           <div className="max-w-md space-y-3">
             <h3 className="text-xl font-semibold">Sua estante está vazia</h3>
@@ -47,10 +47,7 @@ export function EmptyBookshelf({ isOwn, username, hasFilters }: EmptyBookshelfPr
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button
-              asChild
-              className="from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 bg-gradient-to-r"
-            >
+            <Button asChild>
               <Link href="/search">
                 <Search className="mr-2 h-4 w-4" />
                 Buscar livros
@@ -78,8 +75,8 @@ export function EmptyBookshelf({ isOwn, username, hasFilters }: EmptyBookshelfPr
   return (
     <Card className="col-span-full">
       <CardContent className="flex flex-col items-center justify-center space-y-6 py-16 text-center">
-        <div className="from-muted to-muted/60 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br">
-          <BookOpen className="text-muted-foreground h-10 w-10" />
+        <div className="bg-muted flex h-20 w-20 items-center justify-center rounded-full">
+          <BookOpen className="h-10 w-10" />
         </div>
         <div className="max-w-md space-y-3">
           <h3 className="text-xl font-semibold">Estante privada</h3>

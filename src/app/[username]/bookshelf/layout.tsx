@@ -15,7 +15,9 @@ export default function BookshelfLayout({ children }: { children: React.ReactNod
     >
       <PrimarySidebar className="hidden md:flex" />
 
-      <SidebarInset>{children}</SidebarInset>
+      <SidebarInset>
+        <div className="app-container flex max-w-5xl flex-1 flex-col py-4">{children}</div>
+      </SidebarInset>
 
       <FeedSuggestions />
     </SidebarProvider>

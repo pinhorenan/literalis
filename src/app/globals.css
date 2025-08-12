@@ -15,17 +15,38 @@
 @theme inline {
   --color-bg: var(--theme-color-bg);
   --color-foreground: var(--theme-color-text-primary);
-  --color-muted: var(--theme-color-text-secondary);
+  /* Shadcn-style tokens */
+  --color-background: var(--theme-color-bg);
+  --color-foreground: var(--theme-color-text-primary);
+  --color-card: var(--theme-color-card);
+  --color-card-foreground: var(--theme-color-text-primary);
+  --color-popover: var(--theme-color-popover);
+  --color-popover-foreground: var(--theme-color-text-primary);
 
+  --color-primary: var(--theme-color-brand-primary);
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: var(--theme-color-brand-secondary);
+  --color-secondary-foreground: #ffffff;
+
+  --color-muted: var(--theme-color-surface-alt);
+  --color-muted-foreground: var(--theme-color-text-secondary);
+
+  --color-accent: var(--theme-color-accent);
+  --color-accent-foreground: #ffffff;
+
+  --color-destructive: var(--theme-color-destructive);
+  --color-destructive-foreground: #ffffff;
+
+  /* Legacy aliases */
   --color-surface: var(--theme-color-surface);
   --color-surface-alt: var(--theme-color-surface-alt);
-  --color-card: var(--theme-color-card);
-  --color-popover: var(--theme-color-popover);
 
   --color-border: var(--theme-color-border);
   --color-ring: var(--theme-color-ring);
   --color-input: var(--theme-color-input);
-
+  
+  /* Extra brand tokens */
   --color-brand-primary: var(--theme-color-brand-primary);
   --color-brand-primary-light: var(--theme-color-brand-primary-light);
   --color-brand-primary-dark: var(--theme-color-brand-primary-dark);
@@ -34,13 +55,11 @@
   --color-brand-secondary-light: var(--theme-color-brand-secondary-light);
   --color-brand-secondary-dark: var(--theme-color-brand-secondary-dark);
 
-  --color-accent: var(--theme-color-accent);
   --color-accent-strong: var(--theme-color-accent-strong);
 
   --color-success: var(--theme-color-success);
   --color-warning: var(--theme-color-warning);
   --color-info: var(--theme-color-info);
-  --color-destructive: var(--theme-color-destructive);
 
   --radius-sm: var(--theme-radius-sm);
   --radius: var(--theme-radius);
@@ -60,16 +79,16 @@
   --theme-radius-lg: 10px;
   --theme-radius-xl: 14px;
 
-  /* Neutral – “Paper” */
-  --theme-neutral-100: #fefefe;
-  --theme-neutral-200: #f5f5f5;
-  --theme-neutral-300: #ebe7dd;
-  --theme-neutral-400: #d6d0c2;
-  --theme-neutral-500: #bfb8a6;
-  --theme-neutral-600: #a79f8c;
-  --theme-neutral-700: #5d5c65;
-  --theme-neutral-800: #4343498b;
-  --theme-neutral-900: #0a0a10;
+  /* Neutral – Light Academia “Parchment & Ink” */
+  --theme-neutral-100: #f8f5f0; /* parchment */
+  --theme-neutral-200: #f3ede2;
+  --theme-neutral-300: #e4dac8; /* border */
+  --theme-neutral-400: #d9d2c3;
+  --theme-neutral-500: #b9ad99;
+  --theme-neutral-600: #9a8f7b;
+  --theme-neutral-700: #6e6455;
+  --theme-neutral-800: #4b443a;
+  --theme-neutral-900: #2b2216; /* ink */
 
   /* Surface tokens */
   --theme-color-bg: var(--theme-neutral-100);
@@ -87,19 +106,19 @@
   --theme-color-muted: #8b8375;
   --theme-color-link: var(--theme-color-brand-primary);
 
-  /* Brand – “Indigo Ink” */
-  --theme-color-brand-primary: #4338ca;
-  --theme-color-brand-primary-light: #6366f1;
-  --theme-color-brand-primary-dark: #312e81;
+  /* Brand – Warm Walnut & Gold accents */
+  --theme-color-brand-primary: #6b4f2e; /* walnut */
+  --theme-color-brand-primary-light: #8c6d3f;
+  --theme-color-brand-primary-dark: #4e3620;
 
-  /* Secondary – “Bookmark Amber” */
-  --theme-color-brand-secondary: #d97706;
-  --theme-color-brand-secondary-light: #fbbf24;
-  --theme-color-brand-secondary-dark: #92400e;
+  /* Secondary – Saddle Tan */
+  --theme-color-brand-secondary: #a67c52;
+  --theme-color-brand-secondary-light: #c39a6b;
+  --theme-color-brand-secondary-dark: #7a5838;
 
-  /* Accent – “Teal Highlight” */
-  --theme-color-accent: #14b8a6;
-  --theme-color-accent-strong: #0d9488;
+  /* Accent – Sage Green */
+  --theme-color-accent: #5b8a72;
+  --theme-color-accent-strong: #3f6f59;
 
   /* Status */
   --theme-color-success: #16a34a;
@@ -119,19 +138,20 @@
  * Dark Theme (via next-themes .dark)
  * ─────────────────────────────────────────────── */
 .dark {
-  --theme-color-bg: var(--theme-neutral-900);
-  --theme-color-surface: var(--theme-neutral-900);
-  --theme-color-surface-alt: var(--theme-neutral-800);
-  --theme-color-card: var(--theme-neutral-800);
-  --theme-color-popover: var(--theme-neutral-800);
-  --theme-color-input: var(--theme-neutral-900);
-  --theme-color-border: var(--theme-neutral-700);
-  --theme-color-ring: rgba(255, 255, 255, 0.16);
+  /* Dark Academia – Espresso & Brass */
+  --theme-color-bg: #11100e; /* espresso */
+  --theme-color-surface: #11100e;
+  --theme-color-surface-alt: #1a1916;
+  --theme-color-card: #1a1916;
+  --theme-color-popover: #1a1916;
+  --theme-color-input: #0f0e0c;
+  --theme-color-border: #3a352e;
+  --theme-color-ring: rgba(212, 175, 55, 0.2);
 
-  --theme-color-text-primary: var(--theme-neutral-100);
-  --theme-color-text-secondary: var(--theme-neutral-300);
-  --theme-color-muted: var(--theme-neutral-500);
-  --theme-color-link: var(--theme-color-brand-primary-light);
+  --theme-color-text-primary: #efe9de;
+  --theme-color-text-secondary: #d8ccb6;
+  --theme-color-muted: #b7a68d;
+  --theme-color-link: var(--theme-color-brand-secondary-light);
 
   --theme-color-success: #22c55e;
   --theme-color-warning: #faca15;
@@ -156,14 +176,44 @@
     height: 100%;
     margin: 0;
     overflow-x: hidden;
-    font-family: var(--font-sans, system-ui, sans-serif);
+    font-family: var(--font-sans, system-ui, ui-sans-serif, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji);
     background: var(--color-bg);
     color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Universal border + focus defaults */
   * {
     @apply border-border outline-ring/50;
+  }
+
+  /* Global subtle paper texture background overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url('/images/paper-texture.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25;
+    mix-blend-mode: multiply;
+  }
+
+  /* Typography scale & rhythm */
+  h1 { line-height: 1.1; letter-spacing: -0.01em; }
+  h2 { line-height: 1.15; letter-spacing: -0.005em; }
+  h3, h4, h5, h6 { line-height: 1.2; }
+
+  /* Links */
+  a { color: var(--theme-color-link); text-underline-offset: 3px; }
+  a:hover { text-decoration: underline; }
+
+  /* Selection color tuned to brand */
+  ::selection {
+    background: color-mix(in oklab, var(--theme-color-brand-primary) 20%, transparent);
   }
 }
 
@@ -172,13 +222,46 @@
  * ─────────────────────────────────────────────── */
 @layer utilities {
   /* Skeleton loader */
+  @keyframes shine {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
   .skeleton {
-    @apply relative overflow-hidden rounded bg-slate-200 dark:bg-slate-700;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background-color: color-mix(in oklab, var(--theme-color-surface-alt) 70%, var(--theme-color-border));
   }
   .skeleton::after {
     content: '';
     position: absolute;
     inset: 0;
-    @apply animate-pulse bg-gradient-to-r from-transparent via-white/40 to-transparent dark:via-white/10;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+    background-size: 200% 100%;
+    animation: shine 1.2s infinite;
+    mix-blend-mode: overlay;
+    opacity: .7;
+  }
+
+  /* App container with consistent paddings */
+  .app-container {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Hide horizontal scrollbar on chip rows and carousels */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+
+  /* Card polish */
+  .card-surface {
+    background: var(--color-card);
+    box-shadow: var(--theme-shadow-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
   }
 }

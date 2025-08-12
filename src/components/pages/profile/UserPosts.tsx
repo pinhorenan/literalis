@@ -4,10 +4,11 @@
 import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useUserPosts } from '@/hooks/post';
+import { useUserProfile } from '@/hooks/user';
 import PostCard from '@/components/core/PostCard';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookOpen, MessageSquare, Heart, Users } from 'lucide-react';
+import { BookOpen, MessageSquare, Heart } from 'lucide-react';
 
 interface UserPostsProps {
   username: string;
@@ -15,14 +16,22 @@ interface UserPostsProps {
 
 export function UserPosts({ username }: UserPostsProps) {
   const [activeTab, setActiveTab] = useState<'posts' | 'reviews' | 'activity'>('posts');
-
-  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useUserPosts(username);
+  const { data: profile } = useUserProfile(username);
+  const postsCount = profile?.counts.posts ?? undefined;
+  const postsOptions = { enabled: (postsCount ?? 1) > 0 } as const;
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } = useUserPosts(
+    username,
+    postsOptions,
+  );
 
   const { ref } = useInView({
     threshold: 0,
     onChange: (inView) => inView && hasNextPage && fetchNextPage(),
   });
+
+  if ((postsCount ?? 0) === 0) {
+    return <EmptyState activeTab={activeTab} username={username} />;
+  }
 
   if (isLoading) {
     return <UserPostsSkeleton />;

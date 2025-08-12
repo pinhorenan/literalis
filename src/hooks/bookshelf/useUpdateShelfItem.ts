@@ -13,7 +13,7 @@ export function useUpdateShelfItem(username: string, isbn: string) {
     Omit<ShelfItem, 'userId' | 'bookIsbn' | 'addedAt' | 'updatedAt' | 'removedAt'>
   >({
     mutationFn: (data) => updateShelfItemClient(username, isbn, data),
-    onSuccess: (updated) => {
+    onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['shelf', username] });
       qc.invalidateQueries({ queryKey: ['shelf', username, isbn] });
     },

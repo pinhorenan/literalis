@@ -3,7 +3,7 @@
 
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
 import { Users } from 'lucide-react';
-import { SuggestionsPanel } from './SuggestionsPanel';
+import { SuggestionsPanel } from '../layout/mobile/SuggestionsPanel';
 
 export function SuggestionsDrawer() {
   return (

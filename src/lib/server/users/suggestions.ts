@@ -1,6 +1,5 @@
 // src/server/users/suggestions.ts
 import { prisma } from '@/lib/prisma';
-import { MINIMAL_USER_SELECT } from '@/lib/constants/selects';
 
 export async function getSuggestedUsers(viewerId: string, limit = 10) {
   const users = await prisma.$queryRaw<
@@ -15,7 +14,7 @@ export async function getSuggestedUsers(viewerId: string, limit = 10) {
           AND "Follow"."followedId" = "User".id
       )
     ORDER BY random()
-    LIMIT 10;
-  `; // nao ta funcionandoo o limit dinamico
+    LIMIT ${limit};
+  `;
   return users;
 }

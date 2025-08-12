@@ -1,6 +1,5 @@
 // src/app/book/[isbn]/page.tsx
 import { notFound } from 'next/navigation';
-import { Toaster } from '@/components/ui/sonner';
 import { BookCover } from '@/components/core/Book';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -24,19 +23,17 @@ export default async function BookPage({ params }: BookPageProps) {
   }
 
   return (
-    <main className="container mx-auto max-w-6xl px-4 py-8">
-      <Toaster position="bottom-right" />
-
-      <div className="grid gap-8 lg:grid-cols-3">
+    <main className="app-container max-w-5xl py-6">
+      <div className="grid gap-6 lg:grid-cols-3">
         {/* Book Cover & Actions */}
         <div className="lg:col-span-1">
           <div className="sticky top-8 space-y-6">
             <div className="flex justify-center">
               <BookCover
                 isbn={book.isbn}
-                width={300}
-                height={450}
-                className="rounded-lg shadow-lg"
+                width={280}
+                height={420}
+                className="rounded-md shadow-sm"
               />
             </div>
 
@@ -58,9 +55,9 @@ export default async function BookPage({ params }: BookPageProps) {
         </div>
 
         {/* Book Details */}
-        <div className="space-y-6 lg:col-span-2">
+        <div className="space-y-5 lg:col-span-2">
           <div className="space-y-4">
-            <h1 className="text-foreground text-3xl font-bold">{book.title}</h1>
+            <h1 className="text-foreground text-2xl font-bold">{book.title}</h1>
 
             <div className="text-muted-foreground flex flex-wrap items-center gap-2">
               <span className="text-lg">por {book.authors.map((a) => a.name).join(', ')}</span>

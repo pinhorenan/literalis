@@ -2,7 +2,7 @@
 'use client';
 
 import { useBooksCount, useUserProfile } from '@/hooks/user';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookOpen, Users, Heart, TrendingUp } from 'lucide-react';
 

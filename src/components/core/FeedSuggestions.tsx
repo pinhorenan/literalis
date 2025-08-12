@@ -22,27 +22,27 @@ export function FeedSuggestions() {
   if (status !== 'authenticated') return null;
 
   return (
-    <div className="animate-in slide-in-from-right-6 m-8 ml-0 duration-700">
+    <div className="m-6 ml-0 hidden md:block">
       {/* ---- Perfil do viewer ---- */}
-      <div className="bg-card mb-6 rounded-lg p-4 shadow-sm transition-shadow duration-300 hover:shadow-md">
+      <div className="card-surface mb-4 p-3">
         <Link
           href={`/${viewer.username}/profile`}
-          className="hover:bg-muted/50 group flex items-center gap-3 rounded-lg p-3 transition-all duration-200"
+          className="hover:bg-muted/50 group flex items-center gap-3 rounded-md p-2"
         >
           <div className="relative">
-            <Avatar className="border-background ring-primary/20 h-12 w-12 border-2 shadow-sm ring-2">
+            <Avatar className="ring-border h-10 w-10 border shadow-sm ring-1">
               <AvatarImage src={viewer.avatarUrl || undefined} />
               <AvatarFallback className="from-primary/20 to-secondary/20 bg-gradient-to-br font-semibold">
                 {viewer.name?.[0]}
               </AvatarFallback>
             </Avatar>
-            <div className="border-background absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 bg-green-500" />
+            <div className="border-background absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border bg-green-500" />
           </div>
           <div className="flex flex-col truncate">
-            <span className="text-md group-hover:text-primary truncate font-semibold transition-colors">
+            <span className="group-hover:text-primary truncate text-sm font-semibold">
               {viewer.name}
             </span>
-            <span className="text-muted-foreground truncate text-sm font-medium">
+            <span className="text-muted-foreground truncate text-xs font-medium">
               @{viewer.username}
             </span>
           </div>
@@ -50,10 +50,10 @@ export function FeedSuggestions() {
       </div>
 
       {/* ---- Sugestões ---- */}
-      <div className="bg-card overflow-hidden rounded-lg shadow-sm">
-        <div className="from-primary/5 to-secondary/5 border-border/50 border-b bg-gradient-to-r px-4 py-3">
-          <h3 className="text-foreground flex items-center gap-2 font-semibold">
-            <span className="bg-primary h-2 w-2 animate-pulse rounded-full"></span>
+      <div className="card-surface overflow-hidden">
+        <div className="from-primary/5 to-secondary/5 border-border/50 border-b bg-gradient-to-r px-3 py-2.5">
+          <h3 className="text-foreground flex items-center gap-2 text-sm font-semibold">
+            <span className="bg-primary h-1.5 w-1.5 animate-pulse rounded-full"></span>
             Perfis recomendados
           </h3>
         </div>
@@ -68,8 +68,8 @@ export function FeedSuggestions() {
               </p>
             </div>
           )}
-          {suggestions?.map((user, index) => (
-            <SuggestionRow key={user.id} user={user} index={index} />
+          {suggestions?.map((user) => (
+            <SuggestionRow key={user.id} user={user} />
           ))}
         </div>
       </div>
@@ -77,7 +77,7 @@ export function FeedSuggestions() {
   );
 }
 
-function SuggestionRow({ user, index = 0 }: { user: MinimalUser; index?: number }) {
+function SuggestionRow({ user }: { user: MinimalUser }) {
   const handleToggleFollow = (wasFollowing: boolean, username: string) => {
     if (wasFollowing) {
       toast.success(`Você deixou de seguir @${username}`);
@@ -87,11 +87,8 @@ function SuggestionRow({ user, index = 0 }: { user: MinimalUser; index?: number 
   };
 
   return (
-    <div
-      className="animate-in slide-in-from-right-4 duration-300"
-      style={{ animationDelay: `${index * 100}ms` }}
-    >
-      <div className="hover:bg-muted/50 group flex items-center gap-3 rounded-lg p-3 transition-all duration-200">
+    <div>
+      <div className="hover:bg-muted/50 group flex items-center gap-3 rounded-md p-2">
         <Link
           href={`/${user.username}/profile`}
           className="flex flex-1 items-center gap-3 truncate"
@@ -103,7 +100,7 @@ function SuggestionRow({ user, index = 0 }: { user: MinimalUser; index?: number 
                 {user.name?.[0]}
               </AvatarFallback>
             </Avatar>
-            <div className="border-background absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border bg-green-500" />
+            <div className="border-background absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border bg-green-500" />
           </div>
           <div className="flex flex-col truncate">
             <span className="group-hover:text-primary truncate text-sm font-semibold transition-colors">
@@ -118,7 +115,7 @@ function SuggestionRow({ user, index = 0 }: { user: MinimalUser; index?: number 
           variant="outline"
           size="sm"
           showIcon={false}
-          className="ml-auto px-3 py-1.5 text-xs transition-transform hover:scale-105"
+          className="ml-auto px-3 py-1.5 text-xs"
           onToggle={handleToggleFollow}
         />
       </div>

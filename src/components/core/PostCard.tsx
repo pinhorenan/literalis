@@ -1,167 +1,108 @@
 // src/components/core/PostCard.tsx
 'use client';
 
-import { Heart, MessageCircle, Share2 } from 'lucide-react';
-import { useState, FormEvent } from 'react';
+import { Heart, MessageCircle } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale/pt-BR';
-import clsx from 'clsx';
-
-import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { BookCover, BookInfo } from '@/components/core/Book';
-import { useCommentPost, useToggleLikePost } from '@/hooks/post';
+import { BookCover } from '@/components/core/Book';
 import type { Post, Comment } from '@/types/post';
 
 export default function PostCard({ post }: { post: Post }) {
-  const [showFull, setShowFull] = useState(false);
-  const [newComment, setNewComment] = useState('');
   const relTime = formatDistanceToNow(post.createdAt, { locale: ptBR, addSuffix: true });
 
-  const { mutate: addComment } = useCommentPost(post.id);
-  const { mutate: toggleLike } = useToggleLikePost(post.id);
   const authorName = post.author.name ?? post.author.username;
   const progress =
     post.currentPage && post.totalPages
       ? Math.ceil((post.currentPage / post.totalPages) * 100)
       : post.progress;
 
-  function handleSubmitComment(e: FormEvent) {
-    e.preventDefault();
-    if (!newComment.trim()) return;
-    addComment(newComment, { onSuccess: () => setNewComment('') });
-  }
-
-  function handleToggleLike() {
-    toggleLike();
-  }
-
   return (
-    <article className="bg-card w-full max-w-2xl rounded-lg border shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-      {/* header */}
-      <div className="border-border/50 flex items-center justify-between border-b px-4 py-3">
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <Avatar className="ring-background shadow-sm ring-2">
-              <AvatarImage src={post.author.avatarUrl ?? undefined} />
-              <AvatarFallback className="from-primary/20 to-secondary/20 bg-gradient-to-br font-semibold">
-                {authorName[0]}
-              </AvatarFallback>
-            </Avatar>
-            <div className="border-background absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full border-2 bg-green-500" />
-          </div>
-          <div className="flex flex-col">
-            <div className="hover:text-primary cursor-pointer text-base font-semibold transition-colors">
-              {authorName}
-            </div>
-            <div className="text-muted-foreground text-xs font-medium">{relTime}</div>
-          </div>
+    <article className="border-border bg-card w-full rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:shadow-md sm:p-6">
+      {/* Header - author info */}
+      <div className="mb-4 flex items-center gap-3">
+        <Avatar className="ring-border h-12 w-12 ring-1">
+          <AvatarImage src={post.author.avatarUrl ?? undefined} />
+          <AvatarFallback className="from-primary/20 to-secondary/20 bg-gradient-to-br font-semibold">
+            {authorName[0]}
+          </AvatarFallback>
+        </Avatar>
+        <div>
+          <div className="text-foreground text-lg font-semibold">{authorName}</div>
+          <div className="text-muted-foreground text-xs">{relTime}</div>
         </div>
       </div>
 
-      {/* corpo */}
-      <div className="flex gap-4 p-4 md:gap-6 md:p-6">
-        <div className="flex-shrink-0">
+      {/* Book and progress section */}
+      <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:gap-6">
+        {/* Book cover */}
+        <div className="flex justify-center sm:justify-start">
           <BookCover
             isbn={post.book.isbn}
             width={120}
             height={180}
-            className="rounded-lg shadow-md transition-shadow duration-300 hover:shadow-lg"
+            className="rounded-xl shadow-sm"
+            book={{ isbn: post.book.isbn, coverUrl: post.book.coverUrl }}
           />
         </div>
-        <div className="flex min-w-0 flex-1 flex-col gap-3">
-          <div className="space-y-2">
-            <BookInfo isbn={post.book.isbn} />
+
+        {/* Book info and progress */}
+        <div className="flex flex-1 flex-col gap-3">
+          {/* Title and author */}
+          <div className="text-center sm:text-left">
+            <h3 className="text-primary text-xl font-bold sm:text-2xl">{post.book.title}</h3>
+            <p className="text-foreground text-base">por {post.book.authors[0]?.name}</p>
           </div>
 
-          {post.progress !== undefined && (
-            <div className="bg-muted/50 flex items-center gap-3 rounded-lg p-3">
-              <div className="flex-1">
-                <Progress value={progress} className="h-2.5" />
+          {/* Book metadata */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+            <span className="text-muted-foreground text-xs">{post.book.totalPages} páginas</span>
+            <span className="text-muted-foreground text-xs">•</span>
+            <span className="text-muted-foreground text-xs">{post.book.language}</span>
+          </div>
+
+          {/* Progress bar */}
+          {progress !== undefined && (
+            <div className="w-full">
+              <div className="mb-1 flex items-center justify-between">
+                <span className="text-foreground text-sm">Progresso de leitura</span>
+                <span className="text-foreground text-sm font-medium">{progress}%</span>
               </div>
-              <span className="text-muted-foreground min-w-0 whitespace-nowrap text-sm font-medium">
-                {progress}%
-              </span>
+              <div className="bg-muted h-2 rounded-full">
+                <div
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
           )}
-
-          <div className="space-y-2">
-            <p
-              className={clsx(
-                'text-foreground/90 text-sm leading-relaxed',
-                !showFull && 'line-clamp-3',
-              )}
-            >
-              {post.content}
-            </p>
-
-            {post.content.length > 200 && (
-              <Button
-                variant="link"
-                size="sm"
-                className="text-primary hover:text-primary/80 h-auto p-0 font-medium transition-colors"
-                onClick={() => setShowFull(!showFull)}
-              >
-                {showFull ? 'Mostrar menos' : 'Mostrar mais'}
-              </Button>
-            )}
-          </div>
         </div>
       </div>
 
-      {/* ações */}
-      <div className="border-border/50 bg-muted/20 border-t">
-        <div className="flex items-center justify-between gap-2 px-4 py-3">
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="hover:bg-primary/10 hover:text-primary flex items-center gap-2 transition-all duration-200"
-            >
-              <MessageCircle className="h-4 w-4" />
-              <span className="text-sm font-medium">{post.commentsCount}</span>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleToggleLike}
-              className={clsx(
-                'flex items-center gap-2 transition-all duration-200',
-                post.likedByMe
-                  ? 'text-red-500 hover:bg-red-50 hover:text-red-600'
-                  : 'hover:bg-red-50 hover:text-red-500',
-              )}
-            >
-              <Heart className={clsx('h-4 w-4', post.likedByMe && 'fill-current')} />
-              <span className="text-sm font-medium">{post.likesCount}</span>
-            </Button>
-          </div>
+      {/* Post content */}
+      {post.content && (
+        <div className="text-foreground mb-4 text-base leading-relaxed">{post.content}</div>
+      )}
 
-          {/* input para novo comentário */}
-          <form onSubmit={handleSubmitComment} className="ml-4 flex flex-1 items-center gap-2">
-            <Input
-              type="text"
-              placeholder="Escreva um comentário..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              className="bg-background/50 border-border/50 focus:border-primary/50 flex-1 text-sm transition-colors"
-            />
-            <Button
-              variant="outline"
-              type="submit"
-              size="sm"
-              className="hover:bg-primary hover:text-primary-foreground transition-colors"
-              disabled={!newComment.trim()}
-            >
-              Enviar
-            </Button>
-          </form>
-        </div>
+      {/* Actions */}
+      <div className="border-border flex items-center gap-6 border-t pt-3">
+        <button
+          className="text-primary hover:text-foreground flex items-center gap-2 transition"
+          aria-label="Curtir"
+        >
+          <Heart className="h-5 w-5" />
+          <span className="text-sm font-medium">{post.likesCount}</span>
+        </button>
+        <button
+          className="text-foreground hover:text-primary flex items-center gap-2 transition"
+          aria-label="Comentar"
+        >
+          <MessageCircle className="h-5 w-5" />
+          <span className="text-sm">Comentar</span>
+        </button>
       </div>
 
-      {/* seção de comentários */}
+      {/* seção de comentários (mantido igual) */}
       {post.comments && post.comments.length > 0 && (
         <div className="border-border/50 bg-muted/10 border-t">
           {post.comments.map((c: Comment) => {

@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma';
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const title = searchParams.get('title');
+  const take = searchParams.get('take');
 
   try {
     if (title) {
@@ -14,6 +15,7 @@ export async function GET(req: NextRequest) {
     }
 
     const books = await prisma.book.findMany({
+      ...(take ? { take: Number(take) } : {}),
       select: {
         isbn: true,
         title: true,

@@ -8,7 +8,7 @@ export function useCreatePost() {
   const qc = useQueryClient();
   return useMutation<Post, Error, Parameters<typeof createPost>[0]>({
     mutationFn: (data) => createPost(data),
-    onSuccess: (_newPost, _vars) => {
+    onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['posts', 'feed'] });
       qc.invalidateQueries({ queryKey: ['posts', 'user'] });
     },
