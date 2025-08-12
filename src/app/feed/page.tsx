@@ -7,7 +7,6 @@ import { fetchFeedPosts } from '@/api/posts';
 import { fetchAllBooks } from '@/api/books';
 import FeedClient from './client';
 
-// todo: fazer prefetch de feed e books: dá pra fazer prefetch da página 1 dos dois e passar o cache desidratado pro cliente. da pra ver mais disso no "Advanced SRR Guide" do TanStack: [https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr?utm_source=chatgpt.com]
 export default async function FeedPage() {
   const session = await auth();
 
