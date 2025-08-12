@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 import useEmblaCarousel from 'embla-carousel-react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { useAllBooks } from '@/hooks/book';
 import { useFeedPosts } from '@/hooks/post';
 import ErrorState from '@/components/core/ErrorState';
@@ -15,7 +15,15 @@ import { cn } from '@/lib/utils';
 import type { MinimalBook } from '@/types/book';
 
 // Feed-specific Book Carousel
-function FeedBookCarousel({ books }: { books: MinimalBook[] }) {
+function FeedBookCarousel({
+  books,
+  isVisible,
+  onToggleVisibility,
+}: {
+  books: MinimalBook[];
+  isVisible: boolean;
+  onToggleVisibility: () => void;
+}) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: true });
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
@@ -23,10 +31,11 @@ function FeedBookCarousel({ books }: { books: MinimalBook[] }) {
 
   const getSlidesForWidth = useCallback(() => {
     const w = window.innerWidth;
-    if (w >= 1024) return 5;
-    if (w >= 768) return 4;
-    if (w >= 640) return 3;
-    return 2;
+    if (w >= 1280) return 8; // XL screens - mais livros
+    if (w >= 1024) return 7; // Desktop - aumentado para preencher melhor
+    if (w >= 768) return 4; // Tablet - mantido
+    if (w >= 640) return 3; // Mobile large - mantido
+    return 2; // Mobile - mantido original
   }, []);
 
   useEffect(() => {
@@ -54,73 +63,106 @@ function FeedBookCarousel({ books }: { books: MinimalBook[] }) {
   const dynamicSlides = typeof window === 'undefined' ? 2 : getSlidesForWidth();
 
   return (
-    <div
-      aria-label="Livros em destaque"
-      className={cn(
-        'group/carousel bg-card relative overflow-hidden rounded-lg border px-2.5 py-2.5 shadow-sm transition-colors sm:px-3 md:px-4',
-        'mx-auto max-w-5xl',
-      )}
-    >
-      <div ref={emblaRef} className={cn('cursor-grab overflow-hidden active:cursor-grabbing')}>
-        <div className={cn('flex items-stretch gap-3 sm:gap-3.5 md:gap-4')}>
-          {books.map((book) => (
+    <div className="mx-auto w-full">
+      {/* Header com botão de toggle */}
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-foreground text-lg font-semibold">Livros em destaque</h2>
+        <Button
+          onClick={onToggleVisibility}
+          variant="ghost"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          {isVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          {isVisible ? 'Ocultar' : 'Mostrar'}
+        </Button>
+      </div>
+
+      {/* Carrossel com animação */}
+      <div
+        className={cn(
+          'feed-carousel transition-all duration-300 ease-in-out',
+          !isVisible && 'h-0 overflow-hidden opacity-0',
+        )}
+      >
+        {isVisible && (
+          <div
+            aria-label="Livros em destaque"
+            className={cn(
+              'group/carousel bg-card relative overflow-hidden rounded-2xl border p-4 shadow-sm transition-all duration-300 hover:shadow-md sm:p-6',
+              'animate-in slide-in-from-top-4 duration-300',
+            )}
+          >
             <div
-              key={book.isbn}
-              className="relative flex-shrink-0"
-              style={{ flex: `0 0 ${100 / dynamicSlides}%` }}
+              ref={emblaRef}
+              className={cn('cursor-grab overflow-hidden active:cursor-grabbing')}
             >
-              <div
-                className={cn(
-                  'mx-auto w-full max-w-[84px] transition-transform duration-200 will-change-transform sm:max-w-[96px] md:max-w-[108px] lg:max-w-[116px] xl:max-w-[124px] 2xl:max-w-[132px]',
-                  isDragging && 'pointer-events-none',
-                )}
-              >
-                <BookCover
-                  isbn={book.isbn}
-                  fluid
-                  className="rounded-md shadow-sm"
-                  book={{ isbn: book.isbn, coverUrl: book.coverUrl }}
-                />
+              <div className={cn('flex items-stretch gap-3 sm:gap-4')}>
+                {books.map((book) => (
+                  <div
+                    key={book.isbn}
+                    className="relative flex-shrink-0"
+                    style={{ flex: `0 0 ${100 / dynamicSlides}%` }}
+                  >
+                    <div
+                      className={cn(
+                        'carousel-item mx-auto w-full max-w-[70px] transition-transform duration-200 will-change-transform sm:max-w-[80px] md:max-w-[85px] lg:max-w-[90px] xl:max-w-[95px] 2xl:max-w-[100px]',
+                        isDragging && 'pointer-events-none',
+                      )}
+                    >
+                      <BookCover
+                        isbn={book.isbn}
+                        fluid
+                        className="rounded-xl shadow-sm"
+                        book={{ isbn: book.isbn, coverUrl: book.coverUrl }}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Gradient edges */}
-      <div className="from-card pointer-events-none absolute inset-y-0 left-0 w-5 bg-gradient-to-r to-transparent sm:w-6 md:w-8" />
-      <div className="from-card pointer-events-none absolute inset-y-0 right-0 w-5 bg-gradient-to-l to-transparent sm:w-6 md:w-8" />
+            {/* Gradient edges */}
+            <div className="from-card pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r to-transparent sm:w-8" />
+            <div className="from-card pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l to-transparent sm:w-8" />
 
-      {/* Controls */}
-      <div className="absolute inset-y-0 left-1 flex flex-col justify-center sm:left-1.5">
-        <Button
-          aria-label="Livro anterior"
-          size="icon"
-          variant="ghost"
-          onClick={() => emblaApi?.scrollPrev()}
-          disabled={!canPrev}
-          className={cn(
-            'ring-border/50 h-7 w-7 rounded-full opacity-0 ring-1 backdrop-blur-sm transition-all duration-200 focus:opacity-100 group-hover/carousel:opacity-100 sm:h-8 sm:w-8',
-            canPrev ? 'hover:bg-primary/10 hover:text-primary' : 'cursor-not-allowed opacity-40',
-          )}
-        >
-          <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" />
-        </Button>
-      </div>
-      <div className="absolute inset-y-0 right-1 flex flex-col justify-center sm:right-1.5">
-        <Button
-          aria-label="Próximo livro"
-          size="icon"
-          variant="ghost"
-          onClick={() => emblaApi?.scrollNext()}
-          disabled={!canNext}
-          className={cn(
-            'ring-border/50 h-7 w-7 rounded-full opacity-0 ring-1 backdrop-blur-sm transition-all duration-200 focus:opacity-100 group-hover/carousel:opacity-100 sm:h-8 sm:w-8',
-            canNext ? 'hover:bg-primary/10 hover:text-primary' : 'cursor-not-allowed opacity-40',
-          )}
-        >
-          <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4" />
-        </Button>
+            {/* Controls */}
+            <div className="absolute inset-y-0 left-2 flex flex-col justify-center sm:left-3">
+              <Button
+                aria-label="Livro anterior"
+                size="icon"
+                variant="ghost"
+                onClick={() => emblaApi?.scrollPrev()}
+                disabled={!canPrev}
+                className={cn(
+                  'ring-border/50 h-8 w-8 rounded-full opacity-0 ring-1 backdrop-blur-sm transition-all duration-200 focus:opacity-100 group-hover/carousel:opacity-100 sm:h-9 sm:w-9',
+                  canPrev
+                    ? 'hover:bg-primary/10 hover:text-primary'
+                    : 'cursor-not-allowed opacity-40',
+                )}
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="absolute inset-y-0 right-2 flex flex-col justify-center sm:right-3">
+              <Button
+                aria-label="Próximo livro"
+                size="icon"
+                variant="ghost"
+                onClick={() => emblaApi?.scrollNext()}
+                disabled={!canNext}
+                className={cn(
+                  'ring-border/50 h-8 w-8 rounded-full opacity-0 ring-1 backdrop-blur-sm transition-all duration-200 focus:opacity-100 group-hover/carousel:opacity-100 sm:h-9 sm:w-9',
+                  canNext
+                    ? 'hover:bg-primary/10 hover:text-primary'
+                    : 'cursor-not-allowed opacity-40',
+                )}
+              >
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -165,18 +207,24 @@ function FeedFilters() {
 
 // Feed Header
 function FeedHeader({ books }: { books: MinimalBook[] }) {
+  const [isCarouselVisible, setIsCarouselVisible] = useState(true);
+
   return (
     <header className="mx-auto w-full">
       {/* Carousel */}
       <section className="section-y">
-        <div className="app-container max-w-6xl">
-          <FeedBookCarousel books={books} />
+        <div className="mx-auto w-full max-w-2xl px-4 sm:px-6 lg:px-8">
+          <FeedBookCarousel
+            books={books}
+            isVisible={isCarouselVisible}
+            onToggleVisibility={() => setIsCarouselVisible(!isCarouselVisible)}
+          />
         </div>
       </section>
 
       {/* Filters */}
       <section className="section-y-compact">
-        <div className="app-container max-w-2xl">
+        <div className="mx-auto w-full max-w-2xl px-4 sm:px-6 lg:px-8">
           <FeedFilters />
         </div>
       </section>
@@ -191,7 +239,7 @@ function FeedSkeleton({ rows = 3 }: { rows?: number }) {
       {Array.from({ length: rows }).map((_, i) => (
         <div
           key={i}
-          className="bg-card animate-pulse overflow-hidden rounded-2xl border shadow-sm"
+          className="bg-card mx-auto w-full max-w-2xl animate-pulse overflow-hidden rounded-2xl border shadow-sm"
           style={{ animationDelay: `${i * 100}ms` }}
         >
           <div className="flex items-center gap-3 p-4 sm:p-6">
@@ -229,12 +277,18 @@ function FullFeedSkeleton({ rows = 3 }: { rows?: number }) {
   return (
     <main className="page">
       <section className="section-y">
-        <div className="app-container max-w-6xl">
-          <div className="bg-card relative overflow-hidden rounded-lg border px-2.5 py-2.5 shadow-sm sm:px-3 md:px-4">
-            <div className="flex items-stretch gap-2 sm:gap-2.5 md:gap-3">
+        <div className="mx-auto w-full max-w-2xl px-4 sm:px-6 lg:px-8">
+          {/* Header skeleton */}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="skeleton h-7 w-40 rounded" />
+            <div className="skeleton h-8 w-20 rounded" />
+          </div>
+          {/* Carousel skeleton */}
+          <div className="bg-card relative overflow-hidden rounded-2xl border p-4 shadow-sm sm:p-6">
+            <div className="flex items-stretch gap-3 sm:gap-4">
               {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="flex-shrink-0" style={{ flex: `0 0 ${100 / 4}%` }}>
-                  <div className="skeleton mx-auto aspect-[2/3] w-full rounded-md" />
+                  <div className="skeleton mx-auto aspect-[2/3] w-full rounded-xl" />
                 </div>
               ))}
             </div>
@@ -242,7 +296,7 @@ function FullFeedSkeleton({ rows = 3 }: { rows?: number }) {
         </div>
       </section>
       <section className="flex flex-1 flex-col pb-8">
-        <div className="app-container w-full max-w-2xl">
+        <div className="mx-auto w-full max-w-2xl px-4 sm:px-6 lg:px-8">
           <div className="skeleton mb-4 h-8 w-40 rounded" />
           <FeedSkeleton rows={rows} />
         </div>
@@ -271,7 +325,7 @@ export default function FeedClient() {
 
       {/* Feed Posts Section */}
       <section className="flex flex-1 flex-col pb-8">
-        <div className="app-container w-full max-w-2xl">
+        <div className="mx-auto w-full max-w-2xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-6">
             {data?.pages.flatMap((p, pageIndex) =>
               p.items.map((post, postIndex) => (
