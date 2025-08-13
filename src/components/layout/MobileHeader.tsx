@@ -4,7 +4,7 @@
 import { Menu, Bell, Search } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/pages/landing/landing-decorations';
+import { Logo } from '@/src/app/landing/landing-decorations';
 import { useSidebar } from '@/components/ui/sidebar';
 
 export function MobileHeader() {

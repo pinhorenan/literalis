@@ -2,7 +2,7 @@
 'use client';
 
 import { Sparkles, UserPlus as UserRoundPlusIcon } from 'lucide-react';
-import { CircleVector, Logo } from '@/components/pages/landing/landing-decorations';
+import { CircleVector, Logo } from '@/src/app/landing/landing-decorations';
 import { ModeToggle } from '@/src/components/layout/buttons/ModeToggle';
 import { Button } from '@/src/components/ui/button';
 import { useSession } from 'next-auth/react';

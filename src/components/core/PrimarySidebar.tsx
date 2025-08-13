@@ -15,7 +15,7 @@ import { LibraryIcon, Home, User, Search, Mail, Bell, Power } from 'lucide-react
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { ModeToggle } from '@/components/layout/buttons/ModeToggle';
-import { Logo } from '../pages/landing/landing-decorations';
+import { Logo } from '../../app/landing/landing-decorations';
 
 export function PrimarySidebar({ className }: { className?: string }) {
   const { data: session } = useSession();
