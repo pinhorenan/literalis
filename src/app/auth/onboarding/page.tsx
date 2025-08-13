@@ -9,8 +9,8 @@ import { ArrowLeft, ArrowRight, User, BookOpen, Users, Check } from 'lucide-reac
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { PopularBooks } from '@/components/onboarding/PopularBooks';
-import { SuggestedUsers } from '@/components/onboarding/SuggestedUsers';
+import { PopularBooks } from '@/src/app/auth/onboarding/components/PopularBooks';
+import { SuggestedUsers } from '@/src/app/auth/onboarding/components/SuggestedUsers';
 
 const initialState = { success: false, error: undefined as string | undefined };
 

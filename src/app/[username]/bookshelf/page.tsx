@@ -2,7 +2,7 @@
 import { notFound } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { getUserByUsername } from '@/services/user.service';
-import BookshelfClient from './client';
+import BookshelfClient from './components/client';
 
 export default async function BookshelfPage({ params }: { params: Promise<{ username: string }> }) {
   const session = await auth();

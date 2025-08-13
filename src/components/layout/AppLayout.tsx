@@ -3,7 +3,7 @@
 
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PrimarySidebar } from '@/components/core/PrimarySidebar';
-import { FeedSuggestions } from '@/components/core/FeedSuggestions';
+import { FeedSuggestions } from '@/src/app/feed/components/FeedSuggestions';
 import { MobileBottomNavigation } from '@/components/layout/MobileBottomNavigation';
 import { MobileHeader } from '@/components/layout/MobileHeader';
 

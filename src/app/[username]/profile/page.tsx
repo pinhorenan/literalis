@@ -1,7 +1,7 @@
 // src/app/[username]/profile/page.tsx
-import ProfileHeader from '@/components/pages/profile/ProfileHeader';
-import { UserStats } from '@/components/pages/profile/UserStats';
-import { UserPosts } from '@/components/pages/profile/UserPosts';
+import ProfileHeader from '@/src/app/[username]/profile/components/ProfileHeader';
+import { UserStats } from '@/src/app/[username]/profile/components/UserStats';
+import { UserPosts } from '@/src/app/[username]/profile/components/UserPosts';
 import { ReactNode } from 'react';
 import './profile.css';
 

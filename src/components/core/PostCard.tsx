@@ -147,7 +147,6 @@ export default function PostCard({ post }: { post: Post }) {
               </div>
             );
           })}
-          
           {/* Botão "Ver mais comentários" */}
           {hasMoreComments && (
             <div className="border-border/30 border-t px-4 py-2 sm:px-6">

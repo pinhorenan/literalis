@@ -5,7 +5,7 @@ import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { Hydrate } from '@/providers/Hydrate';
 import { fetchFeedPosts } from '@/api/posts';
 import { fetchAllBooks } from '@/api/books';
-import FeedClient from './client';
+import FeedClient from './components/client';
 
 export default async function FeedPage() {
   const session = await auth();
