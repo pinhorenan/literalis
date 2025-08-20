@@ -2,7 +2,7 @@
 'use client';
 
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-import { PrimarySidebar } from '@/components/core/PrimarySidebar';
+import { MainSidebar } from '@/components/Sidebar';
 import { FeedSuggestions } from '@/src/app/feed/components/FeedSuggestions';
 import { MobileBottomNavigation } from '@/components/layout/MobileBottomNavigation';
 import { MobileHeader } from '@/components/layout/MobileHeader';
@@ -38,7 +38,7 @@ export function AppLayout({
         } as React.CSSProperties
       }
     >
-      <PrimarySidebar className="hidden md:flex" />
+      <MainSidebar className="hidden md:flex" />
 
       <SidebarInset className="bg-background min-h-dvh">
         <MobileHeader />

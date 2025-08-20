@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useSuggestedUsers } from '@/hooks/user';
-import { FollowButton } from '@/components/layout/buttons/FollowButton';
+import { FollowButton } from '@/components/FollowButton';
 import { toast } from 'sonner';
 import type { MinimalUser } from '@/types/user';
 

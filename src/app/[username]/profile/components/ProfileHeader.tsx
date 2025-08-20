@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { Users, BookOpen, Edit3 } from 'lucide-react';
 import { useBooksCount, useUserProfile } from '@/hooks/user';
-import { FollowButton } from '@/components/layout/buttons/FollowButton';
+import { FollowButton } from '@/components/FollowButton';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';

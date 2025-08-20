@@ -1,8 +1,8 @@
 // src/components/layout/sidebars/PrimarySidebar.tsx
 'use client';
 
-import { InstagramStyleSidebar } from '@/src/components/sidebar/Sidebar';
+import { MainSidebar } from '@/components/Sidebar';
 
 export function PrimarySidebar({ className }: { className?: string }) {
-  return <InstagramStyleSidebar className={className} />;
+  return <MainSidebar className={className} />;
 }
